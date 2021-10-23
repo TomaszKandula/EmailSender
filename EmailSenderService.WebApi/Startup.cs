@@ -1,37 +1,84 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
-namespace EmailSenderService
+namespace EmailSenderService.WebApi
 {
+    using System.Net;
+    using System.Linq;
+    using System.Net.Sockets;
+    using System.Diagnostics.CodeAnalysis;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.AspNetCore.HttpOverrides;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.ResponseCompression;
+    using Newtonsoft.Json.Converters;
+    using Middleware;
+    using Configuration;
+    using Serilog;
+
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        private readonly IConfiguration _configuration;
+
+        private readonly IHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
+            _configuration = configuration;
+            _environment = environment;
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+            services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
+            Dependencies.Register(services, _configuration, _environment);
 
-            app.UseRouting();
+            if (_environment.IsDevelopment() || _environment.IsStaging())
+                Swagger.SetupSwaggerOptions(services);
 
-            app.UseEndpoints(endpoints =>
+            if (!_environment.IsProduction() && !_environment.IsStaging()) 
+                return;
+
+            // Since this app is meant to run in Docker only
+            // We get the Docker's internal network IP(s)
+            var hostName = Dns.GetHostName();
+            var addresses = Dns.GetHostEntry(hostName).AddressList
+                .Where(ipAddress => ipAddress.AddressFamily == AddressFamily.InterNetwork)
+                .ToList();
+
+            services.Configure<ForwardedHeadersOptions>(options =>
             {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardLimit = null;
+                options.RequireHeaderSymmetry = false;
+
+                foreach (var address in addresses) 
+                    options.KnownProxies.Add(address);
             });
+        }
+
+        public void Configure(IApplicationBuilder applicationBuilder)
+        {
+            applicationBuilder.UseSerilogRequestLogging();
+
+            applicationBuilder.UseMiddleware<CustomCors>();
+            applicationBuilder.UseMiddleware<CustomException>();
+            
+            applicationBuilder.UseHttpsRedirection();
+            applicationBuilder.UseForwardedHeaders();
+            applicationBuilder.UseResponseCompression();
+
+            applicationBuilder.UseRouting();
+            applicationBuilder.UseAuthentication();
+            applicationBuilder.UseAuthorization();
+            applicationBuilder.UseEndpoints(endpoints => endpoints.MapControllers());
+
+            if (!_environment.IsDevelopment() && !_environment.IsStaging()) 
+                return;
+
+            applicationBuilder.UseSwagger();
+            Swagger.SetupSwaggerUi(applicationBuilder, _configuration);
         }
     }
 }
