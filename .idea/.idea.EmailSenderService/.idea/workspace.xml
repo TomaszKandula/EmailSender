@@ -8,17 +8,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c85bc7c-428d-4bdc-bcf4-f433d7eed8d5" name="Changes" comment="build: update rider settings">
-      <change afterPath="$PROJECT_DIR$/EmailSenderService.Backend/EmailSenderService.Backend.Domain/Entities/User.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EmailSenderService.Backend/EmailSenderService.Backend.Domain/Entity`TKey.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.EmailSenderService/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EmailSenderService/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="1c85bc7c-428d-4bdc-bcf4-f433d7eed8d5" name="Changes" comment="feat: add domain entities" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1zuq3PmzBNaAJ46sO2z8bv7rq46" />
@@ -85,7 +86,7 @@
       <option name="presentableId" value="Default" />
       <updated>1635008120906</updated>
       <workItem from="1635008136741" duration="51000" />
-      <workItem from="1635008260035" duration="2623000" />
+      <workItem from="1635008260035" duration="3953000" />
     </task>
     <task id="LOCAL-00001" summary="feat: initial commit, add projects to the solution folders">
       <created>1635008841807</created>
@@ -108,7 +109,21 @@
       <option name="project" value="LOCAL" />
       <updated>1635010393856</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="build: update rider settings">
+      <created>1635012160563</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1635012160563</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: add domain entities">
+      <created>1635012231056</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1635012231056</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -137,6 +152,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="feat: initial commit, add projects to the solution folders" />
     <MESSAGE value="build: update rider settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="build: update rider settings" />
+    <MESSAGE value="feat: add domain entities" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add domain entities" />
   </component>
 </project>
