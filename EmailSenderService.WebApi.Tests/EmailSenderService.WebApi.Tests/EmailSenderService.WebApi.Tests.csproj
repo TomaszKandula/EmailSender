@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-
+        <RootNamespace>EmailSenderService.WebApi.Tests</RootNamespace>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 

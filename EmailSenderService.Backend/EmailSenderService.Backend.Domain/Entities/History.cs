@@ -1,4 +1,4 @@
-namespace EmailSenderService.Backend.Entities
+namespace EmailSenderService.Backend.Domain.Entities
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -11,5 +11,9 @@ namespace EmailSenderService.Backend.Entities
         public Guid EmailId { get; set; }
 
         public DateTime Sent { get; set; }
+
+        public User User { get; set; }
+
+        public Email Email { get; set; }
     }
 }

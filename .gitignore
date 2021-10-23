@@ -3,6 +3,16 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Common IntelliJ Platform excludes
+
+# User specific
+.idea/.idea.EmailSenderService/.idea/
+
+[Pp]ackages/
+Thumbs.db
+Desktop.ini
+.DS_Store
+
 # User-specific files
 *.rsuser
 *.suo
