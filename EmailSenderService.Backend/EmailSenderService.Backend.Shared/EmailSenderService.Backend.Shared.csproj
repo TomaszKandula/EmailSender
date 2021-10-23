@@ -7,11 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Models" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="FluentValidation" Version="10.3.4" />
+      <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -36,6 +33,10 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>ValidationErrors.resx</DependentUpon>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services" />
     </ItemGroup>
 
 </Project>
