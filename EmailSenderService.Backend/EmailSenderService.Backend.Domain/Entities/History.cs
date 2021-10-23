@@ -11,5 +11,9 @@ namespace EmailSenderService.Backend.Entities
         public Guid EmailId { get; set; }
 
         public DateTime Sent { get; set; }
+
+        public User User { get; set; }
+
+        public Email Email { get; set; }
     }
 }

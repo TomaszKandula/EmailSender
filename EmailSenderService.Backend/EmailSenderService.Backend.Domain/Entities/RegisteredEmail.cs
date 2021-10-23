@@ -9,5 +9,9 @@ namespace EmailSenderService.Backend.Entities
         public Guid UserId { get; set; }
         
         public Guid EmailId { get; set; }
+
+        public User User { get; set; }
+
+        public Email Email { get; set; }
     }
 }
