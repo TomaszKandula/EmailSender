@@ -24,8 +24,4 @@
       <ProjectReference Include="..\EmailSenderService.Backend\EmailSenderService.Backend.Shared\EmailSenderService.Backend.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Middleware" />
-    </ItemGroup>
-
 </Project>
