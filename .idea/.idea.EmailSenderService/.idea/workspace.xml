@@ -4,8 +4,11 @@
     <projectFile profileName="IIS Express">EmailSenderService/EmailSenderService.csproj</projectFile>
     <projectFile profileName="EmailSenderService">EmailSenderService/EmailSenderService.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c85bc7c-428d-4bdc-bcf4-f433d7eed8d5" name="Changes" comment="feat: initial commit, add projects to the solution folders" />
+    <list default="true" id="1c85bc7c-428d-4bdc-bcf4-f433d7eed8d5" name="Changes" comment="build: update rider settings" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +33,10 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Developer/Xamarin/android-sdk-macosx" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -74,7 +81,7 @@
       <option name="presentableId" value="Default" />
       <updated>1635008120906</updated>
       <workItem from="1635008136741" duration="51000" />
-      <workItem from="1635008260035" duration="599000" />
+      <workItem from="1635008260035" duration="1981000" />
     </task>
     <task id="LOCAL-00001" summary="feat: initial commit, add projects to the solution folders">
       <created>1635008841807</created>
@@ -83,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635008841807</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="build: update rider settings">
+      <created>1635009031698</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1635009031698</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,6 +125,7 @@
     </ignored-roots>
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="feat: initial commit, add projects to the solution folders" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: initial commit, add projects to the solution folders" />
+    <MESSAGE value="build: update rider settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="build: update rider settings" />
   </component>
 </project>
