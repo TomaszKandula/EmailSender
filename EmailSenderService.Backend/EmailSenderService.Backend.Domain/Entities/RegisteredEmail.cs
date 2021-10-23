@@ -1,4 +1,4 @@
-namespace EmailSenderService.Backend.Entities
+namespace EmailSenderService.Backend.Domain.Entities
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
