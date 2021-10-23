@@ -4,4 +4,27 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="..\..\EmailSenderService.WebApi\appsettings.Development.json">
+            <Link>appsettings.Development.json</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\EmailSenderService.WebApi\appsettings.json">
+            <Link>appsettings.json</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\EmailSenderService.WebApi\appsettings.Production.json">
+            <Link>appsettings.Production.json</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\EmailSenderService.WebApi\appsettings.Staging.json">
+            <Link>appsettings.Staging.json</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EmailSenderService.Backend.Domain\EmailSenderService.Backend.Domain.csproj" />
+    </ItemGroup>
+    
 </Project>
