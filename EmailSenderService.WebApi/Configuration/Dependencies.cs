@@ -8,6 +8,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Backend.Database;
+    using Backend.EmailService;
     using Backend.Shared.Models;
     using Backend.SmtpService.Models;
     using Backend.Database.Initializer;
@@ -65,6 +66,7 @@
             services.AddScoped<ISmtpClient, SmtpClient>();
             services.AddScoped<ILookupClient, LookupClient>();
             services.AddScoped<IDateTimeService, DateTimeService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IDbInitializer, DbInitializer>();
         }
     
