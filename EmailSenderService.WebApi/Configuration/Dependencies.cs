@@ -11,7 +11,7 @@
     using Backend.Shared.Models;
     using Backend.SmtpService.Models;
     using Backend.Database.Initializer;
-    using Backend.Shared.Services.Logger;
+    using Backend.Shared.Services.LoggerService;
     using Backend.Shared.Services.DateTimeService;
     using DnsClient;
     using MailKit.Net.Smtp;
@@ -43,7 +43,7 @@
         }
     
         private static void SetupLogger(IServiceCollection services) 
-            => services.AddSingleton<ILogger, Logger>();
+            => services.AddSingleton<ILoggerService, LoggerService>();
     
         private static void SetupDatabase(IServiceCollection services, IConfiguration configuration) 
         {
