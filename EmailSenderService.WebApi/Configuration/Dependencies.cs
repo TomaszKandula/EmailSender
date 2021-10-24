@@ -9,8 +9,12 @@
     using Microsoft.Extensions.DependencyInjection;
     using Backend.Database;
     using Backend.Shared.Models;
+    using Backend.SmtpService.Models;
     using Backend.Database.Initializer;
     using Backend.Shared.Services.Logger;
+    using Backend.Shared.Services.DateTimeService;
+    using DnsClient;
+    using MailKit.Net.Smtp;
     using FluentValidation;
 
     [ExcludeFromCodeCoverage]
@@ -58,10 +62,9 @@
             services.AddHttpContextAccessor();
     
             services.AddScoped<HttpClient>();
-            //services.AddScoped<ISmtpClient, SmtpClient>();
-            //services.AddScoped<ILookupClient, LookupClient>();
-            //services.AddScoped<ISmtpClientService, SmtpClientService>();
-            //services.AddScoped<IDateTimeService, DateTimeService>();
+            services.AddScoped<ISmtpClient, SmtpClient>();
+            services.AddScoped<ILookupClient, LookupClient>();
+            services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddScoped<IDbInitializer, DbInitializer>();
         }
     

@@ -22,6 +22,7 @@
     <ItemGroup>
       <ProjectReference Include="..\EmailSenderService.Backend\EmailSenderService.Backend.Database\EmailSenderService.Backend.Database.csproj" />
       <ProjectReference Include="..\EmailSenderService.Backend\EmailSenderService.Backend.Shared\EmailSenderService.Backend.Shared.csproj" />
+      <ProjectReference Include="..\EmailSenderService.Backend\EmailSenderService.Backend.SmtpService\EmailSenderService.Backend.SmtpService.csproj" />
     </ItemGroup>
 
 </Project>

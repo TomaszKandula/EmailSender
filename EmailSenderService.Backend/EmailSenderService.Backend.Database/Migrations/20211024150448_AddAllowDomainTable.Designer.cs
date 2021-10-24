@@ -4,14 +4,16 @@ using EmailSenderService.Backend.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmailSenderService.Backend.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211024150448_AddAllowDomainTable")]
+    partial class AddAllowDomainTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,27 +40,6 @@ namespace EmailSenderService.Backend.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AllowDomain");
-                });
-
-            modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.AllowEmail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("EmailId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmailId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AllowEmail");
                 });
 
             modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.Email", b =>
@@ -102,6 +83,27 @@ namespace EmailSenderService.Backend.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("History");
+                });
+
+            modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.RegisteredEmail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmailId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RegisteredEmail");
                 });
 
             modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.User", b =>
@@ -157,25 +159,6 @@ namespace EmailSenderService.Backend.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.AllowEmail", b =>
-                {
-                    b.HasOne("EmailSenderService.Backend.Domain.Entities.Email", "Email")
-                        .WithMany("AllowEmail")
-                        .HasForeignKey("EmailId")
-                        .HasConstraintName("FK_AllowEmail_Email")
-                        .IsRequired();
-
-                    b.HasOne("EmailSenderService.Backend.Domain.Entities.User", "User")
-                        .WithMany("AllowEmail")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_AllowEmail_User")
-                        .IsRequired();
-
-                    b.Navigation("Email");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.History", b =>
                 {
                     b.HasOne("EmailSenderService.Backend.Domain.Entities.Email", "Email")
@@ -195,20 +178,39 @@ namespace EmailSenderService.Backend.Database.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.RegisteredEmail", b =>
+                {
+                    b.HasOne("EmailSenderService.Backend.Domain.Entities.Email", "Email")
+                        .WithMany("RegisteredEmail")
+                        .HasForeignKey("EmailId")
+                        .HasConstraintName("FK_RegisteredEmail_Email")
+                        .IsRequired();
+
+                    b.HasOne("EmailSenderService.Backend.Domain.Entities.User", "User")
+                        .WithMany("RegisteredEmail")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_RegisteredEmail_User")
+                        .IsRequired();
+
+                    b.Navigation("Email");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.Email", b =>
                 {
-                    b.Navigation("AllowEmail");
-
                     b.Navigation("History");
+
+                    b.Navigation("RegisteredEmail");
                 });
 
             modelBuilder.Entity("EmailSenderService.Backend.Domain.Entities.User", b =>
                 {
                     b.Navigation("AllowDomain");
 
-                    b.Navigation("AllowEmail");
-
                     b.Navigation("History");
+
+                    b.Navigation("RegisteredEmail");
                 });
 #pragma warning restore 612, 618
         }

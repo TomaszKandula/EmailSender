@@ -21,7 +21,7 @@ namespace EmailSenderService.Backend.Shared.Resources {
         private static System.Globalization.CultureInfo resourceCulture;
         
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public ErrorCodes() {
+        internal ErrorCodes() {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -48,6 +48,24 @@ namespace EmailSenderService.Backend.Shared.Resources {
         public static string ERROR_UNEXPECTED {
             get {
                 return ResourceManager.GetString("ERROR_UNEXPECTED", resourceCulture);
+            }
+        }
+        
+        public static string SMTP_CLIENT_ERROR {
+            get {
+                return ResourceManager.GetString("SMTP_CLIENT_ERROR", resourceCulture);
+            }
+        }
+        
+        public static string NOT_AUTHENTICATED_WITH_SMTP {
+            get {
+                return ResourceManager.GetString("NOT_AUTHENTICATED_WITH_SMTP", resourceCulture);
+            }
+        }
+        
+        public static string NOT_CONNECTED_TO_SMTP {
+            get {
+                return ResourceManager.GetString("NOT_CONNECTED_TO_SMTP", resourceCulture);
             }
         }
     }
