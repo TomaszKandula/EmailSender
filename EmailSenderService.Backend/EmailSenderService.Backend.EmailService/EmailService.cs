@@ -54,9 +54,6 @@ namespace EmailSenderService.Backend.EmailService
 
         public async Task Send(Configuration configuration, CancellationToken cancellationToken)
         {
-            VerifyRequiredConfiguration(configuration);
-            VerifyOptionalConfiguration(configuration);
-            
             _smtpClientService.From = configuration.From;
             _smtpClientService.Tos = configuration.To;
             _smtpClientService.Ccs = configuration.Cc;
@@ -77,36 +74,6 @@ namespace EmailSenderService.Backend.EmailService
             {
                 var message = result.InnerMessage == string.Empty ? result.ErrorDesc : result.InnerMessage;
                 throw new BusinessException(result.ErrorCode, message);
-            }
-        }
-
-        private void VerifyRequiredConfiguration(Configuration configuration)
-        {
-            if (string.IsNullOrEmpty(configuration.From))
-                throw new BusinessException(nameof(ErrorCodes.INVALID_ARGUMENT), ErrorCodes.INVALID_ARGUMENT);
-
-            if (string.IsNullOrEmpty(configuration.Subject))
-                throw new BusinessException(nameof(ErrorCodes.INVALID_ARGUMENT), ErrorCodes.INVALID_ARGUMENT);
-
-            var verifyTo = _smtpClientService.IsAddressCorrect(configuration.To);
-            if (verifyTo.Select(email => email.IsValid).Contains(false))
-                throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_FORMAT), ErrorCodes.INVALID_EMAIL_FORMAT);
-        }
-
-        private void VerifyOptionalConfiguration(Configuration configuration)
-        {
-            if (configuration.Cc != null && configuration.Cc.Any())
-            {
-                var verifyCc = _smtpClientService.IsAddressCorrect(configuration.Cc);
-                if (verifyCc.Select(email => email.IsValid).Contains(false))
-                    throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_FORMAT), ErrorCodes.INVALID_EMAIL_FORMAT);
-            }
-
-            if (configuration.Bcc != null && configuration.Bcc.Any())
-            {
-                var verifyBcc = _smtpClientService.IsAddressCorrect(configuration.Bcc);
-                if (verifyBcc.Select(email => email.IsValid).Contains(false))
-                    throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_FORMAT), ErrorCodes.INVALID_EMAIL_FORMAT);
             }
         }
     }
