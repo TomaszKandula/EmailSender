@@ -14,7 +14,7 @@ namespace EmailSenderService.Backend.Domain.Entities
 
         public bool IsActive { get; set; }
 
-        public ICollection<RegisteredEmail> RegisteredEmail { get; set; } = new HashSet<RegisteredEmail>();
+        public ICollection<AllowEmail> AllowEmail { get; set; } = new HashSet<AllowEmail>();
 
         public ICollection<History> History { get; set; } = new HashSet<History>();
     }

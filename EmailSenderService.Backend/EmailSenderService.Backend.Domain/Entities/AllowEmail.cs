@@ -4,7 +4,7 @@ namespace EmailSenderService.Backend.Domain.Entities
     using System.Diagnostics.CodeAnalysis;
 
     [ExcludeFromCodeCoverage]
-    public class RegisteredEmail : Entity<Guid>
+    public class AllowEmail : Entity<Guid>
     {
         public Guid UserId { get; set; }
         
