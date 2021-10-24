@@ -18,6 +18,8 @@
 
         public virtual DbSet<RegisteredEmail> RegisteredEmail { get; set; }
 
+        public virtual DbSet<AllowDomain> AllowDomain { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
