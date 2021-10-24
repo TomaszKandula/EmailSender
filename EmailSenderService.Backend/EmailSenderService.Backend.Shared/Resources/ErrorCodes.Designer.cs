@@ -68,17 +68,5 @@ namespace EmailSenderService.Backend.Shared.Resources {
                 return ResourceManager.GetString("NOT_CONNECTED_TO_SMTP", resourceCulture);
             }
         }
-        
-        public static string INVALID_ARGUMENT {
-            get {
-                return ResourceManager.GetString("INVALID_ARGUMENT", resourceCulture);
-            }
-        }
-        
-        public static string INVALID_EMAIL_FORMAT {
-            get {
-                return ResourceManager.GetString("INVALID_EMAIL_FORMAT", resourceCulture);
-            }
-        }
     }
 }
