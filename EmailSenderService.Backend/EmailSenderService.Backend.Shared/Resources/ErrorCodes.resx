@@ -30,4 +30,10 @@
     <data name="NOT_CONNECTED_TO_SMTP" xml:space="preserve">
         <value>Client is not connected to the SMTP server</value>
     </data>
+    <data name="INVALID_ARGUMENT" xml:space="preserve">
+        <value>Argument cannot be null or empty</value>
+    </data>
+    <data name="INVALID_EMAIL_FORMAT" xml:space="preserve">
+        <value>Invalid email address</value>
+    </data>
 </root>

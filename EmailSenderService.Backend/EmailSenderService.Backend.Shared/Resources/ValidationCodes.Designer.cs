@@ -21,7 +21,7 @@ namespace EmailSenderService.Backend.Shared.Resources {
         private static System.Globalization.CultureInfo resourceCulture;
         
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public ValidationCodes() {
+        internal ValidationCodes() {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -42,6 +42,12 @@ namespace EmailSenderService.Backend.Shared.Resources {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        public static string REQUIRED {
+            get {
+                return ResourceManager.GetString("REQUIRED", resourceCulture);
             }
         }
     }
