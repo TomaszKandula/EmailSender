@@ -1,6 +1,6 @@
-﻿namespace EmailSenderService.Backend.Shared.Services.Logger
+﻿namespace EmailSenderService.Backend.Shared.Services.LoggerService
 {
-    public interface ILogger
+    public interface ILoggerService
     {
         void LogDebug(string message);
 

@@ -2,7 +2,7 @@ namespace EmailSenderService.WebApi.Middleware
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
-    using Backend.Shared.Services.Logger;
+    using Backend.Shared.Services.LoggerService;
 
     public class LoggingBehaviour
     {
@@ -10,7 +10,7 @@ namespace EmailSenderService.WebApi.Middleware
 
         public LoggingBehaviour(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
-        public async Task Invoke(HttpContext httpContext, ILogger logger)
+        public async Task Invoke(HttpContext httpContext, ILoggerService logger)
         {
             var requestedPath = $"{httpContext.Request.Path}";
             var requestedBy = GetRequestIpAddress(httpContext);
