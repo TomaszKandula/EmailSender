@@ -7,14 +7,23 @@ namespace EmailSenderService.WebApi.Middleware
     public class LoggingBehaviour
     {
         private readonly RequestDelegate _requestDelegate;
-        
+
         public LoggingBehaviour(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
         public async Task Invoke(HttpContext httpContext, ILogger logger)
         {
-            logger.LogInformation($"Begin handle request: '{httpContext.Request.Path}'.");
+            var requestedPath = $"{httpContext.Request.Path}";
+            var requestedBy = GetRequestIpAddress(httpContext);
+            logger.LogInformation($"Handling request to '{requestedPath}' from remote IP address: '{requestedBy}'.");
             await _requestDelegate(httpContext);
-            logger.LogInformation($"Finish handle request: '{httpContext.Request.Path}'.");
+        }
+
+        private static string GetRequestIpAddress(HttpContext httpContext) 
+        {
+            var remoteIpAddress = httpContext.Request.Headers["X-Forwarded-For"].ToString();
+            return string.IsNullOrEmpty(remoteIpAddress) 
+                ? "127.0.0.1" 
+                : remoteIpAddress.Split(':')[0];
         }
     }
 }
