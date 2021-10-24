@@ -50,5 +50,11 @@ namespace EmailSenderService.Backend.Shared.Resources {
                 return ResourceManager.GetString("REQUIRED", resourceCulture);
             }
         }
+        
+        public static string INVALID_EMAIL_ADDRESS {
+            get {
+                return ResourceManager.GetString("INVALID_EMAIL_ADDRESS", resourceCulture);
+            }
+        }
     }
 }
