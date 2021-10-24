@@ -15,9 +15,10 @@
     using Backend.Database.Initializer;
     using Backend.Shared.Services.LoggerService;
     using Backend.Shared.Services.DateTimeService;
+    using Validators;
     using DnsClient;
     using MailKit.Net.Smtp;
-    using FluentValidation;
+    using FluentValidation.AspNetCore;
 
     [ExcludeFromCodeCoverage]
     public static class Dependencies
@@ -73,7 +74,12 @@
         }
     
         private static void SetupValidators(IServiceCollection services)
-            => services.AddValidatorsFromAssemblyContaining<Startup>();
+        {
+            services.AddMvc().AddFluentValidation(configuration =>
+            {
+                configuration.RegisterValidatorsFromAssemblyContaining<SendEmailDtoValidator>();
+            });
+        }
 
         private static void SetupRetryPolicyWithPolly(IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
         {
