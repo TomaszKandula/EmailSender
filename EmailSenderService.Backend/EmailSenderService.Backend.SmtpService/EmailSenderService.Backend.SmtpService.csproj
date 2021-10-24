@@ -11,4 +11,8 @@
       <PackageReference Include="MailKit" Version="2.15.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\EmailSenderService.Backend.Shared\EmailSenderService.Backend.Shared.csproj" />
+    </ItemGroup>
+
 </Project>
