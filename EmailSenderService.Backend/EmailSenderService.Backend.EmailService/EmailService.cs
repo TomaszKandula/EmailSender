@@ -7,7 +7,6 @@ namespace EmailSenderService.Backend.EmailService
     using Models;
     using Database;
     using SmtpService;
-    using Shared.Resources;
     using Shared.Exceptions;
     using Shared.Services.LoggerService;
 
