@@ -6,4 +6,9 @@
         <RootNamespace>EmailSenderService.Backend.SmtpService</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DnsClient" Version="1.5.0" />
+      <PackageReference Include="MailKit" Version="2.15.0" />
+    </ItemGroup>
+
 </Project>
