@@ -9,6 +9,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Backend.Database;
     using Backend.Shared.Models;
+    using Backend.SmtpService.Models;
     using Backend.Database.Initializer;
     using Backend.Shared.Services.Logger;
     using Backend.Shared.Services.DateTimeService;
