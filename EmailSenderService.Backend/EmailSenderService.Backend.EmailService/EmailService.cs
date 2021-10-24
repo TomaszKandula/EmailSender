@@ -1,6 +1,5 @@
 namespace EmailSenderService.Backend.EmailService
 {
-    using System;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -8,6 +7,7 @@ namespace EmailSenderService.Backend.EmailService
     using Models;
     using Database;
     using SmtpService;
+    using Shared.Resources;
     using Shared.Exceptions;
     using Shared.Services.LoggerService;
 
@@ -83,15 +83,14 @@ namespace EmailSenderService.Backend.EmailService
         private void VerifyRequiredConfiguration(Configuration configuration)
         {
             if (string.IsNullOrEmpty(configuration.From))
-                throw new ArgumentException("Argument 'Email From' cannot be null or empty");
+                throw new BusinessException(nameof(ErrorCodes.INVALID_ARGUMENT), ErrorCodes.INVALID_ARGUMENT);
 
             if (string.IsNullOrEmpty(configuration.Subject))
-                throw new ArgumentException("Argument 'Email Subject' cannot be null or empty");
+                throw new BusinessException(nameof(ErrorCodes.INVALID_ARGUMENT), ErrorCodes.INVALID_ARGUMENT);
 
             var verifyTo = _smtpClientService.IsAddressCorrect(configuration.To);
-
             if (verifyTo.Select(email => email.IsValid).Contains(false))
-                throw new ArgumentException("Argument 'Email To' contains invalid email addresses");
+                throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_FORMAT), ErrorCodes.INVALID_EMAIL_FORMAT);
         }
 
         private void VerifyOptionalConfiguration(Configuration configuration)
@@ -99,17 +98,15 @@ namespace EmailSenderService.Backend.EmailService
             if (configuration.Cc != null && configuration.Cc.Any())
             {
                 var verifyCc = _smtpClientService.IsAddressCorrect(configuration.Cc);
-
                 if (verifyCc.Select(email => email.IsValid).Contains(false))
-                    throw new ArgumentException("Argument 'Email Cc' contains invalid email addresses");
+                    throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_FORMAT), ErrorCodes.INVALID_EMAIL_FORMAT);
             }
 
             if (configuration.Bcc != null && configuration.Bcc.Any())
             {
                 var verifyBcc = _smtpClientService.IsAddressCorrect(configuration.Bcc);
-
                 if (verifyBcc.Select(email => email.IsValid).Contains(false))
-                    throw new ArgumentException("Argument 'Email Bcc' contains invalid email addresses");
+                    throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_FORMAT), ErrorCodes.INVALID_EMAIL_FORMAT);
             }
         }
     }
