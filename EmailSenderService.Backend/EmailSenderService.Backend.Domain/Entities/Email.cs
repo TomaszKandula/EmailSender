@@ -14,6 +14,18 @@ namespace EmailSenderService.Backend.Domain.Entities
 
         public bool IsActive { get; set; }
 
+        [Required]
+        [MaxLength(255)]
+        public string ServerName { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string ServerKey { get; set; }
+
+        public int ServerPort { get; set; }
+
+        public bool ServerSsl { get; set; }
+        
         public ICollection<AllowEmail> AllowEmail { get; set; } = new HashSet<AllowEmail>();
 
         public ICollection<History> History { get; set; } = new HashSet<History>();
