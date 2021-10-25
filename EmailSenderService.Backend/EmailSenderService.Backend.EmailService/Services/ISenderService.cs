@@ -1,11 +1,10 @@
-using System.Threading;
-
-namespace EmailSenderService.Backend.EmailService
+namespace EmailSenderService.Backend.EmailService.Services
 {
+    using System.Threading;
     using System.Threading.Tasks;
     using Models;
 
-    public interface IEmailService
+    public interface ISenderService
     {
         Task<bool> IsDomainAllowed(string domainName, CancellationToken cancellationToken);
 

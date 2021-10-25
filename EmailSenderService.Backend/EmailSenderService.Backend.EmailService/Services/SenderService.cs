@@ -1,4 +1,4 @@
-namespace EmailSenderService.Backend.EmailService
+namespace EmailSenderService.Backend.EmailService.Services
 {
     using System.Linq;
     using System.Threading;
@@ -10,7 +10,7 @@ namespace EmailSenderService.Backend.EmailService
     using Shared.Exceptions;
     using Shared.Services.LoggerService;
 
-    public class EmailService : IEmailService
+    public class SenderService : ISenderService
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -18,7 +18,7 @@ namespace EmailSenderService.Backend.EmailService
 
         private readonly ILoggerService _loggerService;
         
-        public EmailService(DatabaseContext databaseContext, ISmtpClientService smtpClientService, ILoggerService loggerService)
+        public SenderService(DatabaseContext databaseContext, ISmtpClientService smtpClientService, ILoggerService loggerService)
         {
             _databaseContext = databaseContext;
             _smtpClientService = smtpClientService;
@@ -33,7 +33,7 @@ namespace EmailSenderService.Backend.EmailService
 
             var isDomainAllowed = domains.Any();
             if (!isDomainAllowed) 
-                _loggerService.LogWarning($"Domain '{domainName}' is not registered within the system, thus cannot be allowed to send an email.");
+                _loggerService.LogWarning($"Domain '{domainName}' is not registered within the system.");
 
             return isDomainAllowed;
         }
@@ -46,7 +46,7 @@ namespace EmailSenderService.Backend.EmailService
 
             var isPrivateKeyExists = keys.Any();
             if (!isPrivateKeyExists)
-                _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system, request will be rejected.");
+                _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
             
             return isPrivateKeyExists;
         }
