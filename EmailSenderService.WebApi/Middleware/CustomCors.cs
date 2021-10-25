@@ -1,11 +1,10 @@
 ﻿namespace EmailSenderService.WebApi.Middleware
 {
-    using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
-    using Backend.Shared.Models;
-    using Configuration;
+    using Backend.EmailService.Services;
 
     [ExcludeFromCodeCoverage]
     public class CustomCors
@@ -14,23 +13,19 @@
 
         public CustomCors(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
-        public Task Invoke(HttpContext httpContext, ApplicationPaths applicationPaths)
+        public async Task Invoke(HttpContext httpContext, ISenderService senderService)
         {
-            var developmentOrigins = applicationPaths.DevelopmentOrigin.Split(';').ToList();
-            var deploymentOrigins = applicationPaths.DeploymentOrigin.Split(';').ToList();
             var requestOrigin = httpContext.Request.Headers["Origin"];
+            var allowDomains = await senderService.IsDomainAllowed(requestOrigin, CancellationToken.None);
+            
+            if (!allowDomains)
+            {
+                httpContext.Response.StatusCode = 403;
+                await httpContext.Response.WriteAsync("Forbidden");
+                return;
+            }
 
-            if (!developmentOrigins.Contains(requestOrigin) && !deploymentOrigins.Contains(requestOrigin))
-                return _requestDelegate(httpContext);
-
-            CorsHeaders.Ensure(httpContext);
-
-            // Necessary for pre-flight
-            if (httpContext.Request.Method != "OPTIONS") 
-                return _requestDelegate(httpContext);
-
-            httpContext.Response.StatusCode = 200;
-            return httpContext.Response.WriteAsync("OK");
+            await _requestDelegate(httpContext);
         }
     }
 }

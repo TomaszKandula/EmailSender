@@ -35,16 +35,10 @@
     
         public static void CommonServices(IServiceCollection services, IConfiguration configuration)
         {
-            SetupAppSettings(services, configuration);
             SetupLogger(services);
             SetupServices(services);
             SetupValidators(services);
             SetupMediatR(services);
-        }
-    
-        private static void SetupAppSettings(IServiceCollection services, IConfiguration configuration) 
-        {
-            services.AddSingleton(configuration.GetSection(nameof(ApplicationPaths)).Get<ApplicationPaths>());
         }
     
         private static void SetupLogger(IServiceCollection services) 
