@@ -18,7 +18,7 @@ namespace EmailSenderService.WebApi.Controllers
         public EmailController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
-        [ETagFilter(204)]
+        [ETagFilter(200)]
         public async Task<Unit> SendEmail([FromBody] SendEmailDto payLoad)
             => await _mediator.Send(EmailMapper.MapToSendEmailRequest(payLoad));
     }
