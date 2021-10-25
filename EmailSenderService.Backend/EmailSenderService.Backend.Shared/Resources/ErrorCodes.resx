@@ -33,4 +33,10 @@
     <data name="INVALID_PRIVATE_KEY" xml:space="preserve">
         <value>Invalid private key</value>
     </data>
+    <data name="INVALID_ASSOCIATED_USER" xml:space="preserve">
+        <value>Cannot find user for given private key</value>
+    </data>
+    <data name="INVALID_ASSOCIATED_EMAIL" xml:space="preserve">
+        <value>Cannot find email for given user and private key</value>
+    </data>
 </root>
