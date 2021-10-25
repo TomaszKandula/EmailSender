@@ -13,7 +13,6 @@
     using Backend.EmailService;
     using Backend.Shared.Models;
     using Backend.Shared.Behaviours;
-    using Backend.SmtpService.Models;
     using Backend.Database.Initializer;
     using Backend.EmailService.Services;
     using Backend.Shared.Services.LoggerService;
@@ -46,7 +45,6 @@
         private static void SetupAppSettings(IServiceCollection services, IConfiguration configuration) 
         {
             services.AddSingleton(configuration.GetSection(nameof(ApplicationPaths)).Get<ApplicationPaths>());
-            services.AddSingleton(configuration.GetSection(nameof(SmtpServer)).Get<SmtpServer>());
         }
     
         private static void SetupLogger(IServiceCollection services) 
