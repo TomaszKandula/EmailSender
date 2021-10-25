@@ -31,10 +31,10 @@ namespace EmailSenderService.Backend.EmailService.Requests
         public override async Task<Unit> Handle(SendEmailRequest request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
-            var user = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
-            var emailId = await _senderService.VerifyEmailFrom(request.From, user.Id, cancellationToken);
+            var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+            var emailId = await _senderService.VerifyEmailFrom(request.From, userId, cancellationToken);
 
-            VerifyArguments(isKeyValid, user, emailId);
+            VerifyArguments(isKeyValid, userId, emailId);
             
             var configuration = new Configuration
             {
@@ -51,7 +51,7 @@ namespace EmailSenderService.Backend.EmailService.Requests
 
             var history = new History
             {
-                UserId = user.Id,
+                UserId = userId,
                 EmailId = emailId,
                 Sent = _dateTimeService.Now
             };
@@ -62,15 +62,15 @@ namespace EmailSenderService.Backend.EmailService.Requests
             return Unit.Value;
         }
 
-        private static void VerifyArguments(bool isKeyValid, User user, Guid emailId)
+        private static void VerifyArguments(bool isKeyValid, Guid? userId, Guid? emailId)
         {
             if (!isKeyValid)
                 throw new BusinessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
 
-            if (user == null)
+            if (userId == null || userId == Guid.Empty)
                 throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
 
-            if (emailId == Guid.Empty)
+            if (emailId == null || emailId == Guid.Empty)
                 throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
         }
     }
