@@ -9,6 +9,7 @@ namespace EmailSenderService.Backend.EmailService.Services
     using Database;
     using SmtpService;
     using Shared.Exceptions;
+    using SmtpService.Models;
     using Shared.Services.LoggerService;
 
     public class SenderService : ISenderService
@@ -79,20 +80,19 @@ namespace EmailSenderService.Backend.EmailService.Services
 
         public async Task Send(Configuration configuration, CancellationToken cancellationToken)
         {
-            _smtpClientService.From = configuration.From;
-            _smtpClientService.Tos = configuration.To;
-            _smtpClientService.Ccs = configuration.Cc;
-            _smtpClientService.Bccs = configuration.Bcc;
-            _smtpClientService.Subject = configuration.Subject;
+            var emailData = new EmailData
+            {
+                From = configuration.From,
+                To = configuration.To,
+                Cc = configuration.Cc,
+                Bcc = configuration.Bcc,
+                Subject = configuration.Subject,
+                HtmlBody = configuration.IsHtml ? configuration.Body : string.Empty,
+                PlainText = configuration.IsHtml ? string.Empty : configuration.Body
+            };
 
-            if (configuration.IsHtml)
-            {
-                _smtpClientService.HtmlBody = configuration.Body;
-            }
-            else
-            {
-                _smtpClientService.PlainText = configuration.Body;
-            }
+            _smtpClientService.EmailData = emailData;
+            _smtpClientService.ServerData = await GetServerData(emailData.From, cancellationToken);
 
             var result = await _smtpClientService.Send(cancellationToken);
             if (!result.IsSucceeded)
@@ -100,6 +100,26 @@ namespace EmailSenderService.Backend.EmailService.Services
                 var message = result.InnerMessage == string.Empty ? result.ErrorDesc : result.InnerMessage;
                 throw new BusinessException(result.ErrorCode, message);
             }
+        }
+
+        private async Task<ServerData> GetServerData(string address, CancellationToken cancellationToken)
+        {
+            var email = await _databaseContext.Email
+                .AsNoTracking()
+                .Where(email => email.Address == address)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (email == null)
+                return new ServerData();
+
+            return new ServerData
+            {
+                Address = email.Address,
+                Server = email.ServerName,
+                Key = email.ServerKey,
+                Port = email.ServerPort,
+                IsSSL = email.ServerSsl
+            };
         }
     }
 }
