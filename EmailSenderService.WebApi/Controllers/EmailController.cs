@@ -4,8 +4,9 @@ namespace EmailSenderService.WebApi.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using Backend.Shared.Dto;
-    using Backend.Shared.Attributes;
     using Backend.EmailService.Mappers;
+    using Backend.EmailService.Requests;
+    using Backend.EmailService.Responses;
     using MediatR;
 
     [Route("api/v1/[controller]/[action]")]
@@ -18,8 +19,11 @@ namespace EmailSenderService.WebApi.Controllers
         public EmailController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
-        [ETagFilter(200)]
         public async Task<Unit> SendEmail([FromBody] SendEmailDto payLoad)
             => await _mediator.Send(EmailMapper.MapToSendEmailRequest(payLoad));
+
+        [HttpGet]
+        public async Task<GetAllowDomainsResponse> GetAllowDomains([FromQuery] string key) 
+            => await _mediator.Send(new GetAllowDomainsRequest { PrivateKey = key});
     }
 }
