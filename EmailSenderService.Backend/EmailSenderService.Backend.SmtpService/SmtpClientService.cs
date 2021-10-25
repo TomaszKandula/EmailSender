@@ -7,12 +7,12 @@
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using Models;
+    using MimeKit;
+    using DnsClient;
+    using MimeKit.Text;
     using Shared.Resources;
     using MailKit.Net.Smtp;
     using MailKit.Security;
-    using MimeKit.Text;
-    using DnsClient;
-    using MimeKit;
 
     public class SmtpClientService : ISmtpClientService
     {
@@ -20,40 +20,25 @@
 
         private readonly ILookupClient _lookupClient;
 
-        private readonly SmtpServer _smtpServer;
+        public virtual EmailData EmailData { get; set; }
 
-        public SmtpClientService(ISmtpClient smtpClient, ILookupClient lookupClient, SmtpServer smtpServer)
+        public virtual ServerData ServerData { get; set; }
+
+        public SecureSocketOptions SslOnConnect => ServerData.IsSSL
+            ? SecureSocketOptions.SslOnConnect
+            : SecureSocketOptions.None;
+
+        public SmtpClientService(ISmtpClient smtpClient, ILookupClient lookupClient)
         {
             _smtpClient = smtpClient;
             _lookupClient = lookupClient;
-            _smtpServer = smtpServer;
         }
 
-        public virtual string From { get; set; }
-        
-        public virtual List<string> Tos { get; set; }
-        
-        public virtual List<string> Ccs { get; set; }
-        
-        public virtual List<string> Bccs { get; set; }
-        
-        public virtual string Subject { get; set; }
-        
-        public virtual string PlainText { get; set; }
-        
-        public string HtmlBody { get; set; }
-
-        public virtual async Task<ActionResult> CanConnectAndAuthenticate(CancellationToken cancellationToken = default)
+        public virtual async Task<ActionResult> VerifyConnection(CancellationToken cancellationToken = default)
         {
             try
             {
-                var sslOnConnect = _smtpServer.IsSSL
-                    ? SecureSocketOptions.SslOnConnect
-                    : SecureSocketOptions.None;
-                
-                await _smtpClient.ConnectAsync(_smtpServer.Server, 
-                    _smtpServer.Port, sslOnConnect, cancellationToken);
-
+                await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
                 if (!_smtpClient.IsConnected)
                 {
                     return new ActionResult
@@ -63,9 +48,7 @@
                     };
                 }
 
-                await _smtpClient.AuthenticateAsync(_smtpServer.Account, 
-                    _smtpServer.Password, cancellationToken);
-
+                await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
                 if (!_smtpClient.IsAuthenticated)
                 {
                     return new ActionResult
@@ -95,30 +78,26 @@
             {
                 var newMail = new MimeMessage();
 
-                newMail.From.Add(MailboxAddress.Parse(From));
-                newMail.Subject = Subject;
+                newMail.From.Add(MailboxAddress.Parse(EmailData.From));
+                newMail.Subject = EmailData.Subject;
 
-                foreach (var item in Tos) 
+                foreach (var item in EmailData.To) 
                     newMail.To.Add(MailboxAddress.Parse(item));
-                
-                if (Ccs != null && !Ccs.Any())
-                    foreach (var item in Ccs) newMail.Cc.Add(MailboxAddress.Parse(item));
 
-                if (Bccs != null && !Bccs.Any())
-                    foreach (var item in Bccs) newMail.Bcc.Add(MailboxAddress.Parse(item));
+                if (EmailData.Cc != null && !EmailData.Cc.Any())
+                    foreach (var item in EmailData.Cc) newMail.Cc.Add(MailboxAddress.Parse(item));
 
-                if (!string.IsNullOrEmpty(PlainText)) 
-                    newMail.Body = new TextPart(TextFormat.Plain) { Text = PlainText };
+                if (EmailData.Bcc != null && !EmailData.Bcc.Any())
+                    foreach (var item in EmailData.Bcc) newMail.Bcc.Add(MailboxAddress.Parse(item));
 
-                if (!string.IsNullOrEmpty(HtmlBody)) 
-                    newMail.Body = new TextPart(TextFormat.Html) { Text = HtmlBody };
+                if (!string.IsNullOrEmpty(EmailData.PlainText)) 
+                    newMail.Body = new TextPart(TextFormat.Plain) { Text = EmailData.PlainText };
 
-                var sslOnConnect = _smtpServer.IsSSL
-                    ? SecureSocketOptions.SslOnConnect
-                    : SecureSocketOptions.None;
-                
-                await _smtpClient.ConnectAsync(_smtpServer.Server, _smtpServer.Port, sslOnConnect, cancellationToken);
-                await _smtpClient.AuthenticateAsync(_smtpServer.Account, _smtpServer.Password, cancellationToken);
+                if (!string.IsNullOrEmpty(EmailData.HtmlBody)) 
+                    newMail.Body = new TextPart(TextFormat.Html) { Text = EmailData.HtmlBody };
+
+                await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
+                await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
 
                 await _smtpClient.SendAsync(newMail, cancellationToken);
                 await _smtpClient.DisconnectAsync(true, cancellationToken);
@@ -136,23 +115,23 @@
             }
         }
 
-        public virtual List<Email> IsAddressCorrect(IEnumerable<string> emailAddress)
+        public virtual IDictionary<string, bool> IsAddressCorrect(IEnumerable<string> emailAddress)
         {
-            var results = new List<Email>();
+            var results = new Dictionary<string, bool>();
 
             foreach (var item in emailAddress)
             {
                 try
                 {
                     var mailAddress = new MailAddress(item);
-                    results.Add(new Email { Address = mailAddress.Address, IsValid = true });
+                    results.Add(mailAddress.Address, true);
                 }
                 catch (FormatException)
                 {
-                    results.Add(new Email { Address = item, IsValid = false });
+                    results.Add(item, false);
                 }
             }
-            
+
             return results;
         }
 
