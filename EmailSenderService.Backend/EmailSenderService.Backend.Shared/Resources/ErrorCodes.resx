@@ -30,4 +30,7 @@
     <data name="NOT_CONNECTED_TO_SMTP" xml:space="preserve">
         <value>Client is not connected to the SMTP server</value>
     </data>
+    <data name="INVALID_PRIVATE_KEY" xml:space="preserve">
+        <value>Invalid private key</value>
+    </data>
 </root>
