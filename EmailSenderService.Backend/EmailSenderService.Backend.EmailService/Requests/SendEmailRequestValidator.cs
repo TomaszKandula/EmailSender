@@ -1,14 +1,18 @@
-namespace EmailSenderService.WebApi.Validators
+namespace EmailSenderService.Backend.EmailService.Requests
 {
     using FluentValidation;
-    using Backend.Shared.Dto;
-    using Backend.Shared.Resources;
+    using Shared.Resources;
 
-    public class SendEmailDtoValidator : AbstractValidator<SendEmailDto>
+    public class SendEmailRequestValidator : AbstractValidator<SendEmailRequest>
     {
-        public SendEmailDtoValidator()
+        public SendEmailRequestValidator()
         {
-            RuleFor(dto => dto.From)
+            RuleFor(request => request.PrivateKey)
+                .NotEmpty()
+                .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+                .WithMessage(ValidationCodes.REQUIRED);
+
+            RuleFor(request => request.From)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED)
@@ -16,17 +20,17 @@ namespace EmailSenderService.WebApi.Validators
                 .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
                 .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
 
-            RuleFor(dto => dto.Subject)
+            RuleFor(request => request.Subject)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED);
 
-            RuleFor(dto => dto.To)
+            RuleFor(request => request.To)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED);
 
-            RuleForEach(dto => dto.To)
+            RuleForEach(request => request.To)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED)
@@ -34,14 +38,14 @@ namespace EmailSenderService.WebApi.Validators
                 .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
                 .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
 
-            When(dto => dto.Cc != null, () =>
+            When(request => request.Cc != null, () =>
             {
-                RuleFor(dto => dto.Cc)
+                RuleFor(request => request.Cc)
                     .NotEmpty()
                     .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                     .WithMessage(ValidationCodes.REQUIRED);
 
-                RuleForEach(dto => dto.Cc)
+                RuleForEach(request => request.Cc)
                     .NotEmpty()
                     .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                     .WithMessage(ValidationCodes.REQUIRED)
@@ -50,14 +54,14 @@ namespace EmailSenderService.WebApi.Validators
                     .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
             });
 
-            When(dto => dto.Bcc != null, () =>
+            When(request => request.Bcc != null, () =>
             {
-                RuleFor(dto => dto.Bcc)
+                RuleFor(request => request.Bcc)
                     .NotEmpty()
                     .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                     .WithMessage(ValidationCodes.REQUIRED);
 
-                RuleForEach(dto => dto.Bcc)
+                RuleForEach(request => request.Bcc)
                     .NotEmpty()
                     .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                     .WithMessage(ValidationCodes.REQUIRED)
