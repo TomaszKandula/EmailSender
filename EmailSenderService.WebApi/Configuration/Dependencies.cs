@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net.Http;
+    using System.Reflection;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.Extensions.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -11,14 +12,16 @@
     using Backend.SmtpService;
     using Backend.EmailService;
     using Backend.Shared.Models;
+    using Backend.Shared.Behaviours;
     using Backend.SmtpService.Models;
     using Backend.Database.Initializer;
+    using Backend.EmailService.Services;
     using Backend.Shared.Services.LoggerService;
     using Backend.Shared.Services.DateTimeService;
-    using Validators;
+    using MediatR;
     using DnsClient;
     using MailKit.Net.Smtp;
-    using FluentValidation.AspNetCore;
+    using FluentValidation;
 
     [ExcludeFromCodeCoverage]
     public static class Dependencies
@@ -37,6 +40,7 @@
             SetupLogger(services);
             SetupServices(services);
             SetupValidators(services);
+            SetupMediatR(services);
         }
     
         private static void SetupAppSettings(IServiceCollection services, IConfiguration configuration) 
@@ -68,17 +72,21 @@
             services.AddScoped<ISmtpClient, SmtpClient>();
             services.AddScoped<ILookupClient, LookupClient>();
             services.AddScoped<IDateTimeService, DateTimeService>();
-            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ISenderService, SenderService>();
             services.AddScoped<ISmtpClientService, SmtpClientService>();
             services.AddScoped<IDbInitializer, DbInitializer>();
         }
     
         private static void SetupValidators(IServiceCollection services)
+            => services.AddValidatorsFromAssemblyContaining<TemplateHandler<IRequest, Unit>>();
+
+        private static void SetupMediatR(IServiceCollection services) 
         {
-            services.AddMvc().AddFluentValidation(configuration =>
-            {
-                configuration.RegisterValidatorsFromAssemblyContaining<SendEmailDtoValidator>();
-            });
+            services.AddMediatR(options => options.AsScoped(), 
+                typeof(TemplateHandler<IRequest, Unit>).GetTypeInfo().Assembly);
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
         }
 
         private static void SetupRetryPolicyWithPolly(IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
