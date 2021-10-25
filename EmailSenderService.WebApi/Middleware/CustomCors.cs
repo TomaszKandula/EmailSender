@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
+    using Configuration;
     using Backend.EmailService.Services;
 
     [ExcludeFromCodeCoverage]
@@ -25,6 +26,7 @@
                 return;
             }
 
+            CorsHeaders.Ensure(httpContext);
             await _requestDelegate(httpContext);
         }
     }
