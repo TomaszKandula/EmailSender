@@ -64,7 +64,7 @@ namespace EmailSenderService.WebApi
 
             applicationBuilder.UseMiddleware<CustomCors>();
             applicationBuilder.UseMiddleware<CustomException>();
-            applicationBuilder.UseMiddleware<LoggingBehaviour>();
+            applicationBuilder.UseMiddleware<CustomCacheControl>();
             
             applicationBuilder.UseHttpsRedirection();
             applicationBuilder.UseForwardedHeaders();

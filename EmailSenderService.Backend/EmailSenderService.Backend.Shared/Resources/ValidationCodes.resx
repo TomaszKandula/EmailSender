@@ -18,4 +18,10 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="REQUIRED" xml:space="preserve">
+        <value>This field is required</value>
+    </data>
+    <data name="INVALID_EMAIL_ADDRESS" xml:space="preserve">
+        <value>Invalid email address</value>
+    </data>
 </root>
