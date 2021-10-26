@@ -4,12 +4,12 @@
 Make sure you have local database setup and all the connection strings are in place. 
 When change has been introduced, invoke:
 
-1. `Add-Migration -StartupProject EmailSenderService -Project EmailSenderService.Backend.Database -Context DatabaseContext -OutputDir Migrations <name>`
-1. `Update-Database -StartupProject EmailSenderService -Project EmailSenderService.Backend.Database -Context DatabaseContext`
+1. `Add-Migration -StartupProject EmailSender -Project EmailSender.Backend.Database -Context DatabaseContext -OutputDir Migrations <name>`
+1. `Update-Database -StartupProject EmailSender -Project EmailSender.Backend.Database -Context DatabaseContext`
 
 To remove migration:
 
-1. `Remove-Migration -StartupProject EmailSenderService -Project EmailSenderService.Backend.Database -Context DatabaseContext`
+1. `Remove-Migration -StartupProject EmailSender -Project EmailSender.Backend.Database -Context DatabaseContext`
 
 When updating model, remove migration first, make changes and add new migration again. If `update-migration` has been already invoked based on 
 previous migration on local branch and we need to remove such migration, it is better to run `update-database` with migration name before changes.
