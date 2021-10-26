@@ -5,6 +5,7 @@ namespace EmailSenderService.Backend.EmailService.Services
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Database;
@@ -114,6 +115,11 @@ namespace EmailSenderService.Backend.EmailService.Services
                 ErrorDesc = result.ErrorDesc,
                 InnerMessage = result.InnerMessage
             };
+        }
+
+        public Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken)
+        {
+            return _smtpClientService.VerifyEmailAddress(emailAddress, cancellationToken);
         }
 
         private async Task<ServerData> GetServerData(string address, CancellationToken cancellationToken)
