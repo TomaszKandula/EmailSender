@@ -6,7 +6,7 @@
 # Common IntelliJ Platform excludes
 
 # User specific
-.idea/.idea.EmailSenderService/.idea/
+.idea/.idea.EmailSender/.idea/
 
 [Pp]ackages/
 Thumbs.db
