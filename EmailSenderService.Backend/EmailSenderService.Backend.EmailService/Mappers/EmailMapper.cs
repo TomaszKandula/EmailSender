@@ -16,5 +16,11 @@ namespace EmailSenderService.Backend.EmailService.Mappers
             Body = model.Body,
             IsHtml = model.IsHtml
         };
+
+        public static VerifyEmailRequest MapToVerifyEmailRequest(VerifyEmailDto model) => new()
+        {
+            PrivateKey = model.PrivateKey,
+            Emails = model.Emails
+        };
     }
 }
