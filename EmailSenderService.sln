@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSenderService.Backend.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSenderService.Backend.Database", "EmailSenderService.Backend\EmailSenderService.Backend.Database\EmailSenderService.Backend.Database.csproj", "{5E005153-349C-4653-B1F6-D6EBEFEFFB3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSenderService.WebApi.Tests", "EmailSenderService.WebApi.Tests\EmailSenderService.WebApi.Tests\EmailSenderService.WebApi.Tests.csproj", "{4AABF118-F0EF-4490-83D7-F91E7959D5A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSenderService.WebApi.Tests", "EmailSenderService.WebApi.Tests\EmailSenderService.WebApi.Tests.csproj", "{4AABF118-F0EF-4490-83D7-F91E7959D5A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSenderService.Backend.Shared", "EmailSenderService.Backend\EmailSenderService.Backend.Shared\EmailSenderService.Backend.Shared.csproj", "{386D3DFC-AC2F-4233-BBEB-9C095D74C36E}"
 EndProject
