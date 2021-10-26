@@ -24,18 +24,22 @@ namespace EmailSenderService.WebApi.Controllers
 
         [HttpGet]
         public async Task<GetAllowDomainsResponse> GetAllowDomains([FromQuery] string key) 
-            => await _mediator.Send(new GetAllowDomainsRequest { PrivateKey = key});
+            => await _mediator.Send(new GetAllowDomainsRequest { PrivateKey = key });
 
         [HttpGet]
         public async Task<GetAllowEmailsResponse> GetAllowEmails([FromQuery] string key) 
-            => await _mediator.Send(new GetAllowEmailsRequest { PrivateKey = key});
+            => await _mediator.Send(new GetAllowEmailsRequest { PrivateKey = key });
 
         [HttpGet]
         public async Task<GetSentHistoryResponse> GetSentHistory([FromQuery] string key) 
-            => await _mediator.Send(new GetSentHistoryRequest { PrivateKey = key});
+            => await _mediator.Send(new GetSentHistoryRequest { PrivateKey = key });
 
         [HttpGet]
         public async Task<GetUserDetailsResponse> GetUserDetails([FromQuery] string key) 
-            => await _mediator.Send(new GetUserDetailsRequest { PrivateKey = key});
+            => await _mediator.Send(new GetUserDetailsRequest { PrivateKey = key });
+
+        [HttpGet]
+        public async Task<Unit> GetServerStatus([FromQuery] string key, string address) 
+            => await _mediator.Send(new GetServerStatusRequest { PrivateKey = key, EmailAddress = address });
     }
 }
