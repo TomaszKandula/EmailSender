@@ -115,27 +115,40 @@
             }
         }
 
-        public virtual IDictionary<string, bool> IsAddressCorrect(IEnumerable<string> emailAddress)
+        public virtual async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
         {
-            var results = new Dictionary<string, bool>();
-
-            foreach (var item in emailAddress)
+            var results = new List<VerifyEmail>();
+            foreach (var email in emails)
             {
-                try
+                var domainCheck = await IsDomainCorrect(email, cancellationToken);
+                var formatCheck = IsFormatCorrect(email);
+                
+                results.Add(new VerifyEmail
                 {
-                    var mailAddress = new MailAddress(item);
-                    results.Add(mailAddress.Address, true);
-                }
-                catch (FormatException)
-                {
-                    results.Add(item, false);
-                }
+                    Address = email,
+                    IsDomainValid = domainCheck,
+                    IsFormatCorrect = formatCheck
+                });
             }
 
             return results;
         }
 
-        public virtual async Task<bool> IsDomainCorrect(string emailAddress, CancellationToken cancellationToken = default)
+        private static bool IsFormatCorrect(string emailAddress)
+        {
+            try
+            {
+                // ReSharper disable once UnusedVariable
+                var address = new MailAddress(emailAddress);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+
+        private async Task<bool> IsDomainCorrect(string emailAddress, CancellationToken cancellationToken = default)
         {
             try
             {
