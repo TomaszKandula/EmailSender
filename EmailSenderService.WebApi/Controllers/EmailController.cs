@@ -29,5 +29,9 @@ namespace EmailSenderService.WebApi.Controllers
         [HttpGet]
         public async Task<GetAllowEmailsResponse> GetAllowEmails([FromQuery] string key) 
             => await _mediator.Send(new GetAllowEmailsRequest { PrivateKey = key});
+
+        [HttpGet]
+        public async Task<GetSentHistoryResponse> GetSentHistory([FromQuery] string key) 
+            => await _mediator.Send(new GetSentHistoryRequest { PrivateKey = key});
     }
 }
