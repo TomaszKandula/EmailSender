@@ -22,6 +22,10 @@ namespace EmailSenderService.WebApi.Controllers
         public async Task<Unit> SendEmail([FromBody] SendEmailDto payLoad)
             => await _mediator.Send(EmailMapper.MapToSendEmailRequest(payLoad));
 
+        [HttpPost]
+        public async Task<VerifyEmailResponse> VerifyEmail([FromBody] VerifyEmailDto payLoad)
+            => await _mediator.Send(EmailMapper.MapToVerifyEmailRequest(payLoad));
+
         [HttpGet]
         public async Task<GetAllowDomainsResponse> GetAllowDomains([FromQuery] string key) 
             => await _mediator.Send(new GetAllowDomainsRequest { PrivateKey = key });
