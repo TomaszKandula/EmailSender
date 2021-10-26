@@ -1,3 +1,4 @@
+#nullable enable
 namespace EmailSenderService.Backend.EmailService.Services
 {
     using System;
@@ -16,5 +17,7 @@ namespace EmailSenderService.Backend.EmailService.Services
         Task<Guid> VerifyEmailFrom(string emailFrom, Guid? userId, CancellationToken cancellationToken);
 
         Task Send(Configuration configuration, CancellationToken cancellationToken);
+
+        Task<ErrorResult?> VerifyConnection(Guid emailId, CancellationToken cancellationToken);
     }
 }
