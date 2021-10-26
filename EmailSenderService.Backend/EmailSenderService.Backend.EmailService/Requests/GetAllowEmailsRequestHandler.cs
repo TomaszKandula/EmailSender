@@ -39,6 +39,7 @@ namespace EmailSenderService.Backend.EmailService.Requests
                 .ToListAsync(cancellationToken);
 
             var associatedUser = await _databaseContext.User
+                .AsNoTracking()
                 .Where(user => user.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);
 
