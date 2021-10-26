@@ -34,6 +34,11 @@ namespace EmailSenderService.WebApi.Middleware
                 var applicationError = new ApplicationError(businessException.ErrorCode, businessException.Message);
                 await WriteErrorResponse(httpContext, applicationError, HttpStatusCode.BadRequest).ConfigureAwait(false);
             }
+            catch (ServerException serverException)
+            {
+                var applicationError = new ApplicationError(serverException.ErrorCode, serverException.Message);
+                await WriteErrorResponse(httpContext, applicationError, HttpStatusCode.InternalServerError).ConfigureAwait(false);
+            }
             catch (Exception exception)
             {
                 var applicationError = new ApplicationError(nameof(ErrorCodes.ERROR_UNEXPECTED), ErrorCodes.ERROR_UNEXPECTED, exception.Message);

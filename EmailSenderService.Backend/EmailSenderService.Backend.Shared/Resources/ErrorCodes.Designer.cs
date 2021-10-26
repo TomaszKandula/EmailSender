@@ -57,15 +57,15 @@ namespace EmailSenderService.Backend.Shared.Resources {
             }
         }
         
-        public static string NOT_AUTHENTICATED_WITH_SMTP {
+        public static string SMTP_NOT_AUTHENTICATED {
             get {
-                return ResourceManager.GetString("NOT_AUTHENTICATED_WITH_SMTP", resourceCulture);
+                return ResourceManager.GetString("SMTP_NOT_AUTHENTICATED", resourceCulture);
             }
         }
         
-        public static string NOT_CONNECTED_TO_SMTP {
+        public static string SMTP_NOT_CONNECTED {
             get {
-                return ResourceManager.GetString("NOT_CONNECTED_TO_SMTP", resourceCulture);
+                return ResourceManager.GetString("SMTP_NOT_CONNECTED", resourceCulture);
             }
         }
         

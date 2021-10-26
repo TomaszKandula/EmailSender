@@ -15,8 +15,6 @@
 
         Task<ActionResult> Send(CancellationToken cancellationToken = default);
 
-        IDictionary<string, bool> IsAddressCorrect(IEnumerable<string> emailAddress);
-
-        Task<bool> IsDomainCorrect(string emailAddress, CancellationToken cancellationToken = default);
+        Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken = default);
     }
 }
