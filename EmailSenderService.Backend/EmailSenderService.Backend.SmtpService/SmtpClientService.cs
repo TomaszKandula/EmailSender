@@ -120,9 +120,9 @@
             var results = new List<VerifyEmail>();
             foreach (var email in emails)
             {
-                var domainCheck = await IsDomainCorrect(email, cancellationToken);
                 var formatCheck = IsFormatCorrect(email);
-                
+                var domainCheck = formatCheck && await IsDomainCorrect(email, cancellationToken);
+
                 results.Add(new VerifyEmail
                 {
                     Address = email,
