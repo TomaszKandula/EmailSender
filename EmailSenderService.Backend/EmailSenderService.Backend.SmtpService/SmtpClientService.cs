@@ -43,8 +43,8 @@
                 {
                     return new ActionResult
                     {
-                        ErrorCode = nameof(ErrorCodes.NOT_CONNECTED_TO_SMTP),
-                        ErrorDesc = ErrorCodes.NOT_CONNECTED_TO_SMTP
+                        ErrorCode = nameof(ErrorCodes.SMTP_NOT_CONNECTED),
+                        ErrorDesc = ErrorCodes.SMTP_NOT_CONNECTED
                     };
                 }
 
@@ -53,8 +53,8 @@
                 {
                     return new ActionResult
                     {
-                        ErrorCode = nameof(ErrorCodes.NOT_AUTHENTICATED_WITH_SMTP),
-                        ErrorDesc = ErrorCodes.NOT_AUTHENTICATED_WITH_SMTP
+                        ErrorCode = nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED),
+                        ErrorDesc = ErrorCodes.SMTP_NOT_AUTHENTICATED
                     };
                 }
 
