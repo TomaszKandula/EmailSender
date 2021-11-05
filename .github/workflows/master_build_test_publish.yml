@@ -49,7 +49,7 @@ jobs:
     - name: Production | Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: tokanpages-emailsender
+        app-name: emailsender-prod
         slot-name: production
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_BACKEND_PROD }}
         images: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:emailsender-production-${{ github.sha }}

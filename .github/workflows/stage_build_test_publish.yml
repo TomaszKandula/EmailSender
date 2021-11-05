@@ -49,7 +49,7 @@ jobs:
     - name: Staging | Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: tokanpages-emailsender-staging
+        app-name: emailsender-stage
         slot-name: production
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_BACKEND_STAGE }}
         images: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:emailsender-staging-${{ github.sha }}
