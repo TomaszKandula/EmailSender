@@ -32,7 +32,7 @@ jobs:
         password: ${{ secrets.DOCKER_REGISTRY_SERVER_PASSWORD }}
 
     - name: Staging | Build Docker (execute with tests)
-      run: docker build . -t ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:emailsender-staging-${{ github.sha }}
+      run: docker build . -t ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-staging-${{ github.sha }}
 
     - name: Staging | Push Docker image (prepare)
       uses: azure/docker-login@v1
@@ -42,7 +42,7 @@ jobs:
         password: ${{ secrets.DOCKER_REGISTRY_SERVER_PASSWORD }}
 
     - name: Staging | Push Docker image
-      run: docker push ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:emailsender-staging-${{ github.sha }}
+      run: docker push ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-staging-${{ github.sha }}
 
     # Note: due to a budget constraints, we use separate Azure App Service for staging as the separate slots 
     # are unavailable for B1, B2 and B3 pricing tiers
@@ -52,4 +52,4 @@ jobs:
         app-name: emailsender-stage
         slot-name: production
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_BACKEND_STAGE }}
-        images: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:emailsender-staging-${{ github.sha }}
+        images: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-staging-${{ github.sha }}
