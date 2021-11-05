@@ -34,7 +34,7 @@ jobs:
     - name: Production | Build Docker (execute with tests)
       run: | 
         docker build . \
-        -t ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:emailsender-production-${{ github.sha }}
+        -t ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-production-${{ github.sha }}
 
     - name: Production | Push Docker image (prepare)
       uses: azure/docker-login@v1
@@ -44,12 +44,12 @@ jobs:
         password: ${{ secrets.DOCKER_REGISTRY_SERVER_PASSWORD }}
 
     - name: Production | Push Docker image
-      run: docker push ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:emailsender-production-${{ github.sha }}
+      run: docker push ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-production-${{ github.sha }}
 
     - name: Production | Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: tokanpages-emailsender
+        app-name: emailsender-prod
         slot-name: production
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_BACKEND_PROD }}
-        images: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:emailsender-production-${{ github.sha }}
+        images: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-production-${{ github.sha }}
