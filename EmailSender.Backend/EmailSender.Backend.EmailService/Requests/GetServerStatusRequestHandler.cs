@@ -4,9 +4,9 @@ namespace EmailSender.Backend.EmailService.Requests
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using Services;
     using Shared.Resources;
     using Shared.Exceptions;
+    using Services.SenderService;
 
     public class GetServerStatusRequestHandler : TemplateHandler<GetServerStatusRequest, Unit>
     {

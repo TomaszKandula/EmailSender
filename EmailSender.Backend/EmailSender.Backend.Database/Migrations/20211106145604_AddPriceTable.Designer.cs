@@ -4,14 +4,16 @@ using EmailSender.Backend.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmailSender.Backend.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211106145604_AddPriceTable")]
+    partial class AddPriceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,39 +61,6 @@ namespace EmailSender.Backend.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AllowEmail");
-                });
-
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.Billing", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("CurrencyIso")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.Property<bool>("IsInvoiceSent")
-                        .HasColumnType("bit");
-
-                    b.Property<byte[]>("IssuedInvoice")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ValueDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Billing");
                 });
 
             modelBuilder.Entity("EmailSender.Backend.Domain.Entities.Email", b =>
@@ -253,17 +222,6 @@ namespace EmailSender.Backend.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.Billing", b =>
-                {
-                    b.HasOne("EmailSender.Backend.Domain.Entities.User", "User")
-                        .WithMany("Billing")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Billing_User")
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EmailSender.Backend.Domain.Entities.History", b =>
                 {
                     b.HasOne("EmailSender.Backend.Domain.Entities.Email", "Email")
@@ -306,8 +264,6 @@ namespace EmailSender.Backend.Database.Migrations
                     b.Navigation("AllowDomain");
 
                     b.Navigation("AllowEmail");
-
-                    b.Navigation("Billing");
 
                     b.Navigation("History");
 

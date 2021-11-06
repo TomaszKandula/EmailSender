@@ -20,6 +20,10 @@
 
         public virtual DbSet<AllowDomain> AllowDomain { get; set; }
 
+        public virtual DbSet<Price> Price { get; set; }
+
+        public virtual DbSet<Billing> Billing { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
