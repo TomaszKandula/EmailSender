@@ -54,7 +54,8 @@ namespace EmailSender.Backend.EmailService.Handlers
             var billing = await _billingService.GetUserBilling(request.BillingId, cancellationToken);
             var userAlias = await _databaseContext.User
                 .AsNoTracking()
-                .Where(user => user.Id == userId).Select(user => user.UserAlias)
+                .Where(user => user.Id == userId)
+                .Select(user => user.UserAlias)
                 .FirstOrDefaultAsync(cancellationToken);
 
             return new GetUserBillingResponse
