@@ -1,5 +1,5 @@
 #nullable enable
-namespace EmailSender.Backend.EmailService.Services
+namespace EmailSender.Backend.EmailService.Services.SenderService
 {
     using System;
     using System.Linq;

@@ -5,11 +5,11 @@ namespace EmailSender.Backend.EmailService.Requests
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using Services;
     using Database;
     using Responses;
     using Shared.Resources;
     using Shared.Exceptions;
+    using Services.SenderService;
 
     public class GetUserDetailsRequestHandler : TemplateHandler<GetUserDetailsRequest, GetUserDetailsResponse>
     {

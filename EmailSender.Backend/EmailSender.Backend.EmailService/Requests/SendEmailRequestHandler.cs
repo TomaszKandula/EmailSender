@@ -5,11 +5,11 @@ namespace EmailSender.Backend.EmailService.Requests
     using System.Threading;
     using System.Threading.Tasks;
     using Models;
-    using Services;
     using Database;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
+    using Services.SenderService;
     using Shared.Services.DateTimeService;
 
     public class SendEmailRequestHandler : TemplateHandler<SendEmailRequest, Unit>

@@ -5,7 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
     using Configuration;
-    using Backend.EmailService.Services;
+    using Backend.EmailService.Services.SenderService;
 
     [ExcludeFromCodeCoverage]
     public class CustomCors
