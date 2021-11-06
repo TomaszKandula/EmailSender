@@ -31,7 +31,7 @@ namespace EmailSender.Backend.EmailService.Requests
 
             VerifyArguments(isKeyValid, userId);
 
-            var history = await _databaseContext.History
+            var history = await _databaseContext.EmailHistory
                 .AsNoTracking()
                 .Include(history => history.Email)
                 .Include(history => history.User)

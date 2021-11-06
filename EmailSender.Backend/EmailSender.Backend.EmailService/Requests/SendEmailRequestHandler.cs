@@ -49,14 +49,14 @@ namespace EmailSender.Backend.EmailService.Requests
 
             await _senderService.Send(configuration, cancellationToken);
 
-            var history = new History
+            var history = new EmailHistory
             {
                 UserId = userId,
                 EmailId = emailId,
                 Sent = _dateTimeService.Now
             };
 
-            await _databaseContext.History.AddAsync(history, cancellationToken);
+            await _databaseContext.EmailHistory.AddAsync(history, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
             
             return Unit.Value;
