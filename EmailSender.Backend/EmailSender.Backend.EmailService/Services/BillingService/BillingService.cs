@@ -76,11 +76,11 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
             return billing.Id;
         }
 
-        public async Task<Billing> GetUserBilling(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<Billing> GetUserBilling(Guid id, CancellationToken cancellationToken = default)
         {
             var userBilling = await _databaseContext.Billing
                 .AsNoTracking()
-                .Where(billing => billing.UserId == userId)
+                .Where(billing => billing.Id == id)
                 .Select(billing => new Billing
                 {
                     Amount = billing.Amount,
