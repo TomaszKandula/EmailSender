@@ -14,7 +14,7 @@ namespace EmailSender.Backend.Domain.Entities
         
         [Required]
         [MaxLength(255)]
-        public string EndpointName { get; set; }
+        public string RequestName { get; set; }
 
         public User User { get; set; }
     }
