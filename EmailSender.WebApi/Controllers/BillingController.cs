@@ -7,9 +7,9 @@ namespace EmailSender.WebApi.Controllers
     using Backend.EmailService.Responses;
     using MediatR;
 
-    public class BillingControllers : BaseController
+    public class BillingController : BaseController
     {
-        public BillingControllers(IMediator mediator) : base(mediator) { }
+        public BillingController(IMediator mediator) : base(mediator) { }
 
         [HttpGet]
         public async Task<GetUserBillingResponse> GetUserBilling([FromQuery] Guid id, string key) 
