@@ -1,12 +1,12 @@
-namespace EmailSender.Backend.EmailService.Requests
+namespace EmailSender.Backend.EmailService.Handlers
 {
     using System;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using Models;
     using Database;
+    using Requests;
     using Responses;
     using Domain.Entities;
     using Shared.Resources;
@@ -14,7 +14,7 @@ namespace EmailSender.Backend.EmailService.Requests
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class GetSentHistoryRequestHandler : TemplateHandler<GetSentHistoryRequest, GetSentHistoryResponse>
+    public class GetAllowEmailsRequestHandler : TemplateHandler<GetAllowEmailsRequest, GetAllowEmailsResponse>
     {
         private readonly DatabaseContext _databaseContext;
         
@@ -22,7 +22,7 @@ namespace EmailSender.Backend.EmailService.Requests
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetSentHistoryRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+        public GetAllowEmailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
@@ -30,7 +30,7 @@ namespace EmailSender.Backend.EmailService.Requests
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetSentHistoryResponse> Handle(GetSentHistoryRequest request, CancellationToken cancellationToken)
+        public override async Task<GetAllowEmailsResponse> Handle(GetAllowEmailsRequest request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -41,22 +41,18 @@ namespace EmailSender.Backend.EmailService.Requests
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetSentHistoryRequest)
+                RequestName = nameof(GetAllowEmailsRequest)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var history = await _databaseContext.EmailHistory
+            var emails = await _databaseContext.AllowEmail
                 .AsNoTracking()
-                .Include(history => history.Email)
-                .Include(history => history.User)
-                .Where(history => history.UserId == userId)
-                .Select(history => new HistoryEntry
-                {
-                    EmailFrom = history.Email.Address,
-                    SentAt = history.Sent
-                })
+                .Include(allowEmail => allowEmail.Email)
+                .Include(allowEmail => allowEmail.User)
+                .Where(allowEmail => allowEmail.UserId == userId)
+                .Select(allowEmail => allowEmail.Email.Address)
                 .ToListAsync(cancellationToken);
 
             var associatedUser = await _databaseContext.User
@@ -64,10 +60,10 @@ namespace EmailSender.Backend.EmailService.Requests
                 .Where(user => user.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return new GetSentHistoryResponse
+            return new GetAllowEmailsResponse
             {
                 AssociatedUser = associatedUser.UserAlias,
-                HistoryEntries = history
+                Emails = emails
             };
         }
 

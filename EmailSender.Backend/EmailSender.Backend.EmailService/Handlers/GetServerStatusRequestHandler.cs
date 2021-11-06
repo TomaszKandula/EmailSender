@@ -1,10 +1,11 @@
-namespace EmailSender.Backend.EmailService.Requests
+namespace EmailSender.Backend.EmailService.Handlers
 {
     using MediatR;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
     using Database;
+    using Requests;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;

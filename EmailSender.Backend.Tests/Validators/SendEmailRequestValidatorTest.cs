@@ -5,6 +5,7 @@ namespace EmailSender.Backend.Tests.Validators
     using System.Collections.Generic;
     using Shared.Resources;
     using EmailService.Requests;
+    using EmailService.Validators;
 
     public class SendEmailRequestValidatorTest : TestBase
     {
