@@ -1,18 +1,20 @@
 namespace EmailSender.Backend.EmailService.Handlers
 {
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using Database;
-    using Responses;
     using Requests;
+    using Responses;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class VerifyEmailRequestHandler : TemplateHandler<VerifyEmailRequest, VerifyEmailResponse>
+    public class GetAllowDomainsHandler : TemplateHandler<GetAllowDomainsRequest, GetAllowDomainsResponse>
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -20,7 +22,7 @@ namespace EmailSender.Backend.EmailService.Handlers
 
         private readonly IDateTimeService _dateTimeService;
 
-        public VerifyEmailRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+        public GetAllowDomainsHandler(DatabaseContext databaseContext, ISenderService senderService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
@@ -28,7 +30,7 @@ namespace EmailSender.Backend.EmailService.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<VerifyEmailResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
+        public override async Task<GetAllowDomainsResponse> Handle(GetAllowDomainsRequest request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -39,20 +41,25 @@ namespace EmailSender.Backend.EmailService.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(VerifyEmailRequest)
+                RequestName = nameof(GetAllowDomainsRequest)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var result = await _senderService.VerifyEmailAddress(request.Emails, cancellationToken);
+            var hosts = await _databaseContext.AllowDomain
+                .AsNoTracking()
+                .Where(allowDomain => allowDomain.UserId == userId)
+                .OrderBy(allowDomain => allowDomain.Host)
+                .Select(allowDomain => allowDomain.Host)
+                .ToListAsync(cancellationToken);
 
-            return new VerifyEmailResponse
+            return new GetAllowDomainsResponse
             {
-                CheckResult = result
+                Hosts = hosts
             };
         }
-
+        
         private static void VerifyArguments(bool isKeyValid, Guid? userId)
         {
             if (!isKeyValid)

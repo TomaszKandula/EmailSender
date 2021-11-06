@@ -6,19 +6,19 @@ namespace EmailSender.Backend.Tests.Validators
     using EmailService.Requests;
     using EmailService.Validators;
 
-    public class GetAllowDomainsRequestValidatorTest : TestBase
+    public class GetSentHistoryValidatorTest : TestBase
     {
         [Fact]
-        public void GivenPrivateKey_WhenGetAllowDomainsRequest_ShouldSucceed()
+        public void GivenPrivateKey_WhenGetSentHistoryRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetAllowDomainsRequest
+            var request = new GetSentHistoryRequest
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
 
             // Act
-            var validator = new GetAllowDomainsRequestValidator();
+            var validator = new GetSentHistoryValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -26,16 +26,16 @@ namespace EmailSender.Backend.Tests.Validators
         }
 
         [Fact]
-        public void GivenEmptyPrivateKey_WhenGetAllowDomainsRequest_ShouldThrowError()
+        public void GivenEmptyPrivateKey_WhenGetSentHistoryRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetAllowDomainsRequest
+            var request = new GetSentHistoryRequest
             {
                 PrivateKey = string.Empty
             };
 
             // Act
-            var validator = new GetAllowDomainsRequestValidator();
+            var validator = new GetSentHistoryValidator();
             var result = validator.Validate(request);
 
             // Assert

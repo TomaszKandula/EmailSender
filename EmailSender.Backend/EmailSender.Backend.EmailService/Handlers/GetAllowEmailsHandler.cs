@@ -14,15 +14,15 @@ namespace EmailSender.Backend.EmailService.Handlers
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class GetAllowDomainsRequestHandler : TemplateHandler<GetAllowDomainsRequest, GetAllowDomainsResponse>
+    public class GetAllowEmailsHandler : TemplateHandler<GetAllowEmailsRequest, GetAllowEmailsResponse>
     {
         private readonly DatabaseContext _databaseContext;
-
+        
         private readonly ISenderService _senderService;
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetAllowDomainsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+        public GetAllowEmailsHandler(DatabaseContext databaseContext, ISenderService senderService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
@@ -30,7 +30,7 @@ namespace EmailSender.Backend.EmailService.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetAllowDomainsResponse> Handle(GetAllowDomainsRequest request, CancellationToken cancellationToken)
+        public override async Task<GetAllowEmailsResponse> Handle(GetAllowEmailsRequest request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -41,25 +41,32 @@ namespace EmailSender.Backend.EmailService.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetAllowDomainsRequest)
+                RequestName = nameof(GetAllowEmailsRequest)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var hosts = await _databaseContext.AllowDomain
+            var emails = await _databaseContext.AllowEmail
                 .AsNoTracking()
-                .Where(allowDomain => allowDomain.UserId == userId)
-                .OrderBy(allowDomain => allowDomain.Host)
-                .Select(allowDomain => allowDomain.Host)
+                .Include(allowEmail => allowEmail.Email)
+                .Include(allowEmail => allowEmail.User)
+                .Where(allowEmail => allowEmail.UserId == userId)
+                .Select(allowEmail => allowEmail.Email.Address)
                 .ToListAsync(cancellationToken);
 
-            return new GetAllowDomainsResponse
+            var associatedUser = await _databaseContext.User
+                .AsNoTracking()
+                .Where(user => user.Id == userId)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            return new GetAllowEmailsResponse
             {
-                Hosts = hosts
+                AssociatedUser = associatedUser.UserAlias,
+                Emails = emails
             };
         }
-        
+
         private static void VerifyArguments(bool isKeyValid, Guid? userId)
         {
             if (!isKeyValid)

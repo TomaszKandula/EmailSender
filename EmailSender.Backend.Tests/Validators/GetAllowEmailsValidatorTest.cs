@@ -6,7 +6,7 @@ namespace EmailSender.Backend.Tests.Validators
     using EmailService.Requests;
     using EmailService.Validators;
 
-    public class GetAllowEmailsRequestValidatorTest : TestBase
+    public class GetAllowEmailsValidatorTest : TestBase
     {
         [Fact]
         public void GivenPrivateKey_WhenGetAllowEmailsRequest_ShouldSucceed()
@@ -18,7 +18,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new GetAllowEmailsRequestValidator();
+            var validator = new GetAllowEmailsValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -35,7 +35,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new GetAllowEmailsRequestValidator();
+            var validator = new GetAllowEmailsValidator();
             var result = validator.Validate(request);
 
             // Assert

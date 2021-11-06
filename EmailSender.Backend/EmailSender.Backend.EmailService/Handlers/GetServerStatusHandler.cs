@@ -12,7 +12,7 @@ namespace EmailSender.Backend.EmailService.Handlers
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class GetServerStatusRequestHandler : TemplateHandler<GetServerStatusRequest, Unit>
+    public class GetServerStatusHandler : TemplateHandler<GetServerStatusRequest, Unit>
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -20,7 +20,7 @@ namespace EmailSender.Backend.EmailService.Handlers
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetServerStatusRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+        public GetServerStatusHandler(DatabaseContext databaseContext, ISenderService senderService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;

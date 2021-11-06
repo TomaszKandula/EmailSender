@@ -7,7 +7,7 @@ namespace EmailSender.Backend.Tests.Validators
     using EmailService.Requests;
     using EmailService.Validators;
 
-    public class VerifyEmailRequestValidatorTest : TestBase
+    public class VerifyEmailValidatorTest : TestBase
     {
         [Fact]
         public void GivenValidInputs_WhenVerifyEmailRequest_ShouldSucceed()
@@ -24,7 +24,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new VerifyEmailRequestValidator();
+            var validator = new VerifyEmailValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -42,7 +42,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new VerifyEmailRequestValidator();
+            var validator = new VerifyEmailValidator();
             var result = validator.Validate(request);
 
             // Assert

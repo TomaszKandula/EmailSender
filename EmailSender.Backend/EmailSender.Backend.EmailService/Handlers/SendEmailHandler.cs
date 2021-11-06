@@ -1,20 +1,19 @@
 namespace EmailSender.Backend.EmailService.Handlers
 {
+    using MediatR;
     using System;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
+    using Models;
     using Database;
     using Requests;
-    using Responses;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class GetAllowEmailsRequestHandler : TemplateHandler<GetAllowEmailsRequest, GetAllowEmailsResponse>
+    public class SendEmailHandler : TemplateHandler<SendEmailRequest, Unit>
     {
         private readonly DatabaseContext _databaseContext;
         
@@ -22,7 +21,7 @@ namespace EmailSender.Backend.EmailService.Handlers
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetAllowEmailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+        public SendEmailHandler(DatabaseContext databaseContext, ISenderService senderService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
@@ -30,50 +29,60 @@ namespace EmailSender.Backend.EmailService.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetAllowEmailsResponse> Handle(GetAllowEmailsRequest request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(SendEmailRequest request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+            var emailId = await _senderService.VerifyEmailFrom(request.From, userId, cancellationToken);
 
-            VerifyArguments(isKeyValid, userId);
+            VerifyArguments(isKeyValid, userId, emailId);
 
             var apiRequest = new RequestHistory
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetAllowEmailsRequest)
+                RequestName = nameof(SendEmailRequest)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var emails = await _databaseContext.AllowEmail
-                .AsNoTracking()
-                .Include(allowEmail => allowEmail.Email)
-                .Include(allowEmail => allowEmail.User)
-                .Where(allowEmail => allowEmail.UserId == userId)
-                .Select(allowEmail => allowEmail.Email.Address)
-                .ToListAsync(cancellationToken);
-
-            var associatedUser = await _databaseContext.User
-                .AsNoTracking()
-                .Where(user => user.Id == userId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            return new GetAllowEmailsResponse
+            var configuration = new Configuration
             {
-                AssociatedUser = associatedUser.UserAlias,
-                Emails = emails
+                From = request.From,
+                Subject = request.Subject,
+                To = request.To,
+                Cc = request.Cc,
+                Bcc = request.Bcc,
+                Body = request.Body,
+                IsHtml = request.IsHtml
             };
+
+            await _senderService.Send(configuration, cancellationToken);
+
+            var history = new EmailHistory
+            {
+                UserId = userId,
+                EmailId = emailId,
+                Sent = _dateTimeService.Now
+            };
+
+            await _databaseContext.EmailHistory.AddAsync(history, cancellationToken);
+            await _databaseContext.SaveChangesAsync(cancellationToken);
+            
+            return Unit.Value;
         }
 
-        private static void VerifyArguments(bool isKeyValid, Guid? userId)
+        private static void VerifyArguments(bool isKeyValid, Guid? userId, Guid? emailId)
         {
             if (!isKeyValid)
                 throw new BusinessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
 
             if (userId == null || userId == Guid.Empty)
                 throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
+
+            if (emailId == null || emailId == Guid.Empty)
+                throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
         }
     }
 }

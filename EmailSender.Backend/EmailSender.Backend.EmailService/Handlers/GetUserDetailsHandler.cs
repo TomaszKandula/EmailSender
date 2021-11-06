@@ -14,7 +14,7 @@ namespace EmailSender.Backend.EmailService.Handlers
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class GetUserDetailsRequestHandler : TemplateHandler<GetUserDetailsRequest, GetUserDetailsResponse>
+    public class GetUserDetailsHandler : TemplateHandler<GetUserDetailsRequest, GetUserDetailsResponse>
     {
         private readonly DatabaseContext _databaseContext;
         
@@ -22,7 +22,7 @@ namespace EmailSender.Backend.EmailService.Handlers
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetUserDetailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+        public GetUserDetailsHandler(DatabaseContext databaseContext, ISenderService senderService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;

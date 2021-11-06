@@ -6,7 +6,7 @@ namespace EmailSender.Backend.Tests.Validators
     using EmailService.Requests;
     using EmailService.Validators;
 
-    public class GetServerStatusRequestValidatorTest : TestBase
+    public class GetServerStatusValidatorTest : TestBase
     {
         [Fact]
         public void GivenPrivateKeyAndEmail_WhenGetServerStatusRequest_ShouldSucceed()
@@ -19,7 +19,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new GetServerStatusRequestValidator();
+            var validator = new GetServerStatusValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -37,7 +37,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new GetServerStatusRequestValidator();
+            var validator = new GetServerStatusValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -56,7 +56,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new GetServerStatusRequestValidator();
+            var validator = new GetServerStatusValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -76,7 +76,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new GetServerStatusRequestValidator();
+            var validator = new GetServerStatusValidator();
             var result = validator.Validate(request);
 
             // Assert
