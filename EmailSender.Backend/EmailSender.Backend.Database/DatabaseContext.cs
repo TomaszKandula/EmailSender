@@ -20,7 +20,7 @@
 
         public virtual DbSet<AllowDomain> AllowDomain { get; set; }
 
-        public virtual DbSet<Price> Price { get; set; }
+        public virtual DbSet<Pricing> Pricing { get; set; }
 
         public virtual DbSet<Billing> Billing { get; set; }
 
