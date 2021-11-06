@@ -29,6 +29,7 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             _loggerService = loggerService;
         }
 
+        // refactor to user service
         public async Task<bool> IsDomainAllowed(string domainName, CancellationToken cancellationToken)
         {
             var domains = await _databaseContext.AllowDomain
@@ -43,6 +44,7 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             return isDomainAllowed;
         }
 
+        // refactor to user service
         public async Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken)
         {
             var keys = await _databaseContext.User
@@ -57,6 +59,7 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             return isPrivateKeyExists;
         }
 
+        // refactor to user service
         public async Task<Guid> GetUserByPrivateKey(string privateKey, CancellationToken cancellationToken)
         {
             return await _databaseContext.User

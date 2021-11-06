@@ -76,9 +76,27 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
             return billing.Id;
         }
 
-        public async Task<Billing> GetUserBilling(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<Billing> GetUserBilling(Guid id, CancellationToken cancellationToken = default)
         {
             var userBilling = await _databaseContext.Billing
+                .AsNoTracking()
+                .Where(billing => billing.Id == id)
+                .Select(billing => new Billing
+                {
+                    Amount = billing.Amount,
+                    CurrencyIso = billing.CurrencyIso,
+                    ValueDate = billing.ValueDate,
+                    DueDate = billing.DueDate,
+                    IsInvoiceSent = billing.IsInvoiceSent
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            return userBilling;
+        }
+
+        public async Task<IEnumerable<Billing>> GetAllUserBillings(Guid userId, CancellationToken cancellationToken = default)
+        {
+            var billings = await _databaseContext.Billing
                 .AsNoTracking()
                 .Where(billing => billing.UserId == userId)
                 .Select(billing => new Billing
@@ -87,12 +105,11 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
                     CurrencyIso = billing.CurrencyIso,
                     ValueDate = billing.ValueDate,
                     DueDate = billing.DueDate,
-                    IsInvoiceSent = billing.IsInvoiceSent,
-                    IssuedInvoice = billing.IssuedInvoice
+                    IsInvoiceSent = billing.IsInvoiceSent
                 })
-                .FirstOrDefaultAsync(cancellationToken);
+                .ToListAsync(cancellationToken);
 
-            return userBilling;
+            return billings;
         }
 
         public async Task<IEnumerable<Billing>> GetAllBillings(CancellationToken cancellationToken = default)
@@ -105,8 +122,7 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
                     CurrencyIso = billing.CurrencyIso,
                     ValueDate = billing.ValueDate,
                     DueDate = billing.DueDate,
-                    IsInvoiceSent = billing.IsInvoiceSent,
-                    IssuedInvoice = billing.IssuedInvoice
+                    IsInvoiceSent = billing.IsInvoiceSent
                 })
                 .ToListAsync(cancellationToken);
 
