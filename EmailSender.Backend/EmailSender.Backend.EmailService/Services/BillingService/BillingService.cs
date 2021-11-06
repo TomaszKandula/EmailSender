@@ -87,8 +87,7 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
                     CurrencyIso = billing.CurrencyIso,
                     ValueDate = billing.ValueDate,
                     DueDate = billing.DueDate,
-                    IsInvoiceSent = billing.IsInvoiceSent,
-                    IssuedInvoice = billing.IssuedInvoice
+                    IsInvoiceSent = billing.IsInvoiceSent
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 
@@ -105,8 +104,7 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
                     CurrencyIso = billing.CurrencyIso,
                     ValueDate = billing.ValueDate,
                     DueDate = billing.DueDate,
-                    IsInvoiceSent = billing.IsInvoiceSent,
-                    IssuedInvoice = billing.IssuedInvoice
+                    IsInvoiceSent = billing.IsInvoiceSent
                 })
                 .ToListAsync(cancellationToken);
 

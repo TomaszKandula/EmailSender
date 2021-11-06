@@ -15,7 +15,5 @@ namespace EmailSender.Backend.EmailService.Services.BillingService.Models
         public DateTime DueDate { get; set; }
 
         public bool IsInvoiceSent { get; set; }
-
-        public byte[] IssuedInvoice { get; set; }
     }
 }

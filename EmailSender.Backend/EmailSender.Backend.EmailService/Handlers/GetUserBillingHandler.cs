@@ -64,8 +64,7 @@ namespace EmailSender.Backend.EmailService.Handlers
                 CurrencyIso = billing.CurrencyIso,
                 ValueDate = billing.ValueDate,
                 DueDate = billing.DueDate,
-                IsInvoiceSent = billing.IsInvoiceSent,
-                IssuedInvoice = billing.IssuedInvoice
+                IsInvoiceSent = billing.IsInvoiceSent
             };
         }
 
