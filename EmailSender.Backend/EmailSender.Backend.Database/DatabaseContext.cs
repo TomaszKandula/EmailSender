@@ -24,6 +24,8 @@
 
         public virtual DbSet<Billing> Billing { get; set; }
 
+        public virtual DbSet<RequestHistory> RequestHistory { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
