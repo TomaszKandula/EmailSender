@@ -1,7 +1,9 @@
 namespace EmailSender.Backend.EmailService.Services.BillingService.Models
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
+    [ExcludeFromCodeCoverage]
     public class Billing
     {
         public decimal Amount { get; set; }
