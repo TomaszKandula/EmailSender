@@ -94,6 +94,24 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
             return userBilling;
         }
 
+        public async Task<IEnumerable<Billing>> GetAllUserBillings(Guid userId, CancellationToken cancellationToken = default)
+        {
+            var billings = await _databaseContext.Billing
+                .AsNoTracking()
+                .Where(billing => billing.UserId == userId)
+                .Select(billing => new Billing
+                {
+                    Amount = billing.Amount,
+                    CurrencyIso = billing.CurrencyIso,
+                    ValueDate = billing.ValueDate,
+                    DueDate = billing.DueDate,
+                    IsInvoiceSent = billing.IsInvoiceSent
+                })
+                .ToListAsync(cancellationToken);
+
+            return billings;
+        }
+
         public async Task<IEnumerable<Billing>> GetAllBillings(CancellationToken cancellationToken = default)
         {
             var billings = await _databaseContext.Billing

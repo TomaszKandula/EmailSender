@@ -12,6 +12,8 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
 
         Task<Billing> GetUserBilling(Guid id, CancellationToken cancellationToken = default);
 
+        Task<IEnumerable<Billing>> GetAllUserBillings(Guid userId, CancellationToken cancellationToken = default);
+
         Task<IEnumerable<Billing>> GetAllBillings(CancellationToken cancellationToken = default);
     }
 }
