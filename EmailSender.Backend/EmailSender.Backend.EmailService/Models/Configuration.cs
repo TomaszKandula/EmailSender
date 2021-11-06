@@ -1,7 +1,9 @@
 namespace EmailSender.Backend.EmailService.Models
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
+    [ExcludeFromCodeCoverage]
     public class Configuration
     {
         public string From { get; set; }

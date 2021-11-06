@@ -26,7 +26,7 @@
                 return;
             }
 
-            CorsHeaders.Ensure(httpContext);
+            CorsHeaders.Apply(httpContext);
             await _requestDelegate(httpContext);
         }
     }

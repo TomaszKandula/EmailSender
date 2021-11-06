@@ -1,5 +1,8 @@
 namespace EmailSender.Backend.EmailService.Models
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    [ExcludeFromCodeCoverage]
     public class ErrorResult
     {
         public string ErrorCode { get; set; }
