@@ -11,7 +11,7 @@ namespace EmailSender.Backend.EmailService.Handlers
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
-    using Services.SenderService;
+    using Services.UserService;
     using Services.BillingService;
     using Shared.Services.DateTimeService;
 
@@ -21,23 +21,23 @@ namespace EmailSender.Backend.EmailService.Handlers
         
         private readonly IBillingService _billingService;
 
-        private readonly ISenderService _senderService;
+        private readonly IUserService _userService;
 
         private readonly IDateTimeService _dateTimeService;
 
         public GetUserBillingHandler(DatabaseContext databaseContext, IBillingService billingService, 
-            ISenderService senderService, IDateTimeService dateTimeService)
+            IUserService userService, IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
             _billingService = billingService;
-            _senderService = senderService;
+            _userService = userService;
             _dateTimeService = dateTimeService;
         }
 
         public override async Task<GetUserBillingResponse> Handle(GetUserBillingRequest request, CancellationToken cancellationToken)
         {
-            var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
-            var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+            var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
+            var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
 
             VerifyArguments(isKeyValid, userId);
 

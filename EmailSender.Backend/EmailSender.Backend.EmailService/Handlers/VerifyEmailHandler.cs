@@ -4,11 +4,12 @@ namespace EmailSender.Backend.EmailService.Handlers
     using System.Threading;
     using System.Threading.Tasks;
     using Database;
-    using Responses;
     using Requests;
+    using Responses;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
+    using Services.UserService;
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
@@ -16,22 +17,25 @@ namespace EmailSender.Backend.EmailService.Handlers
     {
         private readonly DatabaseContext _databaseContext;
 
+        private readonly IUserService _userService;
+
         private readonly ISenderService _senderService;
 
         private readonly IDateTimeService _dateTimeService;
 
-        public VerifyEmailHandler(DatabaseContext databaseContext, ISenderService senderService, 
-            IDateTimeService dateTimeService)
+        public VerifyEmailHandler(DatabaseContext databaseContext, IUserService userService,
+            ISenderService senderService, IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
+            _userService = userService;
             _senderService = senderService;
             _dateTimeService = dateTimeService;
         }
 
         public override async Task<VerifyEmailResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
         {
-            var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
-            var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+            var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
+            var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
 
             VerifyArguments(isKeyValid, userId);
 
