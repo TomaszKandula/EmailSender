@@ -35,7 +35,17 @@ namespace EmailSender.Backend.EmailService.Requests
             var emailId = await _senderService.VerifyEmailFrom(request.From, userId, cancellationToken);
 
             VerifyArguments(isKeyValid, userId, emailId);
-            
+
+            var apiRequest = new RequestHistory
+            {
+                UserId = userId,
+                Requested = _dateTimeService.Now,
+                RequestName = nameof(SendEmailRequest)
+            };
+
+            await _databaseContext.AddAsync(apiRequest, cancellationToken);
+            await _databaseContext.SaveChangesAsync(cancellationToken);
+
             var configuration = new Configuration
             {
                 From = request.From,

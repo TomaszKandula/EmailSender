@@ -7,9 +7,11 @@ namespace EmailSender.Backend.EmailService.Requests
     using Microsoft.EntityFrameworkCore;
     using Database;
     using Responses;
+    using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
     using Services.SenderService;
+    using Shared.Services.DateTimeService;
 
     public class GetAllowEmailsRequestHandler : TemplateHandler<GetAllowEmailsRequest, GetAllowEmailsResponse>
     {
@@ -17,10 +19,14 @@ namespace EmailSender.Backend.EmailService.Requests
         
         private readonly ISenderService _senderService;
 
-        public GetAllowEmailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService)
+        private readonly IDateTimeService _dateTimeService;
+
+        public GetAllowEmailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+            IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
             _senderService = senderService;
+            _dateTimeService = dateTimeService;
         }
 
         public override async Task<GetAllowEmailsResponse> Handle(GetAllowEmailsRequest request, CancellationToken cancellationToken)
@@ -29,6 +35,16 @@ namespace EmailSender.Backend.EmailService.Requests
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
 
             VerifyArguments(isKeyValid, userId);
+
+            var apiRequest = new RequestHistory
+            {
+                UserId = userId,
+                Requested = _dateTimeService.Now,
+                RequestName = nameof(GetAllowEmailsRequest)
+            };
+
+            await _databaseContext.AddAsync(apiRequest, cancellationToken);
+            await _databaseContext.SaveChangesAsync(cancellationToken);
 
             var emails = await _databaseContext.AllowEmail
                 .AsNoTracking()

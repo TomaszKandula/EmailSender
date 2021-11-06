@@ -3,16 +3,29 @@ namespace EmailSender.Backend.EmailService.Requests
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Database;
     using Responses;
+    using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
     using Services.SenderService;
+    using Shared.Services.DateTimeService;
 
     public class VerifyEmailRequestHandler : TemplateHandler<VerifyEmailRequest, VerifyEmailResponse>
     {
+        private readonly DatabaseContext _databaseContext;
+
         private readonly ISenderService _senderService;
 
-        public VerifyEmailRequestHandler(ISenderService senderService) => _senderService = senderService;
+        private readonly IDateTimeService _dateTimeService;
+
+        public VerifyEmailRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+            IDateTimeService dateTimeService)
+        {
+            _databaseContext = databaseContext;
+            _senderService = senderService;
+            _dateTimeService = dateTimeService;
+        }
 
         public override async Task<VerifyEmailResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
         {
@@ -20,6 +33,16 @@ namespace EmailSender.Backend.EmailService.Requests
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
 
             VerifyArguments(isKeyValid, userId);
+
+            var apiRequest = new RequestHistory
+            {
+                UserId = userId,
+                Requested = _dateTimeService.Now,
+                RequestName = nameof(VerifyEmailRequest)
+            };
+
+            await _databaseContext.AddAsync(apiRequest, cancellationToken);
+            await _databaseContext.SaveChangesAsync(cancellationToken);
 
             var result = await _senderService.VerifyEmailAddress(request.Emails, cancellationToken);
 

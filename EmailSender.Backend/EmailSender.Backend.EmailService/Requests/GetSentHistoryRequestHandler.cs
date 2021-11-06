@@ -8,9 +8,11 @@ namespace EmailSender.Backend.EmailService.Requests
     using Models;
     using Database;
     using Responses;
+    using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
     using Services.SenderService;
+    using Shared.Services.DateTimeService;
 
     public class GetSentHistoryRequestHandler : TemplateHandler<GetSentHistoryRequest, GetSentHistoryResponse>
     {
@@ -18,10 +20,14 @@ namespace EmailSender.Backend.EmailService.Requests
         
         private readonly ISenderService _senderService;
 
-        public GetSentHistoryRequestHandler(DatabaseContext databaseContext, ISenderService senderService)
+        private readonly IDateTimeService _dateTimeService;
+
+        public GetSentHistoryRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+            IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
             _senderService = senderService;
+            _dateTimeService = dateTimeService;
         }
 
         public override async Task<GetSentHistoryResponse> Handle(GetSentHistoryRequest request, CancellationToken cancellationToken)
@@ -30,6 +36,16 @@ namespace EmailSender.Backend.EmailService.Requests
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
 
             VerifyArguments(isKeyValid, userId);
+
+            var apiRequest = new RequestHistory
+            {
+                UserId = userId,
+                Requested = _dateTimeService.Now,
+                RequestName = nameof(GetSentHistoryRequest)
+            };
+
+            await _databaseContext.AddAsync(apiRequest, cancellationToken);
+            await _databaseContext.SaveChangesAsync(cancellationToken);
 
             var history = await _databaseContext.EmailHistory
                 .AsNoTracking()
