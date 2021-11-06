@@ -4,15 +4,28 @@ namespace EmailSender.Backend.EmailService.Requests
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Database;
+    using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
     using Services.SenderService;
+    using Shared.Services.DateTimeService;
 
     public class GetServerStatusRequestHandler : TemplateHandler<GetServerStatusRequest, Unit>
     {
+        private readonly DatabaseContext _databaseContext;
+
         private readonly ISenderService _senderService;
 
-        public GetServerStatusRequestHandler(ISenderService senderService) => _senderService = senderService;
+        private readonly IDateTimeService _dateTimeService;
+
+        public GetServerStatusRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+            IDateTimeService dateTimeService)
+        {
+            _databaseContext = databaseContext;
+            _senderService = senderService;
+            _dateTimeService = dateTimeService;
+        }
 
         public override async Task<Unit> Handle(GetServerStatusRequest request, CancellationToken cancellationToken)
         {
@@ -21,6 +34,16 @@ namespace EmailSender.Backend.EmailService.Requests
             var emailId = await _senderService.VerifyEmailFrom(request.EmailAddress, userId, cancellationToken);
 
             VerifyArguments(isKeyValid, userId, emailId);
+
+            var apiRequest = new RequestHistory
+            {
+                UserId = userId,
+                Requested = _dateTimeService.Now,
+                RequestName = nameof(GetServerStatusRequest)
+            };
+
+            await _databaseContext.AddAsync(apiRequest, cancellationToken);
+            await _databaseContext.SaveChangesAsync(cancellationToken);
 
             var result = await _senderService.VerifyConnection(emailId, cancellationToken);
             return result == null 

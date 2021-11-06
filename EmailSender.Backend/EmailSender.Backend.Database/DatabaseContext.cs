@@ -14,15 +14,17 @@
 
         public virtual DbSet<User> User { get; set; }
 
-        public virtual DbSet<History> History { get; set; }
+        public virtual DbSet<EmailHistory> EmailHistory { get; set; }
 
         public virtual DbSet<AllowEmail> AllowEmail { get; set; }
 
         public virtual DbSet<AllowDomain> AllowDomain { get; set; }
 
-        public virtual DbSet<Price> Price { get; set; }
+        public virtual DbSet<Pricing> Pricing { get; set; }
 
         public virtual DbSet<Billing> Billing { get; set; }
+
+        public virtual DbSet<RequestHistory> RequestHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

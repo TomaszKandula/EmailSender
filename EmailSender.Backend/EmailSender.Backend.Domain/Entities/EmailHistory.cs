@@ -4,7 +4,7 @@ namespace EmailSender.Backend.Domain.Entities
     using System.Diagnostics.CodeAnalysis;
 
     [ExcludeFromCodeCoverage]
-    public class History : Entity<Guid>
+    public class EmailHistory : Entity<Guid>
     {
         public Guid UserId { get; set; }
 

@@ -7,9 +7,11 @@ namespace EmailSender.Backend.EmailService.Requests
     using Microsoft.EntityFrameworkCore;
     using Database;
     using Responses;
+    using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
     using Services.SenderService;
+    using Shared.Services.DateTimeService;
 
     public class GetUserDetailsRequestHandler : TemplateHandler<GetUserDetailsRequest, GetUserDetailsResponse>
     {
@@ -17,10 +19,14 @@ namespace EmailSender.Backend.EmailService.Requests
         
         private readonly ISenderService _senderService;
 
-        public GetUserDetailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService)
+        private readonly IDateTimeService _dateTimeService;
+
+        public GetUserDetailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+            IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
             _senderService = senderService;
+            _dateTimeService = dateTimeService;
         }
 
         public override async Task<GetUserDetailsResponse> Handle(GetUserDetailsRequest request, CancellationToken cancellationToken)
@@ -30,7 +36,18 @@ namespace EmailSender.Backend.EmailService.Requests
 
             VerifyArguments(isKeyValid, userId);
 
+            var apiRequest = new RequestHistory
+            {
+                UserId = userId,
+                Requested = _dateTimeService.Now,
+                RequestName = nameof(GetUserDetailsRequest)
+            };
+
+            await _databaseContext.AddAsync(apiRequest, cancellationToken);
+            await _databaseContext.SaveChangesAsync(cancellationToken);
+
             var user = await _databaseContext.User
+                .AsNoTracking()
                 .Where(user => user.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);
 

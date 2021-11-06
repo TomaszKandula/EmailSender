@@ -4,14 +4,16 @@ using EmailSender.Backend.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmailSender.Backend.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211106172619_AddColumnsRenameTable")]
+    partial class AddColumnsRenameTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,7 +134,7 @@ namespace EmailSender.Backend.Database.Migrations
                     b.ToTable("Email");
                 });
 
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.EmailHistory", b =>
+            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.History", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +155,7 @@ namespace EmailSender.Backend.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("EmailHistory");
+                    b.ToTable("History");
                 });
 
             modelBuilder.Entity("EmailSender.Backend.Domain.Entities.Pricing", b =>
@@ -190,30 +192,6 @@ namespace EmailSender.Backend.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Pricing");
-                });
-
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.RequestHistory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("RequestName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("Requested")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RequestHistory");
                 });
 
             modelBuilder.Entity("EmailSender.Backend.Domain.Entities.User", b =>
@@ -299,18 +277,18 @@ namespace EmailSender.Backend.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.EmailHistory", b =>
+            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.History", b =>
                 {
                     b.HasOne("EmailSender.Backend.Domain.Entities.Email", "Email")
-                        .WithMany("EmailHistory")
+                        .WithMany("History")
                         .HasForeignKey("EmailId")
-                        .HasConstraintName("FK_EmailHistory_Email")
+                        .HasConstraintName("FK_History_Email")
                         .IsRequired();
 
                     b.HasOne("EmailSender.Backend.Domain.Entities.User", "User")
-                        .WithMany("EmailHistory")
+                        .WithMany("History")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_EmailHistory_User")
+                        .HasConstraintName("FK_History_User")
                         .IsRequired();
 
                     b.Navigation("Email");
@@ -329,22 +307,11 @@ namespace EmailSender.Backend.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.RequestHistory", b =>
-                {
-                    b.HasOne("EmailSender.Backend.Domain.Entities.User", "User")
-                        .WithMany("RequestHistory")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_RequestHistory_User")
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EmailSender.Backend.Domain.Entities.Email", b =>
                 {
                     b.Navigation("AllowEmail");
 
-                    b.Navigation("EmailHistory");
+                    b.Navigation("History");
                 });
 
             modelBuilder.Entity("EmailSender.Backend.Domain.Entities.User", b =>
@@ -355,11 +322,9 @@ namespace EmailSender.Backend.Database.Migrations
 
                     b.Navigation("Billing");
 
-                    b.Navigation("EmailHistory");
+                    b.Navigation("History");
 
                     b.Navigation("Pricing");
-
-                    b.Navigation("RequestHistory");
                 });
 #pragma warning restore 612, 618
         }
