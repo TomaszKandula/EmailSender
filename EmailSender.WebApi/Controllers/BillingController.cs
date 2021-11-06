@@ -14,5 +14,9 @@ namespace EmailSender.WebApi.Controllers
         [HttpGet]
         public async Task<GetUserBillingResponse> GetUserBilling([FromQuery] Guid id, string key) 
             => await Mediator.Send(new GetUserBillingRequest { PrivateKey = key, BillingId = id });
+
+        [HttpGet]
+        public async Task<GetAllUserBillingsResponse> GetAllUserBillings([FromQuery] string key) 
+            => await Mediator.Send(new GetAllUserBillingsRequest { PrivateKey = key });
     }
 }
