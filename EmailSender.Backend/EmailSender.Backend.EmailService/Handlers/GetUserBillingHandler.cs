@@ -56,7 +56,7 @@ namespace EmailSender.Backend.EmailService.Handlers
                 .AsNoTracking()
                 .Where(user => user.Id == userId).Select(user => user.UserAlias)
                 .FirstOrDefaultAsync(cancellationToken);
-            
+
             return new GetUserBillingResponse
             {
                 UserAlias = userAlias,
