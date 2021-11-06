@@ -16,7 +16,7 @@
 
         public async Task Invoke(HttpContext httpContext, ISenderService senderService)
         {
-            var origin = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}";
+            var origin = httpContext.Request.Host.ToString();
             var allowDomains = await senderService.IsDomainAllowed(origin, CancellationToken.None);
 
             if (!allowDomains)
