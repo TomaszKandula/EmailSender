@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.EmailService.Requests
+namespace EmailSender.Backend.EmailService.Handlers
 {
     using System;
     using System.Linq;
@@ -6,6 +6,7 @@ namespace EmailSender.Backend.EmailService.Requests
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Database;
+    using Requests;
     using Responses;
     using Domain.Entities;
     using Shared.Resources;
@@ -13,7 +14,7 @@ namespace EmailSender.Backend.EmailService.Requests
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class GetAllowEmailsRequestHandler : TemplateHandler<GetAllowEmailsRequest, GetAllowEmailsResponse>
+    public class GetUserDetailsRequestHandler : TemplateHandler<GetUserDetailsRequest, GetUserDetailsResponse>
     {
         private readonly DatabaseContext _databaseContext;
         
@@ -21,7 +22,7 @@ namespace EmailSender.Backend.EmailService.Requests
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetAllowEmailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+        public GetUserDetailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
@@ -29,7 +30,7 @@ namespace EmailSender.Backend.EmailService.Requests
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetAllowEmailsResponse> Handle(GetAllowEmailsRequest request, CancellationToken cancellationToken)
+        public override async Task<GetUserDetailsResponse> Handle(GetUserDetailsRequest request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -40,29 +41,27 @@ namespace EmailSender.Backend.EmailService.Requests
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetAllowEmailsRequest)
+                RequestName = nameof(GetUserDetailsRequest)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var emails = await _databaseContext.AllowEmail
-                .AsNoTracking()
-                .Include(allowEmail => allowEmail.Email)
-                .Include(allowEmail => allowEmail.User)
-                .Where(allowEmail => allowEmail.UserId == userId)
-                .Select(allowEmail => allowEmail.Email.Address)
-                .ToListAsync(cancellationToken);
-
-            var associatedUser = await _databaseContext.User
+            var user = await _databaseContext.User
                 .AsNoTracking()
                 .Where(user => user.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return new GetAllowEmailsResponse
+            return new GetUserDetailsResponse
             {
-                AssociatedUser = associatedUser.UserAlias,
-                Emails = emails
+                UserAlias = user.UserAlias,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                EmailAddress = user.EmailAddress,
+                Registered = user.Registered,
+                Status = user.IsActivated 
+                    ? "User account is active" 
+                    : "User account is inactive"
             };
         }
 

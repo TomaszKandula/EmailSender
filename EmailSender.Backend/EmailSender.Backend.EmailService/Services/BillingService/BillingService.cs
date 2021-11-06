@@ -26,26 +26,34 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
 
         public async Task<Guid> AddUserBilling(Guid userId, CancellationToken cancellationToken = default)
         {
-            var userPrice = await _databaseContext.Pricing
+            var pricing = await _databaseContext.Pricing
                 .AsNoTracking()
                 .Where(price => price.UserId == userId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (userPrice == null)
+            if (pricing == null)
                 throw new BusinessException(nameof(ErrorCodes.MISSING_PRICING), ErrorCodes.MISSING_PRICING);
 
-            var sentEmails = await _databaseContext.EmailHistory
+            var emailHistory = await _databaseContext.EmailHistory
                 .AsNoTracking()
                 .Where(history => history.UserId == userId)
                 .Select(history => history.Sent)
                 .ToListAsync(cancellationToken);
 
-            var amountBeforeDiscount = userPrice.PerSentEmail * sentEmails.Count;
+            var requestHistory = await _databaseContext.RequestHistory
+                .AsNoTracking()
+                .Where(history => history.UserId == userId)
+                .Select(history => history.Requested)
+                .ToListAsync(cancellationToken);
+
+            var sentCost = pricing.PerSentEmail * emailHistory.Count;
+            var requestCost = pricing.PerApiRequest * requestHistory.Count;
+            var amountBeforeDiscount = sentCost + requestCost;
             var amountAfterDiscount = 0m;
 
-            var hasDiscount = userPrice.DiscountMaturity > _dateTimeService.Now;
-            if (hasDiscount && userPrice.Discount != null)
-                amountAfterDiscount = amountBeforeDiscount - (decimal)userPrice.Discount * amountBeforeDiscount;
+            var hasDiscount = pricing.DiscountMaturity > _dateTimeService.Now;
+            if (hasDiscount && pricing.Discount != null)
+                amountAfterDiscount = amountBeforeDiscount - (decimal)pricing.Discount * amountBeforeDiscount;
 
             var totalAmount = amountAfterDiscount == 0 
                 ? amountBeforeDiscount 
@@ -55,9 +63,9 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
             {
                 UserId = userId,
                 Amount = totalAmount,
-                CurrencyIso = userPrice.CurrencyIso,
+                CurrencyIso = pricing.CurrencyIso,
                 ValueDate = _dateTimeService.Now,
-                DueDate = _dateTimeService.Now.AddDays(userPrice.Terms),
+                DueDate = _dateTimeService.Now.AddDays(pricing.Terms),
                 IsInvoiceSent = false,
                 IssuedInvoice = null
             };

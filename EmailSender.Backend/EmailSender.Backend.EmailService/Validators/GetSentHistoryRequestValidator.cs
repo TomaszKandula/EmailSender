@@ -1,11 +1,12 @@
-namespace EmailSender.Backend.EmailService.Requests
+namespace EmailSender.Backend.EmailService.Validators
 {
     using FluentValidation;
     using Shared.Resources;
+    using Requests;
 
-    public class GetAllowDomainsRequestValidator : AbstractValidator<GetAllowDomainsRequest>
+    public class GetSentHistoryRequestValidator : AbstractValidator<GetSentHistoryRequest>
     {
-        public GetAllowDomainsRequestValidator()
+        public GetSentHistoryRequestValidator()
         {
             RuleFor(request => request.PrivateKey)
                 .NotEmpty()

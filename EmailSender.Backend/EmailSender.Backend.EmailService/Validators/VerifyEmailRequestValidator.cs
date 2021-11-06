@@ -1,7 +1,8 @@
-namespace EmailSender.Backend.EmailService.Requests
+namespace EmailSender.Backend.EmailService.Validators
 {
     using FluentValidation;
     using Shared.Resources;
+    using Requests;
 
     public class VerifyEmailRequestValidator : AbstractValidator<VerifyEmailRequest>
     {

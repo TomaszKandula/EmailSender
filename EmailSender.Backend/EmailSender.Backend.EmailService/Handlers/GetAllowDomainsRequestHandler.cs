@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.EmailService.Requests
+namespace EmailSender.Backend.EmailService.Handlers
 {
     using System;
     using System.Linq;
@@ -6,6 +6,7 @@ namespace EmailSender.Backend.EmailService.Requests
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Database;
+    using Requests;
     using Responses;
     using Domain.Entities;
     using Shared.Resources;
@@ -13,15 +14,15 @@ namespace EmailSender.Backend.EmailService.Requests
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class GetUserDetailsRequestHandler : TemplateHandler<GetUserDetailsRequest, GetUserDetailsResponse>
+    public class GetAllowDomainsRequestHandler : TemplateHandler<GetAllowDomainsRequest, GetAllowDomainsResponse>
     {
         private readonly DatabaseContext _databaseContext;
-        
+
         private readonly ISenderService _senderService;
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetUserDetailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
+        public GetAllowDomainsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
@@ -29,7 +30,7 @@ namespace EmailSender.Backend.EmailService.Requests
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetUserDetailsResponse> Handle(GetUserDetailsRequest request, CancellationToken cancellationToken)
+        public override async Task<GetAllowDomainsResponse> Handle(GetAllowDomainsRequest request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -40,30 +41,25 @@ namespace EmailSender.Backend.EmailService.Requests
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetUserDetailsRequest)
+                RequestName = nameof(GetAllowDomainsRequest)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var user = await _databaseContext.User
+            var hosts = await _databaseContext.AllowDomain
                 .AsNoTracking()
-                .Where(user => user.Id == userId)
-                .FirstOrDefaultAsync(cancellationToken);
+                .Where(allowDomain => allowDomain.UserId == userId)
+                .OrderBy(allowDomain => allowDomain.Host)
+                .Select(allowDomain => allowDomain.Host)
+                .ToListAsync(cancellationToken);
 
-            return new GetUserDetailsResponse
+            return new GetAllowDomainsResponse
             {
-                UserAlias = user.UserAlias,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                EmailAddress = user.EmailAddress,
-                Registered = user.Registered,
-                Status = user.IsActivated 
-                    ? "User account is active" 
-                    : "User account is inactive"
+                Hosts = hosts
             };
         }
-
+        
         private static void VerifyArguments(bool isKeyValid, Guid? userId)
         {
             if (!isKeyValid)

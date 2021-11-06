@@ -4,6 +4,7 @@ namespace EmailSender.Backend.Tests.Validators
     using FluentAssertions;
     using Shared.Resources;
     using EmailService.Requests;
+    using EmailService.Validators;
 
     public class GetUserDetailsRequestValidatorTest : TestBase
     {
