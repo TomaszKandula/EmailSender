@@ -42,4 +42,7 @@
     <data name="SMTP_FAILED" xml:space="preserve">
         <value>Cannot establish connection with the SMTP server</value>
     </data>
+    <data name="MISSING_PRICING" xml:space="preserve">
+        <value>Cannot find pricing</value>
+    </data>
 </root>

@@ -32,7 +32,7 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (userPrice == null)
-                throw new BusinessException(nameof(ErrorCodes.ERROR_UNEXPECTED), ErrorCodes.ERROR_UNEXPECTED);
+                throw new BusinessException(nameof(ErrorCodes.MISSING_PRICING), ErrorCodes.MISSING_PRICING);
 
             var sentEmails = await _databaseContext.History
                 .AsNoTracking()

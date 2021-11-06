@@ -92,5 +92,11 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("SMTP_FAILED", resourceCulture);
             }
         }
+        
+        public static string MISSING_PRICING {
+            get {
+                return ResourceManager.GetString("MISSING_PRICING", resourceCulture);
+            }
+        }
     }
 }
