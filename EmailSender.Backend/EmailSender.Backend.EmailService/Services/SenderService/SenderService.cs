@@ -12,21 +12,17 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
     using SmtpService;
     using Shared.Exceptions;
     using SmtpService.Models;
-    using Shared.Services.LoggerService;
 
     public class SenderService : ISenderService
     {
         private readonly DatabaseContext _databaseContext;
 
         private readonly ISmtpClientService _smtpClientService;
-
-        private readonly ILoggerService _loggerService;
         
-        public SenderService(DatabaseContext databaseContext, ISmtpClientService smtpClientService, ILoggerService loggerService)
+        public SenderService(DatabaseContext databaseContext, ISmtpClientService smtpClientService)
         {
             _databaseContext = databaseContext;
             _smtpClientService = smtpClientService;
-            _loggerService = loggerService;
         }
 
         public async Task<Guid> VerifyEmailFrom(string emailFrom, Guid? userId, CancellationToken cancellationToken)
@@ -35,7 +31,7 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
                 .AsNoTracking()
                 .Include(allowEmail => allowEmail.Email)
                 .Include(allowEmail => allowEmail.User)
-                .Where(allowEmail => allowEmail.Email.Address == emailFrom && allowEmail.Email.IsActive == true)
+                .Where(allowEmail => allowEmail.Email.Address == emailFrom && allowEmail.Email.IsActive)
                 .Where(allowEmail => allowEmail.UserId == userId)
                 .Select(allowEmail => allowEmail.EmailId)
                 .FirstOrDefaultAsync(cancellationToken);
