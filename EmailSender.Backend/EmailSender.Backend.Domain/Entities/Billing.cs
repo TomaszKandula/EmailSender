@@ -3,6 +3,7 @@ namespace EmailSender.Backend.Domain.Entities
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using Enums;
 
     [ExcludeFromCodeCoverage]
@@ -10,6 +11,8 @@ namespace EmailSender.Backend.Domain.Entities
     {
         public Guid UserId { get; set; }
 
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
         [Required]
