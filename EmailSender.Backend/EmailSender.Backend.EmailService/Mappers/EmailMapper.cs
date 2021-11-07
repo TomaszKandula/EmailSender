@@ -1,8 +1,10 @@
 namespace EmailSender.Backend.EmailService.Mappers
 {
-    using Requests;
     using Shared.Dto;
+    using System.Diagnostics.CodeAnalysis;
+    using Requests;
 
+    [ExcludeFromCodeCoverage]
     public static class EmailMapper
     {
         public static SendEmailRequest MapToSendEmailRequest(SendEmailDto model) => new ()
