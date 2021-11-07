@@ -2,6 +2,7 @@ namespace EmailSender.Backend.EmailService.Services.BillingService.Models
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using Domain.Enums;
 
     [ExcludeFromCodeCoverage]
     public class Billing
@@ -14,6 +15,8 @@ namespace EmailSender.Backend.EmailService.Services.BillingService.Models
 
         public DateTime DueDate { get; set; }
 
-        public bool IsInvoiceSent { get; set; }
+        public DateTime? InvoiceSentDate { get; set; }
+
+        public PaymentStatus Status { get; set; }
     }
 }

@@ -10,29 +10,33 @@ namespace EmailSender.Backend.EmailService.Handlers
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
+    using Services.UserService;
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class SendEmailRequestHandler : TemplateHandler<SendEmailRequest, Unit>
+    public class SendEmailHandler : TemplateHandler<SendEmailRequest, Unit>
     {
         private readonly DatabaseContext _databaseContext;
-        
+
+        private readonly IUserService _userService;
+
         private readonly ISenderService _senderService;
 
         private readonly IDateTimeService _dateTimeService;
 
-        public SendEmailRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
-            IDateTimeService dateTimeService)
+        public SendEmailHandler(DatabaseContext databaseContext, IUserService userService,
+            ISenderService senderService, IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
+            _userService = userService;
             _senderService = senderService;
             _dateTimeService = dateTimeService;
         }
 
         public override async Task<Unit> Handle(SendEmailRequest request, CancellationToken cancellationToken)
         {
-            var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
-            var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+            var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
+            var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
             var emailId = await _senderService.VerifyEmailFrom(request.From, userId, cancellationToken);
 
             VerifyArguments(isKeyValid, userId, emailId);

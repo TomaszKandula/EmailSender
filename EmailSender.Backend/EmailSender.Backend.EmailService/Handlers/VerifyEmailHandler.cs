@@ -1,39 +1,41 @@
 namespace EmailSender.Backend.EmailService.Handlers
 {
     using System;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
     using Database;
     using Requests;
     using Responses;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
+    using Services.UserService;
     using Services.SenderService;
     using Shared.Services.DateTimeService;
 
-    public class GetAllowEmailsRequestHandler : TemplateHandler<GetAllowEmailsRequest, GetAllowEmailsResponse>
+    public class VerifyEmailHandler : TemplateHandler<VerifyEmailRequest, VerifyEmailResponse>
     {
         private readonly DatabaseContext _databaseContext;
-        
+
+        private readonly IUserService _userService;
+
         private readonly ISenderService _senderService;
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetAllowEmailsRequestHandler(DatabaseContext databaseContext, ISenderService senderService, 
-            IDateTimeService dateTimeService)
+        public VerifyEmailHandler(DatabaseContext databaseContext, IUserService userService,
+            ISenderService senderService, IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
+            _userService = userService;
             _senderService = senderService;
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetAllowEmailsResponse> Handle(GetAllowEmailsRequest request, CancellationToken cancellationToken)
+        public override async Task<VerifyEmailResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
         {
-            var isKeyValid = await _senderService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
-            var userId = await _senderService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+            var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
+            var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
 
             VerifyArguments(isKeyValid, userId);
 
@@ -41,29 +43,17 @@ namespace EmailSender.Backend.EmailService.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetAllowEmailsRequest)
+                RequestName = nameof(VerifyEmailRequest)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var emails = await _databaseContext.AllowEmail
-                .AsNoTracking()
-                .Include(allowEmail => allowEmail.Email)
-                .Include(allowEmail => allowEmail.User)
-                .Where(allowEmail => allowEmail.UserId == userId)
-                .Select(allowEmail => allowEmail.Email.Address)
-                .ToListAsync(cancellationToken);
+            var result = await _senderService.VerifyEmailAddress(request.Emails, cancellationToken);
 
-            var associatedUser = await _databaseContext.User
-                .AsNoTracking()
-                .Where(user => user.Id == userId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            return new GetAllowEmailsResponse
+            return new VerifyEmailResponse
             {
-                AssociatedUser = associatedUser.UserAlias,
-                Emails = emails
+                CheckResult = result
             };
         }
 

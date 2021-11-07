@@ -43,5 +43,7 @@ namespace EmailSender.Backend.Domain.Entities
         public ICollection<Billing> Billing { get; set; } = new HashSet<Billing>();
 
         public ICollection<RequestHistory> RequestHistory { get; set; } = new HashSet<RequestHistory>();
+
+        public ICollection<UserDetails> UserDetails { get; set; } = new HashSet<UserDetails>();
     }
 }

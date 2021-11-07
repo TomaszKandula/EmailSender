@@ -29,46 +29,6 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             _loggerService = loggerService;
         }
 
-        // refactor to user service
-        public async Task<bool> IsDomainAllowed(string domainName, CancellationToken cancellationToken)
-        {
-            var domains = await _databaseContext.AllowDomain
-                .AsNoTracking()
-                .Where(allowDomain => allowDomain.Host == domainName)
-                .ToListAsync(cancellationToken);
-
-            var isDomainAllowed = domains.Any();
-            if (!isDomainAllowed) 
-                _loggerService.LogWarning($"Domain '{domainName}' is not registered within the system.");
-
-            return isDomainAllowed;
-        }
-
-        // refactor to user service
-        public async Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken)
-        {
-            var keys = await _databaseContext.User
-                .AsNoTracking()
-                .Where(user => user.PrivateKey == privateKey)
-                .ToListAsync(cancellationToken);
-
-            var isPrivateKeyExists = keys.Any();
-            if (!isPrivateKeyExists)
-                _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
-            
-            return isPrivateKeyExists;
-        }
-
-        // refactor to user service
-        public async Task<Guid> GetUserByPrivateKey(string privateKey, CancellationToken cancellationToken)
-        {
-            return await _databaseContext.User
-                .AsNoTracking()
-                .Where(user => user.PrivateKey == privateKey)
-                .Select(user => user.Id)
-                .FirstOrDefaultAsync(cancellationToken);
-        }
-
         public async Task<Guid> VerifyEmailFrom(string emailFrom, Guid? userId, CancellationToken cancellationToken)
         {
             var matchedEmailId = await _databaseContext.AllowEmail

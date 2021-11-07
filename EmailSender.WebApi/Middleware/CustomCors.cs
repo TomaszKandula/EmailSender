@@ -5,7 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
     using Configuration;
-    using Backend.EmailService.Services.SenderService;
+    using Backend.EmailService.Services.UserService;
 
     [ExcludeFromCodeCoverage]
     public class CustomCors
@@ -14,10 +14,10 @@
 
         public CustomCors(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
-        public async Task Invoke(HttpContext httpContext, ISenderService senderService)
+        public async Task Invoke(HttpContext httpContext, IUserService userService)
         {
             var origin = httpContext.Request.Host.ToString();
-            var allowDomains = await senderService.IsDomainAllowed(origin, CancellationToken.None);
+            var allowDomains = await userService.IsDomainAllowed(origin, CancellationToken.None);
 
             if (!allowDomains)
             {

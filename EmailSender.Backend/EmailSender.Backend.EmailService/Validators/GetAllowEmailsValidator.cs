@@ -4,9 +4,9 @@ namespace EmailSender.Backend.EmailService.Validators
     using Shared.Resources;
     using Requests;
 
-    public class GetUserDetailsRequestValidator : AbstractValidator<GetUserDetailsRequest>
+    public class GetAllowEmailsValidator : AbstractValidator<GetAllowEmailsRequest>
     {
-        public GetUserDetailsRequestValidator()
+        public GetAllowEmailsValidator()
         {
             RuleFor(request => request.PrivateKey)
                 .NotEmpty()

@@ -4,12 +4,11 @@ namespace EmailSender.Backend.Domain.Entities
     using System.Diagnostics.CodeAnalysis;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Enums;
 
     [ExcludeFromCodeCoverage]
-    public class Pricing : Entity<Guid>
+    public class StandardPricing : Entity<Guid>
     {
-        public Guid UserId { get; set; }
-
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal PerApiRequest { get; set; }
@@ -23,13 +22,9 @@ namespace EmailSender.Backend.Domain.Entities
         public string CurrencyIso { get; set; }
 
         [Required]
-        public int Terms { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal? Discount { get; set; }
-
-        public DateTime? DiscountMaturity { get; set; }
-
-        public User User { get; set; }
+        public PricingTerms Terms { get; set; }
+        
+        [Required]
+        public PricingStatus Status { get; set; }
     }
 }

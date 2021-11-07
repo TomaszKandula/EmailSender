@@ -4,14 +4,16 @@ using EmailSender.Backend.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmailSender.Backend.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211107154359_AddStandardPricingTable")]
+    partial class AddStandardPricingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,9 +85,6 @@ namespace EmailSender.Backend.Database.Migrations
 
                     b.Property<byte[]>("IssuedInvoice")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -289,71 +288,6 @@ namespace EmailSender.Backend.Database.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.UserDetails", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("CompanyName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("StreetAddress")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("VatNumber")
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserDetails");
-                });
-
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.VatNumberPattern", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CountryCode")
-                        .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)");
-
-                    b.Property<string>("Pattern")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VatNumberPattern");
-                });
-
             modelBuilder.Entity("EmailSender.Backend.Domain.Entities.AllowDomain", b =>
                 {
                     b.HasOne("EmailSender.Backend.Domain.Entities.User", "User")
@@ -436,17 +370,6 @@ namespace EmailSender.Backend.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EmailSender.Backend.Domain.Entities.UserDetails", b =>
-                {
-                    b.HasOne("EmailSender.Backend.Domain.Entities.User", "User")
-                        .WithMany("UserDetails")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EmailSender.Backend.Domain.Entities.Email", b =>
                 {
                     b.Navigation("AllowEmail");
@@ -467,8 +390,6 @@ namespace EmailSender.Backend.Database.Migrations
                     b.Navigation("Pricing");
 
                     b.Navigation("RequestHistory");
-
-                    b.Navigation("UserDetails");
                 });
 #pragma warning restore 612, 618
         }

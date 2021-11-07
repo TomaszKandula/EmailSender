@@ -4,22 +4,24 @@ namespace EmailSender.Backend.EmailService.Validators
     using Shared.Resources;
     using Requests;
 
-    public class GetServerStatusRequestValidator : AbstractValidator<GetServerStatusRequest>
+    public class VerifyEmailValidator : AbstractValidator<VerifyEmailRequest>
     {
-        public GetServerStatusRequestValidator()
+        public VerifyEmailValidator()
         {
             RuleFor(request => request.PrivateKey)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED);
 
-            RuleFor(request => request.EmailAddress)
+            RuleFor(request => request.Emails)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-                .WithMessage(ValidationCodes.REQUIRED)
-                .EmailAddress()
-                .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
-                .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
+                .WithMessage(ValidationCodes.REQUIRED);
+
+            RuleForEach(request => request.Emails)
+                .NotEmpty()
+                .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+                .WithMessage(ValidationCodes.REQUIRED);
         }
     }
 }

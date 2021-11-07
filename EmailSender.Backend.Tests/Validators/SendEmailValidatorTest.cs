@@ -7,7 +7,7 @@ namespace EmailSender.Backend.Tests.Validators
     using EmailService.Requests;
     using EmailService.Validators;
 
-    public class SendEmailRequestValidatorTest : TestBase
+    public class SendEmailValidatorTest : TestBase
     {
         [Fact]
         public void GivenValidInputsWithOptionalEmails_WhenInvokeSendEmailRequest_ShouldSucceed()
@@ -35,7 +35,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new SendEmailRequestValidator();
+            var validator = new SendEmailValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -60,7 +60,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new SendEmailRequestValidator();
+            var validator = new SendEmailValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -82,7 +82,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new SendEmailRequestValidator();
+            var validator = new SendEmailValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -113,7 +113,7 @@ namespace EmailSender.Backend.Tests.Validators
             };
 
             // Act
-            var validator = new SendEmailRequestValidator();
+            var validator = new SendEmailValidator();
             var result = validator.Validate(request);
 
             // Assert
