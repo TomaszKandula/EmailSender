@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Database\EmailSender.Backend.Database.csproj" />
+      <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.EmailService\EmailSender.Backend.EmailService.csproj" />
       <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj" />
     </ItemGroup>
 
@@ -16,7 +18,9 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="FluentAssertions" Version="6.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.11" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+      <PackageReference Include="Moq" Version="4.16.1" />
       <PackageReference Include="xunit" Version="2.4.1" />
       <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
         <PrivateAssets>all</PrivateAssets>

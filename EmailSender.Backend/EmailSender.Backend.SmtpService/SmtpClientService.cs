@@ -14,15 +14,15 @@
     using MailKit.Net.Smtp;
     using MailKit.Security;
 
-    public class SmtpClientService : ISmtpClientService
+    public sealed class SmtpClientService : ISmtpClientService
     {
         private readonly ISmtpClient _smtpClient;
 
         private readonly ILookupClient _lookupClient;
 
-        public virtual EmailData EmailData { get; set; }
+        public EmailData EmailData { get; set; }
 
-        public virtual ServerData ServerData { get; set; }
+        public ServerData ServerData { get; set; }
 
         public SecureSocketOptions SslOnConnect => ServerData.IsSSL
             ? SecureSocketOptions.SslOnConnect
@@ -34,7 +34,7 @@
             _lookupClient = lookupClient;
         }
 
-        public virtual async Task<ActionResult> VerifyConnection(CancellationToken cancellationToken = default)
+        public async Task<ActionResult> VerifyConnection(CancellationToken cancellationToken = default)
         {
             try
             {
@@ -72,7 +72,7 @@
             }
         }
 
-        public virtual async Task<ActionResult> Send(CancellationToken cancellationToken = default)
+        public async Task<ActionResult> Send(CancellationToken cancellationToken = default)
         {
             try
             {
@@ -115,7 +115,7 @@
             }
         }
 
-        public virtual async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
         {
             var results = new List<VerifyEmail>();
             foreach (var email in emails)
