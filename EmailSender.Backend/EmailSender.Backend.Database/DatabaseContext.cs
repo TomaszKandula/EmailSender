@@ -28,6 +28,8 @@
         
         public virtual DbSet<StandardPricing> StandardPricing { get; set; }
 
+        public virtual DbSet<UserDetails> UserDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
