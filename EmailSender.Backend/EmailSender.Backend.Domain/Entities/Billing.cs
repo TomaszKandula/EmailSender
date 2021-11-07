@@ -19,7 +19,7 @@ namespace EmailSender.Backend.Domain.Entities
 
         public DateTime DueDate { get; set; }
 
-        public bool IsInvoiceSent { get; set; }
+        public DateTime? InvoiceSentDate { get; set; }
 
         public byte[] IssuedInvoice { get; set; }
 
