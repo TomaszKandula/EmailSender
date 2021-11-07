@@ -3,6 +3,7 @@ namespace EmailSender.Backend.Domain.Entities
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.ComponentModel.DataAnnotations;
+    using Enums;
 
     [ExcludeFromCodeCoverage]
     public class Billing : Entity<Guid>
@@ -22,6 +23,8 @@ namespace EmailSender.Backend.Domain.Entities
         public DateTime? InvoiceSentDate { get; set; }
 
         public byte[] IssuedInvoice { get; set; }
+
+        public PaymentStatus Status { get; set; }
 
         public User User { get; set; }
     }
