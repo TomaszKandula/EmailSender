@@ -166,23 +166,8 @@ namespace EmailSender.Backend.Shared.Services.DataUtilityService
             return new IPAddress(bytes);
         }
 
-        private static int RandomNext(int min, int max)
-        {
-            if (min == 0)
-                return RandomNext(max);
+        private static int RandomNext(int min, int max) => RandomNumberGenerator.GetInt32(min, max);
 
-            var random = RandomNumberGenerator.GetInt32(max);
-            while (random == min)
-            {
-                random = RandomNumberGenerator.GetInt32(max);
-            }
-
-            return random;
-        }
-
-        private static int RandomNext(int max)
-        {
-            return RandomNumberGenerator.GetInt32(max);
-        }
+        private static int RandomNext(int max) => RandomNumberGenerator.GetInt32(max);
     }
 }

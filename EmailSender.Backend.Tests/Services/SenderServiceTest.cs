@@ -8,7 +8,6 @@ namespace EmailSender.Backend.Tests.Services
     using System.Threading.Tasks;
     using SmtpService;
     using Domain.Entities;
-    using Shared.Services.LoggerService;
     using EmailService.Services.SenderService;
     
     public class SenderServiceTest : TestBase
@@ -57,11 +56,9 @@ namespace EmailSender.Backend.Tests.Services
             await databaseContext.SaveChangesAsync();
 
             var mockedSmtpClientService = new Mock<ISmtpClientService>();
-            var mockedLoggerService = new Mock<ILoggerService>();
             var service = new SenderService(
                 databaseContext, 
-                mockedSmtpClientService.Object, 
-                mockedLoggerService.Object);
+                mockedSmtpClientService.Object);
 
             // Act
             var result = await service.VerifyEmailFrom(emailFrom, userId, CancellationToken.None);
@@ -114,11 +111,9 @@ namespace EmailSender.Backend.Tests.Services
             await databaseContext.SaveChangesAsync();
 
             var mockedSmtpClientService = new Mock<ISmtpClientService>();
-            var mockedLoggerService = new Mock<ILoggerService>();
             var service = new SenderService(
                 databaseContext, 
-                mockedSmtpClientService.Object, 
-                mockedLoggerService.Object);
+                mockedSmtpClientService.Object);
 
             // Act
             var result = await service.VerifyEmailFrom(emailFrom, userId, CancellationToken.None);
@@ -171,11 +166,9 @@ namespace EmailSender.Backend.Tests.Services
             await databaseContext.SaveChangesAsync();
 
             var mockedSmtpClientService = new Mock<ISmtpClientService>();
-            var mockedLoggerService = new Mock<ILoggerService>();
             var service = new SenderService(
                 databaseContext, 
-                mockedSmtpClientService.Object, 
-                mockedLoggerService.Object);
+                mockedSmtpClientService.Object);
 
             // Act
             var result = await service.VerifyEmailFrom(emailFrom, userId, CancellationToken.None);
