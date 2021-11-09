@@ -1,7 +1,7 @@
 namespace EmailSender.Backend.EmailService.Responses
 {
     using System.Collections.Generic;
-    using Models;
+    using Shared.Models;
 
     public class GetSentHistoryResponse
     {

@@ -5,10 +5,10 @@ namespace EmailSender.Backend.EmailService.Handlers
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using Models;
     using Database;
     using Requests;
     using Responses;
+    using Shared.Models;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;

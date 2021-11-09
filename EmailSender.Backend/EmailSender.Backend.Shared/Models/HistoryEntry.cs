@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.EmailService.Models
+namespace EmailSender.Backend.Shared.Models
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
