@@ -24,6 +24,14 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
             _dateTimeService = dateTimeService;
         }
 
+        /// <summary>
+        /// Adds new billing to given user. Billing takes into account how many requests have been made,
+        /// and how many emails have been sent.
+        /// </summary>
+        /// <param name="userId">User ID.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Billing database entity ID (Guid).</returns>
+        /// <exception cref="BusinessException">Throws HTTP status code 400.</exception>
         public async Task<Guid> AddUserBilling(Guid userId, CancellationToken cancellationToken = default)
         {
             var pricing = await _databaseContext.Pricing
@@ -76,6 +84,12 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
             return billing.Id;
         }
 
+        /// <summary>
+        /// Returns billing entity from database by billing ID.
+        /// </summary>
+        /// <param name="id">Billing ID.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Requested billing entity.</returns>
         public async Task<Billing> GetUserBilling(Guid id, CancellationToken cancellationToken = default)
         {
             var userBilling = await _databaseContext.Billing
@@ -95,6 +109,12 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
             return userBilling;
         }
 
+        /// <summary>
+        /// Returns list of billing database entities for given user ID.
+        /// </summary>
+        /// <param name="userId">User ID.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Requested list of billing entities.</returns>
         public async Task<IEnumerable<Billing>> GetAllUserBillings(Guid userId, CancellationToken cancellationToken = default)
         {
             var billings = await _databaseContext.Billing
@@ -114,6 +134,11 @@ namespace EmailSender.Backend.EmailService.Services.BillingService
             return billings;
         }
 
+        /// <summary>
+        /// Returns all registered billings for any user.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Requested list of billing entities.</returns>
         public async Task<IEnumerable<Billing>> GetAllBillings(CancellationToken cancellationToken = default)
         {
             var billings = await _databaseContext.Billing

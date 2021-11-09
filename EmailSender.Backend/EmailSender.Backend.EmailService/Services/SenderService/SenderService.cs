@@ -25,6 +25,13 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             _smtpClientService = smtpClientService;
         }
 
+        /// <summary>
+        /// Checks if given email address is registered for sending an email. Returns null for unknown email address.
+        /// </summary>
+        /// <param name="emailFrom">Email address registered for sending.</param>
+        /// <param name="userId">User ID.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Email ID (Guid).</returns>
         public async Task<Guid> VerifyEmailFrom(string emailFrom, Guid? userId, CancellationToken cancellationToken)
         {
             var matchedEmailId = await _databaseContext.AllowEmail
@@ -39,6 +46,15 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             return matchedEmailId;
         }
 
+        /// <summary>
+        /// Sends an email using data passed in configuration object.
+        /// </summary>
+        /// <param name="configuration">
+        /// Holds email details including fields FROM, TO, CC, BCC, SUBJECT.
+        /// Email message can be either plain text or HTML formatted. 
+        /// </param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <exception cref="BusinessException">Throws HTTP status code 400.</exception>
         public async Task Send(Configuration configuration, CancellationToken cancellationToken)
         {
             var emailData = new EmailData
@@ -63,6 +79,13 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             }
         }
 
+        /// <summary>
+        /// Checks connection to SMTP server for given email address.
+        /// Email address must be registered within the system.
+        /// </summary>
+        /// <param name="emailId">ID of registered email address.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Error object or null.</returns>
         public async Task<ErrorResult?> VerifyConnection(Guid emailId, CancellationToken cancellationToken)
         {
             _smtpClientService.ServerData = await GetServerData(emailId, cancellationToken);
@@ -76,11 +99,23 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             };
         }
 
+        /// <summary>
+        /// Checks list of email addresses.
+        /// </summary>
+        /// <param name="emailAddress">List of email addresses.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>List of verified emails.</returns>
         public Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken)
         {
             return _smtpClientService.VerifyEmailAddress(emailAddress, cancellationToken);
         }
 
+        /// <summary>
+        /// Returns server data for given email address that allows to connect and send an email from SMTP server.
+        /// </summary>
+        /// <param name="address">Email address.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Object containing server details.</returns>
         private async Task<ServerData> GetServerData(string address, CancellationToken cancellationToken)
         {
             var email = await _databaseContext.Email
@@ -101,6 +136,12 @@ namespace EmailSender.Backend.EmailService.Services.SenderService
             };
         }
 
+        /// <summary>
+        /// Returns server data for given email address that allows to connect and send an email from SMTP server.
+        /// </summary>
+        /// <param name="addressId">ID of registered email address.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Object containing server details.</returns>
         private async Task<ServerData> GetServerData(Guid addressId, CancellationToken cancellationToken)
         {
             var email = await _databaseContext.Email
