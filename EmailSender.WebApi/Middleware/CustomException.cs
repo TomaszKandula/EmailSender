@@ -7,8 +7,8 @@ namespace EmailSender.WebApi.Middleware
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
     using Backend.Shared.Models;
-    using Backend.Shared.Exceptions;
     using Backend.Shared.Resources;
+    using Backend.Shared.Exceptions;
     using Configuration;
 
     [ExcludeFromCodeCoverage]
@@ -41,7 +41,8 @@ namespace EmailSender.WebApi.Middleware
             }
             catch (Exception exception)
             {
-                var applicationError = new ApplicationError(nameof(ErrorCodes.ERROR_UNEXPECTED), ErrorCodes.ERROR_UNEXPECTED, exception.Message);
+                var innerMessage = exception.InnerException?.Message; 
+                var applicationError = new ApplicationError(nameof(ErrorCodes.ERROR_UNEXPECTED), exception.Message, innerMessage);
                 await WriteErrorResponse(httpContext, applicationError, HttpStatusCode.InternalServerError).ConfigureAwait(false);
             }
         }
