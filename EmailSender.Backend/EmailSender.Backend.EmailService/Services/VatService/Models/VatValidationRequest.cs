@@ -11,16 +11,13 @@ namespace EmailSender.Backend.EmailService.Services.VatService.Models
 
         public IEnumerable<VatNumberPattern> VatNumberPatterns { get; set; }
 
-        public bool CalculateCheckSum { get; set; } 
+        public PolishVatNumberOptions Options { get; set; }
 
-        public bool CheckZeros { get; set; }
-
-        public VatValidationRequest(string vatNumber, IEnumerable<VatNumberPattern> vatNumberPatterns, bool calculateCheckSum, bool checkZeros)
+        public VatValidationRequest(string vatNumber, IEnumerable<VatNumberPattern> vatNumberPatterns, PolishVatNumberOptions options = default)
         {
             VatNumber = vatNumber;
             VatNumberPatterns = vatNumberPatterns;
-            CalculateCheckSum = calculateCheckSum;
-            CheckZeros = checkZeros;
+            Options = options;
         }
     }
 }

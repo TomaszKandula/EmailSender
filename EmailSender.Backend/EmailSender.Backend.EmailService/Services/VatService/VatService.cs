@@ -17,10 +17,10 @@ namespace EmailSender.Backend.EmailService.Services.VatService
         public ValidationResult ValidateVatNumber(VatValidationRequest request)
         {
             if (string.IsNullOrEmpty(request.VatNumber))
-                return SetValidationResult(nameof(request.VatNumber), ErrorCodes.VAT_NUM_INCORRECT_LENGTH);
+                return SetValidationResult(nameof(request.VatNumber), nameof(ErrorCodes.VAT_NUM_INCORRECT_LENGTH), ErrorCodes.VAT_NUM_INCORRECT_LENGTH);
 
             if (IsShortPolishVatNumber(request.VatNumber))
-                return SetValidationResult(nameof(request.VatNumber), ErrorCodes.VAT_NUM_LENGTH_NINE);
+                return SetValidationResult(nameof(request.VatNumber), nameof(ErrorCodes.VAT_NUM_LENGTH_NINE), ErrorCodes.VAT_NUM_LENGTH_NINE);
 
             var polishVatNumberPattern = request.VatNumberPatterns
                 .Where(pattern => pattern.CountryCode == "PL")
@@ -31,11 +31,11 @@ namespace EmailSender.Backend.EmailService.Services.VatService
             switch (checkPrefix.Success)
             {
                 case true when checkPrefix.Value == "PL":
-                    return ValidatePolishVatNumber(request.VatNumber, polishVatNumberPattern, request.CalculateCheckSum, request.CheckZeros);
+                    return ValidatePolishVatNumber(request.VatNumber, polishVatNumberPattern, request.Options.CalculateCheckSum, request.Options.CheckZeros);
                 case false:
                 {
                     var prefixedVatNumber = $"PL{request.VatNumber}";
-                    return ValidatePolishVatNumber(prefixedVatNumber, polishVatNumberPattern, request.CalculateCheckSum, request.CheckZeros);
+                    return ValidatePolishVatNumber(prefixedVatNumber, polishVatNumberPattern, request.Options.CalculateCheckSum, request.Options.CheckZeros);
                 }
             }
 
@@ -50,21 +50,22 @@ namespace EmailSender.Backend.EmailService.Services.VatService
                     return new ValidationResult(new List<ValidationFailure>());
             }
 
-            return SetValidationResult(nameof(ErrorCodes.VAT_NUM_INCORRECT_FORMAT), ErrorCodes.VAT_NUM_INCORRECT_FORMAT);
+            return SetValidationResult(nameof(request.VatNumber), nameof(ErrorCodes.VAT_NUM_INCORRECT_FORMAT), ErrorCodes.VAT_NUM_INCORRECT_FORMAT);
         }
 
         /// <summary>
         /// Returns object with validation error.
         /// </summary>
         /// <param name="propertyName">Property name that is checked.</param>
+        /// <param name="errorCode">Error code.</param>
         /// <param name="errorMessage">Error message if validation fails.</param>
         /// <returns>FluentValidation result.</returns>
-        private static ValidationResult SetValidationResult(string propertyName, string errorMessage)
+        private static ValidationResult SetValidationResult(string propertyName, string errorCode, string errorMessage)
         {
             var result = new ValidationResult(new List<ValidationFailure>());
             var failure = new ValidationFailure(propertyName, errorMessage)
             {
-                ErrorCode = nameof(errorMessage)
+                ErrorCode = errorCode
             };
 
             result.Errors.Add(failure);
@@ -85,7 +86,7 @@ namespace EmailSender.Backend.EmailService.Services.VatService
             int[] allowedLength = { 12, 15 };
 
             if (!allowedLength.Contains(prefixedVatNumber.Length))
-                return SetValidationResult(nameof(prefixedVatNumber), ErrorCodes.VAT_NUM_INCORRECT_LENGTH);
+                return SetValidationResult(nameof(prefixedVatNumber), nameof(ErrorCodes.VAT_NUM_INCORRECT_LENGTH), ErrorCodes.VAT_NUM_INCORRECT_LENGTH);
 
             var bareVatNumber = prefixedVatNumber
                 .Replace("PL", string.Empty)
@@ -96,20 +97,20 @@ namespace EmailSender.Backend.EmailService.Services.VatService
                 : prefixedVatNumber;
 
             if (bareVatNumber.All(letter => letter == bareVatNumber[0]))
-                return SetValidationResult(nameof(bareVatNumber), ErrorCodes.VAT_NUM_ALL_DIGITS_ARE_SAME);
+                return SetValidationResult(nameof(bareVatNumber), nameof(ErrorCodes.VAT_NUM_ALL_DIGITS_ARE_SAME), ErrorCodes.VAT_NUM_ALL_DIGITS_ARE_SAME);
 
             if (bareVatNumber.Any(char.IsLetter))
-                return SetValidationResult(nameof(bareVatNumber), ErrorCodes.VAT_NUM_INCORRECT_SIGN);
+                return SetValidationResult(nameof(bareVatNumber), nameof(ErrorCodes.VAT_NUM_INCORRECT_SIGN), ErrorCodes.VAT_NUM_INCORRECT_SIGN);
 
             if (!Regex.IsMatch(pollutedVatNumber, vatNumberPattern, RegexOptions.IgnoreCase))
-                return SetValidationResult(nameof(pollutedVatNumber), ErrorCodes.VAT_NUM_INCORRECT_FORMAT);
+                return SetValidationResult(nameof(pollutedVatNumber), nameof(ErrorCodes.VAT_NUM_INCORRECT_FORMAT), ErrorCodes.VAT_NUM_INCORRECT_FORMAT);
 
             if (checkZeros) 
             {
                 var firstChar = bareVatNumber[0];
                 var thirdChar = bareVatNumber[2];
                 if (firstChar == '0' || thirdChar == '0')
-                    return SetValidationResult(nameof(bareVatNumber), ErrorCodes.VAT_NUM_ZERO_AT_FIRST_OR_THIRD_POSSITION);
+                    return SetValidationResult(nameof(bareVatNumber), nameof(ErrorCodes.VAT_NUM_ZERO_AT_FIRST_OR_THIRD_POSSITION), ErrorCodes.VAT_NUM_ZERO_AT_FIRST_OR_THIRD_POSSITION);
             }
 
             if (!calculateCheckSum) 
@@ -121,7 +122,7 @@ namespace EmailSender.Backend.EmailService.Services.VatService
             var lastChar = (int)char.GetNumericValue(bareVatNumber[9]);
 
             return controlNum != lastChar 
-                ? SetValidationResult(nameof(bareVatNumber), ErrorCodes.VAT_NUM_INCORRECT_CHECK_SUM) 
+                ? SetValidationResult(nameof(bareVatNumber), nameof(ErrorCodes.VAT_NUM_INCORRECT_CHECK_SUM), ErrorCodes.VAT_NUM_INCORRECT_CHECK_SUM) 
                 : new ValidationResult(new List<ValidationFailure>());
         }
 
