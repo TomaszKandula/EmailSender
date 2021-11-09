@@ -16,6 +16,7 @@
     using Backend.Database.Initializer;
     using Backend.Shared.Services.LoggerService;
     using Backend.Shared.Services.DateTimeService;
+    using Backend.EmailService.Services.VatService;
     using Backend.EmailService.Services.UserService;
     using Backend.EmailService.Services.SenderService;
     using Backend.EmailService.Services.BillingService;
@@ -69,6 +70,7 @@
             services.AddScoped<ISenderService, SenderService>();
             services.AddScoped<IBillingService, BillingService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IVatService, VatService>();
             services.AddScoped<ISmtpClientService, SmtpClientService>();
             services.AddScoped<IDbInitializer, DbInitializer>();
         }
