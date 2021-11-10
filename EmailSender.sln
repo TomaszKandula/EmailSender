@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.Shared"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.SmtpService", "EmailSender.Backend\EmailSender.Backend.SmtpService\EmailSender.Backend.SmtpService.csproj", "{621EB5FD-E5FF-41E4-97EF-29C51B973008}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.EmailService", "EmailSender.Backend\EmailSender.Backend.EmailService\EmailSender.Backend.EmailService.csproj", "{1165BB1A-A8D1-481B-B0E4-CDC202D66A70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.AppService", "EmailSender.Backend\EmailSender.Backend.AppService\EmailSender.Backend.AppService.csproj", "{1165BB1A-A8D1-481B-B0E4-CDC202D66A70}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.Tests", "EmailSender.Backend.Tests\EmailSender.Backend.Tests.csproj", "{3A61A5DC-4906-44C5-BDEC-42D79A1CF0C6}"
 EndProject

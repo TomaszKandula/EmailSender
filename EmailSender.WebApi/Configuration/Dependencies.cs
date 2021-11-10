@@ -12,7 +12,7 @@
     using Backend.VatService;
     using Backend.SmtpService;
     using Backend.UserService;
-    using Backend.EmailService;
+    using Backend.AppService;
     using Backend.Shared.Models;
     using Backend.SenderService;
     using Backend.BillingService;

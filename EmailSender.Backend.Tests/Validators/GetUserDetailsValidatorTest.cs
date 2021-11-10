@@ -3,8 +3,8 @@ namespace EmailSender.Backend.Tests.Validators
     using Xunit;
     using FluentAssertions;
     using Shared.Resources;
-    using EmailService.Requests;
-    using EmailService.Validators;
+    using AppService.Requests;
+    using AppService.Validators;
 
     public class GetUserDetailsValidatorTest : TestBase
     {
