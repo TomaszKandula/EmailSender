@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.EmailService.Services.BillingService
+namespace EmailSender.Backend.BillingService
 {
     using System;
     using System.Threading;

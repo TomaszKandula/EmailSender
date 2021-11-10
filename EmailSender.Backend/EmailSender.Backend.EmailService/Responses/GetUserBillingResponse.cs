@@ -1,6 +1,6 @@
 namespace EmailSender.Backend.EmailService.Responses
 {
-    using Services.BillingService.Models;
+    using BillingService.Models;
 
     public class GetUserBillingResponse : Billing
     {

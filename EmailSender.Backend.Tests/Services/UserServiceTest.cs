@@ -6,9 +6,9 @@ namespace EmailSender.Backend.Tests.Services
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using UserService;
     using Domain.Entities;
     using Shared.Services.LoggerService;
-    using EmailService.Services.UserService;
 
     public class UserServiceTest : TestBase
     {

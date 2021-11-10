@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.EmailService.Services.VatService
+namespace EmailSender.Backend.VatService
 {
     using System.Linq;
     using System.Collections.Generic;

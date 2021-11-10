@@ -1,7 +1,7 @@
 namespace EmailSender.Backend.EmailService.Responses
 {
     using System.Collections.Generic;
-    using Services.BillingService.Models;
+    using BillingService.Models;
 
     public class GetAllUserBillingsResponse
     {

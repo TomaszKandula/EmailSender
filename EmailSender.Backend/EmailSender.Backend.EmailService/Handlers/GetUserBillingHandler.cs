@@ -8,11 +8,11 @@ namespace EmailSender.Backend.EmailService.Handlers
     using Requests;
     using Responses;
     using Database;
+    using UserService;
+    using BillingService;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
-    using Services.UserService;
-    using Services.BillingService;
     using Shared.Services.DateTimeService;
 
     public class GetUserBillingHandler : TemplateHandler<GetUserBillingRequest, GetUserBillingResponse>

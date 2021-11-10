@@ -8,11 +8,11 @@ namespace EmailSender.Backend.EmailService.Handlers
     using Database;
     using Requests;
     using Responses;
+    using UserService;
     using Shared.Models;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
-    using Services.UserService;
     using Shared.Services.DateTimeService;
 
     public class GetSentHistoryHandler : TemplateHandler<GetSentHistoryRequest, GetSentHistoryResponse>

@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.EmailService.Services.VatService.Models
+namespace EmailSender.Backend.VatService.Models
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

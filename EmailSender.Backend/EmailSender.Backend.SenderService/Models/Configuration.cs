@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.EmailService.Services.SenderService.Models
+namespace EmailSender.Backend.SenderService.Models
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

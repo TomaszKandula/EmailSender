@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.EmailService.Services.BillingService.Models
+namespace EmailSender.Backend.BillingService.Models
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

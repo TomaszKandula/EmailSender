@@ -5,13 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EmailSender.Backend.BillingService\EmailSender.Backend.BillingService.csproj" />
       <ProjectReference Include="..\EmailSender.Backend.Database\EmailSender.Backend.Database.csproj" />
       <ProjectReference Include="..\EmailSender.Backend.Domain\EmailSender.Backend.Domain.csproj" />
-      <ProjectReference Include="..\EmailSender.Backend.SenderService\EmailSender.Backend.SenderService.csproj" />
       <ProjectReference Include="..\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj" />
-      <ProjectReference Include="..\EmailSender.Backend.SmtpService\EmailSender.Backend.SmtpService.csproj" />
-      <ProjectReference Include="..\EmailSender.Backend.UserService\EmailSender.Backend.UserService.csproj" />
     </ItemGroup>
 
 </Project>

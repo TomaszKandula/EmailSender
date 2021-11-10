@@ -6,11 +6,11 @@ namespace EmailSender.Backend.EmailService.Handlers
     using Database;
     using Requests;
     using Responses;
+    using UserService;
+    using SenderService;
     using Domain.Entities;
     using Shared.Resources;
     using Shared.Exceptions;
-    using Services.UserService;
-    using Services.SenderService;
     using Shared.Services.DateTimeService;
 
     public class VerifyEmailHandler : TemplateHandler<VerifyEmailRequest, VerifyEmailResponse>

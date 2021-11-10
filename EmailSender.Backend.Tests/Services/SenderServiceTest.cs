@@ -7,8 +7,8 @@ namespace EmailSender.Backend.Tests.Services
     using System.Threading;
     using System.Threading.Tasks;
     using SmtpService;
+    using SenderService;
     using Domain.Entities;
-    using EmailService.Services.SenderService;
     
     public class SenderServiceTest : TestBase
     {
