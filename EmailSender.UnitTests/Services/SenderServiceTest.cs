@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Tests.Services
+namespace EmailSender.UnitTests.Services
 {
     using Moq;
     using Xunit;
@@ -6,9 +6,9 @@ namespace EmailSender.Backend.Tests.Services
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using SmtpService;
-    using SenderService;
-    using Domain.Entities;
+    using Backend.SmtpService;
+    using Backend.SenderService;
+    using Backend.Domain.Entities;
     
     public class SenderServiceTest : TestBase
     {

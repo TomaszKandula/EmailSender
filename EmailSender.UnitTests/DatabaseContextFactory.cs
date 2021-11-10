@@ -1,7 +1,7 @@
-﻿namespace EmailSender.Backend.Tests
+﻿namespace EmailSender.UnitTests
 {
     using Microsoft.EntityFrameworkCore;
-    using Database;
+    using Backend.Database;
 
     internal class DatabaseContextFactory
     {

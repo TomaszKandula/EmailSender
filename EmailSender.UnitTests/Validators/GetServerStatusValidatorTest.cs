@@ -1,10 +1,10 @@
-namespace EmailSender.Backend.Tests.Validators
+namespace EmailSender.UnitTests.Validators
 {
     using Xunit;
     using FluentAssertions;
-    using Shared.Resources;
-    using AppService.Requests;
-    using AppService.Validators;
+    using Backend.Shared.Resources;
+    using Backend.AppService.Requests;
+    using Backend.AppService.Validators;
 
     public class GetServerStatusValidatorTest : TestBase
     {

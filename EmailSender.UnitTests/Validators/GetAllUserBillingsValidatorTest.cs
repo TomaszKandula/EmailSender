@@ -1,24 +1,24 @@
-namespace EmailSender.Backend.Tests.Validators
+namespace EmailSender.UnitTests.Validators
 {
     using Xunit;
     using FluentAssertions;
-    using Shared.Resources;
-    using AppService.Requests;
-    using AppService.Validators;
+    using Backend.Shared.Resources;
+    using Backend.AppService.Requests;
+    using Backend.AppService.Validators;
 
-    public class GetAllowDomainsValidatorTest : TestBase
+    public class GetAllUserBillingsValidatorTest : TestBase
     {
         [Fact]
-        public void GivenPrivateKey_WhenGetAllowDomainsRequest_ShouldSucceed()
+        public void GivenPrivateKey_WhenGetAllUserBillingsRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetAllowDomainsRequest
+            var request = new GetAllUserBillingsRequest
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
 
             // Act
-            var validator = new GetAllowDomainsValidator();
+            var validator = new GetAllUserBillingsValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -26,16 +26,16 @@ namespace EmailSender.Backend.Tests.Validators
         }
 
         [Fact]
-        public void GivenEmptyPrivateKey_WhenGetAllowDomainsRequest_ShouldThrowError()
+        public void GivenEmptyPrivateKey_WhenGetAllUserBillingsRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetAllowDomainsRequest
+            var request = new GetAllUserBillingsRequest
             {
                 PrivateKey = string.Empty
             };
 
             // Act
-            var validator = new GetAllowDomainsValidator();
+            var validator = new GetAllUserBillingsValidator();
             var result = validator.Validate(request);
 
             // Assert

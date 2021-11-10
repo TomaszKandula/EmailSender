@@ -1,12 +1,12 @@
-namespace EmailSender.Backend.Tests.Services
+namespace EmailSender.UnitTests.Services
 {
 	using Xunit;
 	using FluentAssertions;
 	using System.Collections.Generic;
-	using VatService;
-	using Domain.Entities;
-	using Shared.Resources;
-	using VatService.Models;
+	using Backend.VatService;
+	using Backend.Domain.Entities;
+	using Backend.Shared.Resources;
+	using Backend.VatService.Models;
 
     public class VatServiceTest : TestBase
     {

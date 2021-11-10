@@ -1,24 +1,24 @@
-namespace EmailSender.Backend.Tests.Validators
+namespace EmailSender.UnitTests.Validators
 {
     using Xunit;
     using FluentAssertions;
-    using Shared.Resources;
-    using AppService.Requests;
-    using AppService.Validators;
+    using Backend.Shared.Resources;
+    using Backend.AppService.Requests;
+    using Backend.AppService.Validators;
 
-    public class GetAllowEmailsValidatorTest : TestBase
+    public class GetSentHistoryValidatorTest : TestBase
     {
         [Fact]
-        public void GivenPrivateKey_WhenGetAllowEmailsRequest_ShouldSucceed()
+        public void GivenPrivateKey_WhenGetSentHistoryRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetAllowEmailsRequest
+            var request = new GetSentHistoryRequest
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
 
             // Act
-            var validator = new GetAllowEmailsValidator();
+            var validator = new GetSentHistoryValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -26,16 +26,16 @@ namespace EmailSender.Backend.Tests.Validators
         }
 
         [Fact]
-        public void GivenEmptyPrivateKey_WhenGetAllowEmailsRequest_ShouldThrowError()
+        public void GivenEmptyPrivateKey_WhenGetSentHistoryRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetAllowEmailsRequest
+            var request = new GetSentHistoryRequest
             {
                 PrivateKey = string.Empty
             };
 
             // Act
-            var validator = new GetAllowEmailsValidator();
+            var validator = new GetSentHistoryValidator();
             var result = validator.Validate(request);
 
             // Assert

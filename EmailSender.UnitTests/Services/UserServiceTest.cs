@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Tests.Services
+namespace EmailSender.UnitTests.Services
 {
     using Moq;
     using Xunit;
@@ -6,9 +6,9 @@ namespace EmailSender.Backend.Tests.Services
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using UserService;
-    using Domain.Entities;
-    using Shared.Services.LoggerService;
+    using Backend.UserService;
+    using Backend.Domain.Entities;
+    using Backend.Shared.Services.LoggerService;
 
     public class UserServiceTest : TestBase
     {
