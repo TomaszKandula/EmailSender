@@ -7,7 +7,7 @@ namespace EmailSender.Backend.Cqrs.Mappers
     [ExcludeFromCodeCoverage]
     public static class EmailMapper
     {
-        public static SendEmailRequest MapToSendEmailRequest(SendEmailDto model) => new ()
+        public static SendEmailCommandRequest MapToSendEmailRequest(SendEmailDto model) => new ()
         {
             PrivateKey = model.PrivateKey,
             From = model.From,
@@ -19,7 +19,7 @@ namespace EmailSender.Backend.Cqrs.Mappers
             IsHtml = model.IsHtml
         };
 
-        public static VerifyEmailRequest MapToVerifyEmailRequest(VerifyEmailDto model) => new()
+        public static VerifyEmailCommandRequest MapToVerifyEmailRequest(VerifyEmailDto model) => new()
         {
             PrivateKey = model.PrivateKey,
             Emails = model.Emails

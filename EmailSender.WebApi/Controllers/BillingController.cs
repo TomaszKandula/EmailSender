@@ -12,11 +12,11 @@ namespace EmailSender.WebApi.Controllers
         public BillingController(IMediator mediator) : base(mediator) { }
 
         [HttpGet]
-        public async Task<GetUserBillingResponse> GetUserBilling([FromQuery] Guid id, string key) 
-            => await Mediator.Send(new GetUserBillingRequest { PrivateKey = key, BillingId = id });
+        public async Task<GetUserBillingQueryResponse> GetUserBilling([FromQuery] Guid id, string key) 
+            => await Mediator.Send(new GetUserBillingQueryRequest { PrivateKey = key, BillingId = id });
 
         [HttpGet]
-        public async Task<GetAllUserBillingsResponse> GetAllUserBillings([FromQuery] string key) 
-            => await Mediator.Send(new GetAllUserBillingsRequest { PrivateKey = key });
+        public async Task<GetAllUserBillingsQueryResponse> GetAllUserBillings([FromQuery] string key) 
+            => await Mediator.Send(new GetAllUserBillingsQueryRequest { PrivateKey = key });
     }
 }
