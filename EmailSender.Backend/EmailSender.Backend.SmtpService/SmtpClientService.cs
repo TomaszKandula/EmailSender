@@ -38,6 +38,18 @@
         {
             try
             {
+                if (string.IsNullOrEmpty(ServerData.Address) || 
+                    string.IsNullOrEmpty(ServerData.Key) || 
+                    string.IsNullOrEmpty(ServerData.Server) || 
+                    ServerData.Port == 0)
+                {
+                    return new ActionResult
+                    {
+                        ErrorCode = nameof(ErrorCodes.MISSING_SERVER_DATA),
+                        ErrorDesc = ErrorCodes.MISSING_SERVER_DATA
+                    };
+                }
+
                 await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
                 if (!_smtpClient.IsConnected)
                 {
@@ -95,6 +107,18 @@
         {
             try
             {
+                if (!EmailData.To.Any() || 
+                    string.IsNullOrEmpty(EmailData.From) || 
+                    string.IsNullOrEmpty(EmailData.Subject) && 
+                    (string.IsNullOrEmpty(EmailData.HtmlBody) || string.IsNullOrEmpty(EmailData.PlainText)))
+                {
+                    return new ActionResult
+                    {
+                        ErrorCode = nameof(ErrorCodes.MISSING_EMAIL_DATA),
+                        ErrorDesc = ErrorCodes.MISSING_EMAIL_DATA
+                    };
+                }
+
                 var newMail = new MimeMessage();
 
                 newMail.From.Add(MailboxAddress.Parse(EmailData.From));
