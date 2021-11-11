@@ -8,17 +8,18 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Backend.Cqrs;
     using Backend.Database;
+    using Backend.VatService;
     using Backend.SmtpService;
-    using Backend.EmailService;
+    using Backend.UserService;
     using Backend.Shared.Models;
-    using Backend.Shared.Behaviours;
+    using Backend.SenderService;
+    using Backend.BillingService;
+    using Backend.Core.Behaviours;
     using Backend.Database.Initializer;
-    using Backend.Shared.Services.LoggerService;
-    using Backend.Shared.Services.DateTimeService;
-    using Backend.EmailService.Services.UserService;
-    using Backend.EmailService.Services.SenderService;
-    using Backend.EmailService.Services.BillingService;
+    using Backend.Core.Services.LoggerService;
+    using Backend.Core.Services.DateTimeService;
     using MediatR;
     using DnsClient;
     using MailKit.Net.Smtp;
@@ -69,6 +70,7 @@
             services.AddScoped<ISenderService, SenderService>();
             services.AddScoped<IBillingService, BillingService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IVatService, VatService>();
             services.AddScoped<ISmtpClientService, SmtpClientService>();
             services.AddScoped<IDbInitializer, DbInitializer>();
         }
