@@ -18,7 +18,7 @@ namespace EmailSender.Backend.SenderService
         private readonly DatabaseContext _databaseContext;
 
         private readonly ISmtpClientService _smtpClientService;
-        
+
         public SenderService(DatabaseContext databaseContext, ISmtpClientService smtpClientService)
         {
             _databaseContext = databaseContext;
