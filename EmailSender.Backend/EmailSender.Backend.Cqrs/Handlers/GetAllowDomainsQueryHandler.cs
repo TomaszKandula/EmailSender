@@ -30,10 +30,10 @@ namespace EmailSender.Backend.Cqrs.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetAllowDomainsQueryResponse> Handle(GetAllowDomainsQueryRequest queryRequest, CancellationToken cancellationToken)
+        public override async Task<GetAllowDomainsQueryResponse> Handle(GetAllowDomainsQueryRequest request, CancellationToken cancellationToken)
         {
-            var isKeyValid = await _userService.IsPrivateKeyValid(queryRequest.PrivateKey, cancellationToken);
-            var userId = await _userService.GetUserByPrivateKey(queryRequest.PrivateKey, cancellationToken);
+            var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
+            var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
 
             VerifyArguments(isKeyValid, userId);
 
