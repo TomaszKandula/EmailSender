@@ -4,8 +4,8 @@ namespace EmailSender.UnitTests.Validators
     using FluentAssertions;
     using System.Collections.Generic;
     using Backend.Shared.Resources;
-    using Backend.AppService.Requests;
-    using Backend.AppService.Validators;
+    using Backend.Cqrs.Requests;
+    using Backend.Cqrs.Validators;
 
     public class SendEmailValidatorTest : TestBase
     {

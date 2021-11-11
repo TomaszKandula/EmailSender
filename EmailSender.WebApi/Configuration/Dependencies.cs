@@ -8,11 +8,11 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Backend.Cqrs;
     using Backend.Database;
     using Backend.VatService;
     using Backend.SmtpService;
     using Backend.UserService;
-    using Backend.AppService;
     using Backend.Shared.Models;
     using Backend.SenderService;
     using Backend.BillingService;

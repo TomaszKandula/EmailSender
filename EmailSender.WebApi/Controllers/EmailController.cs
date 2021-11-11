@@ -3,9 +3,9 @@ namespace EmailSender.WebApi.Controllers
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Backend.Shared.Dto;
-    using Backend.AppService.Mappers;
-    using Backend.AppService.Requests;
-    using Backend.AppService.Responses;
+    using Backend.Cqrs.Mappers;
+    using Backend.Cqrs.Requests;
+    using Backend.Cqrs.Responses;
     using MediatR;
 
     public class EmailController : BaseController

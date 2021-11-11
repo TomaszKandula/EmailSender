@@ -3,8 +3,8 @@ namespace EmailSender.WebApi.Controllers
     using System;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using Backend.AppService.Requests;
-    using Backend.AppService.Responses;
+    using Backend.Cqrs.Requests;
+    using Backend.Cqrs.Responses;
     using MediatR;
 
     public class BillingController : BaseController
