@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EmailSender.Backend.Core\EmailSender.Backend.Core.csproj" />
+      <ProjectReference Include="..\EmailSender.Backend.Database\EmailSender.Backend.Database.csproj" />
+      <ProjectReference Include="..\EmailSender.Backend.SmtpService\EmailSender.Backend.SmtpService.csproj" />
+    </ItemGroup>
+
+</Project>

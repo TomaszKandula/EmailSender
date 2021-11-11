@@ -15,6 +15,6 @@
 
         Task<ActionResult> Send(CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken = default);
+        Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default);
     }
 }
