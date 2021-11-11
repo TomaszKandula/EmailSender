@@ -13,8 +13,8 @@
 
         Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default);
 
-        Task<bool> VerifyConnection(CancellationToken cancellationToken = default);
+        Task VerifyConnection(CancellationToken cancellationToken = default);
 
-        Task<bool> Send(CancellationToken cancellationToken = default);
+        Task Send(CancellationToken cancellationToken = default);
     }
 }

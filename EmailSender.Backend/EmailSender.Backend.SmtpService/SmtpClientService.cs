@@ -54,7 +54,7 @@
             return results;
         }
 
-        public async Task<bool> VerifyConnection(CancellationToken cancellationToken = default)
+        public async Task VerifyConnection(CancellationToken cancellationToken = default)
         {
             try
             {
@@ -69,7 +69,6 @@
                     throw new ServerException(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED), ErrorCodes.SMTP_NOT_AUTHENTICATED);
 
                 await _smtpClient.DisconnectAsync(true, cancellationToken);
-                return true;
             }
             catch (Exception exception) when (exception is not ServerException)
             {
@@ -80,7 +79,7 @@
             }
         }
 
-        public async Task<bool> Send(CancellationToken cancellationToken = default)
+        public async Task Send(CancellationToken cancellationToken = default)
         {
             try
             {
@@ -112,8 +111,6 @@
 
                 await _smtpClient.SendAsync(newMail, cancellationToken);
                 await _smtpClient.DisconnectAsync(true, cancellationToken);
-
-                return true;
             } 
             catch (Exception exception) when (exception is not ServerException)
             {
