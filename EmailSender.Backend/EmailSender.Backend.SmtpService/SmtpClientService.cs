@@ -10,6 +10,7 @@
     using MimeKit;
     using DnsClient;
     using MimeKit.Text;
+    using Core.Exceptions;
     using Shared.Resources;
     using MailKit.Net.Smtp;
     using MailKit.Security;
@@ -34,56 +35,6 @@
             _lookupClient = lookupClient;
         }
 
-        public async Task<ActionResult> VerifyConnection(CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(ServerData.Address) || 
-                    string.IsNullOrEmpty(ServerData.Key) || 
-                    string.IsNullOrEmpty(ServerData.Server) || 
-                    ServerData.Port == 0)
-                {
-                    return new ActionResult
-                    {
-                        ErrorCode = nameof(ErrorCodes.MISSING_SERVER_DATA),
-                        ErrorDesc = ErrorCodes.MISSING_SERVER_DATA
-                    };
-                }
-
-                await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
-                if (!_smtpClient.IsConnected)
-                {
-                    return new ActionResult
-                    {
-                        ErrorCode = nameof(ErrorCodes.SMTP_NOT_CONNECTED),
-                        ErrorDesc = ErrorCodes.SMTP_NOT_CONNECTED
-                    };
-                }
-
-                await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
-                if (!_smtpClient.IsAuthenticated)
-                {
-                    return new ActionResult
-                    {
-                        ErrorCode = nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED),
-                        ErrorDesc = ErrorCodes.SMTP_NOT_AUTHENTICATED
-                    };
-                }
-
-                await _smtpClient.DisconnectAsync(true, cancellationToken);
-                return new ActionResult { IsSucceeded = true };
-            }
-            catch (Exception exception)
-            {
-                return new ActionResult
-                {
-                    ErrorCode = nameof(ErrorCodes.SMTP_CLIENT_ERROR),
-                    ErrorDesc = ErrorCodes.SMTP_CLIENT_ERROR,
-                    InnerMessage = exception.Message
-                };
-            }
-        }
-
         public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
         {
             var results = new List<VerifyEmail>();
@@ -103,21 +54,38 @@
             return results;
         }
 
-        public async Task<ActionResult> Send(CancellationToken cancellationToken = default)
+        public async Task<bool> VerifyConnection(CancellationToken cancellationToken = default)
         {
             try
             {
-                if (!EmailData.To.Any() || 
-                    string.IsNullOrEmpty(EmailData.From) || 
-                    string.IsNullOrEmpty(EmailData.Subject) && 
-                    (string.IsNullOrEmpty(EmailData.HtmlBody) || string.IsNullOrEmpty(EmailData.PlainText)))
-                {
-                    return new ActionResult
-                    {
-                        ErrorCode = nameof(ErrorCodes.MISSING_EMAIL_DATA),
-                        ErrorDesc = ErrorCodes.MISSING_EMAIL_DATA
-                    };
-                }
+                VerifyServerData();
+
+                await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
+                if (!_smtpClient.IsConnected)
+                    throw new ServerException(nameof(ErrorCodes.SMTP_NOT_CONNECTED), ErrorCodes.SMTP_NOT_CONNECTED);
+
+                await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
+                if (!_smtpClient.IsAuthenticated)
+                    throw new ServerException(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED), ErrorCodes.SMTP_NOT_AUTHENTICATED);
+
+                await _smtpClient.DisconnectAsync(true, cancellationToken);
+                return true;
+            }
+            catch (Exception exception) when (exception is not ServerException)
+            {
+                var message = string.IsNullOrEmpty(exception.InnerException?.Message)
+                    ? ErrorCodes.SMTP_CLIENT_ERROR
+                    : exception.InnerException.Message;
+                throw new ServerException(nameof(ErrorCodes.SMTP_CLIENT_ERROR), $"{message}");
+            }
+        }
+
+        public async Task<bool> Send(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                VerifyEmailData();
+                VerifyServerData();
 
                 var newMail = new MimeMessage();
 
@@ -145,16 +113,36 @@
                 await _smtpClient.SendAsync(newMail, cancellationToken);
                 await _smtpClient.DisconnectAsync(true, cancellationToken);
 
-                return new ActionResult { IsSucceeded = true };
+                return true;
             } 
-            catch (Exception exception)
+            catch (Exception exception) when (exception is not ServerException)
             {
-                return new ActionResult
-                {
-                    ErrorCode = nameof(ErrorCodes.SMTP_CLIENT_ERROR),
-                    ErrorDesc = ErrorCodes.SMTP_CLIENT_ERROR,
-                    InnerMessage = exception.Message
-                };
+                var message = string.IsNullOrEmpty(exception.InnerException?.Message)
+                    ? ErrorCodes.SMTP_CLIENT_ERROR
+                    : exception.InnerException.Message;
+                throw new ServerException(nameof(ErrorCodes.SMTP_CLIENT_ERROR), $"{message}");
+            }
+        }
+
+        private void VerifyEmailData()
+        {
+            if (!EmailData.To.Any() || 
+                string.IsNullOrEmpty(EmailData.From) || 
+                string.IsNullOrEmpty(EmailData.Subject) && 
+                (string.IsNullOrEmpty(EmailData.HtmlBody) || string.IsNullOrEmpty(EmailData.PlainText)))
+            {
+                throw new ServerException(nameof(ErrorCodes.MISSING_EMAIL_DATA), ErrorCodes.MISSING_EMAIL_DATA);
+            }
+        }
+
+        private void VerifyServerData()
+        {
+            if (string.IsNullOrEmpty(ServerData.Address) || 
+                string.IsNullOrEmpty(ServerData.Key) || 
+                string.IsNullOrEmpty(ServerData.Server) || 
+                ServerData.Port == 0)
+            {
+                throw new ServerException(nameof(ErrorCodes.MISSING_SERVER_DATA), ErrorCodes.MISSING_SERVER_DATA);
             }
         }
 

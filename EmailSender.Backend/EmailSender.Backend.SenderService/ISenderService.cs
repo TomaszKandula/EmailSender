@@ -14,8 +14,8 @@ namespace EmailSender.Backend.SenderService
 
         Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken);
 
-        Task<ErrorResult?> VerifyConnection(Guid emailId, CancellationToken cancellationToken);
+        Task<bool> VerifyConnection(Guid emailId, CancellationToken cancellationToken);
 
-        Task Send(Configuration configuration, CancellationToken cancellationToken);
+        Task<bool> Send(Configuration configuration, CancellationToken cancellationToken);
     }
 }

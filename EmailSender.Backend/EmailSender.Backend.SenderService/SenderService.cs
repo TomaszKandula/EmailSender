@@ -64,17 +64,10 @@ namespace EmailSender.Backend.SenderService
         /// <param name="emailId">ID of registered email address.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Error object or null.</returns>
-        public async Task<ErrorResult?> VerifyConnection(Guid emailId, CancellationToken cancellationToken)
+        public async Task<bool> VerifyConnection(Guid emailId, CancellationToken cancellationToken)
         {
             _smtpClientService.ServerData = await GetServerData(emailId, cancellationToken);
-            var result = await _smtpClientService.VerifyConnection(cancellationToken);
-
-            return result.IsSucceeded ? null : new ErrorResult
-            {
-                ErrorCode = result.ErrorCode,
-                ErrorDesc = result.ErrorDesc,
-                InnerMessage = result.InnerMessage
-            };
+            return await _smtpClientService.VerifyConnection(cancellationToken);
         }
 
         /// <summary>
@@ -86,7 +79,7 @@ namespace EmailSender.Backend.SenderService
         /// </param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <exception cref="BusinessException">Throws HTTP status code 400.</exception>
-        public async Task Send(Configuration configuration, CancellationToken cancellationToken)
+        public async Task<bool> Send(Configuration configuration, CancellationToken cancellationToken)
         {
             var emailData = new EmailData
             {
@@ -102,12 +95,7 @@ namespace EmailSender.Backend.SenderService
             _smtpClientService.EmailData = emailData;
             _smtpClientService.ServerData = await GetServerData(emailData.From, cancellationToken);
 
-            var result = await _smtpClientService.Send(cancellationToken);
-            if (!result.IsSucceeded)
-            {
-                var message = result.InnerMessage == string.Empty ? result.ErrorDesc : result.InnerMessage;
-                throw new BusinessException(result.ErrorCode, message);
-            }
+            return await _smtpClientService.Send(cancellationToken);
         }
 
         /// <summary>
