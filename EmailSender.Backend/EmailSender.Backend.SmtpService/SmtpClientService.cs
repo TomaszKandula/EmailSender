@@ -72,6 +72,25 @@
             }
         }
 
+        public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
+        {
+            var results = new List<VerifyEmail>();
+            foreach (var email in emails)
+            {
+                var formatCheck = IsFormatCorrect(email);
+                var domainCheck = formatCheck && await IsDomainCorrect(email, cancellationToken);
+
+                results.Add(new VerifyEmail
+                {
+                    Address = email,
+                    IsDomainValid = domainCheck,
+                    IsFormatCorrect = formatCheck
+                });
+            }
+
+            return results;
+        }
+
         public async Task<ActionResult> Send(CancellationToken cancellationToken = default)
         {
             try
@@ -113,25 +132,6 @@
                     InnerMessage = exception.Message
                 };
             }
-        }
-
-        public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
-        {
-            var results = new List<VerifyEmail>();
-            foreach (var email in emails)
-            {
-                var formatCheck = IsFormatCorrect(email);
-                var domainCheck = formatCheck && await IsDomainCorrect(email, cancellationToken);
-
-                results.Add(new VerifyEmail
-                {
-                    Address = email,
-                    IsDomainValid = domainCheck,
-                    IsFormatCorrect = formatCheck
-                });
-            }
-
-            return results;
         }
 
         private static bool IsFormatCorrect(string emailAddress)

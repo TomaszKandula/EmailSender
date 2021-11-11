@@ -47,6 +47,37 @@ namespace EmailSender.Backend.SenderService
         }
 
         /// <summary>
+        /// Checks list of email addresses.
+        /// </summary>
+        /// <param name="emailAddress">List of email addresses.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>List of verified emails.</returns>
+        public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken)
+        {
+            return await _smtpClientService.VerifyEmailAddress(emailAddress, cancellationToken);
+        }
+
+        /// <summary>
+        /// Checks connection to SMTP server for given email address.
+        /// Email address must be registered within the system.
+        /// </summary>
+        /// <param name="emailId">ID of registered email address.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Error object or null.</returns>
+        public async Task<ErrorResult?> VerifyConnection(Guid emailId, CancellationToken cancellationToken)
+        {
+            _smtpClientService.ServerData = await GetServerData(emailId, cancellationToken);
+            var result = await _smtpClientService.VerifyConnection(cancellationToken);
+
+            return result.IsSucceeded ? null : new ErrorResult
+            {
+                ErrorCode = result.ErrorCode,
+                ErrorDesc = result.ErrorDesc,
+                InnerMessage = result.InnerMessage
+            };
+        }
+
+        /// <summary>
         /// Sends an email using data passed in configuration object.
         /// </summary>
         /// <param name="configuration">
@@ -77,37 +108,6 @@ namespace EmailSender.Backend.SenderService
                 var message = result.InnerMessage == string.Empty ? result.ErrorDesc : result.InnerMessage;
                 throw new BusinessException(result.ErrorCode, message);
             }
-        }
-
-        /// <summary>
-        /// Checks connection to SMTP server for given email address.
-        /// Email address must be registered within the system.
-        /// </summary>
-        /// <param name="emailId">ID of registered email address.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>Error object or null.</returns>
-        public async Task<ErrorResult?> VerifyConnection(Guid emailId, CancellationToken cancellationToken)
-        {
-            _smtpClientService.ServerData = await GetServerData(emailId, cancellationToken);
-            var result = await _smtpClientService.VerifyConnection(cancellationToken);
-
-            return result.IsSucceeded ? null : new ErrorResult
-            {
-                ErrorCode = result.ErrorCode,
-                ErrorDesc = result.ErrorDesc,
-                InnerMessage = result.InnerMessage
-            };
-        }
-
-        /// <summary>
-        /// Checks list of email addresses.
-        /// </summary>
-        /// <param name="emailAddress">List of email addresses.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>List of verified emails.</returns>
-        public Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken)
-        {
-            return _smtpClientService.VerifyEmailAddress(emailAddress, cancellationToken);
         }
 
         /// <summary>
