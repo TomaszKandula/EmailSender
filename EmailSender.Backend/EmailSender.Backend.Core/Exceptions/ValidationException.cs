@@ -1,4 +1,4 @@
-﻿namespace EmailSender.Backend.Shared.Exceptions
+﻿namespace EmailSender.Backend.Core.Exceptions
 {
     using System;
     using System.Runtime.Serialization;

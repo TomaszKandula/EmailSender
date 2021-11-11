@@ -6,7 +6,7 @@ namespace EmailSender.Backend.UserService
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Database;
-    using Shared.Services.LoggerService;
+    using Core.Services.LoggerService;
 
     public class UserService : IUserService
     {

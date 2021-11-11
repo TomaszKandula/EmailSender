@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Shared.Extensions
+namespace EmailSender.Backend.Core.Extensions
 {
     using System;
     using System.Text;

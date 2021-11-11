@@ -8,10 +8,10 @@ namespace EmailSender.Backend.AppService.Handlers
     using Requests;
     using UserService;
     using SenderService;
+    using Core.Exceptions;
     using Domain.Entities;
     using Shared.Resources;
-    using Shared.Exceptions;
-    using Shared.Services.DateTimeService;
+    using Core.Services.DateTimeService;
 
     public class GetServerStatusHandler : TemplateHandler<GetServerStatusRequest, Unit>
     {

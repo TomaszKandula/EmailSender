@@ -1,4 +1,4 @@
-﻿namespace EmailSender.Backend.Shared.Services.LoggerService
+﻿namespace EmailSender.Backend.Core.Services.LoggerService
 {
     public interface ILoggerService
     {

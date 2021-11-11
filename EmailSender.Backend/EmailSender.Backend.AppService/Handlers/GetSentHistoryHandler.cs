@@ -10,10 +10,10 @@ namespace EmailSender.Backend.AppService.Handlers
     using Responses;
     using UserService;
     using Shared.Models;
+    using Core.Exceptions;
     using Domain.Entities;
     using Shared.Resources;
-    using Shared.Exceptions;
-    using Shared.Services.DateTimeService;
+    using Core.Services.DateTimeService;
 
     public class GetSentHistoryHandler : TemplateHandler<GetSentHistoryRequest, GetSentHistoryResponse>
     {

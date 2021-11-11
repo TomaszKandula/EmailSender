@@ -10,7 +10,7 @@ namespace EmailSender.Backend.SenderService
     using Models;
     using Database;
     using SmtpService;
-    using Shared.Exceptions;
+    using Core.Exceptions;
     using SmtpService.Models;
 
     public class SenderService : ISenderService

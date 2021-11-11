@@ -8,7 +8,7 @@ namespace EmailSender.UnitTests.Services
     using System.Threading.Tasks;
     using Backend.UserService;
     using Backend.Domain.Entities;
-    using Backend.Shared.Services.LoggerService;
+    using Backend.Core.Services.LoggerService;
 
     public class UserServiceTest : TestBase
     {

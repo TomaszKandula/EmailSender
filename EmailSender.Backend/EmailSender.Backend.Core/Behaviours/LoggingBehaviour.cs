@@ -1,4 +1,4 @@
-﻿namespace EmailSender.Backend.Shared.Behaviours
+﻿namespace EmailSender.Backend.Core.Behaviours
 {   
     using System.Threading;
     using System.Threading.Tasks;

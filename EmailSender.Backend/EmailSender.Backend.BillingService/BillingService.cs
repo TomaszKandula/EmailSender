@@ -8,9 +8,9 @@ namespace EmailSender.Backend.BillingService
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Database;
+    using Core.Exceptions;
     using Shared.Resources;
-    using Shared.Exceptions;
-    using Shared.Services.DateTimeService;
+    using Core.Services.DateTimeService;
 
     public class BillingService : IBillingService
     {

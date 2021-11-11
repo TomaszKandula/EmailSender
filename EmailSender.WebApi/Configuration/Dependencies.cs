@@ -16,10 +16,10 @@
     using Backend.Shared.Models;
     using Backend.SenderService;
     using Backend.BillingService;
-    using Backend.Shared.Behaviours;
+    using Backend.Core.Behaviours;
     using Backend.Database.Initializer;
-    using Backend.Shared.Services.LoggerService;
-    using Backend.Shared.Services.DateTimeService;
+    using Backend.Core.Services.LoggerService;
+    using Backend.Core.Services.DateTimeService;
     using MediatR;
     using DnsClient;
     using MailKit.Net.Smtp;

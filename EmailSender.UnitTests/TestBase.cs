@@ -2,8 +2,8 @@
 {
     using Microsoft.Extensions.DependencyInjection;
     using Backend.Database;
-    using Backend.Shared.Services.DateTimeService;
-    using Backend.Shared.Services.DataUtilityService;
+    using Backend.Core.Services.DateTimeService;
+    using Backend.Core.Services.DataUtilityService;
 
     public class TestBase
     {

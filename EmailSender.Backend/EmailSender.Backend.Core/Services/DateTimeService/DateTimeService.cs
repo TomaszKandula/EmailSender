@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Shared.Services.DateTimeService
+namespace EmailSender.Backend.Core.Services.DateTimeService
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

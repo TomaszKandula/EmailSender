@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Shared.Services.DataUtilityService
+namespace EmailSender.Backend.Core.Services.DataUtilityService
 {
     using System;
     using System.IO;

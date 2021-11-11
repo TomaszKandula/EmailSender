@@ -1,4 +1,4 @@
-﻿namespace EmailSender.Backend.Shared.Services.LoggerService
+﻿namespace EmailSender.Backend.Core.Services.LoggerService
 {
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
