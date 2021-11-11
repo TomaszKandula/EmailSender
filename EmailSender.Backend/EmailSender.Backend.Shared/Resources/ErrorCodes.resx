@@ -66,4 +66,10 @@
     <data name="VAT_NUM_LENGTH_NINE" xml:space="preserve">
         <value>VAT number have incorrect length of nine digits</value>
     </data>
+    <data name="MISSING_SERVER_DATA" xml:space="preserve">
+        <value>Cannot find server data</value>
+    </data>
+    <data name="MISSING_EMAIL_DATA" xml:space="preserve">
+        <value>Cannot find email data</value>
+    </data>
 </root>

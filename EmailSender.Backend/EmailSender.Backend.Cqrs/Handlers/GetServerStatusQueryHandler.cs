@@ -50,10 +50,8 @@ namespace EmailSender.Backend.Cqrs.Handlers
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var result = await _senderService.VerifyConnection(emailId, cancellationToken);
-            return result == null 
-                ? Unit.Value 
-                : throw new ServerException(nameof(ErrorCodes.SMTP_FAILED),$"SMTP service verification failed. Reason: {result.ErrorDesc}");
+            await _senderService.VerifyConnection(emailId, cancellationToken);
+            return Unit.Value;
         }
 
         private static void VerifyArguments(bool isKeyValid, Guid? userId, Guid? emailId)
