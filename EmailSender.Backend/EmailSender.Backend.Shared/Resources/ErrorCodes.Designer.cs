@@ -140,5 +140,17 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("VAT_NUM_LENGTH_NINE", resourceCulture);
             }
         }
+        
+        public static string MISSING_SERVER_DATA {
+            get {
+                return ResourceManager.GetString("MISSING_SERVER_DATA", resourceCulture);
+            }
+        }
+        
+        public static string MISSING_EMAIL_DATA {
+            get {
+                return ResourceManager.GetString("MISSING_EMAIL_DATA", resourceCulture);
+            }
+        }
     }
 }
