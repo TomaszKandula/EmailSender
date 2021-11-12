@@ -10,7 +10,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using Backend.Cqrs;
     using Backend.Database;
-    using Backend.VatService;
     using Backend.SmtpService;
     using Backend.UserService;
     using Backend.Shared.Models;
@@ -70,7 +69,6 @@
             services.AddScoped<ISenderService, SenderService>();
             services.AddScoped<IBillingService, BillingService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IVatService, VatService>();
             services.AddScoped<ISmtpClientService, SmtpClientService>();
             services.AddScoped<IDbInitializer, DbInitializer>();
         }

@@ -23,7 +23,6 @@
       <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Cqrs\EmailSender.Backend.Cqrs.csproj" />
       <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj" />
       <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.SmtpService\EmailSender.Backend.SmtpService.csproj" />
-      <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.VatService\EmailSender.Backend.VatService.csproj" />
     </ItemGroup>
 
 </Project>
