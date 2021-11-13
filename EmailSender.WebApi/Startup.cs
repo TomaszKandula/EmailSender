@@ -32,7 +32,7 @@ namespace EmailSender.WebApi
         {
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
             services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
-            Dependencies.Register(services, _configuration, _environment);
+            Dependencies.Register(services, _configuration);
 
             if (_environment.IsDevelopment() || _environment.IsStaging())
                 Swagger.SetupSwaggerOptions(services);
@@ -58,28 +58,28 @@ namespace EmailSender.WebApi
             });
         }
 
-        public void Configure(IApplicationBuilder applicationBuilder)
+        public void Configure(IApplicationBuilder builder)
         {
-            applicationBuilder.UseSerilogRequestLogging();
+            builder.UseSerilogRequestLogging();
 
-            applicationBuilder.UseMiddleware<CustomCors>();
-            applicationBuilder.UseMiddleware<CustomException>();
-            applicationBuilder.UseMiddleware<CustomCacheControl>();
+            builder.UseMiddleware<CustomCors>();
+            builder.UseMiddleware<CustomException>();
+            builder.UseMiddleware<CustomCacheControl>();
             
-            applicationBuilder.UseHttpsRedirection();
-            applicationBuilder.UseForwardedHeaders();
-            applicationBuilder.UseResponseCompression();
+            builder.UseHttpsRedirection();
+            builder.UseForwardedHeaders();
+            builder.UseResponseCompression();
 
-            applicationBuilder.UseRouting();
-            applicationBuilder.UseAuthentication();
-            applicationBuilder.UseAuthorization();
-            applicationBuilder.UseEndpoints(endpoints => endpoints.MapControllers());
+            builder.UseRouting();
+            builder.UseAuthentication();
+            builder.UseAuthorization();
+            builder.UseEndpoints(endpoints => endpoints.MapControllers());
 
             if (!_environment.IsDevelopment() && !_environment.IsStaging()) 
                 return;
 
-            applicationBuilder.UseSwagger();
-            Swagger.SetupSwaggerUi(applicationBuilder, _configuration);
+            builder.UseSwagger();
+            Swagger.SetupSwaggerUi(builder, _configuration);
         }
     }
 }
