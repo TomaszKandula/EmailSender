@@ -2,21 +2,20 @@ namespace EmailSender.WebApi.Middleware
 {
     using System;
     using System.Net;
-    using System.Text.Json;
     using System.Threading.Tasks;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
     using Backend.Shared.Resources;
-    using Configuration;
     using Backend.Core.Models;
     using Backend.Core.Exceptions;
+    using Newtonsoft.Json;
 
     [ExcludeFromCodeCoverage]
-    public class CustomException
+    public class Exceptions
     {
         private readonly RequestDelegate _requestDelegate;
 
-        public CustomException(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
+        public Exceptions(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
         public async Task Invoke(HttpContext httpContext)
         {
@@ -54,10 +53,9 @@ namespace EmailSender.WebApi.Middleware
 
         private static Task WriteErrorResponse(HttpContext httpContext, ApplicationError applicationError, HttpStatusCode statusCode)
         {
-            var result = JsonSerializer.Serialize(applicationError);
+            var result = JsonConvert.SerializeObject(applicationError);
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)statusCode;
-            CorsHeaders.Apply(httpContext);
             return httpContext.Response.WriteAsync(result);
         }
     }

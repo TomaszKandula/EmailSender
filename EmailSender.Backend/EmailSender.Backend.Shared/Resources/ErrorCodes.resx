@@ -72,4 +72,7 @@
     <data name="MISSING_EMAIL_DATA" xml:space="preserve">
         <value>Cannot find email data</value>
     </data>
+    <data name="ACCESS_FORBIDDEN" xml:space="preserve">
+        <value>User is not authorized to perform the operation</value>
+    </data>
 </root>
