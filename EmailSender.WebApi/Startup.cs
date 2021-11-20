@@ -66,9 +66,9 @@ namespace EmailSender.WebApi
             builder.UseForwardedHeaders();
             builder.ApplyCorsPolicy();
 
-            builder.UseMiddleware<CustomCors>();
-            builder.UseMiddleware<CustomException>();
-            builder.UseMiddleware<CustomCacheControl>();
+            builder.UseMiddleware<DomainControl>();
+            builder.UseMiddleware<Exceptions>();
+            builder.UseMiddleware<CacheControl>();
 
             builder.UseResponseCompression();
             builder.UseRouting();

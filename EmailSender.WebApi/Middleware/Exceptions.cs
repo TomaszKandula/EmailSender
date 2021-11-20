@@ -11,11 +11,11 @@ namespace EmailSender.WebApi.Middleware
     using Newtonsoft.Json;
 
     [ExcludeFromCodeCoverage]
-    public class CustomException
+    public class Exceptions
     {
         private readonly RequestDelegate _requestDelegate;
 
-        public CustomException(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
+        public Exceptions(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
         public async Task Invoke(HttpContext httpContext)
         {

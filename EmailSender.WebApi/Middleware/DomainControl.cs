@@ -10,11 +10,11 @@
     using Newtonsoft.Json;
 
     [ExcludeFromCodeCoverage]
-    public class CustomCors
+    public class DomainControl
     {
         private readonly RequestDelegate _requestDelegate;
 
-        public CustomCors(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
+        public DomainControl(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
         public async Task Invoke(HttpContext httpContext, IUserService userService)
         {
