@@ -28,7 +28,7 @@ namespace EmailSender.WebApi.Configuration
         {
             builder.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", ApiName);
+                options.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", ApiName);
             });
         }
     }
