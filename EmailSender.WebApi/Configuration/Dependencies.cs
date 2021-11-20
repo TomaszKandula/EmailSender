@@ -4,7 +4,6 @@
     using System.Net.Http;
     using System.Reflection;
     using System.Diagnostics.CodeAnalysis;
-    using Microsoft.Extensions.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +11,6 @@
     using Backend.Database;
     using Backend.SmtpService;
     using Backend.UserService;
-    using Backend.Shared.Models;
     using Backend.SenderService;
     using Backend.BillingService;
     using Backend.Core.Behaviours;
@@ -27,12 +25,11 @@
     [ExcludeFromCodeCoverage]
     public static class Dependencies
     {
-        public static void Register(IServiceCollection services, IConfiguration configuration, IHostEnvironment environment = default)
+        public static void Register(IServiceCollection services, IConfiguration configuration)
         {
             CommonServices(services, configuration);
             SetupDatabase(services, configuration);
-            if (environment != null)
-                SetupRetryPolicyWithPolly(services, configuration, environment);
+            SetupRetryPolicyWithPolly(services);
         }
 
         public static void CommonServices(IServiceCollection services, IConfiguration configuration)
@@ -85,14 +82,10 @@
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
         }
 
-        private static void SetupRetryPolicyWithPolly(IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+        private static void SetupRetryPolicyWithPolly(IServiceCollection services)
         {
-            var applicationPaths = configuration.GetSection(nameof(ApplicationPaths)).Get<ApplicationPaths>();
             services.AddHttpClient("RetryHttpClient", options =>
             {
-                options.BaseAddress = new Uri(environment.IsDevelopment() 
-                    ? applicationPaths.DevelopmentOrigin 
-                    : applicationPaths.DeploymentOrigin);
                 options.DefaultRequestHeaders.Add("Accept", "application/json");
                 options.Timeout = TimeSpan.FromMinutes(5);
                 options.DefaultRequestHeaders.ConnectionClose = true;
