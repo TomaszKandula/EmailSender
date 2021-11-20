@@ -152,5 +152,11 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("MISSING_EMAIL_DATA", resourceCulture);
             }
         }
+        
+        public static string ACCESS_FORBIDDEN {
+            get {
+                return ResourceManager.GetString("ACCESS_FORBIDDEN", resourceCulture);
+            }
+        }
     }
 }
