@@ -35,7 +35,7 @@ namespace EmailSender.WebApi
             Dependencies.Register(services, _configuration);
 
             if (_environment.IsDevelopment() || _environment.IsStaging())
-                Swagger.SetupSwaggerOptions(services);
+                services.SetupSwaggerOptions();
 
             if (!_environment.IsProduction() && !_environment.IsStaging()) 
                 return;
@@ -62,15 +62,17 @@ namespace EmailSender.WebApi
         {
             builder.UseSerilogRequestLogging();
 
+            builder.UseHttpsRedirection();
+            builder.UseForwardedHeaders();
+            builder.ApplyCorsPolicy();
+
             builder.UseMiddleware<CustomCors>();
             builder.UseMiddleware<CustomException>();
             builder.UseMiddleware<CustomCacheControl>();
-            
-            builder.UseHttpsRedirection();
-            builder.UseForwardedHeaders();
-            builder.UseResponseCompression();
 
+            builder.UseResponseCompression();
             builder.UseRouting();
+
             builder.UseAuthentication();
             builder.UseAuthorization();
             builder.UseEndpoints(endpoints => endpoints.MapControllers());
@@ -79,7 +81,7 @@ namespace EmailSender.WebApi
                 return;
 
             builder.UseSwagger();
-            Swagger.SetupSwaggerUi(builder, _configuration);
+            builder.SetupSwaggerUi();
         }
     }
 }
