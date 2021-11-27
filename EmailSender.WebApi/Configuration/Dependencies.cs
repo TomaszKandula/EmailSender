@@ -25,14 +25,14 @@
     [ExcludeFromCodeCoverage]
     public static class Dependencies
     {
-        public static void Register(IServiceCollection services, IConfiguration configuration)
+        public static void RegisterDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            CommonServices(services, configuration);
+            services.CommonServices(configuration);
             SetupDatabase(services, configuration);
             SetupRetryPolicyWithPolly(services);
         }
 
-        public static void CommonServices(IServiceCollection services, IConfiguration configuration)
+        public static void CommonServices(this IServiceCollection services, IConfiguration configuration)
         {
             SetupLogger(services);
             SetupServices(services);
