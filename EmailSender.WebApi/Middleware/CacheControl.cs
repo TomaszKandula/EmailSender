@@ -14,6 +14,7 @@ namespace EmailSender.WebApi.Middleware
         {
             httpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
             {
+                NoStore = true,
                 NoCache = true
             };
             await _requestDelegate(httpContext);
