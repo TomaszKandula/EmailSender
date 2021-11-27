@@ -334,7 +334,7 @@ namespace EmailSender.UnitTests.Services
             
             // Act
             // Assert
-            var result = await Assert.ThrowsAsync<ServerException>(() 
+            var result = await Assert.ThrowsAsync<BusinessException>(() 
                 => service.VerifyConnection(Guid.NewGuid(), CancellationToken.None));
             result.ErrorCode.Should().Be(nameof(ErrorCodes.MISSING_SERVER_DATA));
         }
@@ -404,12 +404,12 @@ namespace EmailSender.UnitTests.Services
             switch (testCase)
             {
                 case TestCase.NoConnection:
-                    var noConnectionResult = await Assert.ThrowsAsync<ServerException>(() 
+                    var noConnectionResult = await Assert.ThrowsAsync<BusinessException>(() 
                         => service.VerifyConnection(email.Id, CancellationToken.None));
                     noConnectionResult.ErrorCode.Should().Be(nameof(ErrorCodes.SMTP_NOT_CONNECTED));
                     break;
                 case TestCase.NoAuthorization:
-                    var noAuthorizationResult = await Assert.ThrowsAsync<ServerException>(() 
+                    var noAuthorizationResult = await Assert.ThrowsAsync<BusinessException>(() 
                         => service.VerifyConnection(email.Id, CancellationToken.None));
                     noAuthorizationResult.ErrorCode.Should().Be(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED));
                     break;
@@ -550,7 +550,7 @@ namespace EmailSender.UnitTests.Services
 
             // Act
             // Assert
-            var result = await Assert.ThrowsAsync<ServerException>(() 
+            var result = await Assert.ThrowsAsync<BusinessException>(() 
                 => service.Send(configuration, CancellationToken.None));
             result.ErrorCode.Should().Be(nameof(ErrorCodes.MISSING_SERVER_DATA));
         }
