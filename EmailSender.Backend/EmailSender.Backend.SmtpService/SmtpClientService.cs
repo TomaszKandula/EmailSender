@@ -14,12 +14,15 @@
     using Shared.Resources;
     using MailKit.Net.Smtp;
     using MailKit.Security;
+    using Core.Services.LoggerService;
 
     public sealed class SmtpClientService : ISmtpClientService
     {
         private readonly ISmtpClient _smtpClient;
 
         private readonly ILookupClient _lookupClient;
+
+        private readonly ILoggerService _loggerService;
 
         public EmailData EmailData { get; set; }
 
@@ -29,10 +32,11 @@
             ? SecureSocketOptions.SslOnConnect
             : SecureSocketOptions.None;
 
-        public SmtpClientService(ISmtpClient smtpClient, ILookupClient lookupClient)
+        public SmtpClientService(ISmtpClient smtpClient, ILookupClient lookupClient, ILoggerService loggerService)
         {
             _smtpClient = smtpClient;
             _lookupClient = lookupClient;
+            _loggerService = loggerService;
         }
 
         public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
@@ -62,20 +66,17 @@
 
                 await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
                 if (!_smtpClient.IsConnected)
-                    throw new ServerException(nameof(ErrorCodes.SMTP_NOT_CONNECTED), ErrorCodes.SMTP_NOT_CONNECTED);
+                    throw new BusinessException(nameof(ErrorCodes.SMTP_NOT_CONNECTED), ErrorCodes.SMTP_NOT_CONNECTED);
 
                 await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
                 if (!_smtpClient.IsAuthenticated)
-                    throw new ServerException(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED), ErrorCodes.SMTP_NOT_AUTHENTICATED);
+                    throw new BusinessException(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED), ErrorCodes.SMTP_NOT_AUTHENTICATED);
 
                 await _smtpClient.DisconnectAsync(true, cancellationToken);
             }
-            catch (Exception exception) when (exception is not ServerException)
+            catch (Exception exception)
             {
-                var message = string.IsNullOrEmpty(exception.InnerException?.Message)
-                    ? ErrorCodes.SMTP_CLIENT_ERROR
-                    : exception.InnerException.Message;
-                throw new ServerException(nameof(ErrorCodes.SMTP_CLIENT_ERROR), $"{message}");
+                _loggerService.LogError($"Message: {exception.Message}. Inner message: {exception.InnerException?.Message ?? "n/a"}");
             }
         }
 
@@ -112,12 +113,9 @@
                 await _smtpClient.SendAsync(newMail, cancellationToken);
                 await _smtpClient.DisconnectAsync(true, cancellationToken);
             } 
-            catch (Exception exception) when (exception is not ServerException)
+            catch (Exception exception)
             {
-                var message = string.IsNullOrEmpty(exception.InnerException?.Message)
-                    ? ErrorCodes.SMTP_CLIENT_ERROR
-                    : exception.InnerException.Message;
-                throw new ServerException(nameof(ErrorCodes.SMTP_CLIENT_ERROR), $"{message}");
+                _loggerService.LogError($"Message: {exception.Message}. Inner message: {exception.InnerException?.Message ?? "n/a"}");
             }
         }
 
@@ -128,7 +126,7 @@
                 string.IsNullOrEmpty(EmailData.Subject) && 
                 (string.IsNullOrEmpty(EmailData.HtmlBody) || string.IsNullOrEmpty(EmailData.PlainText)))
             {
-                throw new ServerException(nameof(ErrorCodes.MISSING_EMAIL_DATA), ErrorCodes.MISSING_EMAIL_DATA);
+                throw new BusinessException(nameof(ErrorCodes.MISSING_EMAIL_DATA), ErrorCodes.MISSING_EMAIL_DATA);
             }
         }
 
@@ -139,7 +137,7 @@
                 string.IsNullOrEmpty(ServerData.Server) || 
                 ServerData.Port == 0)
             {
-                throw new ServerException(nameof(ErrorCodes.MISSING_SERVER_DATA), ErrorCodes.MISSING_SERVER_DATA);
+                throw new BusinessException(nameof(ErrorCodes.MISSING_SERVER_DATA), ErrorCodes.MISSING_SERVER_DATA);
             }
         }
 
