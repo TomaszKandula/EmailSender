@@ -14,15 +14,12 @@
     using Shared.Resources;
     using MailKit.Net.Smtp;
     using MailKit.Security;
-    using Core.Services.LoggerService;
 
     public sealed class SmtpClientService : ISmtpClientService
     {
         private readonly ISmtpClient _smtpClient;
 
         private readonly ILookupClient _lookupClient;
-
-        private readonly ILoggerService _loggerService;
 
         public EmailData EmailData { get; set; }
 
@@ -32,11 +29,10 @@
             ? SecureSocketOptions.SslOnConnect
             : SecureSocketOptions.None;
 
-        public SmtpClientService(ISmtpClient smtpClient, ILookupClient lookupClient, ILoggerService loggerService)
+        public SmtpClientService(ISmtpClient smtpClient, ILookupClient lookupClient)
         {
             _smtpClient = smtpClient;
             _lookupClient = lookupClient;
-            _loggerService = loggerService;
         }
 
         public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
@@ -60,63 +56,49 @@
 
         public async Task VerifyConnection(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                VerifyServerData();
+            VerifyServerData();
 
-                await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
-                if (!_smtpClient.IsConnected)
-                    throw new BusinessException(nameof(ErrorCodes.SMTP_NOT_CONNECTED), ErrorCodes.SMTP_NOT_CONNECTED);
+            await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
+            if (!_smtpClient.IsConnected)
+                throw new BusinessException(nameof(ErrorCodes.SMTP_NOT_CONNECTED), ErrorCodes.SMTP_NOT_CONNECTED);
 
-                await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
-                if (!_smtpClient.IsAuthenticated)
-                    throw new BusinessException(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED), ErrorCodes.SMTP_NOT_AUTHENTICATED);
+            await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
+            if (!_smtpClient.IsAuthenticated)
+                throw new BusinessException(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED), ErrorCodes.SMTP_NOT_AUTHENTICATED);
 
-                await _smtpClient.DisconnectAsync(true, cancellationToken);
-            }
-            catch (Exception exception)
-            {
-                _loggerService.LogError($"Message: {exception.Message}. Inner message: {exception.InnerException?.Message ?? "n/a"}");
-            }
+            await _smtpClient.DisconnectAsync(true, cancellationToken);
         }
 
         public async Task Send(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                VerifyEmailData();
-                VerifyServerData();
+            VerifyEmailData();
+            VerifyServerData();
 
-                var newMail = new MimeMessage();
+            var newMail = new MimeMessage();
 
-                newMail.From.Add(MailboxAddress.Parse(EmailData.From));
-                newMail.Subject = EmailData.Subject;
+            newMail.From.Add(MailboxAddress.Parse(EmailData.From));
+            newMail.Subject = EmailData.Subject;
 
-                foreach (var item in EmailData.To) 
-                    newMail.To.Add(MailboxAddress.Parse(item));
+            foreach (var item in EmailData.To) 
+                newMail.To.Add(MailboxAddress.Parse(item));
 
-                if (EmailData.Cc != null && !EmailData.Cc.Any())
-                    foreach (var item in EmailData.Cc) newMail.Cc.Add(MailboxAddress.Parse(item));
+            if (EmailData.Cc != null && !EmailData.Cc.Any())
+                foreach (var item in EmailData.Cc) newMail.Cc.Add(MailboxAddress.Parse(item));
 
-                if (EmailData.Bcc != null && !EmailData.Bcc.Any())
-                    foreach (var item in EmailData.Bcc) newMail.Bcc.Add(MailboxAddress.Parse(item));
+            if (EmailData.Bcc != null && !EmailData.Bcc.Any())
+                foreach (var item in EmailData.Bcc) newMail.Bcc.Add(MailboxAddress.Parse(item));
 
-                if (!string.IsNullOrEmpty(EmailData.PlainText)) 
-                    newMail.Body = new TextPart(TextFormat.Plain) { Text = EmailData.PlainText };
+            if (!string.IsNullOrEmpty(EmailData.PlainText)) 
+                newMail.Body = new TextPart(TextFormat.Plain) { Text = EmailData.PlainText };
 
-                if (!string.IsNullOrEmpty(EmailData.HtmlBody)) 
-                    newMail.Body = new TextPart(TextFormat.Html) { Text = EmailData.HtmlBody };
+            if (!string.IsNullOrEmpty(EmailData.HtmlBody)) 
+                newMail.Body = new TextPart(TextFormat.Html) { Text = EmailData.HtmlBody };
 
-                await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
-                await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
+            await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
+            await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
 
-                await _smtpClient.SendAsync(newMail, cancellationToken);
-                await _smtpClient.DisconnectAsync(true, cancellationToken);
-            } 
-            catch (Exception exception)
-            {
-                _loggerService.LogError($"Message: {exception.Message}. Inner message: {exception.InnerException?.Message ?? "n/a"}");
-            }
+            await _smtpClient.SendAsync(newMail, cancellationToken);
+            await _smtpClient.DisconnectAsync(true, cancellationToken);
         }
 
         private void VerifyEmailData()
