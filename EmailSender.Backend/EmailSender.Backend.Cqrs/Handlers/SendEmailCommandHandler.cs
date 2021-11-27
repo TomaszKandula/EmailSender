@@ -80,7 +80,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
         private static void VerifyArguments(bool isKeyValid, Guid? userId, Guid? emailId)
         {
             if (!isKeyValid)
-                throw new BusinessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
+                throw new AccessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
 
             if (userId == null || userId == Guid.Empty)
                 throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
