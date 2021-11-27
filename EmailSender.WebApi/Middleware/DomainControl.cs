@@ -5,9 +5,8 @@
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
     using Backend.UserService;
-    using Backend.Core.Models;
+    using Backend.Core.Exceptions;
     using Backend.Shared.Resources;
-    using Newtonsoft.Json;
 
     [ExcludeFromCodeCoverage]
     public class DomainControl
@@ -22,12 +21,7 @@
             var allowDomains = await userService.IsDomainAllowed(origin, CancellationToken.None);
 
             if (!allowDomains)
-            {
-                httpContext.Response.StatusCode = 403;
-                var applicationError = new ApplicationError(nameof(ErrorCodes.ACCESS_FORBIDDEN), ErrorCodes.ACCESS_FORBIDDEN);
-                await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(applicationError));
-                return;
-            }
+                throw new AccessException(nameof(ErrorCodes.ACCESS_FORBIDDEN), ErrorCodes.ACCESS_FORBIDDEN);
 
             await _requestDelegate(httpContext);
         }

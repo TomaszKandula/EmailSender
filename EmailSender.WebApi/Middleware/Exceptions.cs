@@ -5,9 +5,9 @@ namespace EmailSender.WebApi.Middleware
     using System.Threading.Tasks;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
-    using Backend.Shared.Resources;
     using Backend.Core.Models;
     using Backend.Core.Exceptions;
+    using Backend.Shared.Resources;
     using Newtonsoft.Json;
 
     [ExcludeFromCodeCoverage]
@@ -17,28 +17,45 @@ namespace EmailSender.WebApi.Middleware
 
         public Exceptions(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
-        public async Task Invoke(HttpContext httpContext)
+        /// <summary>
+        /// Pre-define application exceptions for status codes:
+        /// <list>
+        ///   <item>400 - Bad Request</item>
+        ///   <item>401 - Unauthorized</item>
+        ///   <item>403 - Forbidden</item>
+        ///   <item>422 - Unprocessable Entity</item>
+        ///   <item>500 - Internal Server Error</item>
+        /// </list>
+        /// </summary>
+        /// <param name="httpContext">Current HTTP context.</param>
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             try
             {
-                await _requestDelegate.Invoke(httpContext);
+                await _requestDelegate(httpContext);
             }
             catch (ValidationException validationException)
             {
                 var applicationError = new ApplicationError(validationException.ErrorCode, validationException.Message, validationException.ValidationResult);
                 await WriteErrorResponse(httpContext, applicationError, HttpStatusCode.BadRequest).ConfigureAwait(false);
             }
+            catch (AuthorizationException authenticationException)
+            {
+                var innerMessage = authenticationException.InnerException?.Message;
+                var applicationError = new ApplicationError(authenticationException.ErrorCode, authenticationException.Message, innerMessage);
+                await WriteErrorResponse(httpContext, applicationError, HttpStatusCode.Unauthorized).ConfigureAwait(false);
+            }
+            catch (AccessException authorizationException)
+            {
+                var innerMessage = authorizationException.InnerException?.Message;
+                var applicationError = new ApplicationError(authorizationException.ErrorCode, authorizationException.Message, innerMessage);
+                await WriteErrorResponse(httpContext, applicationError, HttpStatusCode.Forbidden).ConfigureAwait(false);
+            }
             catch (BusinessException businessException)
             {
                 var innerMessage = businessException.InnerException?.Message; 
                 var applicationError = new ApplicationError(businessException.ErrorCode, businessException.Message, innerMessage);
                 await WriteErrorResponse(httpContext, applicationError, HttpStatusCode.UnprocessableEntity).ConfigureAwait(false);
-            }
-            catch (ServerException serverException)
-            {
-                var innerMessage = serverException.InnerException?.Message; 
-                var applicationError = new ApplicationError(serverException.ErrorCode, serverException.Message, innerMessage);
-                await WriteErrorResponse(httpContext, applicationError, HttpStatusCode.InternalServerError).ConfigureAwait(false);
             }
             catch (Exception exception)
             {

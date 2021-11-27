@@ -6,14 +6,14 @@ namespace EmailSender.Backend.Core.Exceptions
 
     [ExcludeFromCodeCoverage]
     [Serializable]
-    public class ServerException : Exception
+    public class AccessException : Exception
     {
         public string ErrorCode { get; }
 
-        protected ServerException(SerializationInfo serializationInfo, 
+        protected AccessException(SerializationInfo serializationInfo, 
             StreamingContext streamingContext) : base(serializationInfo, streamingContext) { }
 
-        public ServerException(string errorCode, string errorMessage = "") : base(errorMessage)
+        public AccessException(string errorCode, string errorMessage = "") : base(errorMessage)
             => ErrorCode = errorCode;
     }
 }
