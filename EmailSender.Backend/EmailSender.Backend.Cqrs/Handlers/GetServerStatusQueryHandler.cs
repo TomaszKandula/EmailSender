@@ -59,19 +59,19 @@ namespace EmailSender.Backend.Cqrs.Handlers
             if (!isKeyValid)
             {
                 var message = $"Cannot verify SMTP service. Reason: {ErrorCodes.INVALID_PRIVATE_KEY}";
-                throw new ServerException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), message);
+                throw new AccessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), message);
             }
 
             if (userId == null || userId == Guid.Empty)
             {
                 var message = $"Cannot verify SMTP service. Reason: {ErrorCodes.INVALID_ASSOCIATED_USER}";
-                throw new ServerException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), message);
+                throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), message);
             }
 
             if (emailId == null || emailId == Guid.Empty)
             {
                 var message = $"Cannot verify SMTP service. Reason: {ErrorCodes.INVALID_ASSOCIATED_EMAIL}";
-                throw new ServerException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), message);
+                throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), message);
             }
         }
     }

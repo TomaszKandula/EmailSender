@@ -56,69 +56,49 @@
 
         public async Task VerifyConnection(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                VerifyServerData();
+            VerifyServerData();
 
-                await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
-                if (!_smtpClient.IsConnected)
-                    throw new ServerException(nameof(ErrorCodes.SMTP_NOT_CONNECTED), ErrorCodes.SMTP_NOT_CONNECTED);
+            await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
+            if (!_smtpClient.IsConnected)
+                throw new BusinessException(nameof(ErrorCodes.SMTP_NOT_CONNECTED), ErrorCodes.SMTP_NOT_CONNECTED);
 
-                await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
-                if (!_smtpClient.IsAuthenticated)
-                    throw new ServerException(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED), ErrorCodes.SMTP_NOT_AUTHENTICATED);
+            await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
+            if (!_smtpClient.IsAuthenticated)
+                throw new BusinessException(nameof(ErrorCodes.SMTP_NOT_AUTHENTICATED), ErrorCodes.SMTP_NOT_AUTHENTICATED);
 
-                await _smtpClient.DisconnectAsync(true, cancellationToken);
-            }
-            catch (Exception exception) when (exception is not ServerException)
-            {
-                var message = string.IsNullOrEmpty(exception.InnerException?.Message)
-                    ? ErrorCodes.SMTP_CLIENT_ERROR
-                    : exception.InnerException.Message;
-                throw new ServerException(nameof(ErrorCodes.SMTP_CLIENT_ERROR), $"{message}");
-            }
+            await _smtpClient.DisconnectAsync(true, cancellationToken);
         }
 
         public async Task Send(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                VerifyEmailData();
-                VerifyServerData();
+            VerifyEmailData();
+            VerifyServerData();
 
-                var newMail = new MimeMessage();
+            var newMail = new MimeMessage();
 
-                newMail.From.Add(MailboxAddress.Parse(EmailData.From));
-                newMail.Subject = EmailData.Subject;
+            newMail.From.Add(MailboxAddress.Parse(EmailData.From));
+            newMail.Subject = EmailData.Subject;
 
-                foreach (var item in EmailData.To) 
-                    newMail.To.Add(MailboxAddress.Parse(item));
+            foreach (var item in EmailData.To) 
+                newMail.To.Add(MailboxAddress.Parse(item));
 
-                if (EmailData.Cc != null && !EmailData.Cc.Any())
-                    foreach (var item in EmailData.Cc) newMail.Cc.Add(MailboxAddress.Parse(item));
+            if (EmailData.Cc != null && !EmailData.Cc.Any())
+                foreach (var item in EmailData.Cc) newMail.Cc.Add(MailboxAddress.Parse(item));
 
-                if (EmailData.Bcc != null && !EmailData.Bcc.Any())
-                    foreach (var item in EmailData.Bcc) newMail.Bcc.Add(MailboxAddress.Parse(item));
+            if (EmailData.Bcc != null && !EmailData.Bcc.Any())
+                foreach (var item in EmailData.Bcc) newMail.Bcc.Add(MailboxAddress.Parse(item));
 
-                if (!string.IsNullOrEmpty(EmailData.PlainText)) 
-                    newMail.Body = new TextPart(TextFormat.Plain) { Text = EmailData.PlainText };
+            if (!string.IsNullOrEmpty(EmailData.PlainText)) 
+                newMail.Body = new TextPart(TextFormat.Plain) { Text = EmailData.PlainText };
 
-                if (!string.IsNullOrEmpty(EmailData.HtmlBody)) 
-                    newMail.Body = new TextPart(TextFormat.Html) { Text = EmailData.HtmlBody };
+            if (!string.IsNullOrEmpty(EmailData.HtmlBody)) 
+                newMail.Body = new TextPart(TextFormat.Html) { Text = EmailData.HtmlBody };
 
-                await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
-                await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
+            await _smtpClient.ConnectAsync(ServerData.Server, ServerData.Port, SslOnConnect, cancellationToken);
+            await _smtpClient.AuthenticateAsync(ServerData.Address, ServerData.Key, cancellationToken);
 
-                await _smtpClient.SendAsync(newMail, cancellationToken);
-                await _smtpClient.DisconnectAsync(true, cancellationToken);
-            } 
-            catch (Exception exception) when (exception is not ServerException)
-            {
-                var message = string.IsNullOrEmpty(exception.InnerException?.Message)
-                    ? ErrorCodes.SMTP_CLIENT_ERROR
-                    : exception.InnerException.Message;
-                throw new ServerException(nameof(ErrorCodes.SMTP_CLIENT_ERROR), $"{message}");
-            }
+            await _smtpClient.SendAsync(newMail, cancellationToken);
+            await _smtpClient.DisconnectAsync(true, cancellationToken);
         }
 
         private void VerifyEmailData()
@@ -128,7 +108,7 @@
                 string.IsNullOrEmpty(EmailData.Subject) && 
                 (string.IsNullOrEmpty(EmailData.HtmlBody) || string.IsNullOrEmpty(EmailData.PlainText)))
             {
-                throw new ServerException(nameof(ErrorCodes.MISSING_EMAIL_DATA), ErrorCodes.MISSING_EMAIL_DATA);
+                throw new BusinessException(nameof(ErrorCodes.MISSING_EMAIL_DATA), ErrorCodes.MISSING_EMAIL_DATA);
             }
         }
 
@@ -139,7 +119,7 @@
                 string.IsNullOrEmpty(ServerData.Server) || 
                 ServerData.Port == 0)
             {
-                throw new ServerException(nameof(ErrorCodes.MISSING_SERVER_DATA), ErrorCodes.MISSING_SERVER_DATA);
+                throw new BusinessException(nameof(ErrorCodes.MISSING_SERVER_DATA), ErrorCodes.MISSING_SERVER_DATA);
             }
         }
 
