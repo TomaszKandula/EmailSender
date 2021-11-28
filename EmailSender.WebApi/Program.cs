@@ -22,6 +22,7 @@ namespace EmailSender.WebApi
             try
             {
                 Log.Information("Starting WebHost...");
+                Log.Information("Environment: {FIsDevelopment}", FIsDevelopment);
                 CreateWebHostBuilder(args)
                     .Build()
                     .MigrateDatabase()

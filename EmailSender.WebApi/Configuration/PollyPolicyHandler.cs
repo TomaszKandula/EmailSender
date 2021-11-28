@@ -9,7 +9,7 @@ namespace EmailSender.WebApi.Configuration
     using Polly;
 
     [ExcludeFromCodeCoverage]
-    public static class PolicyHandler
+    public static class PollyPolicyHandler
     {
         public static IAsyncPolicy<HttpResponseMessage> SetupRetry()
         {
