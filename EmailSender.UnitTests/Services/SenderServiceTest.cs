@@ -47,7 +47,7 @@ namespace EmailSender.UnitTests.Services
                 IsActive = true,
                 ServerName = DataUtilityService.GetRandomString(),
                 ServerKey = DataUtilityService.GetRandomString(),
-                ServerPort = DataUtilityService.GetRandomInteger(),
+                ServerPort = DataUtilityService.GetRandomInteger(25, 459),
                 ServerSsl = true
             };
 
@@ -102,7 +102,7 @@ namespace EmailSender.UnitTests.Services
                 IsActive = false,
                 ServerName = DataUtilityService.GetRandomString(),
                 ServerKey = DataUtilityService.GetRandomString(),
-                ServerPort = DataUtilityService.GetRandomInteger(),
+                ServerPort = DataUtilityService.GetRandomInteger(25, 459),
                 ServerSsl = true
             };
 
@@ -157,7 +157,7 @@ namespace EmailSender.UnitTests.Services
                 IsActive = true,
                 ServerName = DataUtilityService.GetRandomString(),
                 ServerKey = DataUtilityService.GetRandomString(),
-                ServerPort = DataUtilityService.GetRandomInteger(),
+                ServerPort = DataUtilityService.GetRandomInteger(25, 459),
                 ServerSsl = true
             };
 
@@ -279,7 +279,7 @@ namespace EmailSender.UnitTests.Services
                 IsActive = true,
                 ServerName = DataUtilityService.GetRandomString(),
                 ServerKey = DataUtilityService.GetRandomString(),
-                ServerPort = DataUtilityService.GetRandomInteger(),
+                ServerPort = DataUtilityService.GetRandomInteger(25, 459),
                 ServerSsl = true
             };
             
@@ -389,7 +389,7 @@ namespace EmailSender.UnitTests.Services
                 IsActive = true,
                 ServerName = DataUtilityService.GetRandomString(),
                 ServerKey = DataUtilityService.GetRandomString(),
-                ServerPort = DataUtilityService.GetRandomInteger(),
+                ServerPort = DataUtilityService.GetRandomInteger(25, 459),
                 ServerSsl = true
             };
             
@@ -467,7 +467,7 @@ namespace EmailSender.UnitTests.Services
                 IsActive = true,
                 ServerName = DataUtilityService.GetRandomString(),
                 ServerKey = DataUtilityService.GetRandomString(),
-                ServerPort = DataUtilityService.GetRandomInteger(),
+                ServerPort = DataUtilityService.GetRandomInteger(25, 459),
                 ServerSsl = true
             };
             
