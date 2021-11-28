@@ -18,9 +18,9 @@
         public async Task Invoke(HttpContext httpContext, IUserService userService)
         {
             var origin = httpContext.Request.Host.ToString();
-            var allowDomains = await userService.IsDomainAllowed(origin, CancellationToken.None);
+            var isDomainAllowed = await userService.IsDomainAllowed(origin, CancellationToken.None);
 
-            if (!allowDomains)
+            if (!isDomainAllowed)
                 throw new AccessException(nameof(ErrorCodes.ACCESS_FORBIDDEN), ErrorCodes.ACCESS_FORBIDDEN);
 
             await _requestDelegate(httpContext);

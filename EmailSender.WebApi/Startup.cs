@@ -30,9 +30,10 @@ namespace EmailSender.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
             services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
-            Dependencies.Register(services, _configuration);
+            services.RegisterDependencies(_configuration);
 
             if (_environment.IsDevelopment() || _environment.IsStaging())
                 services.SetupSwaggerOptions();
@@ -66,15 +67,12 @@ namespace EmailSender.WebApi
             builder.UseForwardedHeaders();
             builder.ApplyCorsPolicy();
 
-            builder.UseMiddleware<DomainControl>();
             builder.UseMiddleware<Exceptions>();
             builder.UseMiddleware<CacheControl>();
+            builder.UseMiddleware<DomainControl>();
 
             builder.UseResponseCompression();
             builder.UseRouting();
-
-            builder.UseAuthentication();
-            builder.UseAuthorization();
             builder.UseEndpoints(endpoints => endpoints.MapControllers());
 
             if (!_environment.IsDevelopment() && !_environment.IsStaging()) 
