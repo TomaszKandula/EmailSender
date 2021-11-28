@@ -15,7 +15,7 @@
 
         public DomainControl(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
-        public async Task Invoke(HttpContext httpContext, IUserService userService)
+        public async Task InvokeAsync(HttpContext httpContext, IUserService userService)
         {
             var origin = httpContext.Request.Host.ToString();
             var isDomainAllowed = await userService.IsDomainAllowed(origin, CancellationToken.None);
