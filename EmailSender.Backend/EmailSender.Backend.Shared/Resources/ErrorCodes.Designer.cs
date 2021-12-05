@@ -51,12 +51,6 @@ namespace EmailSender.Backend.Shared.Resources {
             }
         }
         
-        public static string SMTP_CLIENT_ERROR {
-            get {
-                return ResourceManager.GetString("SMTP_CLIENT_ERROR", resourceCulture);
-            }
-        }
-        
         public static string SMTP_NOT_AUTHENTICATED {
             get {
                 return ResourceManager.GetString("SMTP_NOT_AUTHENTICATED", resourceCulture);
@@ -87,57 +81,9 @@ namespace EmailSender.Backend.Shared.Resources {
             }
         }
         
-        public static string SMTP_FAILED {
-            get {
-                return ResourceManager.GetString("SMTP_FAILED", resourceCulture);
-            }
-        }
-        
         public static string MISSING_PRICING {
             get {
                 return ResourceManager.GetString("MISSING_PRICING", resourceCulture);
-            }
-        }
-        
-        public static string VAT_NUM_INCORRECT_LENGTH {
-            get {
-                return ResourceManager.GetString("VAT_NUM_INCORRECT_LENGTH", resourceCulture);
-            }
-        }
-        
-        public static string VAT_NUM_ALL_DIGITS_ARE_SAME {
-            get {
-                return ResourceManager.GetString("VAT_NUM_ALL_DIGITS_ARE_SAME", resourceCulture);
-            }
-        }
-        
-        public static string VAT_NUM_INCORRECT_SIGN {
-            get {
-                return ResourceManager.GetString("VAT_NUM_INCORRECT_SIGN", resourceCulture);
-            }
-        }
-        
-        public static string VAT_NUM_INCORRECT_FORMAT {
-            get {
-                return ResourceManager.GetString("VAT_NUM_INCORRECT_FORMAT", resourceCulture);
-            }
-        }
-        
-        public static string VAT_NUM_ZERO_AT_FIRST_OR_THIRD_POSSITION {
-            get {
-                return ResourceManager.GetString("VAT_NUM_ZERO_AT_FIRST_OR_THIRD_POSSITION", resourceCulture);
-            }
-        }
-        
-        public static string VAT_NUM_INCORRECT_CHECK_SUM {
-            get {
-                return ResourceManager.GetString("VAT_NUM_INCORRECT_CHECK_SUM", resourceCulture);
-            }
-        }
-        
-        public static string VAT_NUM_LENGTH_NINE {
-            get {
-                return ResourceManager.GetString("VAT_NUM_LENGTH_NINE", resourceCulture);
             }
         }
         
@@ -156,6 +102,12 @@ namespace EmailSender.Backend.Shared.Resources {
         public static string ACCESS_FORBIDDEN {
             get {
                 return ResourceManager.GetString("ACCESS_FORBIDDEN", resourceCulture);
+            }
+        }
+        
+        public static string INVALID_API_VERSION {
+            get {
+                return ResourceManager.GetString("INVALID_API_VERSION", resourceCulture);
             }
         }
     }
