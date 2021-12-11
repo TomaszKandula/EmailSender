@@ -6,6 +6,41 @@ on:
 
 jobs:
 
+  versioning:
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      outputs1: ${{ steps.versioning.outputs.version }}
+      outputs2: ${{ steps.versioning.outputs.published }}
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2.2.0
+
+    - name: Semantic Release (install node.js)
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+
+    - name: Semantic Release (install dependencies)
+      run: |
+        npm install --global yarn
+        yarn install
+
+    - name: Semantic Release (process changes)
+      uses: cycjimmy/semantic-release-action@v2
+      id: semantic
+      env:
+        GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+    
+    - name: Move results to outputs
+      id: versioning
+      run: |
+        echo "::set-output name=version::${{ steps.semantic.outputs.new_release_version }}"
+        echo "::set-output name=published::${{ steps.semantic.outputs.new_release_published }}"
+
   backend-production:
 
     runs-on: ubuntu-latest
@@ -44,10 +79,12 @@ jobs:
         password: ${{ secrets.DOCKER_REGISTRY_SERVER_PASSWORD }}
 
     - name: Production | Push Docker image
+      if: needs.versioning.outputs.outputs2 == 'true'
       run: docker push ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-production-${{ github.sha }}
 
     - name: Production | Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
+      if: needs.versioning.outputs.outputs2 == 'true'
       with:
         app-name: emailsender-prod
         slot-name: production
