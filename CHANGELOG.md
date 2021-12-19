@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/TomaszKandula/EmailSender/compare/v1.0.0...v1.1.0) (2021-12-19)
+
+
+### Bug Fixes
+
+* change to NET6 ([2dcddad](https://github.com/TomaszKandula/EmailSender/commit/2dcddadfdb91ea4a4115c8c991b4c844107aad70))
+
+
+### Features
+
+* upgrade to NET6, upgrade libraries ([3303f01](https://github.com/TomaszKandula/EmailSender/commit/3303f01af66c0eca53d05f6f9b0b564938bd13a2))
+
 # 1.0.0 (2021-12-11)
 
 
