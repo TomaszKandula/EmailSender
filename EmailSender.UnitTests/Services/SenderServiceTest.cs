@@ -448,7 +448,7 @@ namespace EmailSender.UnitTests.Services
                         It.IsAny<MimeMessage>(),
                         It.IsAny<CancellationToken>(), 
                         null))
-                .Returns(Task.CompletedTask);
+                .Returns(Task.FromResult(string.Empty));
             
             mockedSmtpClient
                 .Setup(smtpClient => smtpClient
@@ -522,7 +522,7 @@ namespace EmailSender.UnitTests.Services
                         It.IsAny<MimeMessage>(),
                         It.IsAny<CancellationToken>(), 
                         null))
-                .Returns(Task.CompletedTask);
+                .Returns(Task.FromResult(string.Empty));
             
             mockedSmtpClient
                 .Setup(smtpClient => smtpClient
