@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/TomaszKandula/EmailSender/compare/v1.1.0...v1.2.0) (2021-12-21)
+
+
+### Features
+
+* downgrade SQLite and SQL to 5.0.13 until the issue with 6.0.1 is resolved ([4bc40a3](https://github.com/TomaszKandula/EmailSender/commit/4bc40a31dc4734effa35843b08e1698348581edc))
+
 # [1.1.0](https://github.com/TomaszKandula/EmailSender/compare/v1.0.0...v1.1.0) (2021-12-19)
 
 
