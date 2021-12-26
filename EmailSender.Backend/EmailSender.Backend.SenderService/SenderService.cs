@@ -37,7 +37,7 @@ namespace EmailSender.Backend.SenderService
             var matchedEmailId = await _databaseContext.AllowEmail
                 .AsNoTracking()
                 .Include(allowEmail => allowEmail.Email)
-                .Include(allowEmail => allowEmail.User)
+                .Include(allowEmail => allowEmail.Users)
                 .Where(allowEmail => allowEmail.Email.Address == emailFrom && allowEmail.Email.IsActive)
                 .Where(allowEmail => allowEmail.UserId == userId)
                 .Select(allowEmail => allowEmail.EmailId)

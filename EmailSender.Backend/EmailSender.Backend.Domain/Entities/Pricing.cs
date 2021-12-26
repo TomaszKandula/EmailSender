@@ -30,6 +30,6 @@ namespace EmailSender.Backend.Domain.Entities
 
         public DateTime? DiscountMaturity { get; set; }
 
-        public User User { get; set; }
+        public Users Users { get; set; }
     }
 }

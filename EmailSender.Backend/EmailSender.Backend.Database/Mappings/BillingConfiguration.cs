@@ -13,11 +13,11 @@ namespace EmailSender.Backend.Database.Mappings
             builder.Property(billing => billing.Id).ValueGeneratedOnAdd();
 
             builder
-                .HasOne(billing => billing.User)
-                .WithMany(user => user.Billing)
+                .HasOne(billing => billing.Users)
+                .WithMany(users => users.Billing)
                 .HasForeignKey(price => price.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Billing_User");
+                .HasConstraintName("FK_Billing_Users");
         }
     }
 }

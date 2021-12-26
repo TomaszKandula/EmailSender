@@ -6,7 +6,7 @@ namespace EmailSender.Backend.Domain.Entities
     using System.ComponentModel.DataAnnotations;
 
     [ExcludeFromCodeCoverage]
-    public class User : Entity<Guid>
+    public class Users : Entity<Guid>
     {
         [Required]
         [MaxLength(100)]

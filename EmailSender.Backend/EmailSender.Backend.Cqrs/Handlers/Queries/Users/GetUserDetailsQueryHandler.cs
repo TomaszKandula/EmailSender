@@ -45,7 +45,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var user = await _databaseContext.User
+            var user = await _databaseContext.Users
                 .AsNoTracking()
                 .Where(user => user.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);

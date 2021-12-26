@@ -49,7 +49,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
             var history = await _databaseContext.EmailHistory
                 .AsNoTracking()
                 .Include(history => history.Email)
-                .Include(history => history.User)
+                .Include(history => history.Users)
                 .Where(history => history.UserId == userId)
                 .Select(history => new HistoryEntry
                 {
@@ -58,7 +58,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
                 })
                 .ToListAsync(cancellationToken);
 
-            var associatedUser = await _databaseContext.User
+            var associatedUser = await _databaseContext.Users
                 .AsNoTracking()
                 .Where(user => user.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);

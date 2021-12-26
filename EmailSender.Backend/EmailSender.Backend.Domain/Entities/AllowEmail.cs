@@ -10,7 +10,7 @@ namespace EmailSender.Backend.Domain.Entities
         
         public Guid EmailId { get; set; }
 
-        public User User { get; set; }
+        public Users Users { get; set; }
 
         public Email Email { get; set; }
     }

@@ -13,11 +13,11 @@ namespace EmailSender.Backend.Database.Mappings
             builder.Property(allowDomain => allowDomain.Id).ValueGeneratedOnAdd();
 
             builder
-                .HasOne(allowDomain => allowDomain.User)
-                .WithMany(user => user.AllowDomain)
+                .HasOne(allowDomain => allowDomain.Users)
+                .WithMany(users => users.AllowDomain)
                 .HasForeignKey(allowDomain => allowDomain.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_AllowDomain_User");
+                .HasConstraintName("FK_AllowDomain_Users");
         }
     }
 }

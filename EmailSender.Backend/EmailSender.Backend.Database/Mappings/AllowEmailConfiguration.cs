@@ -13,11 +13,11 @@ namespace EmailSender.Backend.Database.Mappings
             builder.Property(allowEmail => allowEmail.Id).ValueGeneratedOnAdd();
 
             builder
-                .HasOne(allowEmail => allowEmail.User)
-                .WithMany(user => user.AllowEmail)
+                .HasOne(allowEmail => allowEmail.Users)
+                .WithMany(users => users.AllowEmail)
                 .HasForeignKey(allowEmail => allowEmail.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_AllowEmail_User");
+                .HasConstraintName("FK_AllowEmail_Users");
 
             builder
                 .HasOne(allowEmail => allowEmail.Email)

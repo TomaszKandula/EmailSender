@@ -13,11 +13,11 @@ namespace EmailSender.Backend.Database.Mappings
             builder.Property(requestHistory => requestHistory.Id).ValueGeneratedOnAdd();
 
             builder
-                .HasOne(requestHistory => requestHistory.User)
-                .WithMany(user => user.RequestHistory)
+                .HasOne(requestHistory => requestHistory.Users)
+                .WithMany(users => users.RequestHistory)
                 .HasForeignKey(requestHistory => requestHistory.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_RequestHistory_User");
+                .HasConstraintName("FK_RequestHistory_Users");
         }
     }
 }

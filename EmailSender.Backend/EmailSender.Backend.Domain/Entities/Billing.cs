@@ -29,6 +29,6 @@ namespace EmailSender.Backend.Domain.Entities
 
         public PaymentStatuses Status { get; set; }
 
-        public User User { get; set; }
+        public Users Users { get; set; }
     }
 }

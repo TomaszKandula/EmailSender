@@ -12,7 +12,7 @@ namespace EmailSender.Backend.Domain.Entities
 
         public DateTime Sent { get; set; }
 
-        public User User { get; set; }
+        public Users Users { get; set; }
 
         public Email Email { get; set; }
     }

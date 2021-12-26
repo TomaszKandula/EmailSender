@@ -18,7 +18,7 @@ namespace EmailSender.UnitTests.Services
             // Arrange
             var domainName = DataUtilityService.GetRandomString(useAlphabetOnly: true);
 
-            var user = new User
+            var user = new Users
             {
                 Id = Guid.NewGuid(),
                 FirstName = DataUtilityService.GetRandomString(),
@@ -59,7 +59,7 @@ namespace EmailSender.UnitTests.Services
             // Arrange
             var domainName = DataUtilityService.GetRandomString(useAlphabetOnly: true);
 
-            var user = new User
+            var user = new Users
             {
                 Id = Guid.NewGuid(),
                 FirstName = DataUtilityService.GetRandomString(),
@@ -99,7 +99,7 @@ namespace EmailSender.UnitTests.Services
         {
             // Arrange
             var privateKey = DataUtilityService.GetRandomString();
-            var user = new User
+            var user = new Users
             {
                 Id = Guid.NewGuid(),
                 FirstName = DataUtilityService.GetRandomString(),
@@ -132,7 +132,7 @@ namespace EmailSender.UnitTests.Services
         {
             // Arrange
             var privateKey = DataUtilityService.GetRandomString();
-            var user = new User
+            var user = new Users
             {
                 Id = Guid.NewGuid(),
                 FirstName = DataUtilityService.GetRandomString(),
@@ -165,7 +165,7 @@ namespace EmailSender.UnitTests.Services
         {
             // Arrange
             var privateKey = DataUtilityService.GetRandomString();
-            var user = new User
+            var user = new Users
             {
                 Id = Guid.NewGuid(),
                 FirstName = DataUtilityService.GetRandomString(),
@@ -198,7 +198,7 @@ namespace EmailSender.UnitTests.Services
         {
             // Arrange
             var privateKey = DataUtilityService.GetRandomString();
-            var user = new User
+            var user = new Users
             {
                 Id = Guid.NewGuid(),
                 FirstName = DataUtilityService.GetRandomString(),

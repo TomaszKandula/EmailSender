@@ -49,7 +49,7 @@ namespace EmailSender.Backend.UserService
         /// <returns>True or False.</returns>
         public async Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken)
         {
-            var keys = await _databaseContext.User
+            var keys = await _databaseContext.Users
                 .AsNoTracking()
                 .Where(user => user.PrivateKey == privateKey)
                 .ToListAsync(cancellationToken);
@@ -69,7 +69,7 @@ namespace EmailSender.Backend.UserService
         /// <returns>User ID (Guid).</returns>
         public async Task<Guid> GetUserByPrivateKey(string privateKey, CancellationToken cancellationToken)
         {
-            return await _databaseContext.User
+            return await _databaseContext.Users
                 .AsNoTracking()
                 .Where(user => user.PrivateKey == privateKey)
                 .Select(user => user.Id)

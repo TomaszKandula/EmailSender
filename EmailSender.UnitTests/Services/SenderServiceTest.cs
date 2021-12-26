@@ -27,7 +27,7 @@ namespace EmailSender.UnitTests.Services
             // Arrange
             var emailFrom = DataUtilityService.GetRandomEmail();
             var userId = Guid.NewGuid();
-            var user = new User
+            var user = new Users
             {
                 Id = userId,
                 FirstName = DataUtilityService.GetRandomString(),
@@ -82,7 +82,7 @@ namespace EmailSender.UnitTests.Services
             // Arrange
             var emailFrom = DataUtilityService.GetRandomEmail();
             var userId = Guid.NewGuid();
-            var user = new User
+            var user = new Users
             {
                 Id = userId,
                 FirstName = DataUtilityService.GetRandomString(),
@@ -137,7 +137,7 @@ namespace EmailSender.UnitTests.Services
             // Arrange
             var emailFrom = DataUtilityService.GetRandomEmail();
             var userId = Guid.NewGuid();
-            var user = new User
+            var user = new Users
             {
                 Id = userId,
                 FirstName = DataUtilityService.GetRandomString(),

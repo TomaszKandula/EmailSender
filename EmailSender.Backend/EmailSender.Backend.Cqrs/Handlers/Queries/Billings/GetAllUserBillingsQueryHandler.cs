@@ -50,7 +50,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
             var billings = await _billingService.GetAllUserBillings(userId, cancellationToken);
-            var userAlias = await _databaseContext.User
+            var userAlias = await _databaseContext.Users
                 .AsNoTracking()
                 .Where(user => user.Id == userId)
                 .Select(user => user.UserAlias)

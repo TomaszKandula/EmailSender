@@ -12,7 +12,7 @@
 
         public virtual DbSet<Email> Email { get; set; }
 
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         public virtual DbSet<EmailHistory> EmailHistory { get; set; }
 
