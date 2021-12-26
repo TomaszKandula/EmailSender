@@ -5,7 +5,7 @@ namespace EmailSender.UnitTests.Validators
     using Backend.Shared.Resources;
     using Backend.Cqrs.Handlers.Queries.Emails;
 
-    public class GetSentHistoryQueryValidatorTest : TestBase
+    public class GetEmailsHistoryQueryValidatorTest : TestBase
     {
         [Fact]
         public void GivenPrivateKey_WhenGetSentHistoryRequest_ShouldSucceed()
