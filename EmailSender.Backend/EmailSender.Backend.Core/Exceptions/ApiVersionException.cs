@@ -1,10 +1,12 @@
 namespace EmailSender.Backend.Core.Exceptions
 {
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Versioning;
     using Models;
 
+    [ExcludeFromCodeCoverage]
     public class ApiVersionException : IErrorResponseProvider
     {
         public IActionResult CreateResponse(ErrorResponseContext context)
