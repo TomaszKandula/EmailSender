@@ -5,8 +5,6 @@ namespace EmailSender.WebApi.Controllers
     using Microsoft.AspNetCore.Http;
     using Backend.Shared.Dto;
     using Backend.Cqrs.Mappers;
-    using Backend.Cqrs.Handlers.Queries.Smtp;
-    using Backend.Cqrs.Handlers.Queries.Users;
     using Backend.Cqrs.Handlers.Queries.Emails;
     using Backend.Cqrs.Handlers.Commands.Emails;
     using MediatR;
@@ -27,28 +25,13 @@ namespace EmailSender.WebApi.Controllers
             => await Mediator.Send(EmailMapper.MapToVerifyEmailRequest(payLoad));
 
         [HttpGet]
-        [ProducesResponseType(typeof(GetUserDomainsQueryResult), StatusCodes.Status200OK)]
-        public async Task<GetUserDomainsQueryResult> GetAllowDomains([FromQuery] string key) 
-            => await Mediator.Send(new GetUserDomainsQuery { PrivateKey = key });
+        [ProducesResponseType(typeof(GetEmailsHistoryQueryResult), StatusCodes.Status200OK)]
+        public async Task<GetEmailsHistoryQueryResult> GetEmailsHistory([FromQuery] string key) 
+            => await Mediator.Send(new GetEmailsHistoryQuery { PrivateKey = key });
 
         [HttpGet]
         [ProducesResponseType(typeof(GetAllowEmailsQueryResult), StatusCodes.Status200OK)]
         public async Task<GetAllowEmailsQueryResult> GetAllowEmails([FromQuery] string key) 
             => await Mediator.Send(new GetAllowEmailsQuery { PrivateKey = key });
-
-        [HttpGet]
-        [ProducesResponseType(typeof(GetEmailsHistoryQueryResult), StatusCodes.Status200OK)]
-        public async Task<GetEmailsHistoryQueryResult> GetSentHistory([FromQuery] string key) 
-            => await Mediator.Send(new GetEmailsHistoryQuery { PrivateKey = key });
-
-        [HttpGet]
-        [ProducesResponseType(typeof(GetUserDetailsQueryResult), StatusCodes.Status200OK)]
-        public async Task<GetUserDetailsQueryResult> GetUserDetails([FromQuery] string key) 
-            => await Mediator.Send(new GetUserDetailsQuery { PrivateKey = key });
-
-        [HttpGet]
-        [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-        public async Task<Unit> GetServerStatus([FromQuery] string key, string address) 
-            => await Mediator.Send(new GetServerStatusQuery { PrivateKey = key, EmailAddress = address });
     }
 }
