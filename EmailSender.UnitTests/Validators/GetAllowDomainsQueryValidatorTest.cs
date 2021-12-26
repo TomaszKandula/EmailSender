@@ -3,7 +3,7 @@ namespace EmailSender.UnitTests.Validators
     using Xunit;
     using FluentAssertions;
     using Backend.Shared.Resources;
-    using Backend.Cqrs.Handlers.Queries.Domains;
+    using Backend.Cqrs.Handlers.Queries.Users;
 
     public class GetAllowDomainsQueryValidatorTest : TestBase
     {

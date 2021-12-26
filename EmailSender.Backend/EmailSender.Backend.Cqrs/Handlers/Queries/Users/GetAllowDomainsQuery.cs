@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Domains
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
 {
     using MediatR;
 
