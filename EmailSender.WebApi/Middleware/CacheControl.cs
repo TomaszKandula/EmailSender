@@ -1,9 +1,11 @@
 namespace EmailSender.WebApi.Middleware
 {
     using System.Threading.Tasks;
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Net.Http.Headers;
 
+    [ExcludeFromCodeCoverage]
     public class CacheControl
     {
         private readonly RequestDelegate _requestDelegate;
@@ -17,6 +19,7 @@ namespace EmailSender.WebApi.Middleware
                 NoStore = true,
                 NoCache = true
             };
+
             await _requestDelegate(httpContext);
         }
     }
