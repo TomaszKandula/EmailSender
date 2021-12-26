@@ -5,7 +5,7 @@ namespace EmailSender.Backend.Domain.Enums
     using Core.Converters;
 
     [JsonConverter(typeof(StringToEnumWithDefaultConverter))]
-    public enum PricingStatus
+    public enum PricingStatuses
     {
         [EnumMember(Value = "unknown")]
         Unknown = 0,

@@ -17,6 +17,6 @@ namespace EmailSender.Backend.BillingService.Models
 
         public DateTime? InvoiceSentDate { get; set; }
 
-        public PaymentStatus Status { get; set; }
+        public PaymentStatuses Status { get; set; }
     }
 }

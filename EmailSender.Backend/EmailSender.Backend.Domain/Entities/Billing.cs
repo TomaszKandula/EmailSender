@@ -27,7 +27,7 @@ namespace EmailSender.Backend.Domain.Entities
 
         public byte[] IssuedInvoice { get; set; }
 
-        public PaymentStatus Status { get; set; }
+        public PaymentStatuses Status { get; set; }
 
         public User User { get; set; }
     }

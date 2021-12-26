@@ -25,6 +25,6 @@ namespace EmailSender.Backend.Domain.Entities
         public PricingTerms Terms { get; set; }
         
         [Required]
-        public PricingStatus Status { get; set; }
+        public PricingStatuses Status { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace EmailSender.Backend.Domain.Enums
     using Core.Converters;
 
     [JsonConverter(typeof(StringToEnumWithDefaultConverter))]
-    public enum PaymentType
+    public enum PaymentTypes
     {
         [EnumMember(Value = "unknown")]
         Unknown = 0,
