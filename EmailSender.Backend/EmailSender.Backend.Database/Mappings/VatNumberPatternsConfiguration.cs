@@ -6,9 +6,9 @@ namespace EmailSender.Backend.Database.Mappings
     using Domain.Entities;
 
     [ExcludeFromCodeCoverage]
-    public class VatNumberPatternConfiguration : IEntityTypeConfiguration<VatNumberPattern>
+    public class VatNumberPatternsConfiguration : IEntityTypeConfiguration<VatNumberPatterns>
     {
-        public void Configure(EntityTypeBuilder<VatNumberPattern> builder)
-            => builder.Property(regex => regex.Id).ValueGeneratedOnAdd();
+        public void Configure(EntityTypeBuilder<VatNumberPatterns> builder)
+            => builder.Property(patterns => patterns.Id).ValueGeneratedOnAdd();
     }
 }

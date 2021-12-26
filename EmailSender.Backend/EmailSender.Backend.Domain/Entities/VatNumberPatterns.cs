@@ -5,7 +5,7 @@ namespace EmailSender.Backend.Domain.Entities
     using System.ComponentModel.DataAnnotations;
 
     [ExcludeFromCodeCoverage]
-    public class VatNumberPattern : Entity<Guid>
+    public class VatNumberPatterns : Entity<Guid>
     {
         [Required]
         [MaxLength(2)]
