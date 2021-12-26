@@ -8,9 +8,9 @@ namespace EmailSender.WebApi.Controllers
     using MediatR;
 
     [ApiVersion("1.0")]
-    public class BillingController : BaseController
+    public class BillingsController : BaseController
     {
-        public BillingController(IMediator mediator) : base(mediator) { }
+        public BillingsController(IMediator mediator) : base(mediator) { }
 
         [HttpGet]
         [ProducesResponseType(typeof(GetUserBillingQueryResult), StatusCodes.Status200OK)]

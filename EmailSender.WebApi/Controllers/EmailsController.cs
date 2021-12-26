@@ -9,13 +9,12 @@ namespace EmailSender.WebApi.Controllers
     using Backend.Cqrs.Handlers.Queries.Users;
     using Backend.Cqrs.Handlers.Queries.Emails;
     using Backend.Cqrs.Handlers.Commands.Emails;
-    using Backend.Cqrs.Handlers.Queries.Domains;
     using MediatR;
 
     [ApiVersion("1.0")]
-    public class EmailController : BaseController
+    public class EmailsController : BaseController
     {
-        public EmailController(IMediator mediator) : base(mediator) { }
+        public EmailsController(IMediator mediator) : base(mediator) { }
 
         [HttpPost]
         [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
