@@ -38,9 +38,9 @@ namespace EmailSender.WebApi.Controllers
             => await Mediator.Send(new GetAllowEmailsQuery { PrivateKey = key });
 
         [HttpGet]
-        [ProducesResponseType(typeof(GetSentHistoryQueryResult), StatusCodes.Status200OK)]
-        public async Task<GetSentHistoryQueryResult> GetSentHistory([FromQuery] string key) 
-            => await Mediator.Send(new GetSentHistoryQuery { PrivateKey = key });
+        [ProducesResponseType(typeof(GetEmailsHistoryQueryResult), StatusCodes.Status200OK)]
+        public async Task<GetEmailsHistoryQueryResult> GetSentHistory([FromQuery] string key) 
+            => await Mediator.Send(new GetEmailsHistoryQuery { PrivateKey = key });
 
         [HttpGet]
         [ProducesResponseType(typeof(GetUserDetailsQueryResult), StatusCodes.Status200OK)]

@@ -11,13 +11,13 @@ namespace EmailSender.UnitTests.Validators
         public void GivenPrivateKey_WhenGetSentHistoryRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetSentHistoryQuery
+            var request = new GetEmailsHistoryQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
 
             // Act
-            var validator = new GetSentHistoryQueryValidator();
+            var validator = new GetEmailsHistoryQueryValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -28,13 +28,13 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetSentHistoryRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetSentHistoryQuery
+            var request = new GetEmailsHistoryQuery
             {
                 PrivateKey = string.Empty
             };
 
             // Act
-            var validator = new GetSentHistoryQueryValidator();
+            var validator = new GetEmailsHistoryQueryValidator();
             var result = validator.Validate(request);
 
             // Assert

@@ -2,7 +2,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
 {
     using MediatR;
 
-    public class GetSentHistoryQuery : IRequest<GetSentHistoryQueryResult>
+    public class GetEmailsHistoryQuery : IRequest<GetEmailsHistoryQueryResult>
     {
         public string PrivateKey { get; set; }
     }

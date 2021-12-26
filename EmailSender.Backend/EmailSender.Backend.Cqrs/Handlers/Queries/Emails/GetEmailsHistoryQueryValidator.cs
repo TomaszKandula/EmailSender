@@ -3,9 +3,9 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
     using FluentValidation;
     using Shared.Resources;
 
-    public class GetSentHistoryQueryValidator : AbstractValidator<GetSentHistoryQuery>
+    public class GetEmailsHistoryQueryValidator : AbstractValidator<GetEmailsHistoryQuery>
     {
-        public GetSentHistoryQueryValidator()
+        public GetEmailsHistoryQueryValidator()
         {
             RuleFor(request => request.PrivateKey)
                 .NotEmpty()
