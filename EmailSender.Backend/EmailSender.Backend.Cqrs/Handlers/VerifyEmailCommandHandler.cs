@@ -13,7 +13,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class VerifyEmailCommandHandler : TemplateHandler<VerifyEmailCommandRequest, VerifyEmailCommandResponse>
+    public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommandRequest, VerifyEmailCommandResponse>
     {
         private readonly DatabaseContext _databaseContext;
 

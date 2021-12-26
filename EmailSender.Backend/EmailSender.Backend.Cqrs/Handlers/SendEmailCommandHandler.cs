@@ -14,7 +14,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using SenderService.Models;
     using Core.Services.DateTimeService;
 
-    public class SendEmailCommandHandler : TemplateHandler<SendEmailCommandRequest, Unit>
+    public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommandRequest, Unit>
     {
         private readonly DatabaseContext _databaseContext;
 

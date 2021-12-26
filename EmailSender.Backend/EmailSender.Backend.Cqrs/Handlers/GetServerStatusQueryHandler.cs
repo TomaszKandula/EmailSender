@@ -13,7 +13,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetServerStatusQueryHandler : TemplateHandler<GetServerStatusQueryRequest, Unit>
+    public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQueryRequest, Unit>
     {
         private readonly DatabaseContext _databaseContext;
 

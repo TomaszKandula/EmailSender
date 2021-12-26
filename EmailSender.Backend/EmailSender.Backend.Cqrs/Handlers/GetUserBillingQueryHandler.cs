@@ -15,7 +15,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetUserBillingQueryHandler : TemplateHandler<GetUserBillingQueryRequest, GetUserBillingQueryResponse>
+    public class GetUserBillingQueryHandler : RequestHandler<GetUserBillingQueryRequest, GetUserBillingQueryResponse>
     {
         private readonly DatabaseContext _databaseContext;
         

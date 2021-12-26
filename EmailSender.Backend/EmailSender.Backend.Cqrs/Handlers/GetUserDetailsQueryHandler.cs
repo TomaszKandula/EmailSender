@@ -14,7 +14,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetUserDetailsQueryHandler : TemplateHandler<GetUserDetailsQueryRequest, GetUserDetailsQueryResponse>
+    public class GetUserDetailsQueryHandler : RequestHandler<GetUserDetailsQueryRequest, GetUserDetailsQueryResponse>
     {
         private readonly DatabaseContext _databaseContext;
         

@@ -15,7 +15,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetSentHistoryQueryHandler : TemplateHandler<GetSentHistoryQueryRequest, GetSentHistoryQueryResponse>
+    public class GetSentHistoryQueryHandler : RequestHandler<GetSentHistoryQueryRequest, GetSentHistoryQueryResponse>
     {
         private readonly DatabaseContext _databaseContext;
         
