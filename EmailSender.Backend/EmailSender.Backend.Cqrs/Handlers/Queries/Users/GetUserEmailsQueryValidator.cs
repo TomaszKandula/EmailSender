@@ -1,11 +1,11 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
 {
     using FluentValidation;
     using Shared.Resources;
 
-    public class GetAllowEmailsQueryValidator : AbstractValidator<GetAllowEmailsQuery>
+    public class GetUserEmailsQueryValidator : AbstractValidator<GetUserEmailsQuery>
     {
-        public GetAllowEmailsQueryValidator()
+        public GetUserEmailsQueryValidator()
         {
             RuleFor(request => request.PrivateKey)
                 .NotEmpty()

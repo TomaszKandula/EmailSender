@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
 {
     using System;
     using System.Linq;
@@ -12,7 +12,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetAllowEmailsQueryHandler : RequestHandler<GetAllowEmailsQuery, GetAllowEmailsQueryResult>
+    public class GetUserEmailsQueryHandler : RequestHandler<GetUserEmailsQuery, GetUserEmailsQueryResult>
     {
         private readonly DatabaseContext _databaseContext;
         
@@ -20,7 +20,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetAllowEmailsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
+        public GetUserEmailsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
@@ -28,7 +28,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetAllowEmailsQueryResult> Handle(GetAllowEmailsQuery request, CancellationToken cancellationToken)
+        public override async Task<GetUserEmailsQueryResult> Handle(GetUserEmailsQuery request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -39,7 +39,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetAllowEmailsQuery)
+                RequestName = nameof(GetUserEmailsQuery)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
@@ -58,7 +58,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
                 .Where(user => user.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return new GetAllowEmailsQueryResult
+            return new GetUserEmailsQueryResult
             {
                 AssociatedUser = associatedUser.UserAlias,
                 Emails = emails
