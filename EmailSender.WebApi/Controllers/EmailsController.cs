@@ -28,10 +28,5 @@ namespace EmailSender.WebApi.Controllers
         [ProducesResponseType(typeof(GetEmailsHistoryQueryResult), StatusCodes.Status200OK)]
         public async Task<GetEmailsHistoryQueryResult> GetEmailsHistory([FromQuery] string key) 
             => await Mediator.Send(new GetEmailsHistoryQuery { PrivateKey = key });
-
-        [HttpGet]
-        [ProducesResponseType(typeof(GetAllowEmailsQueryResult), StatusCodes.Status200OK)]
-        public async Task<GetAllowEmailsQueryResult> GetAllowEmails([FromQuery] string key) 
-            => await Mediator.Send(new GetAllowEmailsQuery { PrivateKey = key });
     }
 }
