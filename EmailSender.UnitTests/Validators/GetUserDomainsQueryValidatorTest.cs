@@ -5,19 +5,19 @@ namespace EmailSender.UnitTests.Validators
     using Backend.Shared.Resources;
     using Backend.Cqrs.Handlers.Queries.Users;
 
-    public class GetAllowDomainsQueryValidatorTest : TestBase
+    public class GetUserDomainsQueryValidatorTest : TestBase
     {
         [Fact]
         public void GivenPrivateKey_WhenGetAllowDomainsRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetAllowDomainsQuery
+            var request = new GetUserDomainsQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
 
             // Act
-            var validator = new GetAllowDomainsQueryValidator();
+            var validator = new GetUserDomainsQueryValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -28,13 +28,13 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetAllowDomainsRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetAllowDomainsQuery
+            var request = new GetUserDomainsQuery
             {
                 PrivateKey = string.Empty
             };
 
             // Act
-            var validator = new GetAllowDomainsQueryValidator();
+            var validator = new GetUserDomainsQueryValidator();
             var result = validator.Validate(request);
 
             // Assert
