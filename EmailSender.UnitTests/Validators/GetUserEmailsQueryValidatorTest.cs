@@ -3,21 +3,21 @@ namespace EmailSender.UnitTests.Validators
     using Xunit;
     using FluentAssertions;
     using Backend.Shared.Resources;
-    using Backend.Cqrs.Handlers.Queries.Emails;
+    using Backend.Cqrs.Handlers.Queries.Users;
 
-    public class GetAllowEmailsQueryValidatorTest : TestBase
+    public class GetUserEmailsQueryValidatorTest : TestBase
     {
         [Fact]
         public void GivenPrivateKey_WhenGetAllowEmailsRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetAllowEmailsQuery
+            var request = new GetUserEmailsQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
 
             // Act
-            var validator = new GetAllowEmailsQueryValidator();
+            var validator = new GetUserEmailsQueryValidator();
             var result = validator.Validate(request);
 
             // Assert
@@ -28,13 +28,13 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetAllowEmailsRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetAllowEmailsQuery
+            var request = new GetUserEmailsQuery
             {
                 PrivateKey = string.Empty
             };
 
             // Act
-            var validator = new GetAllowEmailsQueryValidator();
+            var validator = new GetUserEmailsQueryValidator();
             var result = validator.Validate(request);
 
             // Assert
