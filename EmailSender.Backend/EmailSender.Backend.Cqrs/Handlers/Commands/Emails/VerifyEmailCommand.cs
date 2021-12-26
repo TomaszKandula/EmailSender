@@ -1,10 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Requests
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails
 {
     using MediatR;
-    using Responses;
     using System.Collections.Generic;
 
-    public class VerifyEmailCommandRequest : IRequest<VerifyEmailCommandResponse>
+    public class VerifyEmailCommand : IRequest<VerifyEmailCommandResult>
     {
         public string PrivateKey { get; set; }
 

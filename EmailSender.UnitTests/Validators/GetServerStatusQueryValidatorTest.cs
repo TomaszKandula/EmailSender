@@ -2,9 +2,8 @@ namespace EmailSender.UnitTests.Validators
 {
     using Xunit;
     using FluentAssertions;
-    using Backend.Cqrs.Requests;
-    using Backend.Cqrs.Validators;
     using Backend.Shared.Resources;
+    using Backend.Cqrs.Handlers.Queries.Smtp;
 
     public class GetServerStatusQueryValidatorTest : TestBase
     {
@@ -12,7 +11,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenPrivateKeyAndEmail_WhenGetServerStatusRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetServerStatusQueryRequest
+            var request = new GetServerStatusQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString(),
                 EmailAddress = DataUtilityService.GetRandomEmail()
@@ -30,7 +29,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetServerStatusRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetServerStatusQueryRequest
+            var request = new GetServerStatusQuery
             {
                 PrivateKey = string.Empty,
                 EmailAddress = DataUtilityService.GetRandomEmail()
@@ -49,7 +48,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyEmail_WhenGetServerStatusRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetServerStatusQueryRequest
+            var request = new GetServerStatusQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString(),
                 EmailAddress = string.Empty
@@ -69,7 +68,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyProperties_WhenGetServerStatusRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetServerStatusQueryRequest
+            var request = new GetServerStatusQuery
             {
                 PrivateKey = string.Empty,
                 EmailAddress = string.Empty

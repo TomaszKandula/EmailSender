@@ -1,9 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Requests
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails
 {
     using System.Collections.Generic;
     using MediatR;
 
-    public class SendEmailCommandRequest : IRequest<Unit>
+    public class SendEmailCommand : IRequest<Unit>
     {
         public string PrivateKey { get; set; }
 

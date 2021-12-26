@@ -1,8 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Responses
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
 {
     using System;
 
-    public class GetUserDetailsQueryResponse
+    public class GetUserDetailsQueryResult
     {
         public string FirstName { get; set; }
 

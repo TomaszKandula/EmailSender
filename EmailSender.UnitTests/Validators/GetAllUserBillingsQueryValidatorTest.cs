@@ -2,9 +2,8 @@ namespace EmailSender.UnitTests.Validators
 {
     using Xunit;
     using FluentAssertions;
-    using Backend.Cqrs.Requests;
-    using Backend.Cqrs.Validators;
     using Backend.Shared.Resources;
+    using Backend.Cqrs.Handlers.Queries.Billings;
 
     public class GetAllUserBillingsQueryValidatorTest : TestBase
     {
@@ -12,7 +11,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenPrivateKey_WhenGetAllUserBillingsRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetAllUserBillingsQueryRequest
+            var request = new GetAllUserBillingsQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
@@ -29,7 +28,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetAllUserBillingsRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetAllUserBillingsQueryRequest
+            var request = new GetAllUserBillingsQuery
             {
                 PrivateKey = string.Empty
             };

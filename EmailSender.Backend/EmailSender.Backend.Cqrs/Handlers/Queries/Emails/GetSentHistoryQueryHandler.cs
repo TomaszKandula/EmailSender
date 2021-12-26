@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Cqrs.Handlers
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
 {
     using System;
     using System.Linq;
@@ -6,8 +6,6 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Database;
-    using Requests;
-    using Responses;
     using UserService;
     using Shared.Models;
     using Core.Exceptions;
@@ -15,7 +13,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetSentHistoryQueryHandler : RequestHandler<GetSentHistoryQueryRequest, GetSentHistoryQueryResponse>
+    public class GetSentHistoryQueryHandler : RequestHandler<GetSentHistoryQuery, GetSentHistoryQueryResult>
     {
         private readonly DatabaseContext _databaseContext;
         
@@ -31,7 +29,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetSentHistoryQueryResponse> Handle(GetSentHistoryQueryRequest request, CancellationToken cancellationToken)
+        public override async Task<GetSentHistoryQueryResult> Handle(GetSentHistoryQuery request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -42,7 +40,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetSentHistoryQueryRequest)
+                RequestName = nameof(GetSentHistoryQuery)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
@@ -65,7 +63,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
                 .Where(user => user.Id == userId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return new GetSentHistoryQueryResponse
+            return new GetSentHistoryQueryResult
             {
                 AssociatedUser = associatedUser.UserAlias,
                 HistoryEntries = history

@@ -3,9 +3,8 @@ namespace EmailSender.UnitTests.Validators
     using Xunit;
     using FluentAssertions;
     using System;
-    using Backend.Cqrs.Requests;
-    using Backend.Cqrs.Validators;
     using Backend.Shared.Resources;
+    using Backend.Cqrs.Handlers.Queries.Billings;
 
     public class GetUserBillingQueryValidatorTest : TestBase
     {
@@ -13,7 +12,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenPrivateKey_WhenGetUserBillingRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetUserBillingQueryRequest
+            var request = new GetUserBillingQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString(),
                 BillingId = Guid.NewGuid()
@@ -31,7 +30,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetUserBillingRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetUserBillingQueryRequest
+            var request = new GetUserBillingQuery
             {
                 PrivateKey = string.Empty,
                 BillingId = Guid.NewGuid()
@@ -50,7 +49,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyBillingId_WhenGetUserBillingRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetUserBillingQueryRequest
+            var request = new GetUserBillingQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString(),
                 BillingId = Guid.Empty
@@ -69,7 +68,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKeyAndBillingId_WhenGetUserBillingRequest_ShouldThrowErrors()
         {
             // Arrange
-            var request = new GetUserBillingQueryRequest
+            var request = new GetUserBillingQuery
             {
                 PrivateKey = string.Empty,
                 BillingId = Guid.Empty

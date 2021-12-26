@@ -1,10 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Validators
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Domains
 {
     using FluentValidation;
     using Shared.Resources;
-    using Requests;
 
-    public class GetAllowDomainsQueryValidator : AbstractValidator<GetAllowDomainsQueryRequest>
+    public class GetAllowDomainsQueryValidator : AbstractValidator<GetAllowDomainsQuery>
     {
         public GetAllowDomainsQueryValidator()
         {

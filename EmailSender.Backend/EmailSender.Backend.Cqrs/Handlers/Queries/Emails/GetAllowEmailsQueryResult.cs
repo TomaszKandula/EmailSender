@@ -1,8 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Responses
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
 {
     using System.Collections.Generic;
 
-    public class GetAllowEmailsQueryResponse
+    public class GetAllowEmailsQueryResult
     {
         public string AssociatedUser { get; set; }
 

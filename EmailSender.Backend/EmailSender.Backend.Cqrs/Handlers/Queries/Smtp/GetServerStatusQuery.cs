@@ -1,8 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Requests
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Smtp
 {
     using MediatR;
 
-    public class GetServerStatusQueryRequest : IRequest<Unit>
+    public class GetServerStatusQuery : IRequest<Unit>
     {
         public string PrivateKey { get; set; }
 

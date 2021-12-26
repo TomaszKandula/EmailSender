@@ -1,10 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Validators
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings
 {
-    using Requests;
     using FluentValidation;
     using Shared.Resources;
 
-    public class GetAllUserBillingsQueryValidator : AbstractValidator<GetAllUserBillingsQueryRequest>
+    public class GetAllUserBillingsQueryValidator : AbstractValidator<GetAllUserBillingsQuery>
     {
         public GetAllUserBillingsQueryValidator()
         {

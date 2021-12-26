@@ -1,10 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Validators
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Smtp
 {
     using FluentValidation;
     using Shared.Resources;
-    using Requests;
 
-    public class GetServerStatusQueryValidator : AbstractValidator<GetServerStatusQueryRequest>
+    public class GetServerStatusQueryValidator : AbstractValidator<GetServerStatusQuery>
     {
         public GetServerStatusQueryValidator()
         {

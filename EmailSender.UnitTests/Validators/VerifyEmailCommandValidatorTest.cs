@@ -4,8 +4,7 @@ namespace EmailSender.UnitTests.Validators
     using FluentAssertions;
     using System.Collections.Generic;
     using Backend.Shared.Resources;
-    using Backend.Cqrs.Requests;
-    using Backend.Cqrs.Validators;
+    using Backend.Cqrs.Handlers.Commands.Emails;
 
     public class VerifyEmailCommandValidatorTest : TestBase
     {
@@ -13,7 +12,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenValidInputs_WhenVerifyEmailRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new VerifyEmailCommandRequest
+            var request = new VerifyEmailCommand
             {
                 PrivateKey = DataUtilityService.GetRandomString(),
                 Emails = new List<string>
@@ -35,7 +34,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenInvalidInputs_WhenVerifyEmailRequest_ShouldThrowErrors()
         {
             // Arrange
-            var request = new VerifyEmailCommandRequest
+            var request = new VerifyEmailCommand
             {
                 PrivateKey = string.Empty,
                 Emails = null

@@ -2,9 +2,8 @@ namespace EmailSender.UnitTests.Validators
 {
     using Xunit;
     using FluentAssertions;
-    using Backend.Cqrs.Requests;
-    using Backend.Cqrs.Validators;
     using Backend.Shared.Resources;
+    using Backend.Cqrs.Handlers.Queries.Domains;
 
     public class GetAllowDomainsQueryValidatorTest : TestBase
     {
@@ -12,7 +11,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenPrivateKey_WhenGetAllowDomainsRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetAllowDomainsQueryRequest
+            var request = new GetAllowDomainsQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
@@ -29,7 +28,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetAllowDomainsRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetAllowDomainsQueryRequest
+            var request = new GetAllowDomainsQuery
             {
                 PrivateKey = string.Empty
             };

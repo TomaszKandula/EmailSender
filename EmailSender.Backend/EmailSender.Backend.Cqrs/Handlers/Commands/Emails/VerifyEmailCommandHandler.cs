@@ -1,11 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Handlers
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
     using Database;
-    using Requests;
-    using Responses;
     using UserService;
     using SenderService;
     using Core.Exceptions;
@@ -13,7 +11,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommandRequest, VerifyEmailCommandResponse>
+    public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommand, VerifyEmailCommandResult>
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -32,7 +30,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<VerifyEmailCommandResponse> Handle(VerifyEmailCommandRequest request, CancellationToken cancellationToken)
+        public override async Task<VerifyEmailCommandResult> Handle(VerifyEmailCommand request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -43,7 +41,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(VerifyEmailCommandRequest)
+                RequestName = nameof(VerifyEmailCommand)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
@@ -51,7 +49,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
 
             var result = await _senderService.VerifyEmailAddress(request.Emails, cancellationToken);
 
-            return new VerifyEmailCommandResponse
+            return new VerifyEmailCommandResult
             {
                 CheckResult = result
             };

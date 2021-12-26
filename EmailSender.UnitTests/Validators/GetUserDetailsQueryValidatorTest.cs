@@ -2,9 +2,8 @@ namespace EmailSender.UnitTests.Validators
 {
     using Xunit;
     using FluentAssertions;
-    using Backend.Cqrs.Requests;
-    using Backend.Cqrs.Validators;
     using Backend.Shared.Resources;
+    using Backend.Cqrs.Handlers.Queries.Users;
 
     public class GetUserDetailsQueryValidatorTest : TestBase
     {
@@ -12,7 +11,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenPrivateKey_WhenGetUserDetailsRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetUserDetailsQueryRequest
+            var request = new GetUserDetailsQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
@@ -29,7 +28,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetUserDetailsRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetUserDetailsQueryRequest
+            var request = new GetUserDetailsQuery
             {
                 PrivateKey = string.Empty
             };

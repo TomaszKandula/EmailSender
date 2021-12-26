@@ -1,12 +1,10 @@
-namespace EmailSender.Backend.Cqrs.Handlers
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings
 {
     using System;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using Requests;
-    using Responses;
     using Database;
     using UserService;
     using BillingService;
@@ -15,7 +13,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetUserBillingQueryHandler : RequestHandler<GetUserBillingQueryRequest, GetUserBillingQueryResponse>
+    public class GetUserBillingQueryHandler : RequestHandler<GetUserBillingQuery, GetUserBillingQueryResult>
     {
         private readonly DatabaseContext _databaseContext;
         
@@ -34,7 +32,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetUserBillingQueryResponse> Handle(GetUserBillingQueryRequest request, CancellationToken cancellationToken)
+        public override async Task<GetUserBillingQueryResult> Handle(GetUserBillingQuery request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -45,7 +43,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetUserBillingQueryRequest)
+                RequestName = nameof(GetUserBillingQuery)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
@@ -58,7 +56,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
                 .Select(user => user.UserAlias)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return new GetUserBillingQueryResponse
+            return new GetUserBillingQueryResult
             {
                 UserAlias = userAlias,
                 Amount = billing.Amount,

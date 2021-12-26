@@ -4,8 +4,7 @@ namespace EmailSender.UnitTests.Validators
     using FluentAssertions;
     using System.Collections.Generic;
     using Backend.Shared.Resources;
-    using Backend.Cqrs.Requests;
-    using Backend.Cqrs.Validators;
+    using Backend.Cqrs.Handlers.Commands.Emails;
 
     public class SendEmailCommandValidatorTest : TestBase
     {
@@ -13,7 +12,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenValidInputsWithOptionalEmails_WhenInvokeSendEmailRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new SendEmailCommandRequest
+            var request = new SendEmailCommand
             {
                 PrivateKey = DataUtilityService.GetRandomString(),
                 From = DataUtilityService.GetRandomEmail(),
@@ -46,7 +45,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenValidInputsWithoutOptionalEmails_WhenInvokeSendEmailRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new SendEmailCommandRequest
+            var request = new SendEmailCommand
             {
                 PrivateKey = DataUtilityService.GetRandomString(),
                 From = DataUtilityService.GetRandomEmail(),
@@ -71,7 +70,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenRequiredInputsEmptyWithoutOptionalEmails_WhenInvokeSendEmailRequest_ShouldThrowErrors()
         {
             // Arrange
-            var request = new SendEmailCommandRequest
+            var request = new SendEmailCommand
             {
                 PrivateKey = string.Empty,
                 From = string.Empty,
@@ -99,7 +98,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenRequiredInputsWithInvalidOptionalEmails_WhenInvokeSendEmailRequest_ShouldThrowErrors()
         {
             // Arrange
-            var request = new SendEmailCommandRequest
+            var request = new SendEmailCommand
             {
                 PrivateKey = DataUtilityService.GetRandomString(),
                 From = DataUtilityService.GetRandomEmail(),

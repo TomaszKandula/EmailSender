@@ -2,9 +2,8 @@ namespace EmailSender.UnitTests.Validators
 {
     using Xunit;
     using FluentAssertions;
-    using Backend.Cqrs.Requests;
-    using Backend.Cqrs.Validators;
     using Backend.Shared.Resources;
+    using Backend.Cqrs.Handlers.Queries.Emails;
 
     public class GetSentHistoryQueryValidatorTest : TestBase
     {
@@ -12,7 +11,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenPrivateKey_WhenGetSentHistoryRequest_ShouldSucceed()
         {
             // Arrange
-            var request = new GetSentHistoryQueryRequest
+            var request = new GetSentHistoryQuery
             {
                 PrivateKey = DataUtilityService.GetRandomString()
             };
@@ -29,7 +28,7 @@ namespace EmailSender.UnitTests.Validators
         public void GivenEmptyPrivateKey_WhenGetSentHistoryRequest_ShouldThrowError()
         {
             // Arrange
-            var request = new GetSentHistoryQueryRequest
+            var request = new GetSentHistoryQuery
             {
                 PrivateKey = string.Empty
             };

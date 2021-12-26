@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Cqrs.Handlers
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Domains
 {
     using System;
     using System.Linq;
@@ -6,15 +6,13 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Database;
-    using Requests;
-    using Responses;
     using UserService;
     using Core.Exceptions;
     using Domain.Entities;
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetAllowDomainsQueryHandler : RequestHandler<GetAllowDomainsQueryRequest, GetAllowDomainsQueryResponse>
+    public class GetAllowDomainsQueryHandler : RequestHandler<GetAllowDomainsQuery, GetAllowDomainsQueryResult>
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -30,7 +28,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetAllowDomainsQueryResponse> Handle(GetAllowDomainsQueryRequest request, CancellationToken cancellationToken)
+        public override async Task<GetAllowDomainsQueryResult> Handle(GetAllowDomainsQuery request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -41,7 +39,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetAllowDomainsQueryRequest)
+                RequestName = nameof(GetAllowDomainsQuery)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
@@ -54,7 +52,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
                 .Select(allowDomain => allowDomain.Host)
                 .ToListAsync(cancellationToken);
 
-            return new GetAllowDomainsQueryResponse
+            return new GetAllowDomainsQueryResult
             {
                 Hosts = hosts
             };

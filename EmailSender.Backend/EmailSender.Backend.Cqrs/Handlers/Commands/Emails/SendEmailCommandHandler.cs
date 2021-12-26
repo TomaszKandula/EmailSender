@@ -1,11 +1,10 @@
-namespace EmailSender.Backend.Cqrs.Handlers
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails
 {
     using MediatR;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
     using Database;
-    using Requests;
     using UserService;
     using SenderService;
     using Core.Exceptions;
@@ -14,7 +13,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using SenderService.Models;
     using Core.Services.DateTimeService;
 
-    public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommandRequest, Unit>
+    public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Unit>
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -33,7 +32,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<Unit> Handle(SendEmailCommandRequest request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(SendEmailCommand request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -45,7 +44,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(SendEmailCommandRequest)
+                RequestName = nameof(SendEmailCommand)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);

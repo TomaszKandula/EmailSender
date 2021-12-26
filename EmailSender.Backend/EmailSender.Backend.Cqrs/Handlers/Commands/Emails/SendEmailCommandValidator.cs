@@ -1,10 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Validators
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails
 {
     using FluentValidation;
     using Shared.Resources;
-    using Requests;
 
-    public class SendEmailCommandValidator : AbstractValidator<SendEmailCommandRequest>
+    public class SendEmailCommandValidator : AbstractValidator<SendEmailCommand>
     {
         public SendEmailCommandValidator()
         {

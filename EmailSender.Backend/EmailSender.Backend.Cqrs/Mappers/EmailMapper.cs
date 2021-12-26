@@ -2,12 +2,12 @@ namespace EmailSender.Backend.Cqrs.Mappers
 {
     using Shared.Dto;
     using System.Diagnostics.CodeAnalysis;
-    using Requests;
+    using Handlers.Commands.Emails;
 
     [ExcludeFromCodeCoverage]
     public static class EmailMapper
     {
-        public static SendEmailCommandRequest MapToSendEmailRequest(SendEmailDto model) => new ()
+        public static SendEmailCommand MapToSendEmailRequest(SendEmailDto model) => new ()
         {
             PrivateKey = model.PrivateKey,
             From = model.From,
@@ -19,7 +19,7 @@ namespace EmailSender.Backend.Cqrs.Mappers
             IsHtml = model.IsHtml
         };
 
-        public static VerifyEmailCommandRequest MapToVerifyEmailRequest(VerifyEmailDto model) => new()
+        public static VerifyEmailCommand MapToVerifyEmailRequest(VerifyEmailDto model) => new()
         {
             PrivateKey = model.PrivateKey,
             Emails = model.Emails

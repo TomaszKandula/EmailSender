@@ -1,9 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Responses
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings
 {
     using System.Collections.Generic;
     using BillingService.Models;
 
-    public class GetAllUserBillingsQueryResponse
+    public class GetAllUserBillingsQueryResult
     {
         public string UserAlias { get; set; }
 

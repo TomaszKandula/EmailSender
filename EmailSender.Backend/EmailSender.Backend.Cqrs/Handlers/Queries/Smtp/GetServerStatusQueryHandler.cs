@@ -1,11 +1,10 @@
-namespace EmailSender.Backend.Cqrs.Handlers
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Smtp
 {
     using MediatR;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
     using Database;
-    using Requests;
     using UserService;
     using SenderService;
     using Core.Exceptions;
@@ -13,7 +12,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQueryRequest, Unit>
+    public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQuery, Unit>
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -32,7 +31,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<Unit> Handle(GetServerStatusQueryRequest request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(GetServerStatusQuery request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -44,7 +43,7 @@ namespace EmailSender.Backend.Cqrs.Handlers
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetServerStatusQueryRequest)
+                RequestName = nameof(GetServerStatusQuery)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
