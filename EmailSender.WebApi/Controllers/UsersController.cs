@@ -20,4 +20,9 @@ public class UsersController : BaseController
     [ProducesResponseType(typeof(GetUserDomainsQueryResult), StatusCodes.Status200OK)]
     public async Task<GetUserDomainsQueryResult> GetUserDomains([FromQuery] string key) 
         => await Mediator.Send(new GetUserDomainsQuery { PrivateKey = key });
+
+    [HttpGet]
+    [ProducesResponseType(typeof(GetUserEmailsQueryResult), StatusCodes.Status200OK)]
+    public async Task<GetUserEmailsQueryResult> GetUserEmails([FromQuery] string key) 
+        => await Mediator.Send(new GetUserEmailsQuery { PrivateKey = key });
 }
