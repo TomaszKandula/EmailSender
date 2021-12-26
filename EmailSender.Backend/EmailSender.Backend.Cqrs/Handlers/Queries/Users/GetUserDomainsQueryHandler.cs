@@ -35,7 +35,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
 
             VerifyArguments(isKeyValid, userId);
 
-            var apiRequest = new RequestHistory
+            var apiRequest = new RequestsHistory
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,

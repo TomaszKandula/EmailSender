@@ -24,7 +24,7 @@
 
         public virtual DbSet<Billing> Billing { get; set; }
 
-        public virtual DbSet<RequestHistory> RequestHistory { get; set; }
+        public virtual DbSet<RequestsHistory> RequestsHistory { get; set; }
         
         public virtual DbSet<StandardPricing> StandardPricing { get; set; }
 

@@ -39,7 +39,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Smtp
 
             VerifyArguments(isKeyValid, userId, emailId);
 
-            var apiRequest = new RequestHistory
+            var apiRequest = new RequestsHistory
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,

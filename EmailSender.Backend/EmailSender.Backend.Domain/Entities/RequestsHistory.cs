@@ -5,7 +5,7 @@ namespace EmailSender.Backend.Domain.Entities
     using System.ComponentModel.DataAnnotations;
 
     [ExcludeFromCodeCoverage]
-    public class RequestHistory : Entity<Guid>
+    public class RequestsHistory : Entity<Guid>
     {
         public Guid UserId { get; set; }
 

@@ -48,7 +48,7 @@ namespace EmailSender.Backend.BillingService
                 .Select(history => history.Sent)
                 .ToListAsync(cancellationToken);
 
-            var requestHistory = await _databaseContext.RequestHistory
+            var requestHistory = await _databaseContext.RequestsHistory
                 .AsNoTracking()
                 .Where(history => history.UserId == userId)
                 .Select(history => history.Requested)
