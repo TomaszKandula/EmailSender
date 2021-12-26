@@ -12,7 +12,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
     using Shared.Resources;
     using Core.Services.DateTimeService;
 
-    public class GetAllowDomainsQueryHandler : RequestHandler<GetAllowDomainsQuery, GetAllowDomainsQueryResult>
+    public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, GetUserDomainsQueryResult>
     {
         private readonly DatabaseContext _databaseContext;
 
@@ -20,7 +20,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
 
         private readonly IDateTimeService _dateTimeService;
 
-        public GetAllowDomainsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
+        public GetUserDomainsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
             IDateTimeService dateTimeService)
         {
             _databaseContext = databaseContext;
@@ -28,7 +28,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
             _dateTimeService = dateTimeService;
         }
 
-        public override async Task<GetAllowDomainsQueryResult> Handle(GetAllowDomainsQuery request, CancellationToken cancellationToken)
+        public override async Task<GetUserDomainsQueryResult> Handle(GetUserDomainsQuery request, CancellationToken cancellationToken)
         {
             var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
             var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
@@ -39,7 +39,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
             {
                 UserId = userId,
                 Requested = _dateTimeService.Now,
-                RequestName = nameof(GetAllowDomainsQuery)
+                RequestName = nameof(GetUserDomainsQuery)
             };
 
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
@@ -52,7 +52,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
                 .Select(allowDomain => allowDomain.Host)
                 .ToListAsync(cancellationToken);
 
-            return new GetAllowDomainsQueryResult
+            return new GetUserDomainsQueryResult
             {
                 Hosts = hosts
             };

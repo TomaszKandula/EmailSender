@@ -27,9 +27,9 @@ namespace EmailSender.WebApi.Controllers
             => await Mediator.Send(EmailMapper.MapToVerifyEmailRequest(payLoad));
 
         [HttpGet]
-        [ProducesResponseType(typeof(GetAllowDomainsQueryResult), StatusCodes.Status200OK)]
-        public async Task<GetAllowDomainsQueryResult> GetAllowDomains([FromQuery] string key) 
-            => await Mediator.Send(new GetAllowDomainsQuery { PrivateKey = key });
+        [ProducesResponseType(typeof(GetUserDomainsQueryResult), StatusCodes.Status200OK)]
+        public async Task<GetUserDomainsQueryResult> GetAllowDomains([FromQuery] string key) 
+            => await Mediator.Send(new GetUserDomainsQuery { PrivateKey = key });
 
         [HttpGet]
         [ProducesResponseType(typeof(GetAllowEmailsQueryResult), StatusCodes.Status200OK)]
