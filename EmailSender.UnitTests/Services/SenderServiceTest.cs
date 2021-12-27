@@ -51,7 +51,7 @@ namespace EmailSender.UnitTests.Services
                 ServerSsl = true
             };
 
-            var allowEmail = new AllowEmail
+            var allowEmail = new UserEmails
             {
                 Id = Guid.NewGuid(),
                 UserId = userId,
@@ -106,7 +106,7 @@ namespace EmailSender.UnitTests.Services
                 ServerSsl = true
             };
 
-            var allowEmail = new AllowEmail
+            var allowEmail = new UserEmails
             {
                 Id = Guid.NewGuid(),
                 UserId = userId,
@@ -161,7 +161,7 @@ namespace EmailSender.UnitTests.Services
                 ServerSsl = true
             };
 
-            var allowEmail = new AllowEmail
+            var allowEmail = new UserEmails
             {
                 Id = Guid.NewGuid(),
                 UserId = userId,

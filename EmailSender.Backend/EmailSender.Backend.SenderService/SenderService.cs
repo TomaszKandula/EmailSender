@@ -34,7 +34,7 @@ namespace EmailSender.Backend.SenderService
         /// <returns>Email ID (Guid).</returns>
         public async Task<Guid> VerifyEmailFrom(string emailFrom, Guid? userId, CancellationToken cancellationToken)
         {
-            var matchedEmailId = await _databaseContext.AllowEmail
+            var matchedEmailId = await _databaseContext.UserEmails
                 .AsNoTracking()
                 .Include(allowEmail => allowEmail.Emails)
                 .Include(allowEmail => allowEmail.Users)

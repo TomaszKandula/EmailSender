@@ -26,7 +26,7 @@ namespace EmailSender.Backend.Domain.Entities
 
         public bool ServerSsl { get; set; }
         
-        public ICollection<AllowEmail> AllowEmail { get; set; } = new HashSet<AllowEmail>();
+        public ICollection<UserEmails> UserEmails { get; set; } = new HashSet<UserEmails>();
 
         public ICollection<EmailsHistory> EmailsHistory { get; set; } = new HashSet<EmailsHistory>();
     }

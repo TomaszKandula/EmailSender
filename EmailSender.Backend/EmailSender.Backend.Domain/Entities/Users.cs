@@ -32,7 +32,7 @@ namespace EmailSender.Backend.Domain.Entities
         [MaxLength(100)]
         public string PrivateKey { get; set; }
 
-        public ICollection<AllowEmail> AllowEmail { get; set; } = new HashSet<AllowEmail>();
+        public ICollection<UserEmails> UserEmails { get; set; } = new HashSet<UserEmails>();
 
         public ICollection<EmailsHistory> EmailsHistory { get; set; } = new HashSet<EmailsHistory>();
 
