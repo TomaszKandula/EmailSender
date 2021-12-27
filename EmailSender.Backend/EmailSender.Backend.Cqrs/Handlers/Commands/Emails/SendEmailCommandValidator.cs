@@ -1,74 +1,73 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
+
+using FluentValidation;
+using Shared.Resources;
+
+public class SendEmailCommandValidator : AbstractValidator<SendEmailCommand>
 {
-    using FluentValidation;
-    using Shared.Resources;
-
-    public class SendEmailCommandValidator : AbstractValidator<SendEmailCommand>
+    public SendEmailCommandValidator()
     {
-        public SendEmailCommandValidator()
+        RuleFor(request => request.PrivateKey)
+            .NotEmpty()
+            .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+            .WithMessage(ValidationCodes.REQUIRED);
+
+        RuleFor(request => request.From)
+            .NotEmpty()
+            .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+            .WithMessage(ValidationCodes.REQUIRED)
+            .EmailAddress()
+            .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
+            .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
+
+        RuleFor(request => request.Subject)
+            .NotEmpty()
+            .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+            .WithMessage(ValidationCodes.REQUIRED);
+
+        RuleFor(request => request.To)
+            .NotEmpty()
+            .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+            .WithMessage(ValidationCodes.REQUIRED);
+
+        RuleForEach(request => request.To)
+            .NotEmpty()
+            .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+            .WithMessage(ValidationCodes.REQUIRED)
+            .EmailAddress()
+            .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
+            .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
+
+        When(request => request.Cc != null, () =>
         {
-            RuleFor(request => request.PrivateKey)
+            RuleFor(request => request.Cc)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED);
 
-            RuleFor(request => request.From)
+            RuleForEach(request => request.Cc)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED)
                 .EmailAddress()
                 .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
                 .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
+        });
 
-            RuleFor(request => request.Subject)
+        When(request => request.Bcc != null, () =>
+        {
+            RuleFor(request => request.Bcc)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED);
 
-            RuleFor(request => request.To)
-                .NotEmpty()
-                .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-                .WithMessage(ValidationCodes.REQUIRED);
-
-            RuleForEach(request => request.To)
+            RuleForEach(request => request.Bcc)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED)
                 .EmailAddress()
                 .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
                 .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
-
-            When(request => request.Cc != null, () =>
-            {
-                RuleFor(request => request.Cc)
-                    .NotEmpty()
-                    .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-                    .WithMessage(ValidationCodes.REQUIRED);
-
-                RuleForEach(request => request.Cc)
-                    .NotEmpty()
-                    .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-                    .WithMessage(ValidationCodes.REQUIRED)
-                    .EmailAddress()
-                    .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
-                    .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
-            });
-
-            When(request => request.Bcc != null, () =>
-            {
-                RuleFor(request => request.Bcc)
-                    .NotEmpty()
-                    .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-                    .WithMessage(ValidationCodes.REQUIRED);
-
-                RuleForEach(request => request.Bcc)
-                    .NotEmpty()
-                    .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-                    .WithMessage(ValidationCodes.REQUIRED)
-                    .EmailAddress()
-                    .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
-                    .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
-            });
-        }
+        });
     }
 }

@@ -1,19 +1,18 @@
-namespace EmailSender.Backend.Domain.Entities
+namespace EmailSender.Backend.Domain.Entities;
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+
+[ExcludeFromCodeCoverage]
+public class EmailsHistory : Entity<Guid>
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
+    public Guid UserId { get; set; }
 
-    [ExcludeFromCodeCoverage]
-    public class EmailsHistory : Entity<Guid>
-    {
-        public Guid UserId { get; set; }
+    public Guid EmailId { get; set; }
 
-        public Guid EmailId { get; set; }
+    public DateTime Sent { get; set; }
 
-        public DateTime Sent { get; set; }
+    public Users Users { get; set; }
 
-        public Users Users { get; set; }
-
-        public Emails Emails { get; set; }
-    }
+    public Emails Emails { get; set; }
 }

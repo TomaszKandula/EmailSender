@@ -1,16 +1,15 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
-{
-    using FluentValidation;
-    using Shared.Resources;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails;
 
-    public class GetEmailsHistoryQueryValidator : AbstractValidator<GetEmailsHistoryQuery>
+using FluentValidation;
+using Shared.Resources;
+
+public class GetEmailsHistoryQueryValidator : AbstractValidator<GetEmailsHistoryQuery>
+{
+    public GetEmailsHistoryQueryValidator()
     {
-        public GetEmailsHistoryQueryValidator()
-        {
-            RuleFor(request => request.PrivateKey)
-                .NotEmpty()
-                .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-                .WithMessage(ValidationCodes.REQUIRED);
-        }
+        RuleFor(request => request.PrivateKey)
+            .NotEmpty()
+            .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+            .WithMessage(ValidationCodes.REQUIRED);
     }
 }

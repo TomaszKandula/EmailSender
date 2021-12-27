@@ -1,9 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
-{
-    using MediatR;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
 
-    public class GetUserDomainsQuery : IRequest<GetUserDomainsQueryResult>
-    {
-        public string PrivateKey { get; set; }
-    }
+using MediatR;
+
+public class GetUserDomainsQuery : IRequest<GetUserDomainsQueryResult>
+{
+    public string PrivateKey { get; set; }
 }

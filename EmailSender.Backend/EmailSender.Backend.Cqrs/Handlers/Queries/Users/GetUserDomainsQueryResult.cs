@@ -1,9 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
-{
-    using System.Collections.Generic;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
 
-    public class GetUserDomainsQueryResult
-    {
-        public IEnumerable<string> Hosts { get; set; }
-    }
+using System.Collections.Generic;
+
+public class GetUserDomainsQueryResult
+{
+    public IEnumerable<string> Hosts { get; set; }
 }

@@ -1,11 +1,10 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
+
+using System.Collections.Generic;
+
+public class GetUserEmailsQueryResult
 {
-    using System.Collections.Generic;
+    public string AssociatedUser { get; set; }
 
-    public class GetUserEmailsQueryResult
-    {
-        public string AssociatedUser { get; set; }
-
-        public IEnumerable<string> Emails { get; set; }
-    }
+    public IEnumerable<string> Emails { get; set; }
 }

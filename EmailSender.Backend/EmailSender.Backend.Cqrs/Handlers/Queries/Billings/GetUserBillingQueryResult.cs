@@ -1,9 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings
-{
-    using BillingService.Models;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings;
 
-    public class GetUserBillingQueryResult : Billing
-    {
-        public string UserAlias { get; set; }
-    }
+using BillingService.Models;
+
+public class GetUserBillingQueryResult : Billing
+{
+    public string UserAlias { get; set; }
 }

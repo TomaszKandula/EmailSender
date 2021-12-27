@@ -1,9 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings
-{
-    using MediatR;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings;
 
-    public class GetAllUserBillingsQuery : IRequest<GetAllUserBillingsQueryResult>
-    {
-        public string PrivateKey { get; set; }
-    }
+using MediatR;
+
+public class GetAllUserBillingsQuery : IRequest<GetAllUserBillingsQueryResult>
+{
+    public string PrivateKey { get; set; }
 }

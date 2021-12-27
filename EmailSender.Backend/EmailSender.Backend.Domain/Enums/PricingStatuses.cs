@@ -1,19 +1,18 @@
-namespace EmailSender.Backend.Domain.Enums
+namespace EmailSender.Backend.Domain.Enums;
+
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Core.Converters;
+
+[JsonConverter(typeof(StringToEnumWithDefaultConverter))]
+public enum PricingStatuses
 {
-    using System.Runtime.Serialization;
-    using Newtonsoft.Json;
-    using Core.Converters;
+    [EnumMember(Value = "unknown")]
+    Unknown = 0,
 
-    [JsonConverter(typeof(StringToEnumWithDefaultConverter))]
-    public enum PricingStatuses
-    {
-        [EnumMember(Value = "unknown")]
-        Unknown = 0,
+    [EnumMember(Value = "inactive")]
+    Inactive = 1,
 
-        [EnumMember(Value = "inactive")]
-        Inactive = 1,
-
-        [EnumMember(Value = "active")]
-        Active = 2
-    }
+    [EnumMember(Value = "active")]
+    Active = 2
 }

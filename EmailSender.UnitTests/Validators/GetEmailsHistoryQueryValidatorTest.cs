@@ -1,45 +1,44 @@
-namespace EmailSender.UnitTests.Validators
+namespace EmailSender.UnitTests.Validators;
+
+using Xunit;
+using FluentAssertions;
+using Backend.Shared.Resources;
+using Backend.Cqrs.Handlers.Queries.Emails;
+
+public class GetEmailsHistoryQueryValidatorTest : TestBase
 {
-    using Xunit;
-    using FluentAssertions;
-    using Backend.Shared.Resources;
-    using Backend.Cqrs.Handlers.Queries.Emails;
-
-    public class GetEmailsHistoryQueryValidatorTest : TestBase
+    [Fact]
+    public void GivenPrivateKey_WhenGetSentHistoryRequest_ShouldSucceed()
     {
-        [Fact]
-        public void GivenPrivateKey_WhenGetSentHistoryRequest_ShouldSucceed()
+        // Arrange
+        var request = new GetEmailsHistoryQuery
         {
-            // Arrange
-            var request = new GetEmailsHistoryQuery
-            {
-                PrivateKey = DataUtilityService.GetRandomString()
-            };
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
 
-            // Act
-            var validator = new GetEmailsHistoryQueryValidator();
-            var result = validator.Validate(request);
+        // Act
+        var validator = new GetEmailsHistoryQueryValidator();
+        var result = validator.Validate(request);
 
-            // Assert
-            result.Errors.Should().BeEmpty();
-        }
+        // Assert
+        result.Errors.Should().BeEmpty();
+    }
 
-        [Fact]
-        public void GivenEmptyPrivateKey_WhenGetSentHistoryRequest_ShouldThrowError()
+    [Fact]
+    public void GivenEmptyPrivateKey_WhenGetSentHistoryRequest_ShouldThrowError()
+    {
+        // Arrange
+        var request = new GetEmailsHistoryQuery
         {
-            // Arrange
-            var request = new GetEmailsHistoryQuery
-            {
-                PrivateKey = string.Empty
-            };
+            PrivateKey = string.Empty
+        };
 
-            // Act
-            var validator = new GetEmailsHistoryQueryValidator();
-            var result = validator.Validate(request);
+        // Act
+        var validator = new GetEmailsHistoryQueryValidator();
+        var result = validator.Validate(request);
 
-            // Assert
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
-        }
+        // Assert
+        result.Errors.Should().HaveCount(1);
+        result.Errors[0].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
     }
 }

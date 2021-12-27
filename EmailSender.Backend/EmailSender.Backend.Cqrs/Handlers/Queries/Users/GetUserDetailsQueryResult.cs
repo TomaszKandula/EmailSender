@@ -1,19 +1,18 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
+
+using System;
+
+public class GetUserDetailsQueryResult
 {
-    using System;
+    public string FirstName { get; set; }
 
-    public class GetUserDetailsQueryResult
-    {
-        public string FirstName { get; set; }
+    public string LastName { get; set; }
 
-        public string LastName { get; set; }
+    public string UserAlias { get; set; }
 
-        public string UserAlias { get; set; }
+    public string EmailAddress { get; set; }
 
-        public string EmailAddress { get; set; }
+    public DateTime Registered { get; set; }
 
-        public DateTime Registered { get; set; }
-
-        public string Status { get; set; }
-    }
+    public string Status { get; set; }
 }

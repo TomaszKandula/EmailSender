@@ -1,12 +1,11 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings;
+
+using System.Collections.Generic;
+using BillingService.Models;
+
+public class GetAllUserBillingsQueryResult
 {
-    using System.Collections.Generic;
-    using BillingService.Models;
+    public string UserAlias { get; set; }
 
-    public class GetAllUserBillingsQueryResult
-    {
-        public string UserAlias { get; set; }
-
-        public IEnumerable<Billing> Billings { get; set; }
-    }
+    public IEnumerable<Billing> Billings { get; set; }
 }

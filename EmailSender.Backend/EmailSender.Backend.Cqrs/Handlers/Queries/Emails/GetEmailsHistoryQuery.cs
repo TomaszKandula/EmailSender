@@ -1,9 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
-{
-    using MediatR;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails;
 
-    public class GetEmailsHistoryQuery : IRequest<GetEmailsHistoryQueryResult>
-    {
-        public string PrivateKey { get; set; }
-    }
+using MediatR;
+
+public class GetEmailsHistoryQuery : IRequest<GetEmailsHistoryQueryResult>
+{
+    public string PrivateKey { get; set; }
 }

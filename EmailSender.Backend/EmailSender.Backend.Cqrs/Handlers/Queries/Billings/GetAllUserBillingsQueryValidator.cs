@@ -1,16 +1,15 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings
-{
-    using FluentValidation;
-    using Shared.Resources;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Billings;
 
-    public class GetAllUserBillingsQueryValidator : AbstractValidator<GetAllUserBillingsQuery>
+using FluentValidation;
+using Shared.Resources;
+
+public class GetAllUserBillingsQueryValidator : AbstractValidator<GetAllUserBillingsQuery>
+{
+    public GetAllUserBillingsQueryValidator()
     {
-        public GetAllUserBillingsQueryValidator()
-        {
-            RuleFor(request => request.PrivateKey)
-                .NotEmpty()
-                .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-                .WithMessage(ValidationCodes.REQUIRED);
-        }
+        RuleFor(request => request.PrivateKey)
+            .NotEmpty()
+            .WithErrorCode(nameof(ValidationCodes.REQUIRED))
+            .WithMessage(ValidationCodes.REQUIRED);
     }
 }

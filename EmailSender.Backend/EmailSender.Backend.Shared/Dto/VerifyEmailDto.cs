@@ -1,13 +1,12 @@
-namespace EmailSender.Backend.Shared.Dto
+namespace EmailSender.Backend.Shared.Dto;
+
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+[ExcludeFromCodeCoverage]
+public class VerifyEmailDto
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
+    public string PrivateKey { get; set; }
 
-    [ExcludeFromCodeCoverage]
-    public class VerifyEmailDto
-    {
-        public string PrivateKey { get; set; }
-
-        public IEnumerable<string> Emails { get; set; }
-    }
+    public IEnumerable<string> Emails { get; set; }
 }
