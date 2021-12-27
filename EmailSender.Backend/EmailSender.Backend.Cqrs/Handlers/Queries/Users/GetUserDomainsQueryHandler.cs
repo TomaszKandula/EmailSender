@@ -45,7 +45,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var hosts = await _databaseContext.AllowDomain
+            var hosts = await _databaseContext.UserDomains
                 .AsNoTracking()
                 .Where(allowDomain => allowDomain.UserId == userId)
                 .OrderBy(allowDomain => allowDomain.Host)

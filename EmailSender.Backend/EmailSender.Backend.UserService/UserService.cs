@@ -29,7 +29,7 @@ namespace EmailSender.Backend.UserService
         /// <returns>True or False.</returns>
         public async Task<bool> IsDomainAllowed(string domainName, CancellationToken cancellationToken)
         {
-            var domains = await _databaseContext.AllowDomain
+            var domains = await _databaseContext.UserDomains
                 .AsNoTracking()
                 .Where(allowDomain => allowDomain.Host == domainName)
                 .ToListAsync(cancellationToken);

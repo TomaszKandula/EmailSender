@@ -30,7 +30,7 @@ namespace EmailSender.UnitTests.Services
                 PrivateKey = DataUtilityService.GetRandomString()
             };
             
-            var allowDomain = new AllowDomain
+            var allowDomain = new UserDomains
             {
                 UserId = user.Id,
                 Host = domainName
@@ -71,7 +71,7 @@ namespace EmailSender.UnitTests.Services
                 PrivateKey = DataUtilityService.GetRandomString()
             };
             
-            var allowDomain = new AllowDomain
+            var allowDomain = new UserDomains
             {
                 UserId = user.Id,
                 Host = DataUtilityService.GetRandomString(useAlphabetOnly: true)

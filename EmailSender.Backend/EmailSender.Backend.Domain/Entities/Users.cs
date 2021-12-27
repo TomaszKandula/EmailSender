@@ -36,7 +36,7 @@ namespace EmailSender.Backend.Domain.Entities
 
         public ICollection<EmailsHistory> EmailsHistory { get; set; } = new HashSet<EmailsHistory>();
 
-        public ICollection<AllowDomain> AllowDomain { get; set; } = new HashSet<AllowDomain>();
+        public ICollection<UserDomains> UserDomains { get; set; } = new HashSet<UserDomains>();
 
         public ICollection<Pricing> Pricing { get; set; } = new HashSet<Pricing>();
 

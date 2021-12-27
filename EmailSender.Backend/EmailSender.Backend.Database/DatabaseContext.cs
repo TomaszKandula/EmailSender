@@ -18,7 +18,7 @@
 
         public virtual DbSet<UserEmails> UserEmails { get; set; }
 
-        public virtual DbSet<AllowDomain> AllowDomain { get; set; }
+        public virtual DbSet<UserDomains> UserDomains { get; set; }
 
         public virtual DbSet<Pricing> Pricing { get; set; }
 

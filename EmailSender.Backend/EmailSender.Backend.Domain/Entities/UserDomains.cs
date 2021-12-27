@@ -5,7 +5,7 @@ namespace EmailSender.Backend.Domain.Entities
     using System.ComponentModel.DataAnnotations;
 
     [ExcludeFromCodeCoverage]
-    public class AllowDomain : Entity<Guid>
+    public class UserDomains : Entity<Guid>
     {
         public Guid UserId { get; set; }
 
