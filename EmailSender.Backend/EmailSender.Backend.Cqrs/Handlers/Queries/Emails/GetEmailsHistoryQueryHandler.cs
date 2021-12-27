@@ -48,12 +48,12 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
 
             var history = await _databaseContext.EmailsHistory
                 .AsNoTracking()
-                .Include(history => history.Email)
+                .Include(history => history.Emails)
                 .Include(history => history.Users)
                 .Where(history => history.UserId == userId)
                 .Select(history => new HistoryEntry
                 {
-                    EmailFrom = history.Email.Address,
+                    EmailFrom = history.Emails.Address,
                     SentAt = history.Sent
                 })
                 .ToListAsync(cancellationToken);

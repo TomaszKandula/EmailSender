@@ -47,10 +47,10 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users
 
             var emails = await _databaseContext.AllowEmail
                 .AsNoTracking()
-                .Include(allowEmail => allowEmail.Email)
+                .Include(allowEmail => allowEmail.Emails)
                 .Include(allowEmail => allowEmail.Users)
                 .Where(allowEmail => allowEmail.UserId == userId)
-                .Select(allowEmail => allowEmail.Email.Address)
+                .Select(allowEmail => allowEmail.Emails.Address)
                 .ToListAsync(cancellationToken);
 
             var associatedUser = await _databaseContext.Users

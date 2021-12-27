@@ -40,7 +40,7 @@ namespace EmailSender.UnitTests.Services
             };
 
             var emailId = Guid.NewGuid();
-            var email = new Email
+            var email = new Emails
             {
                 Id = emailId,
                 Address = emailFrom,
@@ -95,7 +95,7 @@ namespace EmailSender.UnitTests.Services
             };
 
             var emailId = Guid.NewGuid();
-            var email = new Email
+            var email = new Emails
             {
                 Id = emailId,
                 Address = emailFrom,
@@ -150,7 +150,7 @@ namespace EmailSender.UnitTests.Services
             };
 
             var emailId = Guid.NewGuid();
-            var email = new Email
+            var email = new Emails
             {
                 Id = emailId,
                 Address = DataUtilityService.GetRandomEmail(),
@@ -273,7 +273,7 @@ namespace EmailSender.UnitTests.Services
             
             var smtpService = new SmtpClientService(mockedSmtpClient.Object, mockedLookupClient.Object);
 
-            var email = new Email
+            var email = new Emails
             {
                 Address = DataUtilityService.GetRandomEmail(),
                 IsActive = true,
@@ -383,7 +383,7 @@ namespace EmailSender.UnitTests.Services
             
             var smtpService = new SmtpClientService(mockedSmtpClient.Object, mockedLookupClient.Object);
 
-            var email = new Email
+            var email = new Emails
             {
                 Address = DataUtilityService.GetRandomEmail(),
                 IsActive = true,
@@ -461,7 +461,7 @@ namespace EmailSender.UnitTests.Services
             mockedSmtpClient.SetupGet(smtpClient => smtpClient.IsAuthenticated).Returns(true);
 
             var smtpService = new SmtpClientService(mockedSmtpClient.Object, mockedLookupClient.Object);
-            var email = new Email
+            var email = new Emails
             {
                 Address = DataUtilityService.GetRandomEmail(),
                 IsActive = true,

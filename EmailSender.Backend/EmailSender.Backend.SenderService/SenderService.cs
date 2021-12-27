@@ -36,9 +36,9 @@ namespace EmailSender.Backend.SenderService
         {
             var matchedEmailId = await _databaseContext.AllowEmail
                 .AsNoTracking()
-                .Include(allowEmail => allowEmail.Email)
+                .Include(allowEmail => allowEmail.Emails)
                 .Include(allowEmail => allowEmail.Users)
-                .Where(allowEmail => allowEmail.Email.Address == emailFrom && allowEmail.Email.IsActive)
+                .Where(allowEmail => allowEmail.Emails.Address == emailFrom && allowEmail.Emails.IsActive)
                 .Where(allowEmail => allowEmail.UserId == userId)
                 .Select(allowEmail => allowEmail.EmailId)
                 .FirstOrDefaultAsync(cancellationToken);
@@ -106,7 +106,7 @@ namespace EmailSender.Backend.SenderService
         /// <returns>Object containing server details.</returns>
         private async Task<ServerData> GetServerData(string address, CancellationToken cancellationToken)
         {
-            var email = await _databaseContext.Email
+            var email = await _databaseContext.Emails
                 .AsNoTracking()
                 .Where(email => email.Address == address)
                 .FirstOrDefaultAsync(cancellationToken);
@@ -132,7 +132,7 @@ namespace EmailSender.Backend.SenderService
         /// <returns>Object containing server details.</returns>
         private async Task<ServerData> GetServerData(Guid addressId, CancellationToken cancellationToken)
         {
-            var email = await _databaseContext.Email
+            var email = await _databaseContext.Emails
                 .AsNoTracking()
                 .Where(email => email.Id == addressId)
                 .FirstOrDefaultAsync(cancellationToken);

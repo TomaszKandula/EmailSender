@@ -14,6 +14,6 @@ namespace EmailSender.Backend.Domain.Entities
 
         public Users Users { get; set; }
 
-        public Email Email { get; set; }
+        public Emails Emails { get; set; }
     }
 }

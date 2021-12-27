@@ -6,9 +6,9 @@ namespace EmailSender.Backend.Database.Mappings
     using Domain.Entities;
 
     [ExcludeFromCodeCoverage]
-    public class EmailConfiguration : IEntityTypeConfiguration<Email>
+    public class EmailsConfiguration : IEntityTypeConfiguration<Emails>
     {
-        public void Configure(EntityTypeBuilder<Email> builder) 
-            => builder.Property(email => email.Id).ValueGeneratedOnAdd();
+        public void Configure(EntityTypeBuilder<Emails> builder) 
+            => builder.Property(emails => emails.Id).ValueGeneratedOnAdd();
     }
 }

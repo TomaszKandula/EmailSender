@@ -20,11 +20,11 @@ namespace EmailSender.Backend.Database.Mappings
                 .HasConstraintName("FK_EmailsHistory_Users");
 
             builder
-                .HasOne(emailsHistory => emailsHistory.Email)
-                .WithMany(email => email.EmailsHistory)
+                .HasOne(emailsHistory => emailsHistory.Emails)
+                .WithMany(emails => emails.EmailsHistory)
                 .HasForeignKey(emailsHistory => emailsHistory.EmailId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_EmailsHistory_Email");
+                .HasConstraintName("FK_EmailsHistory_Emails");
         }
     }
 }

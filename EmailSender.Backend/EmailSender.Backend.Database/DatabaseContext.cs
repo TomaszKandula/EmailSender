@@ -10,7 +10,7 @@
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
-        public virtual DbSet<Email> Email { get; set; }
+        public virtual DbSet<Emails> Emails { get; set; }
 
         public virtual DbSet<Users> Users { get; set; }
 

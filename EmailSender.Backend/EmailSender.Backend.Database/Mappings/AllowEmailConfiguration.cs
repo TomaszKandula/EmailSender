@@ -20,11 +20,11 @@ namespace EmailSender.Backend.Database.Mappings
                 .HasConstraintName("FK_AllowEmail_Users");
 
             builder
-                .HasOne(allowEmail => allowEmail.Email)
-                .WithMany(email => email.AllowEmail)
+                .HasOne(allowEmail => allowEmail.Emails)
+                .WithMany(emails => emails.AllowEmail)
                 .HasForeignKey(allowEmail => allowEmail.EmailId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_AllowEmail_Email");
+                .HasConstraintName("FK_AllowEmail_Emails");
         }
     }
 }
