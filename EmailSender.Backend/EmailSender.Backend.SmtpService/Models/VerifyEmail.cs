@@ -1,14 +1,13 @@
-namespace EmailSender.Backend.SmtpService.Models
+namespace EmailSender.Backend.SmtpService.Models;
+
+using System.Diagnostics.CodeAnalysis;
+
+[ExcludeFromCodeCoverage]
+public class VerifyEmail
 {
-    using System.Diagnostics.CodeAnalysis;
+    public string Address { get; set; }
 
-    [ExcludeFromCodeCoverage]
-    public class VerifyEmail
-    {
-        public string Address { get; set; }
+    public bool IsFormatCorrect { get; set; }
 
-        public bool IsFormatCorrect { get; set; }
-
-        public bool IsDomainValid { get; set; }
-    }
+    public bool IsDomainValid { get; set; }
 }

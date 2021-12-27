@@ -1,29 +1,28 @@
-﻿namespace EmailSender.WebApi.Middleware
+﻿namespace EmailSender.WebApi.Middleware;
+
+using System.Threading;
+using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
+using Backend.UserService;
+using Backend.Core.Exceptions;
+using Backend.Shared.Resources;
+
+[ExcludeFromCodeCoverage]
+public class DomainControl
 {
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Diagnostics.CodeAnalysis;
-    using Microsoft.AspNetCore.Http;
-    using Backend.UserService;
-    using Backend.Core.Exceptions;
-    using Backend.Shared.Resources;
+    private readonly RequestDelegate _requestDelegate;
 
-    [ExcludeFromCodeCoverage]
-    public class DomainControl
+    public DomainControl(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
+
+    public async Task InvokeAsync(HttpContext httpContext, IUserService userService)
     {
-        private readonly RequestDelegate _requestDelegate;
+        var origin = httpContext.Request.Host.ToString();
+        var isDomainAllowed = await userService.IsDomainAllowed(origin, CancellationToken.None);
 
-        public DomainControl(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
+        if (!isDomainAllowed)
+            throw new AccessException(nameof(ErrorCodes.ACCESS_FORBIDDEN), ErrorCodes.ACCESS_FORBIDDEN);
 
-        public async Task InvokeAsync(HttpContext httpContext, IUserService userService)
-        {
-            var origin = httpContext.Request.Host.ToString();
-            var isDomainAllowed = await userService.IsDomainAllowed(origin, CancellationToken.None);
-
-            if (!isDomainAllowed)
-                throw new AccessException(nameof(ErrorCodes.ACCESS_FORBIDDEN), ErrorCodes.ACCESS_FORBIDDEN);
-
-            await _requestDelegate(httpContext);
-        }
+        await _requestDelegate(httpContext);
     }
 }
