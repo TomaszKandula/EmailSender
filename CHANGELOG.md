@@ -1,3 +1,13 @@
+# [1.3.0](https://github.com/TomaszKandula/EmailSender/compare/v1.2.0...v1.3.0) (2021-12-27)
+
+
+### Features
+
+* add custom json converter for enums ([c698d95](https://github.com/TomaszKandula/EmailSender/commit/c698d95d42acafb69cfa90d8bab5317954bbd949))
+* add endpoint for getting user emails ([5f96e24](https://github.com/TomaszKandula/EmailSender/commit/5f96e24743e7f23f7b22b08fcaf4a8c739f6338d))
+* add new controllers and endpoints ([91ce81d](https://github.com/TomaszKandula/EmailSender/commit/91ce81dd98f59aaa3baacd9031df6b879848d758))
+* use custom json converter and enum attribute for Unknown enum member ([c9b55e6](https://github.com/TomaszKandula/EmailSender/commit/c9b55e635d4a6e714a04b02fef7f904fd1ac78c4))
+
 # [1.2.0](https://github.com/TomaszKandula/EmailSender/compare/v1.1.0...v1.2.0) (2021-12-21)
 
 
