@@ -22,7 +22,7 @@
 
         public virtual DbSet<Pricing> Pricing { get; set; }
 
-        public virtual DbSet<Billing> Billing { get; set; }
+        public virtual DbSet<Billings> Billings { get; set; }
 
         public virtual DbSet<RequestsHistory> RequestsHistory { get; set; }
         

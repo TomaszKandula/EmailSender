@@ -7,7 +7,7 @@ namespace EmailSender.Backend.Domain.Entities
     using Enums;
 
     [ExcludeFromCodeCoverage]
-    public class Billing : Entity<Guid>
+    public class Billings : Entity<Guid>
     {
         public Guid UserId { get; set; }
 

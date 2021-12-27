@@ -67,7 +67,7 @@ namespace EmailSender.Backend.BillingService
                 ? amountBeforeDiscount 
                 : amountAfterDiscount;
 
-            var billing = new Domain.Entities.Billing
+            var billing = new Domain.Entities.Billings
             {
                 UserId = userId,
                 Amount = totalAmount,
@@ -92,7 +92,7 @@ namespace EmailSender.Backend.BillingService
         /// <returns>Requested billing entity.</returns>
         public async Task<Billing> GetUserBilling(Guid id, CancellationToken cancellationToken = default)
         {
-            var userBilling = await _databaseContext.Billing
+            var userBilling = await _databaseContext.Billings
                 .AsNoTracking()
                 .Where(billing => billing.Id == id)
                 .Select(billing => new Billing
@@ -117,7 +117,7 @@ namespace EmailSender.Backend.BillingService
         /// <returns>Requested list of billing entities.</returns>
         public async Task<IEnumerable<Billing>> GetAllUserBillings(Guid userId, CancellationToken cancellationToken = default)
         {
-            var billings = await _databaseContext.Billing
+            var billings = await _databaseContext.Billings
                 .AsNoTracking()
                 .Where(billing => billing.UserId == userId)
                 .Select(billing => new Billing
@@ -141,7 +141,7 @@ namespace EmailSender.Backend.BillingService
         /// <returns>Requested list of billing entities.</returns>
         public async Task<IEnumerable<Billing>> GetAllBillings(CancellationToken cancellationToken = default)
         {
-            var billings = await _databaseContext.Billing
+            var billings = await _databaseContext.Billings
                 .AsNoTracking()
                 .Select(billing => new Billing
                 {

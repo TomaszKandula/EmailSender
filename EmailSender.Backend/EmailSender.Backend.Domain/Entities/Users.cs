@@ -40,7 +40,7 @@ namespace EmailSender.Backend.Domain.Entities
 
         public ICollection<Pricing> Pricing { get; set; } = new HashSet<Pricing>();
 
-        public ICollection<Billing> Billing { get; set; } = new HashSet<Billing>();
+        public ICollection<Billings> Billings { get; set; } = new HashSet<Billings>();
 
         public ICollection<RequestsHistory> RequestsHistory { get; set; } = new HashSet<RequestsHistory>();
 
