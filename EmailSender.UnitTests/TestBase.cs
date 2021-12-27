@@ -1,36 +1,35 @@
-﻿namespace EmailSender.UnitTests
+﻿namespace EmailSender.UnitTests;
+
+using Microsoft.Extensions.DependencyInjection;
+using Backend.Database;
+using Backend.Core.Services.DateTimeService;
+using Backend.Core.Services.DataUtilityService;
+
+public class TestBase
 {
-    using Microsoft.Extensions.DependencyInjection;
-    using Backend.Database;
-    using Backend.Core.Services.DateTimeService;
-    using Backend.Core.Services.DataUtilityService;
+    protected IDataUtilityService DataUtilityService { get; }
 
-    public class TestBase
+    protected IDateTimeService DateTimeService { get; }
+        
+    private readonly DatabaseContextFactory _databaseContextFactory;
+        
+    protected TestBase()
     {
-        protected IDataUtilityService DataUtilityService { get; }
+        DataUtilityService = new DataUtilityService();
+        DateTimeService = new DateTimeService();
 
-        protected IDateTimeService DateTimeService { get; }
-        
-        private readonly DatabaseContextFactory _databaseContextFactory;
-        
-        protected TestBase()
+        var services = new ServiceCollection();
+        services.AddSingleton<DatabaseContextFactory>();
+        services.AddScoped(context =>
         {
-            DataUtilityService = new DataUtilityService();
-            DateTimeService = new DateTimeService();
+            var factory = context.GetService<DatabaseContextFactory>();
+            return factory?.CreateDatabaseContext();
+        });
 
-            var services = new ServiceCollection();
-            services.AddSingleton<DatabaseContextFactory>();
-            services.AddScoped(context =>
-            {
-                var factory = context.GetService<DatabaseContextFactory>();
-                return factory?.CreateDatabaseContext();
-            });
-
-            var serviceScope = services.BuildServiceProvider(true).CreateScope();
-            var serviceProvider = serviceScope.ServiceProvider;
-            _databaseContextFactory = serviceProvider.GetService<DatabaseContextFactory>();
-        }
-
-        protected DatabaseContext GetTestDatabaseContext() =>  _databaseContextFactory.CreateDatabaseContext();
+        var serviceScope = services.BuildServiceProvider(true).CreateScope();
+        var serviceProvider = serviceScope.ServiceProvider;
+        _databaseContextFactory = serviceProvider.GetService<DatabaseContextFactory>();
     }
+
+    protected DatabaseContext GetTestDatabaseContext() =>  _databaseContextFactory.CreateDatabaseContext();
 }

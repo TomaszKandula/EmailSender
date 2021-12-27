@@ -1,23 +1,25 @@
-namespace EmailSender.WebApi.Middleware
+namespace EmailSender.WebApi.Middleware;
+
+using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
+
+[ExcludeFromCodeCoverage]
+public class CacheControl
 {
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.Net.Http.Headers;
+    private readonly RequestDelegate _requestDelegate;
 
-    public class CacheControl
+    public CacheControl(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
+
+    public async Task InvokeAsync(HttpContext httpContext)
     {
-        private readonly RequestDelegate _requestDelegate;
-
-        public CacheControl(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
-
-        public async Task InvokeAsync(HttpContext httpContext)
+        httpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
         {
-            httpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
-            {
-                NoStore = true,
-                NoCache = true
-            };
-            await _requestDelegate(httpContext);
-        }
+            NoStore = true,
+            NoCache = true
+        };
+
+        await _requestDelegate(httpContext);
     }
 }

@@ -1,20 +1,19 @@
-namespace EmailSender.Backend.Database.Initializer
+namespace EmailSender.Backend.Database.Initializer;
+
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+
+[ExcludeFromCodeCoverage]
+public class DbInitializer : IDbInitializer
 {
-    using System.Diagnostics.CodeAnalysis;
-    using Microsoft.EntityFrameworkCore;
+    private readonly DatabaseContext _databaseContext;
 
-    [ExcludeFromCodeCoverage]
-    public class DbInitializer : IDbInitializer
+    public DbInitializer(DatabaseContext databaseContext) => _databaseContext = databaseContext;
+
+    public void StartMigration() => _databaseContext.Database.Migrate();
+
+    public void SeedData()
     {
-        private readonly DatabaseContext _databaseContext;
-
-        public DbInitializer(DatabaseContext databaseContext) => _databaseContext = databaseContext;
-
-        public void StartMigration() => _databaseContext.Database.Migrate();
-
-        public void SeedData()
-        {
-            // Seed here
-        }
+        // Seed here
     }
 }

@@ -1,43 +1,42 @@
-namespace EmailSender.WebApi.Configuration
+namespace EmailSender.WebApi.Configuration;
+
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+
+[ExcludeFromCodeCoverage]
+public static class SwaggerSupport
 {
-    using System.Diagnostics.CodeAnalysis;
-    using Microsoft.OpenApi.Models;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.DependencyInjection;
+    private const string ApiVersion = "v1";
 
-    [ExcludeFromCodeCoverage]
-    public static class SwaggerSupport
+    private const string ApiName = "Email Sender API";
+
+    public static void SetupSwaggerOptions(this IServiceCollection services, IHostEnvironment environment)
     {
-        private const string ApiVersion = "v1";
+        if (environment.IsProduction())
+            return;
 
-        private const string ApiName = "Email Sender API";
-
-        public static void SetupSwaggerOptions(this IServiceCollection services, IHostEnvironment environment)
+        services.AddSwaggerGen(options =>
         {
-            if (environment.IsProduction())
-                return;
-
-            services.AddSwaggerGen(options =>
+            options.SwaggerDoc(ApiVersion, new OpenApiInfo
             {
-                options.SwaggerDoc(ApiVersion, new OpenApiInfo
-                {
-                    Title = ApiName, 
-                    Version = ApiVersion
-                });
+                Title = ApiName, 
+                Version = ApiVersion
             });
-        }
+        });
+    }
 
-        public static void SetupSwaggerUi(this IApplicationBuilder builder, IHostEnvironment environment)
+    public static void SetupSwaggerUi(this IApplicationBuilder builder, IHostEnvironment environment)
+    {
+        if (environment.IsProduction())
+            return;
+
+        builder.UseSwagger();
+        builder.UseSwaggerUI(options =>
         {
-            if (environment.IsProduction())
-                return;
-
-            builder.UseSwagger();
-            builder.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", ApiName);
-            });
-        }
+            options.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", ApiName);
+        });
     }
 }

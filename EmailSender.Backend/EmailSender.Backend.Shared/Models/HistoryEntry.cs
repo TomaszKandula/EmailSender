@@ -1,13 +1,12 @@
-namespace EmailSender.Backend.Shared.Models
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
+namespace EmailSender.Backend.Shared.Models;
 
-    [ExcludeFromCodeCoverage]
-    public class HistoryEntry
-    {
-        public string EmailFrom { get; set; }
+using System;
+using System.Diagnostics.CodeAnalysis;
+
+[ExcludeFromCodeCoverage]
+public class HistoryEntry
+{
+    public string EmailFrom { get; set; }
         
-        public DateTime SentAt { get; set; }
-    }
+    public DateTime SentAt { get; set; }
 }
