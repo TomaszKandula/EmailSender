@@ -63,14 +63,14 @@ namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails
 
             await _senderService.Send(configuration, cancellationToken);
 
-            var history = new EmailHistory
+            var history = new EmailsHistory
             {
                 UserId = userId,
                 EmailId = emailId,
                 Sent = _dateTimeService.Now
             };
 
-            await _databaseContext.EmailHistory.AddAsync(history, cancellationToken);
+            await _databaseContext.EmailsHistory.AddAsync(history, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
             
             return Unit.Value;

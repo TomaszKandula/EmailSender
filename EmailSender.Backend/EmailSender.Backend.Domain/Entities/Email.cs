@@ -28,6 +28,6 @@ namespace EmailSender.Backend.Domain.Entities
         
         public ICollection<AllowEmail> AllowEmail { get; set; } = new HashSet<AllowEmail>();
 
-        public ICollection<EmailHistory> EmailHistory { get; set; } = new HashSet<EmailHistory>();
+        public ICollection<EmailsHistory> EmailsHistory { get; set; } = new HashSet<EmailsHistory>();
     }
 }

@@ -42,7 +42,7 @@ namespace EmailSender.Backend.BillingService
             if (pricing == null)
                 throw new BusinessException(nameof(ErrorCodes.MISSING_PRICING), ErrorCodes.MISSING_PRICING);
 
-            var emailHistory = await _databaseContext.EmailHistory
+            var emailHistory = await _databaseContext.EmailsHistory
                 .AsNoTracking()
                 .Where(history => history.UserId == userId)
                 .Select(history => history.Sent)

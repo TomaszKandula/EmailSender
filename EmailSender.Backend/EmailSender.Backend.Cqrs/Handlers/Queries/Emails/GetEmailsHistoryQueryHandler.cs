@@ -46,7 +46,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails
             await _databaseContext.AddAsync(apiRequest, cancellationToken);
             await _databaseContext.SaveChangesAsync(cancellationToken);
 
-            var history = await _databaseContext.EmailHistory
+            var history = await _databaseContext.EmailsHistory
                 .AsNoTracking()
                 .Include(history => history.Email)
                 .Include(history => history.Users)

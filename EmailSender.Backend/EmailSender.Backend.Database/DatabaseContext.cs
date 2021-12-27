@@ -14,7 +14,7 @@
 
         public virtual DbSet<Users> Users { get; set; }
 
-        public virtual DbSet<EmailHistory> EmailHistory { get; set; }
+        public virtual DbSet<EmailsHistory> EmailsHistory { get; set; }
 
         public virtual DbSet<AllowEmail> AllowEmail { get; set; }
 
