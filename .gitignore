@@ -5,8 +5,8 @@
 
 # Common IntelliJ Platform excludes
 
-# User specific
-.idea/.idea.EmailSender/.idea/
+# JetBrain Rider configuration
+.idea
 
 [Pp]ackages/
 Thumbs.db
