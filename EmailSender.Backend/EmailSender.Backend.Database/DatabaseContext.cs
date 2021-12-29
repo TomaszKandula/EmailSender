@@ -30,8 +30,6 @@ public class DatabaseContext : DbContext
 
     public virtual DbSet<UserDetails> UserDetails { get; set; }
 
-    public virtual DbSet<VatNumberPatterns> VatNumberPatterns { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
