@@ -14,15 +14,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.IntegrationTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.Shared", "EmailSender.Backend\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj", "{386D3DFC-AC2F-4233-BBEB-9C095D74C36E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.SmtpService", "EmailSender.Backend\EmailSender.Backend.SmtpService\EmailSender.Backend.SmtpService.csproj", "{621EB5FD-E5FF-41E4-97EF-29C51B973008}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.SmtpService", "EmailSender.Services\EmailSender.Services.SmtpService\EmailSender.Services.SmtpService.csproj", "{621EB5FD-E5FF-41E4-97EF-29C51B973008}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.Cqrs", "EmailSender.Backend\EmailSender.Backend.Cqrs\EmailSender.Backend.Cqrs.csproj", "{1165BB1A-A8D1-481B-B0E4-CDC202D66A70}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.UnitTests", "EmailSender.Tests\EmailSender.UnitTests\EmailSender.UnitTests.csproj", "{3A61A5DC-4906-44C5-BDEC-42D79A1CF0C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.UserService", "EmailSender.Backend\EmailSender.Backend.UserService\EmailSender.Backend.UserService.csproj", "{4B8C12A8-A5A3-4E39-AEF7-D4931E89FF65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.UserService", "EmailSender.Services\EmailSender.Services.UserService\EmailSender.Services.UserService.csproj", "{4B8C12A8-A5A3-4E39-AEF7-D4931E89FF65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.SenderService", "EmailSender.Backend\EmailSender.Backend.SenderService\EmailSender.Backend.SenderService.csproj", "{B202F77B-350C-4B2B-B4C5-231C01EBC262}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.SenderService", "EmailSender.Services\EmailSender.Services.SenderService\EmailSender.Services.SenderService.csproj", "{B202F77B-350C-4B2B-B4C5-231C01EBC262}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{21288831-4321-4486-94E9-F845B0686DEA}"
 EndProject
