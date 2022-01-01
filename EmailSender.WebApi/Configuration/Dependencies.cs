@@ -11,7 +11,7 @@ using Backend.Database;
 using Services.SmtpService;
 using Services.UserService;
 using Services.SenderService;
-using Backend.Core.Behaviours;
+using Services.BehaviourService;
 using Backend.Database.Initializer;
 using Backend.Core.Services.LoggerService;
 using Backend.Core.Services.DateTimeService;
@@ -75,6 +75,7 @@ public static class Dependencies
         services.AddMediatR(options => options.AsScoped(), 
             typeof(Backend.Cqrs.RequestHandler<IRequest, Unit>).GetTypeInfo().Assembly);
 
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DomainCheckBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
     }

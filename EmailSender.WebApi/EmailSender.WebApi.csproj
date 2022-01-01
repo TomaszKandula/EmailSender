@@ -25,6 +25,7 @@
       <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Cqrs\EmailSender.Backend.Cqrs.csproj" />
       <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Database\EmailSender.Backend.Database.csproj" />
       <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj" />
+      <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.BehaviourService\EmailSender.Services.BehaviourService.csproj" />
       <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.SenderService\EmailSender.Services.SenderService.csproj" />
       <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.SmtpService\EmailSender.Services.SmtpService.csproj" />
       <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.UserService\EmailSender.Services.UserService.csproj" />
