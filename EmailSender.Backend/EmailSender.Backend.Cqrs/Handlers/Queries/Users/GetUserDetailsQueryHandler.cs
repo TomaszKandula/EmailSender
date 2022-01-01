@@ -6,10 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Database;
-using UserService;
 using Core.Exceptions;
 using Domain.Entities;
 using Shared.Resources;
+using Services.UserService;
 using Core.Services.DateTimeService;
 
 public class GetUserDetailsQueryHandler : RequestHandler<GetUserDetailsQuery, GetUserDetailsQueryResult>

@@ -5,12 +5,12 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Database;
-using UserService;
-using SenderService;
 using Core.Exceptions;
 using Domain.Entities;
 using Shared.Resources;
-using SenderService.Models;
+using Services.UserService;
+using Services.SenderService;
+using Services.SenderService.Models;
 using Core.Services.DateTimeService;
 
 public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Unit>
