@@ -53,7 +53,6 @@ public class Startup
 
         builder.UseMiddleware<Exceptions>();
         builder.UseMiddleware<CacheControl>();
-        builder.UseMiddleware<DomainControl>();
 
         builder.UseResponseCompression();
         builder.UseRouting();
