@@ -1,4 +1,4 @@
-﻿namespace EmailSender.UnitTests;
+﻿namespace EmailSender.Tests.UnitTests;
 
 using Microsoft.Extensions.DependencyInjection;
 using Backend.Database;

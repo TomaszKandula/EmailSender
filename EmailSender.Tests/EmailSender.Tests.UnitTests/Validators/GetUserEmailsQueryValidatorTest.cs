@@ -1,23 +1,23 @@
-namespace EmailSender.UnitTests.Validators;
+namespace EmailSender.Tests.UnitTests.Validators;
 
 using Xunit;
 using FluentAssertions;
 using Backend.Shared.Resources;
-using Backend.Cqrs.Handlers.Queries.Emails;
+using Backend.Cqrs.Handlers.Queries.Users;
 
-public class GetEmailsHistoryQueryValidatorTest : TestBase
+public class GetUserEmailsQueryValidatorTest : TestBase
 {
     [Fact]
-    public void GivenPrivateKey_WhenGetSentHistoryRequest_ShouldSucceed()
+    public void GivenPrivateKey_WhenGetAllowEmailsRequest_ShouldSucceed()
     {
         // Arrange
-        var request = new GetEmailsHistoryQuery
+        var request = new GetUserEmailsQuery
         {
             PrivateKey = DataUtilityService.GetRandomString()
         };
 
         // Act
-        var validator = new GetEmailsHistoryQueryValidator();
+        var validator = new GetUserEmailsQueryValidator();
         var result = validator.Validate(request);
 
         // Assert
@@ -25,16 +25,16 @@ public class GetEmailsHistoryQueryValidatorTest : TestBase
     }
 
     [Fact]
-    public void GivenEmptyPrivateKey_WhenGetSentHistoryRequest_ShouldThrowError()
+    public void GivenEmptyPrivateKey_WhenGetAllowEmailsRequest_ShouldThrowError()
     {
         // Arrange
-        var request = new GetEmailsHistoryQuery
+        var request = new GetUserEmailsQuery
         {
             PrivateKey = string.Empty
         };
 
         // Act
-        var validator = new GetEmailsHistoryQueryValidator();
+        var validator = new GetUserEmailsQueryValidator();
         var result = validator.Validate(request);
 
         // Assert

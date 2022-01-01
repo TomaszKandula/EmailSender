@@ -1,4 +1,4 @@
-﻿namespace EmailSender.UnitTests;
+﻿namespace EmailSender.Tests.UnitTests;
 
 using Microsoft.EntityFrameworkCore;
 using Backend.Database;

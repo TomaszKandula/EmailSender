@@ -1,4 +1,4 @@
-namespace EmailSender.UnitTests.Services;
+namespace EmailSender.Tests.UnitTests.Services;
 
 using Moq;
 using Xunit;

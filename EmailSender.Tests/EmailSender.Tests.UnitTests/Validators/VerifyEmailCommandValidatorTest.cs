@@ -1,4 +1,4 @@
-namespace EmailSender.UnitTests.Validators;
+namespace EmailSender.Tests.UnitTests.Validators;
 
 using Xunit;
 using FluentAssertions;
