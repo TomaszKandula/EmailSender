@@ -1,7 +1,7 @@
 namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
 
 using System.Collections.Generic;
-using SmtpService.Models;
+using Services.SmtpService.Models;
 
 public class VerifyEmailCommandResult
 {

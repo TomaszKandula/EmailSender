@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>10</LangVersion>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DnsClient" Version="1.5.0" />
+      <PackageReference Include="MailKit" Version="3.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\EmailSender.Backend\EmailSender.Backend.Core\EmailSender.Backend.Core.csproj" />
+      <ProjectReference Include="..\..\EmailSender.Backend\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj" />
+    </ItemGroup>
+
+</Project>

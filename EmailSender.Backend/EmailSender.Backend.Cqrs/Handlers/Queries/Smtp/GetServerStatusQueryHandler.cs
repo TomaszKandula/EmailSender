@@ -5,11 +5,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Database;
-using UserService;
-using SenderService;
 using Core.Exceptions;
 using Domain.Entities;
 using Shared.Resources;
+using Services.UserService;
+using Services.SenderService;
 using Core.Services.DateTimeService;
 
 public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQuery, Unit>
