@@ -1,4 +1,4 @@
-﻿namespace EmailSender.Backend.SmtpService;
+﻿namespace EmailSender.Services.SmtpService;
 
 using System;
 using System.Linq;
@@ -10,10 +10,10 @@ using Models;
 using MimeKit;
 using DnsClient;
 using MimeKit.Text;
-using Core.Exceptions;
-using Shared.Resources;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Backend.Core.Exceptions;
+using Backend.Shared.Resources;
 
 public sealed class SmtpClientService : ISmtpClientService
 {

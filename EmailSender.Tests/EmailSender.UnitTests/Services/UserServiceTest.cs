@@ -6,8 +6,8 @@ using FluentAssertions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.UserService;
 using Backend.Domain.Entities;
+using EmailSender.Services.UserService;
 using Backend.Core.Services.LoggerService;
 
 public class UserServiceTest : TestBase

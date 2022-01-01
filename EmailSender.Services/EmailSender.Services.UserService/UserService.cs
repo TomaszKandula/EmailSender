@@ -1,12 +1,12 @@
-namespace EmailSender.Backend.UserService;
+namespace EmailSender.Services.UserService;
 
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Database;
-using Core.Services.LoggerService;
+using Backend.Database;
+using Backend.Core.Services.LoggerService;
 
 public class UserService : IUserService
 {

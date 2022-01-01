@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.UserService;
+namespace EmailSender.Services.UserService;
 
 using System;
 using System.Threading;

@@ -1,5 +1,5 @@
 #nullable enable
-namespace EmailSender.Backend.SenderService;
+namespace EmailSender.Services.SenderService;
 
 using System;
 using System.Threading;

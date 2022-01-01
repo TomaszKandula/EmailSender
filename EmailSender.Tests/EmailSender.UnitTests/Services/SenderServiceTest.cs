@@ -12,12 +12,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Backend.SmtpService;
-using Backend.SenderService;
 using Backend.Domain.Entities;
 using Backend.Core.Exceptions;
 using Backend.Shared.Resources;
-using Backend.SenderService.Models;
+using EmailSender.Services.SmtpService;
+using EmailSender.Services.SenderService;
+using EmailSender.Services.SenderService.Models;
     
 public class SenderServiceTest : TestBase
 {

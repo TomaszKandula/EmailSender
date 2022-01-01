@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.SmtpService.Models;
+namespace EmailSender.Services.SmtpService.Models;
 
 using System.Diagnostics.CodeAnalysis;
 

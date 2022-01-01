@@ -1,4 +1,4 @@
-﻿namespace EmailSender.Backend.SmtpService;
+﻿namespace EmailSender.Services.SmtpService;
 
 using System.Threading;
 using System.Threading.Tasks;

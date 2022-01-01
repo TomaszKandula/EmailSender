@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
-using Backend.UserService;
+using Services.UserService;
 using Backend.Core.Exceptions;
 using Backend.Shared.Resources;
 

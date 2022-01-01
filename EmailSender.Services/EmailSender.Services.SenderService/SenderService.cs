@@ -1,5 +1,5 @@
 #nullable enable
-namespace EmailSender.Backend.SenderService;
+namespace EmailSender.Services.SenderService;
 
 using System;
 using System.Linq;
@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Database;
 using SmtpService;
-using Core.Exceptions;
+using Backend.Database;
 using SmtpService.Models;
+using Backend.Core.Exceptions;
 
 public class SenderService : ISenderService
 {
