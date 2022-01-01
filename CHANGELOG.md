@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/TomaszKandula/EmailSender/compare/v1.3.0...v1.4.0) (2022-01-01)
+
+
+### Bug Fixes
+
+* correct path after folder restructure ([b7074ec](https://github.com/TomaszKandula/EmailSender/commit/b7074ecb0dcee4b1b7b08c74ff85a3dd9ee98266))
+
+
+### Features
+
+* add new behaviour service ([03dfff4](https://github.com/TomaszKandula/EmailSender/commit/03dfff4c4caad08d372cff0b2fbe44c53bccb504))
+
 # [1.3.0](https://github.com/TomaszKandula/EmailSender/compare/v1.2.0...v1.3.0) (2021-12-27)
 
 
