@@ -38,10 +38,6 @@ public class Users : Entity<Guid>
 
     public ICollection<UserDomains> UserDomains { get; set; } = new HashSet<UserDomains>();
 
-    public ICollection<Pricing> Pricing { get; set; } = new HashSet<Pricing>();
-
-    public ICollection<Billings> Billings { get; set; } = new HashSet<Billings>();
-
     public ICollection<RequestsHistory> RequestsHistory { get; set; } = new HashSet<RequestsHistory>();
 
     public ICollection<UserDetails> UserDetails { get; set; } = new HashSet<UserDetails>();
