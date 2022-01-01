@@ -20,13 +20,7 @@ public class DatabaseContext : DbContext
 
     public virtual DbSet<UserDomains> UserDomains { get; set; }
 
-    public virtual DbSet<Pricing> Pricing { get; set; }
-
-    public virtual DbSet<Billings> Billings { get; set; }
-
     public virtual DbSet<RequestsHistory> RequestsHistory { get; set; }
-        
-    public virtual DbSet<StandardPricing> StandardPricing { get; set; }
 
     public virtual DbSet<UserDetails> UserDetails { get; set; }
 

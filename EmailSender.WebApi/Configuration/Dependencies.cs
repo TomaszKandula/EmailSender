@@ -11,7 +11,6 @@ using Backend.Database;
 using Backend.SmtpService;
 using Backend.UserService;
 using Backend.SenderService;
-using Backend.BillingService;
 using Backend.Core.Behaviours;
 using Backend.Database.Initializer;
 using Backend.Core.Services.LoggerService;
@@ -63,7 +62,6 @@ public static class Dependencies
         services.AddScoped<ILookupClient, LookupClient>();
         services.AddScoped<IDateTimeService, DateTimeService>();
         services.AddScoped<ISenderService, SenderService>();
-        services.AddScoped<IBillingService, BillingService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISmtpClientService, SmtpClientService>();
         services.AddScoped<IDbInitializer, DbInitializer>();
