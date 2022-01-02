@@ -13,6 +13,6 @@ public class SmtpController : BaseController
     
     [HttpGet]
     [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-    public async Task<Unit> GetServerStatus([FromQuery] string key, string address) 
-        => await Mediator.Send(new GetServerStatusQuery { PrivateKey = key, EmailAddress = address });
+    public async Task<Unit> GetServerStatus([FromQuery] string address, [FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetServerStatusQuery { EmailAddress = address });
 }

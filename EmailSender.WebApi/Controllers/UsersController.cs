@@ -13,16 +13,16 @@ public class UsersController : BaseController
 
     [HttpGet]
     [ProducesResponseType(typeof(GetUserDetailsQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetUserDetailsQueryResult> GetUserDetails([FromQuery] string key) 
-        => await Mediator.Send(new GetUserDetailsQuery { PrivateKey = key });
+    public async Task<GetUserDetailsQueryResult> GetUserDetails([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetUserDetailsQuery());
 
     [HttpGet]
     [ProducesResponseType(typeof(GetUserDomainsQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetUserDomainsQueryResult> GetUserDomains([FromQuery] string key) 
-        => await Mediator.Send(new GetUserDomainsQuery { PrivateKey = key });
+    public async Task<GetUserDomainsQueryResult> GetUserDomains([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetUserDomainsQuery());
 
     [HttpGet]
     [ProducesResponseType(typeof(GetUserEmailsQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetUserEmailsQueryResult> GetUserEmails([FromQuery] string key) 
-        => await Mediator.Send(new GetUserEmailsQuery { PrivateKey = key });
+    public async Task<GetUserEmailsQueryResult> GetUserEmails([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetUserEmailsQuery());
 }

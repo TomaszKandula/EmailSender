@@ -30,10 +30,10 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
 
     public override async Task<GetUserDomainsQueryResult> Handle(GetUserDomainsQuery request, CancellationToken cancellationToken)
     {
-        var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
-        var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+        var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
 
-        VerifyArguments(isKeyValid, userId);
+        if (userId == Guid.Empty)
+            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
 
         var apiRequest = new RequestsHistory
         {
@@ -56,14 +56,5 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
         {
             Hosts = hosts
         };
-    }
-        
-    private static void VerifyArguments(bool isKeyValid, Guid? userId)
-    {
-        if (!isKeyValid)
-            throw new AccessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
-
-        if (userId == null || userId == Guid.Empty)
-            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
     }
 }

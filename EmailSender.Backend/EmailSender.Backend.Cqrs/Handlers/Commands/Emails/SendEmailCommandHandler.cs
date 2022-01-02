@@ -34,11 +34,11 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
 
     public override async Task<Unit> Handle(SendEmailCommand request, CancellationToken cancellationToken)
     {
-        var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
-        var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+        var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
         var emailId = await _senderService.VerifyEmailFrom(request.From, userId, cancellationToken);
 
-        VerifyArguments(isKeyValid, userId, emailId);
+        if (emailId == Guid.Empty)
+            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
 
         var apiRequest = new RequestsHistory
         {
@@ -74,17 +74,5 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
         await _databaseContext.SaveChangesAsync(cancellationToken);
             
         return Unit.Value;
-    }
-
-    private static void VerifyArguments(bool isKeyValid, Guid? userId, Guid? emailId)
-    {
-        if (!isKeyValid)
-            throw new AccessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
-
-        if (userId == null || userId == Guid.Empty)
-            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
-
-        if (emailId == null || emailId == Guid.Empty)
-            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
     }
 }
