@@ -5,8 +5,6 @@ using MediatR;
 
 public class SendEmailCommand : IRequest<Unit>
 {
-    public string PrivateKey { get; set; }
-
     public string From { get; set; }
         
     public List<string> To { get; set; }

@@ -76,6 +76,7 @@ public static class Dependencies
             typeof(Backend.Cqrs.RequestHandler<IRequest, Unit>).GetTypeInfo().Assembly);
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DomainCheckBehaviour<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PrivateKeyCheckBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
     }

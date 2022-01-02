@@ -6,6 +6,7 @@ using FluentAssertions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Backend.Domain.Entities;
 using EmailSender.Services.UserService;
 using Backend.Core.Services.LoggerService;
@@ -42,9 +43,11 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext,
-            mockedLoggerService.Object);
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object);
 
         // Act
         var result = await service.IsDomainAllowed(domainName, CancellationToken.None);
@@ -83,9 +86,11 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
-            mockedLoggerService.Object);
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object);
 
         // Act
         var result = await service.IsDomainAllowed(domainName, CancellationToken.None);
@@ -116,9 +121,11 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
-            mockedLoggerService.Object);
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object);
 
         // Act
         var result = await service.IsPrivateKeyValid(privateKey, CancellationToken.None);
@@ -149,9 +156,11 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
-            mockedLoggerService.Object);
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object);
 
         // Act
         var result = await service.IsPrivateKeyValid(privateKey, CancellationToken.None);
@@ -182,9 +191,11 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
-            mockedLoggerService.Object);
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object);
 
         // Act
         var result = await service.GetUserByPrivateKey(privateKey, CancellationToken.None);
@@ -215,9 +226,11 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
-            mockedLoggerService.Object);
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object);
 
         // Act
         var result = await service.GetUserByPrivateKey(privateKey, CancellationToken.None);

@@ -9,7 +9,6 @@ public static class EmailMapper
 {
     public static SendEmailCommand MapToSendEmailRequest(SendEmailDto model) => new ()
     {
-        PrivateKey = model.PrivateKey,
         From = model.From,
         To = model.To,
         Cc = model.Cc,
@@ -21,7 +20,6 @@ public static class EmailMapper
 
     public static VerifyEmailCommand MapToVerifyEmailRequest(VerifyEmailDto model) => new()
     {
-        PrivateKey = model.PrivateKey,
         Emails = model.Emails
     };
 }

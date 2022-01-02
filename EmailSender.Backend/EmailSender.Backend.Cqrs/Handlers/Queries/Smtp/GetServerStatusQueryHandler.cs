@@ -33,11 +33,10 @@ public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQu
 
     public override async Task<Unit> Handle(GetServerStatusQuery request, CancellationToken cancellationToken)
     {
-        var isKeyValid = await _userService.IsPrivateKeyValid(request.PrivateKey, cancellationToken);
-        var userId = await _userService.GetUserByPrivateKey(request.PrivateKey, cancellationToken);
+        var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
         var emailId = await _senderService.VerifyEmailFrom(request.EmailAddress, userId, cancellationToken);
 
-        VerifyArguments(isKeyValid, userId, emailId);
+        VerifyArguments(userId, emailId);
 
         var apiRequest = new RequestsHistory
         {
@@ -53,14 +52,8 @@ public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQu
         return Unit.Value;
     }
 
-    private static void VerifyArguments(bool isKeyValid, Guid? userId, Guid? emailId)
+    private static void VerifyArguments(Guid? userId, Guid? emailId)
     {
-        if (!isKeyValid)
-        {
-            var message = $"Cannot verify SMTP service. Reason: {ErrorCodes.INVALID_PRIVATE_KEY}";
-            throw new AccessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), message);
-        }
-
         if (userId == null || userId == Guid.Empty)
         {
             var message = $"Cannot verify SMTP service. Reason: {ErrorCodes.INVALID_ASSOCIATED_USER}";

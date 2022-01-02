@@ -16,16 +16,16 @@ public class EmailsController : BaseController
 
     [HttpPost]
     [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-    public async Task<Unit> SendEmail([FromBody] SendEmailDto payLoad)
+    public async Task<Unit> SendEmail([FromBody] SendEmailDto payLoad, [FromHeader(Name = HeaderName)] string privateKey)
         => await Mediator.Send(EmailMapper.MapToSendEmailRequest(payLoad));
 
     [HttpPost]
     [ProducesResponseType(typeof(VerifyEmailCommandResult), StatusCodes.Status200OK)]
-    public async Task<VerifyEmailCommandResult> VerifyEmail([FromBody] VerifyEmailDto payLoad)
+    public async Task<VerifyEmailCommandResult> VerifyEmail([FromBody] VerifyEmailDto payLoad, [FromHeader(Name = HeaderName)] string privateKey)
         => await Mediator.Send(EmailMapper.MapToVerifyEmailRequest(payLoad));
 
     [HttpGet]
     [ProducesResponseType(typeof(GetEmailsHistoryQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetEmailsHistoryQueryResult> GetEmailsHistory([FromQuery] string key) 
-        => await Mediator.Send(new GetEmailsHistoryQuery { PrivateKey = key });
+    public async Task<GetEmailsHistoryQueryResult> GetEmailsHistory([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetEmailsHistoryQuery());
 }
