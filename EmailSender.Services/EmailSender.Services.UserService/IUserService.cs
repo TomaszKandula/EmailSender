@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 public interface IUserService
 {
+    string GetPrivateKeyFromHeader(string headerName = "X-Private-Key");
+
     Task<bool> IsDomainAllowed(string domainName, CancellationToken cancellationToken);
 
     Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken);
