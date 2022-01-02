@@ -1,3 +1,12 @@
+# [1.5.0](https://github.com/TomaszKandula/EmailSender/compare/v1.4.0...v1.5.0) (2022-01-02)
+
+
+### Features
+
+* add method to extract private key from the request header ([1829167](https://github.com/TomaszKandula/EmailSender/commit/18291674be51889b6fbb781693b96d4b3bf364dc))
+* add new service for checking private key passed in the request header ([6dd69cc](https://github.com/TomaszKandula/EmailSender/commit/6dd69cc75f7f97e4f0fc642d45f88389b3ee850e))
+* add private key in the request header ([e843cab](https://github.com/TomaszKandula/EmailSender/commit/e843cabcd31ab00192a85528af9501f2c20016d8))
+
 # [1.4.0](https://github.com/TomaszKandula/EmailSender/compare/v1.3.0...v1.4.0) (2022-01-01)
 
 
