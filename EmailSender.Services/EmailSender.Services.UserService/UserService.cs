@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Backend.Database;
 using Backend.Core.Services.LoggerService;
@@ -14,10 +15,22 @@ public class UserService : IUserService
 
     private readonly ILoggerService _loggerService;
 
-    public UserService(DatabaseContext databaseContext, ILoggerService loggerService)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public UserService(DatabaseContext databaseContext, ILoggerService loggerService, IHttpContextAccessor httpContextAccessor)
     {
         _databaseContext = databaseContext;
         _loggerService = loggerService;
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    /// <summary>
+    /// Returns private key presented in the request header or empty string.
+    /// </summary>
+    /// <returns>String value.</returns>
+    public string GetPrivateKeyFromHeader(string headerName = "X-Private-Key")
+    {
+        return _httpContextAccessor.HttpContext?.Request.Headers[headerName].ToString();
     }
 
     /// <summary>

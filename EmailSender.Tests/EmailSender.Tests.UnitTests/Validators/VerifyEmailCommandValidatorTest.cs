@@ -14,7 +14,6 @@ public class VerifyEmailCommandValidatorTest : TestBase
         // Arrange
         var request = new VerifyEmailCommand
         {
-            PrivateKey = DataUtilityService.GetRandomString(),
             Emails = new List<string>
             {
                 DataUtilityService.GetRandomEmail(),
@@ -36,7 +35,6 @@ public class VerifyEmailCommandValidatorTest : TestBase
         // Arrange
         var request = new VerifyEmailCommand
         {
-            PrivateKey = string.Empty,
             Emails = null
         };
 
@@ -45,8 +43,7 @@ public class VerifyEmailCommandValidatorTest : TestBase
         var result = validator.Validate(request);
 
         // Assert
-        result.Errors.Should().HaveCount(2);
+        result.Errors.Should().HaveCount(1);
         result.Errors[0].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
-        result.Errors[1].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
     }
 }

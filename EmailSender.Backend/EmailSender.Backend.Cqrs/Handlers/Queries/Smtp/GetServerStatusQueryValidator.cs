@@ -7,11 +7,6 @@ public class GetServerStatusQueryValidator : AbstractValidator<GetServerStatusQu
 {
     public GetServerStatusQueryValidator()
     {
-        RuleFor(request => request.PrivateKey)
-            .NotEmpty()
-            .WithErrorCode(nameof(ValidationCodes.REQUIRED))
-            .WithMessage(ValidationCodes.REQUIRED);
-
         RuleFor(request => request.EmailAddress)
             .NotEmpty()
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))

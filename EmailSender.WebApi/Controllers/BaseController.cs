@@ -18,5 +18,7 @@ public class BaseController : ControllerBase
 {
     protected readonly IMediator Mediator;
 
+    protected const string HeaderName = "X-Private-Key";
+
     public BaseController(IMediator mediator) => Mediator = mediator;
 }

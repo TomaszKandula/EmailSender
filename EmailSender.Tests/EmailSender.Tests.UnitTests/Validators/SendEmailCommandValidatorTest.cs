@@ -14,7 +14,6 @@ public class SendEmailCommandValidatorTest : TestBase
         // Arrange
         var request = new SendEmailCommand
         {
-            PrivateKey = DataUtilityService.GetRandomString(),
             From = DataUtilityService.GetRandomEmail(),
             Subject = DataUtilityService.GetRandomString(),
             To = new List<string>
@@ -47,7 +46,6 @@ public class SendEmailCommandValidatorTest : TestBase
         // Arrange
         var request = new SendEmailCommand
         {
-            PrivateKey = DataUtilityService.GetRandomString(),
             From = DataUtilityService.GetRandomEmail(),
             Subject = DataUtilityService.GetRandomString(),
             To = new List<string>
@@ -72,7 +70,6 @@ public class SendEmailCommandValidatorTest : TestBase
         // Arrange
         var request = new SendEmailCommand
         {
-            PrivateKey = string.Empty,
             From = string.Empty,
             Subject = string.Empty,
             To = new List<string> { string.Empty },
@@ -85,13 +82,12 @@ public class SendEmailCommandValidatorTest : TestBase
         var result = validator.Validate(request);
 
         // Assert
-        result.Errors.Should().HaveCount(6);
+        result.Errors.Should().HaveCount(5);
         result.Errors[0].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
-        result.Errors[1].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
-        result.Errors[2].ErrorCode.Should().Be(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS));
+        result.Errors[1].ErrorCode.Should().Be(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS));
+        result.Errors[2].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
         result.Errors[3].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
-        result.Errors[4].ErrorCode.Should().Be(nameof(ValidationCodes.REQUIRED));
-        result.Errors[5].ErrorCode.Should().Be(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS));
+        result.Errors[4].ErrorCode.Should().Be(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS));
     }
 
     [Fact]
@@ -100,7 +96,6 @@ public class SendEmailCommandValidatorTest : TestBase
         // Arrange
         var request = new SendEmailCommand
         {
-            PrivateKey = DataUtilityService.GetRandomString(),
             From = DataUtilityService.GetRandomEmail(),
             Subject = DataUtilityService.GetRandomString(),
             To = new List<string>
