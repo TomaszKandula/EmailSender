@@ -11,6 +11,7 @@ using Core.Exceptions;
 using Domain.Entities;
 using Shared.Resources;
 using Services.UserService;
+using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
 public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery, GetEmailsHistoryQueryResult>
@@ -21,12 +22,15 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
 
     private readonly IDateTimeService _dateTimeService;
 
+    private readonly ILoggerService _loggerService;
+
     public GetEmailsHistoryQueryHandler(DatabaseContext databaseContext, IUserService userService, 
-        IDateTimeService dateTimeService)
+        IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
         _userService = userService;
         _dateTimeService = dateTimeService;
+        _loggerService = loggerService;
     }
 
     public override async Task<GetEmailsHistoryQueryResult> Handle(GetEmailsHistoryQuery request, CancellationToken cancellationToken)
@@ -45,6 +49,7 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
+        _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
         var history = await _databaseContext.EmailsHistory
             .AsNoTracking()

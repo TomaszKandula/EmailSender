@@ -10,6 +10,7 @@ using Core.Exceptions;
 using Domain.Entities;
 using Shared.Resources;
 using Services.UserService;
+using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
 public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, GetUserDomainsQueryResult>
@@ -20,12 +21,15 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
 
     private readonly IDateTimeService _dateTimeService;
 
+    private readonly ILoggerService _loggerService;
+
     public GetUserDomainsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
-        IDateTimeService dateTimeService)
+        IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
         _userService = userService;
         _dateTimeService = dateTimeService;
+        _loggerService = loggerService;
     }
 
     public override async Task<GetUserDomainsQueryResult> Handle(GetUserDomainsQuery request, CancellationToken cancellationToken)
@@ -44,6 +48,7 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
+        _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
         var hosts = await _databaseContext.UserDomains
             .AsNoTracking()

@@ -10,6 +10,7 @@ using Domain.Entities;
 using Shared.Resources;
 using Services.UserService;
 using Services.SenderService;
+using Core.Services.LoggerService;
 using Services.SenderService.Models;
 using Core.Services.DateTimeService;
 
@@ -23,13 +24,16 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
 
     private readonly IDateTimeService _dateTimeService;
 
+    private readonly ILoggerService _loggerService;
+
     public SendEmailCommandHandler(DatabaseContext databaseContext, IUserService userService,
-        ISenderService senderService, IDateTimeService dateTimeService)
+        ISenderService senderService, IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
         _userService = userService;
         _senderService = senderService;
         _dateTimeService = dateTimeService;
+        _loggerService = loggerService;
     }
 
     public override async Task<Unit> Handle(SendEmailCommand request, CancellationToken cancellationToken)
@@ -49,6 +53,7 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
+        _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
         var configuration = new Configuration
         {
@@ -62,6 +67,7 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
         };
 
         await _senderService.Send(configuration, cancellationToken);
+        _loggerService.LogInformation($"Email has been successfully sent from: {request.From}");
 
         var history = new EmailsHistory
         {
@@ -72,6 +78,7 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
 
         await _databaseContext.EmailsHistory.AddAsync(history, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
+        _loggerService.LogInformation($"Email history updated. User ID {userId}. Email ID {emailId}");
             
         return Unit.Value;
     }
