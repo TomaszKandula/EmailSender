@@ -10,6 +10,7 @@ using Domain.Entities;
 using Shared.Resources;
 using Services.UserService;
 using Services.SenderService;
+using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
 public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQuery, Unit>
@@ -22,13 +23,16 @@ public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQu
 
     private readonly IDateTimeService _dateTimeService;
 
+    private readonly ILoggerService _loggerService;
+
     public GetServerStatusQueryHandler(DatabaseContext databaseContext, IUserService userService, 
-        ISenderService senderService, IDateTimeService dateTimeService)
+        ISenderService senderService, IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
         _userService = userService;
         _senderService = senderService;
         _dateTimeService = dateTimeService;
+        _loggerService = loggerService;
     }
 
     public override async Task<Unit> Handle(GetServerStatusQuery request, CancellationToken cancellationToken)
@@ -47,8 +51,11 @@ public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQu
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
+        _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
         await _senderService.VerifyConnection(emailId, cancellationToken);
+        _loggerService.LogInformation($"Connection has been verified. User ID: {userId}. Email ID: {emailId}");
+
         return Unit.Value;
     }
 
