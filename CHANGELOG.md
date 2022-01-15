@@ -1,3 +1,11 @@
+# [1.6.0](https://github.com/TomaszKandula/EmailSender/compare/v1.5.0...v1.6.0) (2022-01-15)
+
+
+### Features
+
+* add log information to handlers ([08ad0ad](https://github.com/TomaszKandula/EmailSender/commit/08ad0ad37b47f53b86c7d501e81efda5333a41b7))
+* new logger configuration, add log to file ([e556917](https://github.com/TomaszKandula/EmailSender/commit/e556917ad4fabc2b95b683eb8329934030362639))
+
 # [1.5.0](https://github.com/TomaszKandula/EmailSender/compare/v1.4.0...v1.5.0) (2022-01-02)
 
 
