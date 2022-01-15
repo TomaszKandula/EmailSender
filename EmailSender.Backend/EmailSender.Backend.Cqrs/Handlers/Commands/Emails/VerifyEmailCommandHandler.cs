@@ -1,11 +1,13 @@
 namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
 
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Database;
 using Domain.Entities;
 using Services.UserService;
 using Services.SenderService;
+using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
 public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommand, VerifyEmailCommandResult>
@@ -18,13 +20,16 @@ public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommand, Veri
 
     private readonly IDateTimeService _dateTimeService;
 
+    private readonly ILoggerService _loggerService;
+
     public VerifyEmailCommandHandler(DatabaseContext databaseContext, IUserService userService,
-        ISenderService senderService, IDateTimeService dateTimeService)
+        ISenderService senderService, IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
         _userService = userService;
         _senderService = senderService;
         _dateTimeService = dateTimeService;
+        _loggerService = loggerService;
     }
 
     public override async Task<VerifyEmailCommandResult> Handle(VerifyEmailCommand request, CancellationToken cancellationToken)
@@ -39,8 +44,10 @@ public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommand, Veri
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
+        _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
         var result = await _senderService.VerifyEmailAddress(request.Emails, cancellationToken);
+        _loggerService.LogInformation($"Emails verified. Count: {request.Emails.Count()}");
 
         return new VerifyEmailCommandResult
         {
