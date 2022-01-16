@@ -1,3 +1,14 @@
+# [1.7.0](https://github.com/TomaszKandula/EmailSender/compare/v1.6.0...v1.7.0) (2022-01-16)
+
+
+### Features
+
+* add cqrs for getting log files ([8202e84](https://github.com/TomaszKandula/EmailSender/commit/8202e84f51bac77a69b3c1eeefdf6e6bf58d49e1))
+* add lgo information to handlers ([1ec9022](https://github.com/TomaszKandula/EmailSender/commit/1ec90227048c8b29bd55db124ff5b02b218bec18))
+* add new endpoint for getting log files ([f8043c5](https://github.com/TomaszKandula/EmailSender/commit/f8043c58ea756de1b71da7f98e5d8634e046a9a6))
+* add new error/validation codes ([5567115](https://github.com/TomaszKandula/EmailSender/commit/55671154b6382180839d6c02cfa9bf459937ade9))
+* map root path ([a912f62](https://github.com/TomaszKandula/EmailSender/commit/a912f62bf28b12432c5f8bc65bcfdfb8b44033ae))
+
 # [1.6.0](https://github.com/TomaszKandula/EmailSender/compare/v1.5.0...v1.6.0) (2022-01-15)
 
 
