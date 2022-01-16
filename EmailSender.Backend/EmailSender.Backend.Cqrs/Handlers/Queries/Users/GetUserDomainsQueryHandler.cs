@@ -57,6 +57,7 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
             .Select(allowDomain => allowDomain.Host)
             .ToListAsync(cancellationToken);
 
+        _loggerService.LogInformation($"Found {hosts.Count} host(s) for requested user");
         return new GetUserDomainsQueryResult
         {
             Hosts = hosts
