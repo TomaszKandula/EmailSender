@@ -63,6 +63,7 @@ public class GetUserEmailsQueryHandler : RequestHandler<GetUserEmailsQuery, GetU
             .Where(user => user.Id == userId)
             .FirstOrDefaultAsync(cancellationToken);
 
+        _loggerService.LogInformation($"Found {emails.Count} email(s) for requested user");
         return new GetUserEmailsQueryResult
         {
             AssociatedUser = associatedUser.UserAlias,
