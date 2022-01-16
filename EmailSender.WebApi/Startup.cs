@@ -1,6 +1,7 @@
 namespace EmailSender.WebApi;
 
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -56,7 +57,13 @@ public class Startup
 
         builder.UseResponseCompression();
         builder.UseRouting();
-        builder.UseEndpoints(endpoints => endpoints.MapControllers());
+        builder.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapGet("/", context 
+                => context.Response.WriteAsync("Email Sender API"));
+        });
+
         builder.SetupSwaggerUi(_environment);
     }
 }

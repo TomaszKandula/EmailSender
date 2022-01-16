@@ -56,5 +56,11 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("INVALID_EMAIL_ADDRESS", resourceCulture);
             }
         }
+        
+        public static string NAME_TOO_LONG {
+            get {
+                return ResourceManager.GetString("NAME_TOO_LONG", resourceCulture);
+            }
+        }
     }
 }

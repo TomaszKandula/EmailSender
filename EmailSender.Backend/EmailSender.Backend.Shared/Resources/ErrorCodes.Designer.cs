@@ -110,5 +110,11 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("INVALID_API_VERSION", resourceCulture);
             }
         }
+        
+        public static string FILE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("FILE_NOT_FOUND", resourceCulture);
+            }
+        }
     }
 }
