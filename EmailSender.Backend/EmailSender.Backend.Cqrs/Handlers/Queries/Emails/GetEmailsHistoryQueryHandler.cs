@@ -68,6 +68,8 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
             .Where(user => user.Id == userId)
             .FirstOrDefaultAsync(cancellationToken);
 
+        var wording = history.Count == 1 ? "entry" : "entries";
+        _loggerService.LogInformation($"Found {history.Count} history {wording} for requested user");
         return new GetEmailsHistoryQueryResult
         {
             AssociatedUser = associatedUser.UserAlias,
