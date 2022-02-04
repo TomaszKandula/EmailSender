@@ -27,7 +27,6 @@ jobs:
       with:
         files: ${{ github.workspace }}/EmailSender.WebApi/appsettings.Staging.json
       env:
-        Sentry.Dsn: "${{ secrets.SENTRY__DSN_STAGE }}"
         ConnectionStrings.DbConnect: "${{ secrets.CONNECTIONSTRINGS__DBCONNECT_STAGE }}"
         ConnectionStrings.DbConnectTest: "${{ secrets.CONNECTIONSTRINGS__DBCONNECT_TEST }}"
 
