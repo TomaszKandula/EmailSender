@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/TomaszKandula/EmailSender/compare/v1.7.0...v1.8.0) (2022-02-04)
+
+
+### Features
+
+* remove Sentry from project ([98d7236](https://github.com/TomaszKandula/EmailSender/commit/98d7236eb6c51bcc67e162aa07872c8b853ba16b))
+
 # [1.7.0](https://github.com/TomaszKandula/EmailSender/compare/v1.6.0...v1.7.0) (2022-01-16)
 
 
