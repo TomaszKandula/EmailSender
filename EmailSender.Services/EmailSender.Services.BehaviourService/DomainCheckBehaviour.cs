@@ -10,7 +10,7 @@ using Backend.Core.Services.LoggerService;
 using MediatR;
 
 [ExcludeFromCodeCoverage]
-public class DomainCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class DomainCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly ILoggerService _logger;
 
