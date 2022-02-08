@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/TomaszKandula/EmailSender/compare/v1.8.0...v1.9.0) (2022-02-08)
+
+
+### Features
+
+* upgrade libraries ([fdbecdc](https://github.com/TomaszKandula/EmailSender/commit/fdbecdce96e410b3cceeab262423ae28ab796f66))
+
 # [1.8.0](https://github.com/TomaszKandula/EmailSender/compare/v1.7.0...v1.8.0) (2022-02-04)
 
 
