@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Backend.Domain.Entities;
 using EmailSender.Services.UserService;
 using Backend.Core.Services.LoggerService;
+using Backend.Core.Services.DateTimeService;
 
 public class UserServiceTest : TestBase
 {
@@ -43,11 +44,13 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext,
             mockedLoggerService.Object, 
-            mockedHttpContext.Object);
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
 
         // Act
         var result = await service.IsDomainAllowed(domainName, CancellationToken.None);
@@ -86,11 +89,13 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
-            mockedHttpContext.Object);
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
 
         // Act
         var result = await service.IsDomainAllowed(domainName, CancellationToken.None);
@@ -121,11 +126,13 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
-            mockedHttpContext.Object);
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
 
         // Act
         var result = await service.IsPrivateKeyValid(privateKey, CancellationToken.None);
@@ -156,11 +163,13 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
-            mockedHttpContext.Object);
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
 
         // Act
         var result = await service.IsPrivateKeyValid(privateKey, CancellationToken.None);
@@ -191,11 +200,13 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
-            mockedHttpContext.Object);
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
 
         // Act
         var result = await service.GetUserByPrivateKey(privateKey, CancellationToken.None);
@@ -226,11 +237,13 @@ public class UserServiceTest : TestBase
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
-            mockedHttpContext.Object);
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
 
         // Act
         var result = await service.GetUserByPrivateKey(privateKey, CancellationToken.None);
