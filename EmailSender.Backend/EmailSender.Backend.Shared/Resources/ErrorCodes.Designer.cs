@@ -128,5 +128,11 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("USER_DOES_NOT_EXISTS", resourceCulture);
             }
         }
+        
+        public static string USER_ID_OR_EMAIL_ID_INVALID {
+            get {
+                return ResourceManager.GetString("USER_ID_OR_EMAIL_ID_INVALID", resourceCulture);
+            }
+        }
     }
 }
