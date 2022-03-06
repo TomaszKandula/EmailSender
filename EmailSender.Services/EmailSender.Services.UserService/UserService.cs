@@ -210,7 +210,7 @@ public class UserService : IUserService
             .Where(users => users.Id == userCompanyInfo.UserId)
             .FirstOrDefaultAsync(cancellationToken) != null;
 
-        if (doesUserExist)
+        if (!doesUserExist)
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
 
         var userDetails = await _databaseContext.UserDetails
@@ -221,6 +221,7 @@ public class UserService : IUserService
         {
             var newUserDetails = new UserDetails
             {
+                UserId = userCompanyInfo.UserId,
                 CompanyName = userCompanyInfo.CompanyName,
                 VatNumber = userCompanyInfo.VatNumber,
                 StreetAddress = userCompanyInfo.StreetAddress,
@@ -258,14 +259,14 @@ public class UserService : IUserService
             .Where(users => users.Id == userId)
             .FirstOrDefaultAsync(cancellationToken) != null;
 
-        if (doesUserExist)
+        if (!doesUserExist)
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
 
         var doesEmailExist = await _databaseContext.Emails
             .Where(emails => emails.Id == emailId)
             .FirstOrDefaultAsync(cancellationToken) != null;
 
-        if (doesEmailExist)
+        if (!doesEmailExist)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
 
         var newUserEmail = new UserEmails
@@ -281,22 +282,20 @@ public class UserService : IUserService
     /// <summary>
     /// Updates associated email address by ID.
     /// </summary>
-    /// <param name="userId">User ID (Guid).</param>
-    /// <param name="emailId">Associated email address ID (Guid).</param>
+    /// <param name="id">Associated user email ID (Guid).</param>
+    /// <param name="newEmailId">New associated email address ID (Guid).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
-    public async Task UpdateUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
+    public async Task UpdateUserEmail(Guid id, Guid newEmailId, CancellationToken cancellationToken = default)
     {
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.UserId == userId && emails.EmailId == emailId)
+            .Where(emails => emails.Id == id)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (userEmails == null)
-            throw new BusinessException(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID), ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID);
+            throw new BusinessException(nameof(ErrorCodes.INVALID_ID), ErrorCodes.INVALID_ID);
 
-        userEmails.UserId = userId;
-        userEmails.EmailId = emailId;
-
+        userEmails.EmailId = newEmailId;
         await _databaseContext.SaveChangesAsync(cancellationToken);
     }
 

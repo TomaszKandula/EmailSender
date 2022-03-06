@@ -25,7 +25,7 @@ public interface IUserService
 
     Task AddUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default);
 
-    Task UpdateUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default);
+    Task UpdateUserEmail(Guid id, Guid newEmailId, CancellationToken cancellationToken = default);
 
     Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default);
 }
