@@ -134,5 +134,11 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("USER_ID_OR_EMAIL_ID_INVALID", resourceCulture);
             }
         }
+        
+        public static string INVALID_ID {
+            get {
+                return ResourceManager.GetString("INVALID_ID", resourceCulture);
+            }
+        }
     }
 }

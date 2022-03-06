@@ -63,4 +63,7 @@
     <data name="USER_ID_OR_EMAIL_ID_INVALID" xml:space="preserve">
         <value>Provided user ID and/or email ID is invalid</value>
     </data>
+    <data name="INVALID_ID" xml:space="preserve">
+        <value>Cannot find entity by given ID</value>
+    </data>
 </root>
