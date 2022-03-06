@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 public class UserEmails : Entity<Guid>
 {
     public Guid UserId { get; set; }
-        
+
     public Guid EmailId { get; set; }
 
     public Users Users { get; set; }
