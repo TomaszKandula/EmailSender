@@ -26,6 +26,8 @@ public class Users : Entity<Guid>
 
     public bool IsActivated { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public DateTime Registered { get; set; }
         
     [Required]

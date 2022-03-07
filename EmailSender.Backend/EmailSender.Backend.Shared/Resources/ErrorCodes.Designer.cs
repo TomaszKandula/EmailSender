@@ -116,5 +116,29 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("FILE_NOT_FOUND", resourceCulture);
             }
         }
+        
+        public static string USER_EMAIL_ALREADY_EXISTS {
+            get {
+                return ResourceManager.GetString("USER_EMAIL_ALREADY_EXISTS", resourceCulture);
+            }
+        }
+        
+        public static string USER_DOES_NOT_EXISTS {
+            get {
+                return ResourceManager.GetString("USER_DOES_NOT_EXISTS", resourceCulture);
+            }
+        }
+        
+        public static string USER_ID_OR_EMAIL_ID_INVALID {
+            get {
+                return ResourceManager.GetString("USER_ID_OR_EMAIL_ID_INVALID", resourceCulture);
+            }
+        }
+        
+        public static string INVALID_ID {
+            get {
+                return ResourceManager.GetString("INVALID_ID", resourceCulture);
+            }
+        }
     }
 }

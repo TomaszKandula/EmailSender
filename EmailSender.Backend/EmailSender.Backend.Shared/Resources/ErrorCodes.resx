@@ -54,4 +54,16 @@
     <data name="FILE_NOT_FOUND" xml:space="preserve">
         <value>Cannot find file</value>
     </data>
+    <data name="USER_EMAIL_ALREADY_EXISTS" xml:space="preserve">
+        <value>Provided email address already exists</value>
+    </data>
+    <data name="USER_DOES_NOT_EXISTS" xml:space="preserve">
+        <value>Provided user ID cannot be found</value>
+    </data>
+    <data name="USER_ID_OR_EMAIL_ID_INVALID" xml:space="preserve">
+        <value>Provided user ID and/or email ID is invalid</value>
+    </data>
+    <data name="INVALID_ID" xml:space="preserve">
+        <value>Cannot find entity by given ID</value>
+    </data>
 </root>
