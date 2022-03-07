@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Backend.Domain.Entities;
+using Backend.Core.Exceptions;
+using Backend.Shared.Resources;
 using EmailSender.Services.UserService;
 using Backend.Core.Services.LoggerService;
 using Backend.Core.Services.DateTimeService;
@@ -289,6 +291,49 @@ public class UserServiceTest : TestBase
     }
 
     [Fact]
+    public async Task GivenUserDataWithExistingEmail_WhenAddUser_ShouldThrowError()
+    {
+        // Arrange
+        var existingUser = new Users
+        {
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName  = DataUtilityService.GetRandomString(),
+            UserAlias  = DataUtilityService.GetRandomString(5),
+            EmailAddress  = DataUtilityService.GetRandomEmail(),
+            IsActivated  = true,
+            IsDeleted  = false,
+            Registered  = DateTimeService.Now,
+            PrivateKey  = Guid.NewGuid().ToString("N"),
+        };
+
+        var userData = new UserData
+        {
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            EmailAddress = existingUser.EmailAddress
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddAsync(existingUser);
+        await databaseContext.SaveChangesAsync();
+        
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUser(userData));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS));
+    }
+    
+    [Fact]
     public async Task GivenNewDataAndExistingData_WhenUpdateUser_ShouldSucceed()
     {
         // Arrange
@@ -337,6 +382,145 @@ public class UserServiceTest : TestBase
         data.FirstName.Should().Be(newUserData.FirstName);
         data.LastName.Should().Be(newUserData.LastName);
         data.EmailAddress.Should().Be(newUserData.EmailAddress);
+    }
+
+    [Fact]
+    public async Task GivenNewDataAndExistingDataWithSameEmail_WhenUpdateUser_ShouldThrowError()
+    {
+        // Arrange
+        var user = new List<Users>
+        {
+            new()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = DataUtilityService.GetRandomString(),
+                LastName = DataUtilityService.GetRandomString(),
+                UserAlias = DataUtilityService.GetRandomString(5),
+                EmailAddress = DataUtilityService.GetRandomEmail(),
+                Registered = DateTimeService.Now.AddDays(-120),
+                IsActivated = true,
+                PrivateKey = DataUtilityService.GetRandomString()
+            },
+            new()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = DataUtilityService.GetRandomString(),
+                LastName = DataUtilityService.GetRandomString(),
+                UserAlias = DataUtilityService.GetRandomString(5),
+                EmailAddress = DataUtilityService.GetRandomEmail(),
+                Registered = DateTimeService.Now.AddDays(-120),
+                IsActivated = true,
+                PrivateKey = DataUtilityService.GetRandomString()
+            },
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddRangeAsync(user);
+        await databaseContext.SaveChangesAsync();
+
+        var newUserData = new UserInfo
+        {
+            UserId = user[0].Id,
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            EmailAddress = user[1].EmailAddress
+        };
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(newUserData));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS));
+    }
+
+    [Fact]
+    public async Task GivenIncorrectUserId_WhenUpdateUser_ShouldThrowError()
+    {
+        // Arrange
+        var user = new Users
+        {
+            Id = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            UserAlias = DataUtilityService.GetRandomString(5),
+            EmailAddress = DataUtilityService.GetRandomEmail(),
+            Registered = DateTimeService.Now.AddDays(-120),
+            IsActivated = true,
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddRangeAsync(user);
+        await databaseContext.SaveChangesAsync();
+
+        var newUserData = new UserInfo
+        {
+            UserId = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            EmailAddress = DataUtilityService.GetRandomEmail()
+        };
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(newUserData));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+    }
+
+    [Fact]
+    public async Task GivenIncorrectUserId_WhenRemoveUser_ShouldThrowError()
+    {
+        // Arrange
+        var user = new Users
+        {
+            Id = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            UserAlias = DataUtilityService.GetRandomString(5),
+            EmailAddress = DataUtilityService.GetRandomEmail(),
+            Registered = DateTimeService.Now.AddDays(-120),
+            IsActivated = true,
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddAsync(user);
+        await databaseContext.SaveChangesAsync();
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        // Act
+        // Assert
+        var userId = Guid.NewGuid();
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUser(userId));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
     }
 
     [Fact]
@@ -418,6 +602,53 @@ public class UserServiceTest : TestBase
         // Assert
         data.Should().NotBeNull();
         data.IsDeleted.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task GivenIncorrectUserId_WhenUpdateUserDetails_ShouldThrowError()
+    {
+        // Arrange
+        var user = new Users
+        {
+            Id = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            UserAlias = DataUtilityService.GetRandomString(5),
+            EmailAddress = DataUtilityService.GetRandomEmail(),
+            Registered = DateTimeService.Now.AddDays(-120),
+            IsActivated = true,
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddAsync(user);
+        await databaseContext.SaveChangesAsync();
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        var userCompanyInfo = new UserCompanyInfo
+        {
+            UserId = Guid.NewGuid(),
+            CompanyName = DataUtilityService.GetRandomString(),
+            VatNumber = DataUtilityService.GetRandomInteger().ToString(),
+            StreetAddress = DataUtilityService.GetRandomString(),
+            PostalCode = DataUtilityService.GetRandomInteger().ToString(),
+            Country = DataUtilityService.GetRandomString(),
+            City = DataUtilityService.GetRandomString()
+        };
+
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserDetails(userCompanyInfo));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
     }
 
     [Fact]
@@ -600,6 +831,169 @@ public class UserServiceTest : TestBase
     }
 
     [Fact]
+    public async Task GivenIncorrectUserId_WhenAddUserEmail_ShouldThrowError()
+    {
+        // Arrange
+        var user = new Users
+        {
+            Id = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            UserAlias = DataUtilityService.GetRandomString(5),
+            EmailAddress = DataUtilityService.GetRandomEmail(),
+            Registered = DateTimeService.Now.AddDays(-120),
+            IsActivated = true,
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
+
+        var email = new Emails
+        {
+            Address = DataUtilityService.GetRandomEmail(),
+            IsActive = true,
+            ServerName = DataUtilityService.GetRandomString(),
+            ServerKey = DataUtilityService.GetRandomString(),
+            ServerPort = DataUtilityService.GetRandomInteger(),
+            ServerSsl = true
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddAsync(user);
+        await databaseContext.AddAsync(email);
+        await databaseContext.SaveChangesAsync();
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+        
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(Guid.NewGuid(), email.Id));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+    }
+
+    [Fact]
+    public async Task GivenIncorrectEmailId_WhenAddUserEmail_ShouldThrowError()
+    {
+        // Arrange
+        var user = new Users
+        {
+            Id = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            UserAlias = DataUtilityService.GetRandomString(5),
+            EmailAddress = DataUtilityService.GetRandomEmail(),
+            Registered = DateTimeService.Now.AddDays(-120),
+            IsActivated = true,
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
+
+        var email = new Emails
+        {
+            Address = DataUtilityService.GetRandomEmail(),
+            IsActive = true,
+            ServerName = DataUtilityService.GetRandomString(),
+            ServerKey = DataUtilityService.GetRandomString(),
+            ServerPort = DataUtilityService.GetRandomInteger(),
+            ServerSsl = true
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddAsync(user);
+        await databaseContext.AddAsync(email);
+        await databaseContext.SaveChangesAsync();
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(user.Id, Guid.NewGuid()));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL));
+    }
+
+    [Fact]
+    public async Task GivenIncorrectId_WhenUpdateUserEmail_ShouldThrowError()
+    {
+        // Arrange
+        var user = new Users
+        {
+            Id = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            UserAlias = DataUtilityService.GetRandomString(5),
+            EmailAddress = DataUtilityService.GetRandomEmail(),
+            Registered = DateTimeService.Now.AddDays(-120),
+            IsActivated = true,
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
+
+        var emails = new List<Emails>
+        {
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                Address = DataUtilityService.GetRandomEmail(),
+                IsActive = true,
+                ServerName = DataUtilityService.GetRandomString(),
+                ServerKey = DataUtilityService.GetRandomString(),
+                ServerPort = DataUtilityService.GetRandomInteger(),
+                ServerSsl = true
+            },
+            new ()
+            {
+                Id = Guid.NewGuid(),
+                Address = DataUtilityService.GetRandomEmail(),
+                IsActive = true,
+                ServerName = DataUtilityService.GetRandomString(),
+                ServerKey = DataUtilityService.GetRandomString(),
+                ServerPort = DataUtilityService.GetRandomInteger(),
+                ServerSsl = true
+            }
+        };
+
+        var userEmail = new UserEmails
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            EmailId = emails[0].Id
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddAsync(user);
+        await databaseContext.AddRangeAsync(emails);
+        await databaseContext.AddAsync(userEmail);
+        await databaseContext.SaveChangesAsync();
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserEmail(Guid.NewGuid(),  emails[1].Id));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_ID));
+    }
+
+    [Fact]
     public async Task GivenExistingUserAndEmail_WhenUpdateUserEmail_ShouldSucceed()
     {
         // Arrange
@@ -671,6 +1065,118 @@ public class UserServiceTest : TestBase
         // Assert
         data.Should().NotBeNull();
         data.EmailId.Should().Be(emails[1].Id);
+    }
+
+    [Fact]
+    public async Task GivenIncorrectUserId_WhenRemoveUserEmail_ShouldThrowError()
+    {
+        // Arrange
+        var user = new Users
+        {
+            Id = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            UserAlias = DataUtilityService.GetRandomString(5),
+            EmailAddress = DataUtilityService.GetRandomEmail(),
+            Registered = DateTimeService.Now.AddDays(-120),
+            IsActivated = true,
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
+
+        var email = new Emails
+        {
+            Id = Guid.NewGuid(),
+            Address = DataUtilityService.GetRandomEmail(),
+            IsActive = true,
+            ServerName = DataUtilityService.GetRandomString(),
+            ServerKey = DataUtilityService.GetRandomString(),
+            ServerPort = DataUtilityService.GetRandomInteger(),
+            ServerSsl = true
+        };
+
+        var userEmail = new UserEmails
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            EmailId = email.Id
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddAsync(user);
+        await databaseContext.AddAsync(email);
+        await databaseContext.AddAsync(userEmail);
+        await databaseContext.SaveChangesAsync();
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(Guid.NewGuid(), email.Id));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID));
+    }
+
+    [Fact]
+    public async Task GivenIncorrectEmailId_WhenRemoveUserEmail_ShouldThrowError()
+    {
+        // Arrange
+        var user = new Users
+        {
+            Id = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            UserAlias = DataUtilityService.GetRandomString(5),
+            EmailAddress = DataUtilityService.GetRandomEmail(),
+            Registered = DateTimeService.Now.AddDays(-120),
+            IsActivated = true,
+            PrivateKey = DataUtilityService.GetRandomString()
+        };
+
+        var email = new Emails
+        {
+            Id = Guid.NewGuid(),
+            Address = DataUtilityService.GetRandomEmail(),
+            IsActive = true,
+            ServerName = DataUtilityService.GetRandomString(),
+            ServerKey = DataUtilityService.GetRandomString(),
+            ServerPort = DataUtilityService.GetRandomInteger(),
+            ServerSsl = true
+        };
+
+        var userEmail = new UserEmails
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            EmailId = email.Id
+        };
+
+        var databaseContext = GetTestDatabaseContext();
+        await databaseContext.AddAsync(user);
+        await databaseContext.AddAsync(email);
+        await databaseContext.AddAsync(userEmail);
+        await databaseContext.SaveChangesAsync();
+
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
+        // Act
+        // Assert
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(user.Id, Guid.NewGuid()));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID));
     }
 
     [Fact]
