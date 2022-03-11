@@ -19,8 +19,11 @@ public class UsersController : BaseController
     public async Task<AddUserCommandResult> AddUser([FromBody] AddUserDto payload) 
         => await Mediator.Send(UsersMapper.MapToAddUserCommand(payload));
 
-    
-    
+    [HttpPost]
+    [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
+    public async Task<Unit> UpdateUser([FromBody] UpdateUserDto payload) 
+        => await Mediator.Send(UsersMapper.MapToUpdateUserCommand(payload));
+
     [HttpGet]
     [ProducesResponseType(typeof(GetUserDetailsQueryResult), StatusCodes.Status200OK)]
     public async Task<GetUserDetailsQueryResult> GetUserDetails([FromHeader(Name = HeaderName)] string privateKey) 

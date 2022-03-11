@@ -11,4 +11,12 @@ public static class UsersMapper
         LastName = model.FirstName,
         EmailAddress = model.EmailAddress
     };
+
+    public static UpdateUserCommand MapToUpdateUserCommand(UpdateUserDto model) => new()
+    {
+        UserId = model.UserId,
+        FirstName = model.FirstName,
+        LastName = model.FirstName,
+        EmailAddress = model.EmailAddress
+    };
 }
