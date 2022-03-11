@@ -1,10 +1,8 @@
-namespace EmailSender.Services.UserService.Models;
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-public class UserCredentials
+public class AddUserCommandResult
 {
     public Guid UserId { get; set; }
 

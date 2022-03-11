@@ -133,6 +133,7 @@ public class UserService : IUserService
 
         return new UserCredentials
         {
+            UserId = newUser.Id,
             PrivateKey = privateKey,
             UserAlias = userAlias,
             EmailAddress = userData.EmailAddress
