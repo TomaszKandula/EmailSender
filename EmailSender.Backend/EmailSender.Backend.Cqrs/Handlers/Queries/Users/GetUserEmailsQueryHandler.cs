@@ -35,7 +35,6 @@ public class GetUserEmailsQueryHandler : RequestHandler<GetUserEmailsQuery, GetU
     public override async Task<GetUserEmailsQueryResult> Handle(GetUserEmailsQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
-
         if (userId == Guid.Empty)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
 

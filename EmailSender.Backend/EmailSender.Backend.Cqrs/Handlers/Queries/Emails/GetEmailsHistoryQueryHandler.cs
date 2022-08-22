@@ -36,7 +36,6 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
     public override async Task<GetEmailsHistoryQueryResult> Handle(GetEmailsHistoryQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
-
         if (userId == Guid.Empty)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
 
@@ -65,11 +64,12 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
 
         var associatedUser = await _databaseContext.Users
             .AsNoTracking()
-            .Where(user => user.Id == userId)
+            .Where(users => users.Id == userId)
             .FirstOrDefaultAsync(cancellationToken);
 
         var wording = history.Count == 1 ? "entry" : "entries";
         _loggerService.LogInformation($"Found {history.Count} history {wording} for requested user");
+
         return new GetEmailsHistoryQueryResult
         {
             AssociatedUser = associatedUser.UserAlias,

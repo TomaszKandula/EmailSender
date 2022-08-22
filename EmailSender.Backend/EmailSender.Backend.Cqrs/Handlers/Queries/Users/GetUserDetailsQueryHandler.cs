@@ -35,7 +35,6 @@ public class GetUserDetailsQueryHandler : RequestHandler<GetUserDetailsQuery, Ge
     public override async Task<GetUserDetailsQueryResult> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
-
         if (userId == Guid.Empty)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
 
