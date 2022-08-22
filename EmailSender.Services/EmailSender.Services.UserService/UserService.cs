@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Backend.Database;
+using Backend.Domain.Enums;
 using Backend.Domain.Entities;
 using Backend.Core.Exceptions;
 using Backend.Shared.Resources;
@@ -125,7 +126,7 @@ public class UserService : IUserService
             LastName = userData.LastName,
             UserAlias = userAlias,
             EmailAddress = userData.EmailAddress,
-            IsActivated = true,
+            IsActivated = false, //TODO: replace by [UserStatus] enum
             Registered = _dateTimeService.Now,
             PrivateKey = privateKey
         };
@@ -138,7 +139,8 @@ public class UserService : IUserService
             UserId = newUser.Id,
             PrivateKey = privateKey,
             UserAlias = userAlias,
-            EmailAddress = userData.EmailAddress
+            EmailAddress = userData.EmailAddress,
+            Status = UserStatus.PendingActivation
         };
     }
 
