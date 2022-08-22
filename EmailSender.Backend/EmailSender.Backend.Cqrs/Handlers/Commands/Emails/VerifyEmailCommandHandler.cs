@@ -1,10 +1,13 @@
 namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
 
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Database;
 using Domain.Entities;
+using Core.Exceptions;
+using Shared.Resources;
 using Services.UserService;
 using Services.SenderService;
 using Core.Services.LoggerService;
@@ -35,6 +38,9 @@ public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommand, Veri
     public override async Task<VerifyEmailCommandResult> Handle(VerifyEmailCommand request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
+        if (userId == Guid.Empty)
+            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
+
         var apiRequest = new RequestsHistory
         {
             UserId = userId,
