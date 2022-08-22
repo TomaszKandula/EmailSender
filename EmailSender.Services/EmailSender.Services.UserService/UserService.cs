@@ -119,7 +119,7 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS), ErrorCodes.USER_EMAIL_ALREADY_EXISTS);
 
         var privateKey = Guid.NewGuid().ToString("N");
-        var userAlias = $"{userData.FirstName[..2]}{userData.LastName[..3]}";
+        var userAlias = $"{userData.FirstName[..2]}{userData.LastName[..3]}".ToLower();
         var newUser = new Users
         {
             FirstName = userData.FirstName,
