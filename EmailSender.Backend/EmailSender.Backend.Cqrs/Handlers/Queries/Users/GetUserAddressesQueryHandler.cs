@@ -13,7 +13,7 @@ using Services.UserService;
 using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
-public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, GetUserDomainsQueryResult>
+public class GetUserAddressesQueryHandler : RequestHandler<GetUserAddressesQuery, GetUserAddressesQueryResult>
 {
     private readonly DatabaseContext _databaseContext;
 
@@ -23,7 +23,7 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
 
     private readonly ILoggerService _loggerService;
 
-    public GetUserDomainsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
+    public GetUserAddressesQueryHandler(DatabaseContext databaseContext, IUserService userService, 
         IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
@@ -32,7 +32,7 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
         _loggerService = loggerService;
     }
 
-    public override async Task<GetUserDomainsQueryResult> Handle(GetUserDomainsQuery request, CancellationToken cancellationToken)
+    public override async Task<GetUserAddressesQueryResult> Handle(GetUserAddressesQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
 
@@ -43,24 +43,24 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
         {
             UserId = userId,
             Requested = _dateTimeService.Now,
-            RequestName = nameof(GetUserDomainsQuery)
+            RequestName = nameof(GetUserAddressesQuery)
         };
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
         _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
-        var hosts = await _databaseContext.UserDomains
+        var addresses = await _databaseContext.UserDomains
             .AsNoTracking()
             .Where(allowDomain => allowDomain.UserId == userId)
             .OrderBy(allowDomain => allowDomain.Host)
             .Select(allowDomain => allowDomain.Host)
             .ToListAsync(cancellationToken);
 
-        _loggerService.LogInformation($"Found {hosts.Count} host(s) for requested user");
-        return new GetUserDomainsQueryResult
+        _loggerService.LogInformation($"Found {addresses.Count} address(es) for requested user");
+        return new GetUserAddressesQueryResult
         {
-            Hosts = hosts
+            Addresses = addresses
         };
     }
 }
