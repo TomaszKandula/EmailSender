@@ -54,9 +54,9 @@ public class UserService : IUserService
     public async Task<bool> IsIpAddressAllowed(IPAddress ipAddress, CancellationToken cancellationToken = default)
     {
         var address = ipAddress.ToString();
-        var addressList = await _databaseContext.UserDomains
+        var addressList = await _databaseContext.UserIpAddresses
             .AsNoTracking()
-            .Where(domains => domains.IpAddress == address)
+            .Where(addresses => addresses.IpAddress == address)
             .ToListAsync(cancellationToken);
 
         var isIpAddressAllowed = addressList.Any();

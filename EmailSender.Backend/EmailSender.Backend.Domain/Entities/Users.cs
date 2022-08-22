@@ -38,7 +38,7 @@ public class Users : Entity<Guid>
 
     public ICollection<EmailsHistory> EmailsHistory { get; set; } = new HashSet<EmailsHistory>();
 
-    public ICollection<UserDomains> UserDomains { get; set; } = new HashSet<UserDomains>();
+    public ICollection<UserIpAddresses> UserIpAddresses { get; set; } = new HashSet<UserIpAddresses>();
 
     public ICollection<RequestsHistory> RequestsHistory { get; set; } = new HashSet<RequestsHistory>();
 

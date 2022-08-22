@@ -18,7 +18,7 @@ public class DatabaseContext : DbContext
 
     public virtual DbSet<UserEmails> UserEmails { get; set; }
 
-    public virtual DbSet<UserDomains> UserDomains { get; set; }
+    public virtual DbSet<UserIpAddresses> UserIpAddresses { get; set; }
 
     public virtual DbSet<RequestsHistory> RequestsHistory { get; set; }
 
