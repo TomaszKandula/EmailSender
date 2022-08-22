@@ -16,7 +16,7 @@ public static class UsersMapper
     {
         UserId = model.UserId,
         FirstName = model.FirstName,
-        LastName = model.FirstName,
+        LastName = model.LastName,
         EmailAddress = model.EmailAddress
     };
 
