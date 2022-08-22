@@ -8,7 +8,7 @@ public static class UsersMapper
     public static AddUserCommand MapToAddUserCommand(AddUserDto model) => new()
     {
         FirstName = model.FirstName,
-        LastName = model.FirstName,
+        LastName = model.LastName,
         EmailAddress = model.EmailAddress
     };
 
