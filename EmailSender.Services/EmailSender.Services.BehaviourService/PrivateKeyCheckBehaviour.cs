@@ -3,6 +3,9 @@ namespace EmailSender.Services.BehaviourService;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Features;
 using UserService;
 using Backend.Core.Exceptions;
 using Backend.Shared.Resources;
@@ -16,14 +19,22 @@ public class PrivateKeyCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<T
 
     private readonly IUserService _userService;
 
-    public PrivateKeyCheckBehaviour(ILoggerService logger, IUserService userService)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public PrivateKeyCheckBehaviour(ILoggerService logger, IUserService userService, IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _userService = userService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
+        var endpoint = _httpContextAccessor.HttpContext?.Features.Get<IEndpointFeature>()?.Endpoint;
+        var allowAnonymous = endpoint?.Metadata.Any(@object => @object is AllowAnonymousAttribute) ?? false;
+        if (allowAnonymous)
+            return await next();
+
         var privateKeyFromHeader = _userService.GetPrivateKeyFromHeader();
 
         if (string.IsNullOrEmpty(privateKeyFromHeader))
