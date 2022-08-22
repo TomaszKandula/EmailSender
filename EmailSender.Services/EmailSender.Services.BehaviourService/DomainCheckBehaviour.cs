@@ -2,10 +2,12 @@ namespace EmailSender.Services.BehaviourService;
 
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using UserService;
 using Backend.Shared.Resources;
+using Backend.Shared.Attributes;
 using Backend.Core.Services.LoggerService;
 using MediatR;
 
@@ -15,7 +17,7 @@ public class DomainCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     private readonly ILoggerService _logger;
 
     private readonly IUserService _userService;
-    
+
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public DomainCheckBehaviour(ILoggerService logger, IUserService userService, IHttpContextAccessor httpContextAccessor)
@@ -27,13 +29,18 @@ public class DomainCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
-        var origin = _httpContextAccessor.HttpContext?.Request.Host.ToString();
-        var isDomainAllowed = await _userService.IsDomainAllowed(origin, CancellationToken.None);
-
-        if (isDomainAllowed) 
+        var endpoint = _httpContextAccessor.HttpContext?.Features.Get<IEndpointFeature>()?.Endpoint;
+        var shouldSkipCheck = endpoint?.Metadata.Any(@object => @object is SkipIpAddressCheckAttribute) ?? false;
+        if (shouldSkipCheck)
             return await next();
 
-        _logger.LogWarning($"Access forbidden for: {origin}");
+        var ipAddress = _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.MapToIPv4();
+        var isIpAddressAllowed = await _userService.IsIpAddressAllowed(ipAddress, CancellationToken.None);
+
+        if (isIpAddressAllowed) 
+            return await next();
+
+        _logger.LogWarning($"Access forbidden for: {ipAddress}");
         throw new Backend.Core.Exceptions.AccessException(nameof(ErrorCodes.ACCESS_FORBIDDEN), ErrorCodes.ACCESS_FORBIDDEN);
     }
 }
