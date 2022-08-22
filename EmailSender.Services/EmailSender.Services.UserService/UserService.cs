@@ -1,6 +1,7 @@
 namespace EmailSender.Services.UserService;
 
 using System;
+using System.Net;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,21 +47,22 @@ public class UserService : IUserService
     /// Checks if given domain name is registered within the system. It should not contain scheme,
     /// but it may contain port number.
     /// </summary>
-    /// <param name="domainName">Domain name without scheme, but it may have port.</param>
+    /// <param name="ipAddress">IP Address.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>True or False.</returns>
-    public async Task<bool> IsDomainAllowed(string domainName, CancellationToken cancellationToken = default)
+    public async Task<bool> IsIpAddressAllowed(IPAddress ipAddress, CancellationToken cancellationToken = default)
     {
-        var domains = await _databaseContext.UserDomains
+        var address = ipAddress.ToString();
+        var addressList = await _databaseContext.UserDomains
             .AsNoTracking()
-            .Where(allowDomain => allowDomain.Host == domainName)
+            .Where(domains => domains.Host == address)
             .ToListAsync(cancellationToken);
 
-        var isDomainAllowed = domains.Any();
-        if (!isDomainAllowed) 
-            _loggerService.LogWarning($"Domain '{domainName}' is not registered within the system.");
+        var isIpAddressAllowed = addressList.Any();
+        if (!isIpAddressAllowed) 
+            _loggerService.LogWarning($"IP address '{address}' is not registered within the system.");
 
-        return isDomainAllowed;
+        return isIpAddressAllowed;
     }
 
     /// <summary>
