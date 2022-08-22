@@ -12,7 +12,7 @@ using Backend.Core.Services.LoggerService;
 using MediatR;
 
 [ExcludeFromCodeCoverage]
-public class DomainCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class AddressCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly ILoggerService _logger;
 
@@ -20,7 +20,7 @@ public class DomainCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public DomainCheckBehaviour(ILoggerService logger, IUserService userService, IHttpContextAccessor httpContextAccessor)
+    public AddressCheckBehaviour(ILoggerService logger, IUserService userService, IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _userService = userService;
