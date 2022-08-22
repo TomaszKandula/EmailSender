@@ -29,13 +29,15 @@ public class AddUserCommandHandler : RequestHandler<AddUserCommand, AddUserComma
 
         var result = await _userService.AddUser(userData, cancellationToken);
         _loggerService.LogInformation($"New user account has been added. User ID: {result.UserId}");
+        _loggerService.LogInformation($"Current user status: {result.Status}");
 
         return new AddUserCommandResult
         {
             UserId = result.UserId,
             PrivateKey = result.PrivateKey,
             UserAlias = result.UserAlias,
-            EmailAddress = result.EmailAddress
+            EmailAddress = result.EmailAddress,
+            Status = result.Status
         };
     }
 }
