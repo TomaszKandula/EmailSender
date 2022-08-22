@@ -19,4 +19,10 @@ public static class UsersMapper
         LastName = model.FirstName,
         EmailAddress = model.EmailAddress
     };
+
+    public static RemoveUserCommand MapToRemoveUserCommand(RemoveUserDto model) => new()
+    {
+        UserId = model.UserId,
+        SoftDelete = model.SoftDelete
+    };
 }
