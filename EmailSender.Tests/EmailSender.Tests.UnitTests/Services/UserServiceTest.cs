@@ -41,7 +41,7 @@ public class UserServiceTest : TestBase
         var allowDomain = new UserDomains
         {
             UserId = user.Id,
-            Host = ipAddress.ToString()
+            IpAddress = ipAddress.ToString()
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -86,7 +86,7 @@ public class UserServiceTest : TestBase
         var allowDomain = new UserDomains
         {
             UserId = user.Id,
-            Host = DataUtilityService.GetRandomIpAddress().ToString()
+            IpAddress = DataUtilityService.GetRandomIpAddress().ToString()
         };
 
         var databaseContext = GetTestDatabaseContext();

@@ -10,8 +10,8 @@ public class UserDomains : Entity<Guid>
     public Guid UserId { get; set; }
 
     [Required]
-    [MaxLength(255)]
-    public string Host { get; set; }
+    [MaxLength(15)]
+    public string IpAddress { get; set; }
 
     public Users Users { get; set; }
 }

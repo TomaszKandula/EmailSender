@@ -53,8 +53,8 @@ public class GetUserAddressesQueryHandler : RequestHandler<GetUserAddressesQuery
         var addresses = await _databaseContext.UserDomains
             .AsNoTracking()
             .Where(allowDomain => allowDomain.UserId == userId)
-            .OrderBy(allowDomain => allowDomain.Host)
-            .Select(allowDomain => allowDomain.Host)
+            .OrderBy(allowDomain => allowDomain.IpAddress)
+            .Select(allowDomain => allowDomain.IpAddress)
             .ToListAsync(cancellationToken);
 
         _loggerService.LogInformation($"Found {addresses.Count} address(es) for requested user");

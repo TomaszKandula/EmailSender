@@ -56,7 +56,7 @@ public class UserService : IUserService
         var address = ipAddress.ToString();
         var addressList = await _databaseContext.UserDomains
             .AsNoTracking()
-            .Where(domains => domains.Host == address)
+            .Where(domains => domains.IpAddress == address)
             .ToListAsync(cancellationToken);
 
         var isIpAddressAllowed = addressList.Any();
