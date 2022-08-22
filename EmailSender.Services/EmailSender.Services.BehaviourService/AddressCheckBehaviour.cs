@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Authorization;
 using UserService;
 using Backend.Shared.Resources;
-using Backend.Shared.Attributes;
 using Backend.Core.Services.LoggerService;
 using MediatR;
 
@@ -30,8 +30,8 @@ public class AddressCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TReq
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
         var endpoint = _httpContextAccessor.HttpContext?.Features.Get<IEndpointFeature>()?.Endpoint;
-        var shouldSkipCheck = endpoint?.Metadata.Any(@object => @object is SkipIpAddressCheckAttribute) ?? false;
-        if (shouldSkipCheck)
+        var allowAnonymous = endpoint?.Metadata.Any(@object => @object is AllowAnonymousAttribute) ?? false;
+        if (allowAnonymous)
             return await next();
 
         var ipAddress = _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.MapToIPv4();
