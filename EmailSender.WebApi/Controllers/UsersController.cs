@@ -23,7 +23,7 @@ public class UsersController : BaseController
 
     [HttpPost]
     [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-    public async Task<Unit> UpdateUser([FromBody] UpdateUserDto payload) 
+    public async Task<Unit> UpdateUser([FromBody] UpdateUserDto payload, [FromHeader(Name = HeaderName)] string privateKey) 
         => await Mediator.Send(UsersMapper.MapToUpdateUserCommand(payload));
 
     [HttpGet]
