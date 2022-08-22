@@ -24,7 +24,7 @@ public class UserServiceTest : TestBase
     public async Task GivenDomainName_WhenInvokeIsDomainAllowed_ShouldSucceed()
     {
         // Arrange
-        var domainName = DataUtilityService.GetRandomString(useAlphabetOnly: true);
+        var ipAddress = DataUtilityService.GetRandomIpAddress();
 
         var user = new Users
         {
@@ -41,7 +41,7 @@ public class UserServiceTest : TestBase
         var allowDomain = new UserDomains
         {
             UserId = user.Id,
-            Host = domainName
+            Host = ipAddress.ToString()
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -59,7 +59,7 @@ public class UserServiceTest : TestBase
             mockedDateTimeService.Object);
 
         // Act
-        var result = await service.IsDomainAllowed(domainName, CancellationToken.None);
+        var result = await service.IsIpAddressAllowed(ipAddress, CancellationToken.None);
 
         // Assert
         result.Should().BeTrue();
@@ -69,7 +69,7 @@ public class UserServiceTest : TestBase
     public async Task GivenIncorrectDomainName_WhenInvokeIsDomainAllowed_ShouldFail()
     {
         // Arrange
-        var domainName = DataUtilityService.GetRandomString(useAlphabetOnly: true);
+        var ipAddress = DataUtilityService.GetRandomIpAddress();
 
         var user = new Users
         {
@@ -86,7 +86,7 @@ public class UserServiceTest : TestBase
         var allowDomain = new UserDomains
         {
             UserId = user.Id,
-            Host = DataUtilityService.GetRandomString(useAlphabetOnly: true)
+            Host = DataUtilityService.GetRandomIpAddress().ToString()
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -104,7 +104,7 @@ public class UserServiceTest : TestBase
             mockedDateTimeService.Object);
 
         // Act
-        var result = await service.IsDomainAllowed(domainName, CancellationToken.None);
+        var result = await service.IsIpAddressAllowed(ipAddress, CancellationToken.None);
 
         // Assert
         result.Should().BeFalse();
