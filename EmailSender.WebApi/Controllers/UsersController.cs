@@ -37,9 +37,9 @@ public class UsersController : BaseController
         => await Mediator.Send(new GetUserDetailsQuery());
 
     [HttpGet]
-    [ProducesResponseType(typeof(GetUserDomainsQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetUserDomainsQueryResult> GetUserDomains([FromHeader(Name = HeaderName)] string privateKey) 
-        => await Mediator.Send(new GetUserDomainsQuery());
+    [ProducesResponseType(typeof(GetUserAddressesQueryResult), StatusCodes.Status200OK)]
+    public async Task<GetUserAddressesQueryResult> GetUserAddresses([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetUserAddressesQuery());
 
     [HttpGet]
     [ProducesResponseType(typeof(GetUserEmailsQueryResult), StatusCodes.Status200OK)]
