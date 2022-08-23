@@ -7,6 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 public class SentHistoryEntry
 {
     public string EmailFrom { get; set; }
-        
+
     public DateTime SentAt { get; set; }
 }
