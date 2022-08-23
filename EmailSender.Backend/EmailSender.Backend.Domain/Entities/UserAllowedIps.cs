@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel.DataAnnotations;
 
 [ExcludeFromCodeCoverage]
-public class UserIpAddresses : Entity<Guid>
+public class UserAllowedIps : Entity<Guid>
 {
     public Guid UserId { get; set; }
 

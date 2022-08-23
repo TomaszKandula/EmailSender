@@ -49,17 +49,17 @@ public class GetUserAllowedIpsQueryHandler : RequestHandler<GetUserAllowedIpsQue
         await _databaseContext.SaveChangesAsync(cancellationToken);
         _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
-        var addresses = await _databaseContext.UserIpAddresses
+        var ipList = await _databaseContext.UserAllowedIps
             .AsNoTracking()
-            .Where(ipAddresses => ipAddresses.UserId == userId)
-            .OrderBy(ipAddresses => ipAddresses.IpAddress)
-            .Select(ipAddresses => ipAddresses.IpAddress)
+            .Where(ips => ips.UserId == userId)
+            .OrderBy(ips => ips.IpAddress)
+            .Select(ips => ips.IpAddress)
             .ToListAsync(cancellationToken);
 
-        _loggerService.LogInformation($"Found {addresses.Count} address(es) for requested user");
+        _loggerService.LogInformation($"Found {ipList.Count} address(es) for requested user");
         return new GetUserAllowedIpsQueryResult
         {
-            IpList = addresses
+            IpList = ipList
         };
     }
 }

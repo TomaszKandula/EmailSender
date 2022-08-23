@@ -38,7 +38,7 @@ public class UserServiceTest : TestBase
             PrivateKey = DataUtilityService.GetRandomString()
         };
             
-        var userIpAddress = new UserIpAddresses
+        var ips = new UserAllowedIps
         {
             UserId = user.Id,
             IpAddress = ipAddress.ToString()
@@ -46,7 +46,7 @@ public class UserServiceTest : TestBase
 
         var databaseContext = GetTestDatabaseContext();
         await databaseContext.AddAsync(user);
-        await databaseContext.AddAsync(userIpAddress);
+        await databaseContext.AddAsync(ips);
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
@@ -83,7 +83,7 @@ public class UserServiceTest : TestBase
             PrivateKey = DataUtilityService.GetRandomString()
         };
             
-        var allowDomain = new UserIpAddresses
+        var ips = new UserAllowedIps
         {
             UserId = user.Id,
             IpAddress = DataUtilityService.GetRandomIpAddress().ToString()
@@ -91,7 +91,7 @@ public class UserServiceTest : TestBase
 
         var databaseContext = GetTestDatabaseContext();
         await databaseContext.AddAsync(user);
-        await databaseContext.AddAsync(allowDomain);
+        await databaseContext.AddAsync(ips);
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
