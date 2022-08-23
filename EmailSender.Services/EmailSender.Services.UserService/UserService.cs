@@ -85,7 +85,7 @@ public class UserService : IUserService
             case null:
                 _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
                 return false;
-            case { IsActivated: true }:
+            case { IsActivated: false }:
                 _loggerService.LogWarning($"Key '{privateKey}' is not activated within the system.");
                 return false;
             default:
