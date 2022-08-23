@@ -48,4 +48,10 @@ public static class UsersMapper
         OldEmailId = model.OldEmailId,
         NewEmailId = model.NewEmailId
     };
+
+    public static RemoveUserEmailCommand MapToRemoveUserEmailCommand(RemoveUserEmailDto model) => new()
+    {
+        UserId = model.UserId,
+        EmailId = model.EmailId
+    };
 }

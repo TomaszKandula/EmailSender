@@ -60,4 +60,9 @@ public class UsersController : BaseController
     [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
     public async Task<Unit> UpdateUserEmail([FromBody] UpdateUserEmailDto payload, [FromHeader(Name = HeaderName)] string privateKey) 
         => await Mediator.Send(UsersMapper.MapToUpdateUserEmailCommand(payload));
+
+    [HttpPost]
+    [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
+    public async Task<Unit> RemoveUserEmail([FromBody] RemoveUserEmailDto payload, [FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(UsersMapper.MapToRemoveUserEmailCommand(payload));
 }
