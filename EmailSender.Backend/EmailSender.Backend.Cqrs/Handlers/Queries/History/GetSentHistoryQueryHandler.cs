@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.History;
 
 using System;
 using System.Linq;
@@ -14,7 +14,7 @@ using Services.UserService;
 using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
-public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery, GetEmailsHistoryQueryResult>
+public class GetSentHistoryQueryHandler : RequestHandler<GetSentHistoryQuery, GetSentHistoryQueryResult>
 {
     private readonly DatabaseContext _databaseContext;
         
@@ -24,7 +24,7 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
 
     private readonly ILoggerService _loggerService;
 
-    public GetEmailsHistoryQueryHandler(DatabaseContext databaseContext, IUserService userService, 
+    public GetSentHistoryQueryHandler(DatabaseContext databaseContext, IUserService userService, 
         IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
@@ -33,7 +33,7 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
         _loggerService = loggerService;
     }
 
-    public override async Task<GetEmailsHistoryQueryResult> Handle(GetEmailsHistoryQuery request, CancellationToken cancellationToken)
+    public override async Task<GetSentHistoryQueryResult> Handle(GetSentHistoryQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
         if (userId == Guid.Empty)
@@ -42,8 +42,8 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
         var apiRequest = new RequestsHistory
         {
             UserId = userId,
-            Requested = _dateTimeService.Now,
-            RequestName = nameof(GetEmailsHistoryQuery)
+            RequestedAt = _dateTimeService.Now,
+            RequestName = nameof(GetSentHistoryQuery)
         };
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
@@ -55,7 +55,7 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
             .Include(history => history.Emails)
             .Include(history => history.Users)
             .Where(history => history.UserId == userId)
-            .Select(history => new HistoryEntry
+            .Select(history => new SentHistoryEntry
             {
                 EmailFrom = history.Emails.Address,
                 SentAt = history.SentAt
@@ -70,7 +70,7 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
         var wording = history.Count == 1 ? "entry" : "entries";
         _loggerService.LogInformation($"Found {history.Count} history {wording} for requested user");
 
-        return new GetEmailsHistoryQueryResult
+        return new GetSentHistoryQueryResult
         {
             AssociatedUser = associatedUser.UserAlias,
             HistoryEntries = history

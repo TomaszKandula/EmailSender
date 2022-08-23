@@ -44,7 +44,7 @@ public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQu
         var apiRequest = new RequestsHistory
         {
             UserId = userId,
-            Requested = _dateTimeService.Now,
+            RequestedAt = _dateTimeService.Now,
             RequestName = nameof(GetServerStatusQuery)
         };
 

@@ -1,4 +1,4 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.History;
 
 using System;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Database;
+using Shared.Models;
 using Core.Exceptions;
 using Domain.Entities;
 using Shared.Resources;
@@ -13,7 +14,7 @@ using Services.UserService;
 using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
-public class GetUserAllowedIpsQueryHandler : RequestHandler<GetUserAllowedIpsQuery, GetUserAllowedIpsQueryResult>
+public class GetRequestHistoryQueryHandler : RequestHandler<GetRequestHistoryQuery, GetRequestHistoryQueryResult>
 {
     private readonly DatabaseContext _databaseContext;
 
@@ -23,7 +24,7 @@ public class GetUserAllowedIpsQueryHandler : RequestHandler<GetUserAllowedIpsQue
 
     private readonly ILoggerService _loggerService;
 
-    public GetUserAllowedIpsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
+    public GetRequestHistoryQueryHandler(DatabaseContext databaseContext, IUserService userService, 
         IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
@@ -32,7 +33,7 @@ public class GetUserAllowedIpsQueryHandler : RequestHandler<GetUserAllowedIpsQue
         _loggerService = loggerService;
     }
 
-    public override async Task<GetUserAllowedIpsQueryResult> Handle(GetUserAllowedIpsQuery request, CancellationToken cancellationToken)
+    public override async Task<GetRequestHistoryQueryResult> Handle(GetRequestHistoryQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
         if (userId == Guid.Empty)
@@ -42,24 +43,35 @@ public class GetUserAllowedIpsQueryHandler : RequestHandler<GetUserAllowedIpsQue
         {
             UserId = userId,
             RequestedAt = _dateTimeService.Now,
-            RequestName = nameof(GetUserAllowedIpsQuery)
+            RequestName = nameof(GetSentHistoryQuery)
         };
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
         _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
-        var ipList = await _databaseContext.UserAllowedIps
+        var history = await _databaseContext.RequestsHistory
             .AsNoTracking()
-            .Where(ips => ips.UserId == userId)
-            .OrderBy(ips => ips.IpAddress)
-            .Select(ips => ips.IpAddress)
+            .Where(history => history.UserId == userId)
+            .Select(history => new RequestHistoryEntry
+            {
+                Action = history.RequestName,
+                RequestedAt = history.RequestedAt
+            })
             .ToListAsync(cancellationToken);
 
-        _loggerService.LogInformation($"Found {ipList.Count} address(es) for requested user");
-        return new GetUserAllowedIpsQueryResult
+        var associatedUser = await _databaseContext.Users
+            .AsNoTracking()
+            .Where(users => users.Id == userId)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        var wording = history.Count == 1 ? "entry" : "entries";
+        _loggerService.LogInformation($"Found {history.Count} history {wording} for requested user");
+
+        return new GetRequestHistoryQueryResult
         {
-            IpList = ipList
+            AssociatedUser = associatedUser.UserAlias,
+            HistoryEntries = history
         };
     }
 }
