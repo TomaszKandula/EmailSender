@@ -303,14 +303,14 @@ public class UserService : IUserService
     /// <summary>
     /// Updates associated email address by ID.
     /// </summary>
-    /// <param name="id">Associated user email ID (Guid).</param>
+    /// <param name="oldEmailId">Associated user email ID (Guid).</param>
     /// <param name="newEmailId">New associated email address ID (Guid).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
-    public async Task UpdateUserEmail(Guid id, Guid newEmailId, CancellationToken cancellationToken = default)
+    public async Task UpdateUserEmail(Guid oldEmailId, Guid newEmailId, CancellationToken cancellationToken = default)
     {
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.Id == id)
+            .Where(emails => emails.Id == oldEmailId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (userEmails == null)
