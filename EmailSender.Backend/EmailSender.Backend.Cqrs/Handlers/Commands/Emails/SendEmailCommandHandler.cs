@@ -49,7 +49,7 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
         var apiRequest = new RequestsHistory
         {
             UserId = userId,
-            Requested = _dateTimeService.Now,
+            RequestedAt = _dateTimeService.Now,
             RequestName = nameof(SendEmailCommand)
         };
 

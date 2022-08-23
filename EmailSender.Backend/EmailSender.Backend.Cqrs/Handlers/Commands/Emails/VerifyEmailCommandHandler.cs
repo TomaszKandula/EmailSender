@@ -44,7 +44,7 @@ public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommand, Veri
         var apiRequest = new RequestsHistory
         {
             UserId = userId,
-            Requested = _dateTimeService.Now,
+            RequestedAt = _dateTimeService.Now,
             RequestName = nameof(VerifyEmailCommand)
         };
 

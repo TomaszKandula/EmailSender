@@ -41,7 +41,7 @@ public class GetUserAllowedIpsQueryHandler : RequestHandler<GetUserAllowedIpsQue
         var apiRequest = new RequestsHistory
         {
             UserId = userId,
-            Requested = _dateTimeService.Now,
+            RequestedAt = _dateTimeService.Now,
             RequestName = nameof(GetUserAllowedIpsQuery)
         };
 
