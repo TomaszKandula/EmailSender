@@ -20,6 +20,17 @@ public static class UsersMapper
         EmailAddress = model.EmailAddress
     };
 
+    public static UpdateUserDetailsCommand MapToUpdateUserDetailsCommand(UpdateUserDetailsDto model) => new()
+    {
+        UserId = model.UserId,
+        CompanyName = model.CompanyName,
+        VatNumber = model.VatNumber,
+        StreetAddress = model.StreetAddress,
+        PostalCode = model.PostalCode,
+        Country = model.Country,
+        City = model.City
+    };
+
     public static RemoveUserCommand MapToRemoveUserCommand(RemoveUserDto model) => new()
     {
         UserId = model.UserId,
