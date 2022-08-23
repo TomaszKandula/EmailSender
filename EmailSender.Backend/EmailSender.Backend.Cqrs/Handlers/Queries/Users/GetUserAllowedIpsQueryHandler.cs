@@ -13,7 +13,7 @@ using Services.UserService;
 using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
-public class GetUserAddressesQueryHandler : RequestHandler<GetUserAddressesQuery, GetUserAddressesQueryResult>
+public class GetUserAllowedIpsQueryHandler : RequestHandler<GetUserAllowedIpsQuery, GetUserAllowedIpsQueryResult>
 {
     private readonly DatabaseContext _databaseContext;
 
@@ -23,7 +23,7 @@ public class GetUserAddressesQueryHandler : RequestHandler<GetUserAddressesQuery
 
     private readonly ILoggerService _loggerService;
 
-    public GetUserAddressesQueryHandler(DatabaseContext databaseContext, IUserService userService, 
+    public GetUserAllowedIpsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
         IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
@@ -32,7 +32,7 @@ public class GetUserAddressesQueryHandler : RequestHandler<GetUserAddressesQuery
         _loggerService = loggerService;
     }
 
-    public override async Task<GetUserAddressesQueryResult> Handle(GetUserAddressesQuery request, CancellationToken cancellationToken)
+    public override async Task<GetUserAllowedIpsQueryResult> Handle(GetUserAllowedIpsQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
         if (userId == Guid.Empty)
@@ -42,7 +42,7 @@ public class GetUserAddressesQueryHandler : RequestHandler<GetUserAddressesQuery
         {
             UserId = userId,
             Requested = _dateTimeService.Now,
-            RequestName = nameof(GetUserAddressesQuery)
+            RequestName = nameof(GetUserAllowedIpsQuery)
         };
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
@@ -57,9 +57,9 @@ public class GetUserAddressesQueryHandler : RequestHandler<GetUserAddressesQuery
             .ToListAsync(cancellationToken);
 
         _loggerService.LogInformation($"Found {addresses.Count} address(es) for requested user");
-        return new GetUserAddressesQueryResult
+        return new GetUserAllowedIpsQueryResult
         {
-            Addresses = addresses
+            IpList = addresses
         };
     }
 }

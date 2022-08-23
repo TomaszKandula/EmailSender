@@ -21,9 +21,9 @@ public class UsersController : BaseController
         => await Mediator.Send(new GetUserDetailsQuery());
 
     [HttpGet]
-    [ProducesResponseType(typeof(GetUserAddressesQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetUserAddressesQueryResult> GetUserAddresses([FromHeader(Name = HeaderName)] string privateKey) 
-        => await Mediator.Send(new GetUserAddressesQuery());
+    [ProducesResponseType(typeof(GetUserAllowedIpsQueryResult), StatusCodes.Status200OK)]
+    public async Task<GetUserAllowedIpsQueryResult> GetUserAllowedIps([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetUserAllowedIpsQuery());
 
     [HttpGet]
     [ProducesResponseType(typeof(GetUserEmailsQueryResult), StatusCodes.Status200OK)]
