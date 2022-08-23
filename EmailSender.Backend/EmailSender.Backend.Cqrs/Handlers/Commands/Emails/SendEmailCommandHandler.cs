@@ -75,7 +75,7 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
         {
             UserId = (Guid)userId,
             EmailId = emailId,
-            Sent = _dateTimeService.Now
+            SentAt = _dateTimeService.Now
         };
 
         await _databaseContext.SentHistory.AddAsync(history, cancellationToken);

@@ -58,7 +58,7 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
             .Select(history => new HistoryEntry
             {
                 EmailFrom = history.Emails.Address,
-                SentAt = history.Sent
+                SentAt = history.SentAt
             })
             .ToListAsync(cancellationToken);
 

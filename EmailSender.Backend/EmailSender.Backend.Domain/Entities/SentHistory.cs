@@ -10,7 +10,7 @@ public class SentHistory : Entity<Guid>
 
     public Guid EmailId { get; set; }
 
-    public DateTime Sent { get; set; }
+    public DateTime SentAt { get; set; }
 
     public Users Users { get; set; }
 
