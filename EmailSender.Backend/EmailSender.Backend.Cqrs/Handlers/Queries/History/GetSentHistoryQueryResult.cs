@@ -1,9 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Emails;
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.History;
 
 using System.Collections.Generic;
 using Shared.Models;
 
-public class GetEmailsHistoryQueryResult
+public class GetSentHistoryQueryResult
 {
     public string AssociatedUser { get; set; }
         
