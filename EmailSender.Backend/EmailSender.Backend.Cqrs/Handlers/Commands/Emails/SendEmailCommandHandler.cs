@@ -71,14 +71,14 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
         await _senderService.Send(configuration, cancellationToken);
         _loggerService.LogInformation($"Email has been successfully sent from: {request.From}");
 
-        var history = new EmailsHistory
+        var history = new SentHistory
         {
             UserId = (Guid)userId,
             EmailId = emailId,
             Sent = _dateTimeService.Now
         };
 
-        await _databaseContext.EmailsHistory.AddAsync(history, cancellationToken);
+        await _databaseContext.SentHistory.AddAsync(history, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
         _loggerService.LogInformation($"Email history updated. User ID {userId}. Email ID {emailId}");
             

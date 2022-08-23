@@ -50,7 +50,7 @@ public class GetEmailsHistoryQueryHandler : RequestHandler<GetEmailsHistoryQuery
         await _databaseContext.SaveChangesAsync(cancellationToken);
         _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
-        var history = await _databaseContext.EmailsHistory
+        var history = await _databaseContext.SentHistory
             .AsNoTracking()
             .Include(history => history.Emails)
             .Include(history => history.Users)

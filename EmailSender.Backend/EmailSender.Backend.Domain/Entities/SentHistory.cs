@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
-public class EmailsHistory : Entity<Guid>
+public class SentHistory : Entity<Guid>
 {
     public Guid UserId { get; set; }
 

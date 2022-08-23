@@ -14,7 +14,7 @@ public class DatabaseContext : DbContext
 
     public virtual DbSet<Users> Users { get; set; }
 
-    public virtual DbSet<EmailsHistory> EmailsHistory { get; set; }
+    public virtual DbSet<SentHistory> SentHistory { get; set; }
 
     public virtual DbSet<UserEmails> UserEmails { get; set; }
 
