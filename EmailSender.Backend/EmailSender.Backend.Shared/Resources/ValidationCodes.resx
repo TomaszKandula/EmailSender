@@ -27,4 +27,7 @@
     <data name="NAME_TOO_LONG" xml:space="preserve">
         <value>The name is too long</value>
     </data>
+    <data name="VALUE_TOO_LONG" xml:space="preserve">
+        <value>The value is too long</value>
+    </data>
 </root>
