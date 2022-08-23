@@ -44,18 +44,10 @@ public class PrivateKeyCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<T
         }
 
         var isKeyValid = await _userService.IsPrivateKeyValid(privateKeyFromHeader, cancellationToken);
-        var userId = await _userService.GetUserByPrivateKey(privateKeyFromHeader, cancellationToken);
-
         if (!isKeyValid)
         {
             _logger.LogWarning("Provided private key in the request header is invalid. Access denied.");
             throw new AccessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
-        }
-
-        if (userId == Guid.Empty)
-        {
-            _logger.LogWarning("User ID for given private key is null or empty. Access denied.");
-            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
         }
 
         return await next();
