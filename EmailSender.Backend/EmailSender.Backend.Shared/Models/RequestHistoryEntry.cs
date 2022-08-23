@@ -8,5 +8,5 @@ public class RequestHistoryEntry
 {
     public string Action { get; set; }
 
-    public DateTime SentAt { get; set; }
+    public DateTime RequestedAt { get; set; }
 }
