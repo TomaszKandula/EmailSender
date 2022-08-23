@@ -54,16 +54,15 @@ public class UserService : IUserService
     public async Task<bool> IsIpAddressAllowed(IPAddress ipAddress, CancellationToken cancellationToken = default)
     {
         var address = ipAddress.ToString();
-        var ipsList = await _databaseContext.UserAllowedIps
+        var allowedIp = await _databaseContext.UserAllowedIps
             .AsNoTracking()
             .Where(ips => ips.IpAddress == address)
-            .ToListAsync(cancellationToken);
+            .SingleOrDefaultAsync(cancellationToken);
 
-        var isIpAddressAllowed = ipsList.Any();
-        if (!isIpAddressAllowed) 
+        if (allowedIp is null) 
             _loggerService.LogWarning($"IP address '{address}' is not registered within the system.");
 
-        return isIpAddressAllowed;
+        return allowedIp is not null;
     }
 
     /// <summary>
