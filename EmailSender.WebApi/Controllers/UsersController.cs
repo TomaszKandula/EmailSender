@@ -15,6 +15,21 @@ public class UsersController : BaseController
 {
     public UsersController(IMediator mediator) : base(mediator) { }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(GetUserDetailsQueryResult), StatusCodes.Status200OK)]
+    public async Task<GetUserDetailsQueryResult> GetUserDetails([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetUserDetailsQuery());
+
+    [HttpGet]
+    [ProducesResponseType(typeof(GetUserAddressesQueryResult), StatusCodes.Status200OK)]
+    public async Task<GetUserAddressesQueryResult> GetUserAddresses([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetUserAddressesQuery());
+
+    [HttpGet]
+    [ProducesResponseType(typeof(GetUserEmailsQueryResult), StatusCodes.Status200OK)]
+    public async Task<GetUserEmailsQueryResult> GetUserEmails([FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(new GetUserEmailsQuery());
+
     [HttpPost]
     [AllowAnonymous]
     [ProducesResponseType(typeof(AddUserCommandResult), StatusCodes.Status200OK)]
@@ -33,26 +48,11 @@ public class UsersController : BaseController
 
     [HttpPost]
     [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
-    public async Task<Unit> AddUserEmail([FromBody] AddUserEmailDto payload, [FromHeader(Name = HeaderName)] string privateKey) 
-        => await Mediator.Send(UsersMapper.MapToAddUserEmailCommand(payload));
-
-    [HttpPost]
-    [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
     public async Task<Unit> RemoveUser([FromBody] RemoveUserDto payload, [FromHeader(Name = HeaderName)] string privateKey) 
         => await Mediator.Send(UsersMapper.MapToRemoveUserCommand(payload));
 
-    [HttpGet]
-    [ProducesResponseType(typeof(GetUserDetailsQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetUserDetailsQueryResult> GetUserDetails([FromHeader(Name = HeaderName)] string privateKey) 
-        => await Mediator.Send(new GetUserDetailsQuery());
-
-    [HttpGet]
-    [ProducesResponseType(typeof(GetUserAddressesQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetUserAddressesQueryResult> GetUserAddresses([FromHeader(Name = HeaderName)] string privateKey) 
-        => await Mediator.Send(new GetUserAddressesQuery());
-
-    [HttpGet]
-    [ProducesResponseType(typeof(GetUserEmailsQueryResult), StatusCodes.Status200OK)]
-    public async Task<GetUserEmailsQueryResult> GetUserEmails([FromHeader(Name = HeaderName)] string privateKey) 
-        => await Mediator.Send(new GetUserEmailsQuery());
+    [HttpPost]
+    [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
+    public async Task<Unit> AddUserEmail([FromBody] AddUserEmailDto payload, [FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(UsersMapper.MapToAddUserEmailCommand(payload));
 }
