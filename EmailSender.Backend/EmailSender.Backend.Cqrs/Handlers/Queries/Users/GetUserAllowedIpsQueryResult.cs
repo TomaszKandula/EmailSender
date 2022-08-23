@@ -2,7 +2,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
 
 using System.Collections.Generic;
 
-public class GetUserDomainsQueryResult
+public class GetUserAllowedIpsQueryResult
 {
-    public IEnumerable<string> Hosts { get; set; }
+    public IEnumerable<string> IpList { get; set; }
 }

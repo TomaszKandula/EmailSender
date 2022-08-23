@@ -13,7 +13,7 @@ using Services.UserService;
 using Core.Services.LoggerService;
 using Core.Services.DateTimeService;
 
-public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, GetUserDomainsQueryResult>
+public class GetUserAllowedIpsQueryHandler : RequestHandler<GetUserAllowedIpsQuery, GetUserAllowedIpsQueryResult>
 {
     private readonly DatabaseContext _databaseContext;
 
@@ -23,7 +23,7 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
 
     private readonly ILoggerService _loggerService;
 
-    public GetUserDomainsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
+    public GetUserAllowedIpsQueryHandler(DatabaseContext databaseContext, IUserService userService, 
         IDateTimeService dateTimeService, ILoggerService loggerService)
     {
         _databaseContext = databaseContext;
@@ -32,10 +32,9 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
         _loggerService = loggerService;
     }
 
-    public override async Task<GetUserDomainsQueryResult> Handle(GetUserDomainsQuery request, CancellationToken cancellationToken)
+    public override async Task<GetUserAllowedIpsQueryResult> Handle(GetUserAllowedIpsQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
-
         if (userId == Guid.Empty)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
 
@@ -43,24 +42,24 @@ public class GetUserDomainsQueryHandler : RequestHandler<GetUserDomainsQuery, Ge
         {
             UserId = userId,
             Requested = _dateTimeService.Now,
-            RequestName = nameof(GetUserDomainsQuery)
+            RequestName = nameof(GetUserAllowedIpsQuery)
         };
 
         await _databaseContext.AddAsync(apiRequest, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
         _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
 
-        var hosts = await _databaseContext.UserDomains
+        var ipList = await _databaseContext.UserAllowedIps
             .AsNoTracking()
-            .Where(allowDomain => allowDomain.UserId == userId)
-            .OrderBy(allowDomain => allowDomain.Host)
-            .Select(allowDomain => allowDomain.Host)
+            .Where(ips => ips.UserId == userId)
+            .OrderBy(ips => ips.IpAddress)
+            .Select(ips => ips.IpAddress)
             .ToListAsync(cancellationToken);
 
-        _loggerService.LogInformation($"Found {hosts.Count} host(s) for requested user");
-        return new GetUserDomainsQueryResult
+        _loggerService.LogInformation($"Found {ipList.Count} address(es) for requested user");
+        return new GetUserAllowedIpsQueryResult
         {
-            Hosts = hosts
+            IpList = ipList
         };
     }
 }

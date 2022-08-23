@@ -57,9 +57,9 @@ namespace EmailSender.Backend.Shared.Resources {
             }
         }
         
-        public static string NAME_TOO_LONG {
+        public static string VALUE_TOO_LONG {
             get {
-                return ResourceManager.GetString("NAME_TOO_LONG", resourceCulture);
+                return ResourceManager.GetString("VALUE_TOO_LONG", resourceCulture);
             }
         }
     }

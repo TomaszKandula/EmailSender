@@ -39,8 +39,10 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
     public override async Task<Unit> Handle(SendEmailCommand request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
-        var emailId = await _senderService.VerifyEmailFrom(request.From, userId, cancellationToken);
+        if (userId == Guid.Empty)
+            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
 
+        var emailId = await _senderService.VerifyEmailFrom(request.From, userId, cancellationToken);
         if (emailId == Guid.Empty)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
 
@@ -69,14 +71,14 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
         await _senderService.Send(configuration, cancellationToken);
         _loggerService.LogInformation($"Email has been successfully sent from: {request.From}");
 
-        var history = new EmailsHistory
+        var history = new SentHistory
         {
-            UserId = userId,
+            UserId = (Guid)userId,
             EmailId = emailId,
-            Sent = _dateTimeService.Now
+            SentAt = _dateTimeService.Now
         };
 
-        await _databaseContext.EmailsHistory.AddAsync(history, cancellationToken);
+        await _databaseContext.SentHistory.AddAsync(history, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
         _loggerService.LogInformation($"Email history updated. User ID {userId}. Email ID {emailId}");
             

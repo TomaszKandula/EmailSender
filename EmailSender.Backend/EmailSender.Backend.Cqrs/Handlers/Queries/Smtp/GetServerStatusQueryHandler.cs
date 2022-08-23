@@ -39,7 +39,6 @@ public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQu
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
         var emailId = await _senderService.VerifyEmailFrom(request.EmailAddress, userId, cancellationToken);
-
         VerifyArguments(userId, emailId);
 
         var apiRequest = new RequestsHistory

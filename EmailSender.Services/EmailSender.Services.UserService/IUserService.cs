@@ -1,6 +1,7 @@
 namespace EmailSender.Services.UserService;
 
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Models;
@@ -9,7 +10,7 @@ public interface IUserService
 {
     string GetPrivateKeyFromHeader(string headerName = "X-Private-Key");
 
-    Task<bool> IsDomainAllowed(string domainName, CancellationToken cancellationToken = default);
+    Task<bool> IsIpAddressAllowed(IPAddress domainName, CancellationToken cancellationToken = default);
 
     Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken = default);
 
@@ -25,7 +26,7 @@ public interface IUserService
 
     Task AddUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default);
 
-    Task UpdateUserEmail(Guid id, Guid newEmailId, CancellationToken cancellationToken = default);
+    Task UpdateUserEmail(Guid oldEmailId, Guid newEmailId, CancellationToken cancellationToken = default);
 
     Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default);
 }

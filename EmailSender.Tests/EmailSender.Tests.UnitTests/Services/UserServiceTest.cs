@@ -24,7 +24,7 @@ public class UserServiceTest : TestBase
     public async Task GivenDomainName_WhenInvokeIsDomainAllowed_ShouldSucceed()
     {
         // Arrange
-        var domainName = DataUtilityService.GetRandomString(useAlphabetOnly: true);
+        var ipAddress = DataUtilityService.GetRandomIpAddress();
 
         var user = new Users
         {
@@ -38,15 +38,15 @@ public class UserServiceTest : TestBase
             PrivateKey = DataUtilityService.GetRandomString()
         };
             
-        var allowDomain = new UserDomains
+        var ips = new UserAllowedIps
         {
             UserId = user.Id,
-            Host = domainName
+            IpAddress = ipAddress.ToString()
         };
 
         var databaseContext = GetTestDatabaseContext();
         await databaseContext.AddAsync(user);
-        await databaseContext.AddAsync(allowDomain);
+        await databaseContext.AddAsync(ips);
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
@@ -59,7 +59,7 @@ public class UserServiceTest : TestBase
             mockedDateTimeService.Object);
 
         // Act
-        var result = await service.IsDomainAllowed(domainName, CancellationToken.None);
+        var result = await service.IsIpAddressAllowed(ipAddress, CancellationToken.None);
 
         // Assert
         result.Should().BeTrue();
@@ -69,7 +69,7 @@ public class UserServiceTest : TestBase
     public async Task GivenIncorrectDomainName_WhenInvokeIsDomainAllowed_ShouldFail()
     {
         // Arrange
-        var domainName = DataUtilityService.GetRandomString(useAlphabetOnly: true);
+        var ipAddress = DataUtilityService.GetRandomIpAddress();
 
         var user = new Users
         {
@@ -83,15 +83,15 @@ public class UserServiceTest : TestBase
             PrivateKey = DataUtilityService.GetRandomString()
         };
             
-        var allowDomain = new UserDomains
+        var ips = new UserAllowedIps
         {
             UserId = user.Id,
-            Host = DataUtilityService.GetRandomString(useAlphabetOnly: true)
+            IpAddress = DataUtilityService.GetRandomIpAddress().ToString()
         };
 
         var databaseContext = GetTestDatabaseContext();
         await databaseContext.AddAsync(user);
-        await databaseContext.AddAsync(allowDomain);
+        await databaseContext.AddAsync(ips);
         await databaseContext.SaveChangesAsync();
             
         var mockedLoggerService = new Mock<ILoggerService>();
@@ -104,7 +104,7 @@ public class UserServiceTest : TestBase
             mockedDateTimeService.Object);
 
         // Act
-        var result = await service.IsDomainAllowed(domainName, CancellationToken.None);
+        var result = await service.IsIpAddressAllowed(ipAddress, CancellationToken.None);
 
         // Assert
         result.Should().BeFalse();

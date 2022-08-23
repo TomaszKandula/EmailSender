@@ -14,11 +14,11 @@ public class DatabaseContext : DbContext
 
     public virtual DbSet<Users> Users { get; set; }
 
-    public virtual DbSet<EmailsHistory> EmailsHistory { get; set; }
+    public virtual DbSet<SentHistory> SentHistory { get; set; }
 
     public virtual DbSet<UserEmails> UserEmails { get; set; }
 
-    public virtual DbSet<UserDomains> UserDomains { get; set; }
+    public virtual DbSet<UserAllowedIps> UserAllowedIps { get; set; }
 
     public virtual DbSet<RequestsHistory> RequestsHistory { get; set; }
 

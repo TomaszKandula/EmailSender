@@ -1,6 +1,7 @@
 namespace EmailSender.Services.UserService;
 
 using System;
+using System.Net;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Backend.Database;
+using Backend.Domain.Enums;
 using Backend.Domain.Entities;
 using Backend.Core.Exceptions;
 using Backend.Shared.Resources;
@@ -46,21 +48,21 @@ public class UserService : IUserService
     /// Checks if given domain name is registered within the system. It should not contain scheme,
     /// but it may contain port number.
     /// </summary>
-    /// <param name="domainName">Domain name without scheme, but it may have port.</param>
+    /// <param name="ipAddress">IP Address.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>True or False.</returns>
-    public async Task<bool> IsDomainAllowed(string domainName, CancellationToken cancellationToken = default)
+    public async Task<bool> IsIpAddressAllowed(IPAddress ipAddress, CancellationToken cancellationToken = default)
     {
-        var domains = await _databaseContext.UserDomains
+        var address = ipAddress.ToString();
+        var allowedIp = await _databaseContext.UserAllowedIps
             .AsNoTracking()
-            .Where(allowDomain => allowDomain.Host == domainName)
-            .ToListAsync(cancellationToken);
+            .Where(ips => ips.IpAddress == address)
+            .SingleOrDefaultAsync(cancellationToken);
 
-        var isDomainAllowed = domains.Any();
-        if (!isDomainAllowed) 
-            _loggerService.LogWarning($"Domain '{domainName}' is not registered within the system.");
+        if (allowedIp is null) 
+            _loggerService.LogWarning($"IP address '{address}' is not registered within the system.");
 
-        return isDomainAllowed;
+        return allowedIp is not null;
     }
 
     /// <summary>
@@ -71,16 +73,23 @@ public class UserService : IUserService
     /// <returns>True or False.</returns>
     public async Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken = default)
     {
-        var keys = await _databaseContext.Users
+        var key = await _databaseContext.Users
             .AsNoTracking()
-            .Where(user => user.PrivateKey == privateKey)
-            .ToListAsync(cancellationToken);
+            .Where(users => users.PrivateKey == privateKey)
+            .Where(users => !users.IsDeleted)
+            .SingleOrDefaultAsync(cancellationToken);
 
-        var isPrivateKeyExists = keys.Any();
-        if (!isPrivateKeyExists)
-            _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
-            
-        return isPrivateKeyExists;
+        switch (key)
+        {
+            case null:
+                _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
+                return false;
+            case { IsActivated: false }:
+                _loggerService.LogWarning($"Key '{privateKey}' is not activated within the system.");
+                return false;
+            default:
+                return true;
+        }
     }
 
     /// <summary>
@@ -94,8 +103,10 @@ public class UserService : IUserService
         return await _databaseContext.Users
             .AsNoTracking()
             .Where(user => user.PrivateKey == privateKey)
+            .Where(users => users.IsActivated)
+            .Where(users => !users.IsDeleted)
             .Select(user => user.Id)
-            .FirstOrDefaultAsync(cancellationToken);
+            .SingleOrDefaultAsync(cancellationToken);
     }
 
     /// <summary>
@@ -116,14 +127,14 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS), ErrorCodes.USER_EMAIL_ALREADY_EXISTS);
 
         var privateKey = Guid.NewGuid().ToString("N");
-        var userAlias = $"{userData.FirstName[..2]}{userData.LastName[..3]}";
+        var userAlias = $"{userData.FirstName[..2]}{userData.LastName[..3]}".ToLower();
         var newUser = new Users
         {
             FirstName = userData.FirstName,
             LastName = userData.LastName,
             UserAlias = userAlias,
             EmailAddress = userData.EmailAddress,
-            IsActivated = true,
+            IsActivated = false, //TODO: replace by [UserStatus] enum
             Registered = _dateTimeService.Now,
             PrivateKey = privateKey
         };
@@ -133,9 +144,11 @@ public class UserService : IUserService
 
         return new UserCredentials
         {
+            UserId = newUser.Id,
             PrivateKey = privateKey,
             UserAlias = userAlias,
-            EmailAddress = userData.EmailAddress
+            EmailAddress = userData.EmailAddress,
+            Status = UserStatus.PendingActivation
         };
     }
 
@@ -150,14 +163,16 @@ public class UserService : IUserService
         var doesEmailExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.EmailAddress == userInfo.EmailAddress)
-            .FirstOrDefaultAsync(cancellationToken) != null;
+            .Where(users => users.IsActivated)
+            .Where(users => !users.IsDeleted)
+            .SingleOrDefaultAsync(cancellationToken) != null;
 
         if (doesEmailExist)
             throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS), ErrorCodes.USER_EMAIL_ALREADY_EXISTS);
 
         var currentUser = await _databaseContext.Users
             .Where(users => users.Id == userInfo.UserId)
-            .FirstOrDefaultAsync(cancellationToken);
+            .SingleOrDefaultAsync(cancellationToken);
 
         if (currentUser == null)
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
@@ -180,6 +195,7 @@ public class UserService : IUserService
     {
         var currentUser = await _databaseContext.Users
             .Where(users => users.Id == userId)
+            .Where(users => !users.IsDeleted)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (currentUser == null)
@@ -208,14 +224,16 @@ public class UserService : IUserService
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.Id == userCompanyInfo.UserId)
-            .FirstOrDefaultAsync(cancellationToken) != null;
+            .Where(users => users.IsActivated)
+            .Where(users => !users.IsDeleted)
+            .SingleOrDefaultAsync(cancellationToken) != null;
 
         if (!doesUserExist)
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
 
         var userDetails = await _databaseContext.UserDetails
             .Where(details => details.UserId == userCompanyInfo.UserId)
-            .FirstOrDefaultAsync(cancellationToken);
+            .SingleOrDefaultAsync(cancellationToken);
 
         if (userDetails == null)
         {
@@ -257,14 +275,16 @@ public class UserService : IUserService
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.Id == userId)
-            .FirstOrDefaultAsync(cancellationToken) != null;
+            .Where(users => users.IsActivated)
+            .Where(users => !users.IsDeleted)
+            .SingleOrDefaultAsync(cancellationToken) != null;
 
         if (!doesUserExist)
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
 
         var doesEmailExist = await _databaseContext.Emails
             .Where(emails => emails.Id == emailId)
-            .FirstOrDefaultAsync(cancellationToken) != null;
+            .SingleOrDefaultAsync(cancellationToken) != null;
 
         if (!doesEmailExist)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
@@ -282,14 +302,14 @@ public class UserService : IUserService
     /// <summary>
     /// Updates associated email address by ID.
     /// </summary>
-    /// <param name="id">Associated user email ID (Guid).</param>
+    /// <param name="oldEmailId">Associated user email ID (Guid).</param>
     /// <param name="newEmailId">New associated email address ID (Guid).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
-    public async Task UpdateUserEmail(Guid id, Guid newEmailId, CancellationToken cancellationToken = default)
+    public async Task UpdateUserEmail(Guid oldEmailId, Guid newEmailId, CancellationToken cancellationToken = default)
     {
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.Id == id)
+            .Where(emails => emails.Id == oldEmailId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (userEmails == null)
@@ -309,7 +329,8 @@ public class UserService : IUserService
     public async Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
     {
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.UserId == userId && emails.EmailId == emailId)
+            .Where(emails => emails.UserId == userId)
+            .Where(emails => emails.EmailId == emailId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (userEmails == null)
