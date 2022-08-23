@@ -38,9 +38,6 @@ public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQu
     public override async Task<Unit> Handle(GetServerStatusQuery request, CancellationToken cancellationToken)
     {
         var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
-        if (userId == Guid.Empty)
-            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
-
         var emailId = await _senderService.VerifyEmailFrom(request.EmailAddress, userId, cancellationToken);
         VerifyArguments(userId, emailId);
 
