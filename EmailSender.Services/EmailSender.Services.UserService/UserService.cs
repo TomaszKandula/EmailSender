@@ -330,7 +330,8 @@ public class UserService : IUserService
     public async Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
     {
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.UserId == userId && emails.EmailId == emailId)
+            .Where(emails => emails.UserId == userId)
+            .Where(emails => emails.EmailId == emailId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (userEmails == null)
