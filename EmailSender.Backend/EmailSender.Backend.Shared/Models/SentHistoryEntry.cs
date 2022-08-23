@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
-public class HistoryEntry
+public class SentHistoryEntry
 {
     public string EmailFrom { get; set; }
         

@@ -7,5 +7,5 @@ public class GetSentHistoryQueryResult
 {
     public string AssociatedUser { get; set; }
         
-    public IEnumerable<HistoryEntry> HistoryEntries { get; set; }
+    public IEnumerable<SentHistoryEntry> HistoryEntries { get; set; }
 }

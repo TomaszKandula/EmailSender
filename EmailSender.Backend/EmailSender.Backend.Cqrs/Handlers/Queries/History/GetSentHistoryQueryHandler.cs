@@ -55,7 +55,7 @@ public class GetSentHistoryQueryHandler : RequestHandler<GetSentHistoryQuery, Ge
             .Include(history => history.Emails)
             .Include(history => history.Users)
             .Where(history => history.UserId == userId)
-            .Select(history => new HistoryEntry
+            .Select(history => new SentHistoryEntry
             {
                 EmailFrom = history.Emails.Address,
                 SentAt = history.SentAt
