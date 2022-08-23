@@ -36,4 +36,10 @@ public static class UsersMapper
         UserId = model.UserId,
         SoftDelete = model.SoftDelete
     };
+
+    public static AddUserEmailCommand MapToAddUserEmailCommand(AddUserEmailDto model) => new()
+    {
+        UserId = model.UserId,
+        EmailId = model.EmailId
+    };
 }
