@@ -3,6 +3,7 @@ namespace EmailSender.WebApi.Controllers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Backend.Shared.Attributes;
 using Backend.Cqrs.Handlers.Queries.History;
 using MediatR;
 
@@ -17,6 +18,7 @@ public class HistoryController : BaseController
         => await Mediator.Send(new GetSentHistoryQuery());
 
     [HttpGet]
+    [RequireAdministrator]
     [ProducesResponseType(typeof(GetRequestHistoryQueryResult), StatusCodes.Status200OK)]
     public async Task<GetRequestHistoryQueryResult> GetRequestHistory([FromHeader(Name = HeaderName)] string privateKey) 
         => await Mediator.Send(new GetRequestHistoryQuery());
