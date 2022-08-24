@@ -79,7 +79,7 @@ public static class Dependencies
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PrivateKeyCheckBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ApiRequestBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehaviour<,>));
     }
 
     private static void SetupRetryPolicyWithPolly(IServiceCollection services)
