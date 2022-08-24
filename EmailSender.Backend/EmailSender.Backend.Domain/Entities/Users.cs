@@ -25,7 +25,7 @@ public class Users : Entity<Guid>
     [MaxLength(255)]
     public string EmailAddress { get; set; }
 
-    public bool IsActivated { get; set; }
+    public UserStatus Status { get; set; }
 
     public bool IsDeleted { get; set; }
 
