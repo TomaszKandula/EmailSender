@@ -110,6 +110,29 @@ public class UserService : IUserService
     }
 
     /// <summary>
+    /// Register user billable API request.
+    /// </summary>
+    /// <param name="requestName">Request name.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Requester user ID.</returns>
+    public async Task<Guid> RegisterUserApiRequest(string requestName, CancellationToken cancellationToken = default)
+    {
+        var key = GetPrivateKeyFromHeader();
+        var userId = await GetUserByPrivateKey(key, cancellationToken);
+
+        var apiRequest = new RequestsHistory
+        {
+            UserId = userId,
+            RequestedAt = _dateTimeService.Now,
+            RequestName = requestName
+        };
+
+        await _databaseContext.AddAsync(apiRequest, cancellationToken);
+        await _databaseContext.SaveChangesAsync(cancellationToken);
+        return userId;
+    }
+
+    /// <summary>
     /// Adds new user for given email address, name and surname.
     /// </summary>
     /// <param name="userData">Input data.</param>

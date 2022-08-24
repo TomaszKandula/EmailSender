@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Backend.Shared.Dto;
 using Backend.Cqrs.Mappers;
+using Backend.Shared.Attributes;
 using Backend.Cqrs.Handlers.Commands.Emails;
 using MediatR;
 
@@ -14,11 +15,13 @@ public class EmailsController : BaseController
     public EmailsController(IMediator mediator) : base(mediator) { }
 
     [HttpPost]
+    [BillableEndpoint]
     [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
     public async Task<Unit> SendEmail([FromBody] SendEmailDto payLoad, [FromHeader(Name = HeaderName)] string privateKey)
         => await Mediator.Send(EmailMapper.MapToSendEmailRequest(payLoad));
 
     [HttpPost]
+    [BillableEndpoint]
     [ProducesResponseType(typeof(VerifyEmailCommandResult), StatusCodes.Status200OK)]
     public async Task<VerifyEmailCommandResult> VerifyEmail([FromBody] VerifyEmailDto payLoad, [FromHeader(Name = HeaderName)] string privateKey)
         => await Mediator.Send(EmailMapper.MapToVerifyEmailRequest(payLoad));

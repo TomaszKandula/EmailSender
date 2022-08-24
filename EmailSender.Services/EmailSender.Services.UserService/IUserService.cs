@@ -16,6 +16,8 @@ public interface IUserService
 
     Task<Guid> GetUserByPrivateKey(string privateKey, CancellationToken cancellationToken = default);
 
+    Task<Guid> RegisterUserApiRequest(string requestName, CancellationToken cancellationToken = default);
+
     Task<UserCredentials> AddUser(UserData userData, CancellationToken cancellationToken = default);
 
     Task UpdateUser(UserInfo userInfo, CancellationToken cancellationToken = default);
