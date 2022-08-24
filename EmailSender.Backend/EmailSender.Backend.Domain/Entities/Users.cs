@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel.DataAnnotations;
+using Enums;
 
 [ExcludeFromCodeCoverage]
 public class Users : Entity<Guid>
@@ -33,6 +34,8 @@ public class Users : Entity<Guid>
     [Required]
     [MaxLength(100)]
     public string PrivateKey { get; set; }
+
+    public UserRole Role { get; set; }
 
     public ICollection<UserEmails> UserEmails { get; set; } = new HashSet<UserEmails>();
 
