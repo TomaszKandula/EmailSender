@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Backend.Domain.Enums;
 using Backend.Domain.Entities;
 using Backend.Core.Exceptions;
 using Backend.Shared.Resources;
@@ -35,8 +36,9 @@ public class SenderServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var emailId = Guid.NewGuid();
@@ -90,8 +92,9 @@ public class SenderServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var emailId = Guid.NewGuid();
@@ -145,8 +148,9 @@ public class SenderServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var emailId = Guid.NewGuid();

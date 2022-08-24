@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Backend.Domain.Enums;
 using Backend.Domain.Entities;
 using Backend.Core.Exceptions;
 using Backend.Shared.Resources;
@@ -34,8 +35,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
             
         var ips = new UserAllowedIps
@@ -79,8 +81,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
             
         var ips = new UserAllowedIps
@@ -123,8 +126,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = privateKey
+            Status = UserStatus.Activated,
+            PrivateKey = privateKey,
+            Role = UserRole.OrdinaryUser
         };
             
         var databaseContext = GetTestDatabaseContext();
@@ -160,8 +164,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
             
         var databaseContext = GetTestDatabaseContext();
@@ -197,8 +202,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = privateKey
+            Status = UserStatus.Activated,
+            PrivateKey = privateKey,
+            Role = UserRole.OrdinaryUser
         };
             
         var databaseContext = GetTestDatabaseContext();
@@ -234,8 +240,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
             
         var databaseContext = GetTestDatabaseContext();
@@ -300,10 +307,11 @@ public class UserServiceTest : TestBase
             LastName  = DataUtilityService.GetRandomString(),
             UserAlias  = DataUtilityService.GetRandomString(5),
             EmailAddress  = DataUtilityService.GetRandomEmail(),
-            IsActivated  = true,
+            Status = UserStatus.Activated,
             IsDeleted  = false,
             Registered  = DateTimeService.Now,
             PrivateKey  = Guid.NewGuid().ToString("N"),
+            Role = UserRole.OrdinaryUser
         };
 
         var userData = new UserData
@@ -345,8 +353,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -398,8 +407,9 @@ public class UserServiceTest : TestBase
                 UserAlias = DataUtilityService.GetRandomString(5),
                 EmailAddress = DataUtilityService.GetRandomEmail(),
                 Registered = DateTimeService.Now.AddDays(-120),
-                IsActivated = true,
-                PrivateKey = DataUtilityService.GetRandomString()
+                Status = UserStatus.Activated,
+                PrivateKey = DataUtilityService.GetRandomString(),
+                Role = UserRole.OrdinaryUser
             },
             new()
             {
@@ -409,9 +419,10 @@ public class UserServiceTest : TestBase
                 UserAlias = DataUtilityService.GetRandomString(5),
                 EmailAddress = DataUtilityService.GetRandomEmail(),
                 Registered = DateTimeService.Now.AddDays(-120),
-                IsActivated = true,
-                PrivateKey = DataUtilityService.GetRandomString()
-            },
+                Status = UserStatus.Activated,
+                PrivateKey = DataUtilityService.GetRandomString(),
+                Role = UserRole.OrdinaryUser
+            }
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -454,8 +465,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -498,8 +510,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -535,8 +548,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -575,8 +589,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -616,8 +631,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -663,8 +679,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -720,8 +737,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var userDetails = new UserDetails
@@ -789,8 +807,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -842,8 +861,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -889,8 +909,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -936,8 +957,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var emails = new List<Emails>
@@ -1005,8 +1027,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var emails = new List<Emails>
@@ -1079,8 +1102,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -1135,8 +1159,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -1191,8 +1216,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
