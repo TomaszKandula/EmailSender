@@ -109,6 +109,23 @@ public class UserService : IUserService
     }
 
     /// <summary>
+    /// Returns assigned user role.
+    /// </summary>
+    /// <param name="privateKey">Private key (alphanumerical).</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>User ID (Guid).</returns>
+    public async Task<UserRole?> GetUserRoleByPrivateKey(string privateKey, CancellationToken cancellationToken = default)
+    {
+        return await _databaseContext.Users
+            .AsNoTracking()
+            .Where(users => users.PrivateKey == privateKey)
+            .Where(users => users.Status == UserStatus.Activated)
+            .Where(users => !users.IsDeleted)
+            .Select(user => user.Role)
+            .SingleOrDefaultAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// Register user billable API request.
     /// </summary>
     /// <param name="requestName">Request name.</param>

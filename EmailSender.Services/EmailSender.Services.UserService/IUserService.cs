@@ -1,3 +1,5 @@
+using EmailSender.Backend.Domain.Enums;
+
 namespace EmailSender.Services.UserService;
 
 using System;
@@ -15,6 +17,8 @@ public interface IUserService
     Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken = default);
 
     Task<Guid> GetUserByPrivateKey(string privateKey, CancellationToken cancellationToken = default);
+
+    Task<UserRole?> GetUserRoleByPrivateKey(string privateKey, CancellationToken cancellationToken = default);
 
     Task<Guid> RegisterUserApiRequest(string requestName, CancellationToken cancellationToken = default);
 
