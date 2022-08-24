@@ -79,17 +79,16 @@ public class UserService : IUserService
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken);
 
-        switch (key)
+        if (key is null)
         {
-            case null:
-                _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
-                return false;
-            case { IsActivated: false }:
-                _loggerService.LogWarning($"Key '{privateKey}' is not activated within the system.");
-                return false;
-            default:
-                return true;
+            _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
+            return false;
         }
+
+        if (key.Status == UserStatus.Activated) return true;
+
+        _loggerService.LogWarning($"Key '{privateKey}' is not activated within the system.");
+        return false;
     }
 
     /// <summary>
@@ -103,7 +102,7 @@ public class UserService : IUserService
         return await _databaseContext.Users
             .AsNoTracking()
             .Where(user => user.PrivateKey == privateKey)
-            .Where(users => users.IsActivated)
+            .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .Select(user => user.Id)
             .SingleOrDefaultAsync(cancellationToken);
@@ -149,17 +148,21 @@ public class UserService : IUserService
         if (doesEmailExist)
             throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS), ErrorCodes.USER_EMAIL_ALREADY_EXISTS);
 
+        const UserStatus userStatus = UserStatus.PendingActivation;
         var privateKey = Guid.NewGuid().ToString("N");
         var userAlias = $"{userData.FirstName[..2]}{userData.LastName[..3]}".ToLower();
+
         var newUser = new Users
         {
             FirstName = userData.FirstName,
             LastName = userData.LastName,
             UserAlias = userAlias,
             EmailAddress = userData.EmailAddress,
-            IsActivated = false, //TODO: replace by [UserStatus] enum
+            Status = userStatus,
             Registered = _dateTimeService.Now,
-            PrivateKey = privateKey
+            PrivateKey = privateKey,
+            IsDeleted = false,
+            Role = UserRole.OrdinaryUser,
         };
 
         await _databaseContext.Users.AddAsync(newUser, cancellationToken);
@@ -167,11 +170,10 @@ public class UserService : IUserService
 
         return new UserCredentials
         {
-            UserId = newUser.Id,
             PrivateKey = privateKey,
             UserAlias = userAlias,
             EmailAddress = userData.EmailAddress,
-            Status = UserStatus.PendingActivation
+            Status = userStatus
         };
     }
 
@@ -186,7 +188,7 @@ public class UserService : IUserService
         var doesEmailExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.EmailAddress == userInfo.EmailAddress)
-            .Where(users => users.IsActivated)
+            .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken) != null;
 
@@ -247,7 +249,7 @@ public class UserService : IUserService
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.Id == userCompanyInfo.UserId)
-            .Where(users => users.IsActivated)
+            .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken) != null;
 
@@ -298,7 +300,7 @@ public class UserService : IUserService
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.Id == userId)
-            .Where(users => users.IsActivated)
+            .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken) != null;
 
