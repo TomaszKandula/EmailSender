@@ -46,17 +46,6 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
         if (emailId == Guid.Empty)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
 
-        var apiRequest = new RequestsHistory
-        {
-            UserId = userId,
-            RequestedAt = _dateTimeService.Now,
-            RequestName = nameof(SendEmailCommand)
-        };
-
-        await _databaseContext.AddAsync(apiRequest, cancellationToken);
-        await _databaseContext.SaveChangesAsync(cancellationToken);
-        _loggerService.LogInformation($"Request has been logged with the system. User ID: {userId}");
-
         var configuration = new Configuration
         {
             From = request.From,
@@ -73,7 +62,7 @@ public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Uni
 
         var history = new SentHistory
         {
-            UserId = (Guid)userId,
+            UserId = userId,
             EmailId = emailId,
             SentAt = _dateTimeService.Now
         };
