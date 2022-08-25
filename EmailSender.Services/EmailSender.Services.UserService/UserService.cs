@@ -232,7 +232,7 @@ public class UserService : IUserService
     /// <summary>
     /// Removes given user or hides if soft delete is enabled.
     /// </summary>
-    /// <param name="input">User ID and flag to Enable/disable soft delete.</param>
+    /// <param name="input">User ID and flag to enable/disable soft delete.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when a user does not exist.</exception>
     public async Task RemoveUser(RemoveUserInput input, CancellationToken cancellationToken = default)
@@ -353,7 +353,7 @@ public class UserService : IUserService
     /// <summary>
     /// Updates associated email address by ID.
     /// </summary>
-    /// <param name="input">Current associated user email ID and New associated email address ID.</param>
+    /// <param name="input">Current associated user email ID and new associated email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
     public async Task UpdateUserEmail(UpdateUserEmailInput input, CancellationToken cancellationToken = default)
