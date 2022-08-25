@@ -36,9 +36,6 @@
     <data name="INVALID_ASSOCIATED_EMAIL" xml:space="preserve">
         <value>Cannot find email for given user and private key</value>
     </data>
-    <data name="MISSING_PRICING" xml:space="preserve">
-        <value>Cannot find pricing</value>
-    </data>
     <data name="MISSING_SERVER_DATA" xml:space="preserve">
         <value>Cannot find server data</value>
     </data>
@@ -47,9 +44,6 @@
     </data>
     <data name="ACCESS_FORBIDDEN" xml:space="preserve">
         <value>User is not authorized to perform the operation</value>
-    </data>
-    <data name="INVALID_API_VERSION" xml:space="preserve">
-        <value>Provided API version seems to be invalid</value>
     </data>
     <data name="FILE_NOT_FOUND" xml:space="preserve">
         <value>Cannot find file</value>

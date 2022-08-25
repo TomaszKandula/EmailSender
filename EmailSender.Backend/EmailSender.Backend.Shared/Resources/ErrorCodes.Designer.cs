@@ -81,12 +81,6 @@ namespace EmailSender.Backend.Shared.Resources {
             }
         }
         
-        public static string MISSING_PRICING {
-            get {
-                return ResourceManager.GetString("MISSING_PRICING", resourceCulture);
-            }
-        }
-        
         public static string MISSING_SERVER_DATA {
             get {
                 return ResourceManager.GetString("MISSING_SERVER_DATA", resourceCulture);
@@ -102,12 +96,6 @@ namespace EmailSender.Backend.Shared.Resources {
         public static string ACCESS_FORBIDDEN {
             get {
                 return ResourceManager.GetString("ACCESS_FORBIDDEN", resourceCulture);
-            }
-        }
-        
-        public static string INVALID_API_VERSION {
-            get {
-                return ResourceManager.GetString("INVALID_API_VERSION", resourceCulture);
             }
         }
         
