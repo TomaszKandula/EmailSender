@@ -263,16 +263,16 @@ public class UserService : IUserService
     /// <summary>
     /// Updates company information assigned to a given user ID.
     /// </summary>
-    /// <param name="userCompanyInfo">User company information, including VAT etc.</param>
+    /// <param name="updateUserDetailsInput">User company information, including VAT etc.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when user does not exist.</exception>
-    public async Task UpdateUserDetails(UserCompanyInfo userCompanyInfo, CancellationToken cancellationToken = default)
+    public async Task UpdateUserDetails(UpdateUserDetailsInput updateUserDetailsInput, CancellationToken cancellationToken = default)
     {
-        await VerifyActionAgainstGivenUser(userCompanyInfo.UserId, cancellationToken);
+        await VerifyActionAgainstGivenUser(updateUserDetailsInput.UserId, cancellationToken);
 
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
-            .Where(users => users.Id == userCompanyInfo.UserId)
+            .Where(users => users.Id == updateUserDetailsInput.UserId)
             .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken) != null;
@@ -281,32 +281,32 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
         var userDetails = await _databaseContext.UserDetails
-            .Where(details => details.UserId == userCompanyInfo.UserId)
+            .Where(details => details.UserId == updateUserDetailsInput.UserId)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (userDetails == null)
         {
             var newUserDetails = new UserDetails
             {
-                UserId = userCompanyInfo.UserId,
-                CompanyName = userCompanyInfo.CompanyName,
-                VatNumber = userCompanyInfo.VatNumber,
-                StreetAddress = userCompanyInfo.StreetAddress,
-                PostalCode = userCompanyInfo.PostalCode,
-                Country = userCompanyInfo.Country,
-                City = userCompanyInfo.City
+                UserId = updateUserDetailsInput.UserId,
+                CompanyName = updateUserDetailsInput.CompanyName,
+                VatNumber = updateUserDetailsInput.VatNumber,
+                StreetAddress = updateUserDetailsInput.StreetAddress,
+                PostalCode = updateUserDetailsInput.PostalCode,
+                Country = updateUserDetailsInput.Country,
+                City = updateUserDetailsInput.City
             };
         
             await _databaseContext.UserDetails.AddAsync(newUserDetails, cancellationToken);
         }
         else
         {
-            userDetails.CompanyName = userCompanyInfo.CompanyName;
-            userDetails.VatNumber = userCompanyInfo.VatNumber;
-            userDetails.StreetAddress = userCompanyInfo.StreetAddress;
-            userDetails.PostalCode = userCompanyInfo.PostalCode;
-            userDetails.Country = userCompanyInfo.Country;
-            userDetails.City = userCompanyInfo.City;
+            userDetails.CompanyName = updateUserDetailsInput.CompanyName;
+            userDetails.VatNumber = updateUserDetailsInput.VatNumber;
+            userDetails.StreetAddress = updateUserDetailsInput.StreetAddress;
+            userDetails.PostalCode = updateUserDetailsInput.PostalCode;
+            userDetails.Country = updateUserDetailsInput.Country;
+            userDetails.City = updateUserDetailsInput.City;
         }
 
         await _databaseContext.SaveChangesAsync(cancellationToken);
