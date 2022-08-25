@@ -33,5 +33,5 @@ public interface IUserService
 
     Task UpdateUserEmail(UpdateUserEmailInput input, CancellationToken cancellationToken = default);
 
-    Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default);
+    Task RemoveUserEmail(RemoveUserEmailInput input, CancellationToken cancellationToken = default);
 }

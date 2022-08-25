@@ -374,17 +374,16 @@ public class UserService : IUserService
     /// <summary>
     /// Removes associated email address by ID.
     /// </summary>
-    /// <param name="userId">User ID.</param>
-    /// <param name="emailId">Current associated email address ID.</param>
+    /// <param name="input">User ID and current associated email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
-    public async Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
+    public async Task RemoveUserEmail(RemoveUserEmailInput input, CancellationToken cancellationToken = default)
     {
-        await VerifyActionAgainstGivenUser(userId, cancellationToken);
+        await VerifyActionAgainstGivenUser(input.UserId, cancellationToken);
 
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.UserId == userId)
-            .Where(emails => emails.EmailId == emailId)
+            .Where(emails => emails.UserId == input.UserId)
+            .Where(emails => emails.EmailId == input.EmailId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (userEmails == null)
