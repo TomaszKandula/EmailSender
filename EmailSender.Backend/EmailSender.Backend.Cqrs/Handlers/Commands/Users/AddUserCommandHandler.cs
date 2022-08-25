@@ -20,14 +20,14 @@ public class AddUserCommandHandler : RequestHandler<AddUserCommand, AddUserComma
 
     public override async Task<AddUserCommandResult> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
-        var userData = new UserData
+        var input = new AddUserInput
         {
             FirstName = request.FirstName,
             LastName = request.LastName,
             EmailAddress = request.EmailAddress
         };
 
-        var result = await _userService.AddUser(userData, cancellationToken);
+        var result = await _userService.AddUser(input, cancellationToken);
         _loggerService.LogInformation($"New user account has been added. User ID: {result.UserId}");
         _loggerService.LogInformation($"Current user status: {result.Status}");
 

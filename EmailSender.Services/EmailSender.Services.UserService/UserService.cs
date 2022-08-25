@@ -151,15 +151,15 @@ public class UserService : IUserService
     /// <summary>
     /// Adds new user for given email address, name and surname.
     /// </summary>
-    /// <param name="userData">Input data.</param>
+    /// <param name="addUserInput">Input data.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when email address already exist.</exception>
     /// <returns>Generated API key and basic user information.</returns>
-    public async Task<UserCredentials> AddUser(UserData userData, CancellationToken cancellationToken = default)
+    public async Task<AddUserOutput> AddUser(AddUserInput addUserInput, CancellationToken cancellationToken = default)
     {
         var doesEmailExist = await _databaseContext.Users
             .AsNoTracking()
-            .Where(users => users.EmailAddress == userData.EmailAddress)
+            .Where(users => users.EmailAddress == addUserInput.EmailAddress)
             .FirstOrDefaultAsync(cancellationToken) != null;
 
         if (doesEmailExist)
@@ -167,14 +167,14 @@ public class UserService : IUserService
 
         const UserStatus userStatus = UserStatus.PendingActivation;
         var privateKey = Guid.NewGuid().ToString("N");
-        var userAlias = $"{userData.FirstName[..2]}{userData.LastName[..3]}".ToLower();
+        var userAlias = $"{addUserInput.FirstName[..2]}{addUserInput.LastName[..3]}".ToLower();
 
         var newUser = new Users
         {
-            FirstName = userData.FirstName,
-            LastName = userData.LastName,
+            FirstName = addUserInput.FirstName,
+            LastName = addUserInput.LastName,
             UserAlias = userAlias,
-            EmailAddress = userData.EmailAddress,
+            EmailAddress = addUserInput.EmailAddress,
             Status = userStatus,
             Registered = _dateTimeService.Now,
             PrivateKey = privateKey,
@@ -185,12 +185,12 @@ public class UserService : IUserService
         await _databaseContext.Users.AddAsync(newUser, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
 
-        return new UserCredentials
+        return new AddUserOutput
         {
             UserId = newUser.Id,
             PrivateKey = privateKey,
             UserAlias = userAlias,
-            EmailAddress = userData.EmailAddress,
+            EmailAddress = addUserInput.EmailAddress,
             Status = userStatus
         };
     }

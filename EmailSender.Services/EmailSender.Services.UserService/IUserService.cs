@@ -21,7 +21,7 @@ public interface IUserService
 
     Task<Guid> RegisterUserApiRequest(string requestName, CancellationToken cancellationToken = default);
 
-    Task<UserCredentials> AddUser(UserData userData, CancellationToken cancellationToken = default);
+    Task<AddUserOutput> AddUser(AddUserInput addUserInput, CancellationToken cancellationToken = default);
 
     Task UpdateUser(UserInfo userInfo, CancellationToken cancellationToken = default);
 
