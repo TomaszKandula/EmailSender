@@ -384,4 +384,48 @@ public class UserService : IUserService
         _databaseContext.Remove(userEmails);
         await _databaseContext.SaveChangesAsync(cancellationToken);
     }
+
+    /// <summary>
+    /// Checks whether the user associated with the private key can execute action against another user.
+    /// </summary>
+    /// <param name="otherUserId">Optional user ID.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <exception cref="AccessException">
+    /// Throws an exception whenever a user tries to modify another user while having no administrator privileges.
+    /// </exception>
+    private async Task VerifyActionAgainstGivenUser(Guid? otherUserId, CancellationToken cancellationToken = default)
+    {
+        if (otherUserId is null) return;
+
+        var key = GetPrivateKeyFromHeader();
+        var (userId, userRole) = await GetActiveUserInfo(key, cancellationToken);
+        if (userRole == UserRole.OrdinaryUser)
+        {
+            if (userId != otherUserId)
+                throw new AccessException(nameof(ErrorCodes.INSUFFICIENT_PRIVILEGES), ErrorCodes.INSUFFICIENT_PRIVILEGES);
+        }
+    }
+
+    /// <summary>
+    /// Returns user ID and assigned user role.
+    /// </summary>
+    /// <param name="privateKey">Private key (alphanumerical).</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Tuple with ID and user role.</returns>
+    private async Task<Tuple<Guid, UserRole>> GetActiveUserInfo(string privateKey, CancellationToken cancellationToken = default)
+    {
+        var data = await _databaseContext.Users
+            .AsNoTracking()
+            .Where(users => users.PrivateKey == privateKey)
+            .Where(users => users.Status == UserStatus.Activated)
+            .Where(users => !users.IsDeleted)
+            .Select(users => new
+            {
+                users.Id,
+                users.Role
+            })
+            .SingleOrDefaultAsync(cancellationToken);
+
+        return new Tuple<Guid, UserRole>(data.Id, data.Role);
+    }
 }
