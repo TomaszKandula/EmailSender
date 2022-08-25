@@ -151,15 +151,15 @@ public class UserService : IUserService
     /// <summary>
     /// Adds new user for given email address, name and surname.
     /// </summary>
-    /// <param name="addUserInput">Input data.</param>
+    /// <param name="input">Input data.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when email address already exist.</exception>
     /// <returns>Generated API key and basic user information.</returns>
-    public async Task<AddUserOutput> AddUser(AddUserInput addUserInput, CancellationToken cancellationToken = default)
+    public async Task<AddUserOutput> AddUser(AddUserInput input, CancellationToken cancellationToken = default)
     {
         var doesEmailExist = await _databaseContext.Users
             .AsNoTracking()
-            .Where(users => users.EmailAddress == addUserInput.EmailAddress)
+            .Where(users => users.EmailAddress == input.EmailAddress)
             .FirstOrDefaultAsync(cancellationToken) != null;
 
         if (doesEmailExist)
@@ -167,14 +167,14 @@ public class UserService : IUserService
 
         const UserStatus userStatus = UserStatus.PendingActivation;
         var privateKey = Guid.NewGuid().ToString("N");
-        var userAlias = $"{addUserInput.FirstName[..2]}{addUserInput.LastName[..3]}".ToLower();
+        var userAlias = $"{input.FirstName[..2]}{input.LastName[..3]}".ToLower();
 
         var newUser = new Users
         {
-            FirstName = addUserInput.FirstName,
-            LastName = addUserInput.LastName,
+            FirstName = input.FirstName,
+            LastName = input.LastName,
             UserAlias = userAlias,
-            EmailAddress = addUserInput.EmailAddress,
+            EmailAddress = input.EmailAddress,
             Status = userStatus,
             Registered = _dateTimeService.Now,
             PrivateKey = privateKey,
@@ -190,7 +190,7 @@ public class UserService : IUserService
             UserId = newUser.Id,
             PrivateKey = privateKey,
             UserAlias = userAlias,
-            EmailAddress = addUserInput.EmailAddress,
+            EmailAddress = input.EmailAddress,
             Status = userStatus
         };
     }
@@ -198,16 +198,16 @@ public class UserService : IUserService
     /// <summary>
     /// Updates current user basic info.
     /// </summary>
-    /// <param name="updateUserInput">Input data.</param>
+    /// <param name="input">Input data.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when email address already exists or a user does not exist.</exception>
-    public async Task UpdateUser(UpdateUserInput updateUserInput, CancellationToken cancellationToken = default)
+    public async Task UpdateUser(UpdateUserInput input, CancellationToken cancellationToken = default)
     {
-        await VerifyActionAgainstGivenUser(updateUserInput.UserId, cancellationToken);
+        await VerifyActionAgainstGivenUser(input.UserId, cancellationToken);
         
         var doesEmailExist = await _databaseContext.Users
             .AsNoTracking()
-            .Where(users => users.EmailAddress == updateUserInput.EmailAddress)
+            .Where(users => users.EmailAddress == input.EmailAddress)
             .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken) != null;
@@ -216,15 +216,15 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST), ErrorCodes.USER_EMAIL_ALREADY_EXIST);
 
         var currentUser = await _databaseContext.Users
-            .Where(users => users.Id == updateUserInput.UserId)
+            .Where(users => users.Id == input.UserId)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (currentUser == null)
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
-        currentUser.FirstName = updateUserInput.FirstName;
-        currentUser.LastName = updateUserInput.LastName;
-        currentUser.EmailAddress = updateUserInput.EmailAddress;
+        currentUser.FirstName = input.FirstName;
+        currentUser.LastName = input.LastName;
+        currentUser.EmailAddress = input.EmailAddress;
 
         await _databaseContext.SaveChangesAsync(cancellationToken);
     }
@@ -263,16 +263,16 @@ public class UserService : IUserService
     /// <summary>
     /// Updates company information assigned to a given user ID.
     /// </summary>
-    /// <param name="updateUserDetailsInput">User company information, including VAT etc.</param>
+    /// <param name="input">User company information, including VAT etc.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when user does not exist.</exception>
-    public async Task UpdateUserDetails(UpdateUserDetailsInput updateUserDetailsInput, CancellationToken cancellationToken = default)
+    public async Task UpdateUserDetails(UpdateUserDetailsInput input, CancellationToken cancellationToken = default)
     {
-        await VerifyActionAgainstGivenUser(updateUserDetailsInput.UserId, cancellationToken);
+        await VerifyActionAgainstGivenUser(input.UserId, cancellationToken);
 
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
-            .Where(users => users.Id == updateUserDetailsInput.UserId)
+            .Where(users => users.Id == input.UserId)
             .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken) != null;
@@ -281,32 +281,32 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
         var userDetails = await _databaseContext.UserDetails
-            .Where(details => details.UserId == updateUserDetailsInput.UserId)
+            .Where(details => details.UserId == input.UserId)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (userDetails == null)
         {
             var newUserDetails = new UserDetails
             {
-                UserId = updateUserDetailsInput.UserId,
-                CompanyName = updateUserDetailsInput.CompanyName,
-                VatNumber = updateUserDetailsInput.VatNumber,
-                StreetAddress = updateUserDetailsInput.StreetAddress,
-                PostalCode = updateUserDetailsInput.PostalCode,
-                Country = updateUserDetailsInput.Country,
-                City = updateUserDetailsInput.City
+                UserId = input.UserId,
+                CompanyName = input.CompanyName,
+                VatNumber = input.VatNumber,
+                StreetAddress = input.StreetAddress,
+                PostalCode = input.PostalCode,
+                Country = input.Country,
+                City = input.City
             };
         
             await _databaseContext.UserDetails.AddAsync(newUserDetails, cancellationToken);
         }
         else
         {
-            userDetails.CompanyName = updateUserDetailsInput.CompanyName;
-            userDetails.VatNumber = updateUserDetailsInput.VatNumber;
-            userDetails.StreetAddress = updateUserDetailsInput.StreetAddress;
-            userDetails.PostalCode = updateUserDetailsInput.PostalCode;
-            userDetails.Country = updateUserDetailsInput.Country;
-            userDetails.City = updateUserDetailsInput.City;
+            userDetails.CompanyName = input.CompanyName;
+            userDetails.VatNumber = input.VatNumber;
+            userDetails.StreetAddress = input.StreetAddress;
+            userDetails.PostalCode = input.PostalCode;
+            userDetails.Country = input.Country;
+            userDetails.City = input.City;
         }
 
         await _databaseContext.SaveChangesAsync(cancellationToken);
