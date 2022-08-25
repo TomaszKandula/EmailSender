@@ -128,5 +128,11 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("INVALID_ID", resourceCulture);
             }
         }
+        
+        public static string INSUFFICIENT_PRIVILEGES {
+            get {
+                return ResourceManager.GetString("INSUFFICIENT_PRIVILEGES", resourceCulture);
+            }
+        }
     }
 }

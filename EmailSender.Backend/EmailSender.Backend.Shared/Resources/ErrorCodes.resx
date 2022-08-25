@@ -60,4 +60,7 @@
     <data name="INVALID_ID" xml:space="preserve">
         <value>Cannot find entity by given ID</value>
     </data>
+    <data name="INSUFFICIENT_PRIVILEGES" xml:space="preserve">
+        <value>Cannot execute action. Insufficient privileges</value>
+    </data>
 </root>
