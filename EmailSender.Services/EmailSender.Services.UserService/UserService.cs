@@ -45,8 +45,8 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Checks if given domain name is registered within the system. It should not contain scheme,
-    /// but it may contain port number.
+    /// Checks if given IP address is registered within the system.
+    /// It should not contain a scheme, but it may contain a port number.
     /// </summary>
     /// <param name="ipAddress">IP Address.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
