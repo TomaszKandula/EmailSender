@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
-public class UserInfo : UserData
+public class UpdateUserInput : AddUserInput
 {
     public Guid UserId { get; set; }
 }

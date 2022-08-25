@@ -21,7 +21,7 @@ public class UpdateUserCommandHandler : Cqrs.RequestHandler<UpdateUserCommand, U
 
     public override async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var userInfo = new UserInfo
+        var input = new UpdateUserInput
         {
             UserId = request.UserId,
             FirstName = request.FirstName,
@@ -29,7 +29,7 @@ public class UpdateUserCommandHandler : Cqrs.RequestHandler<UpdateUserCommand, U
             EmailAddress = request.EmailAddress
         };
 
-        await _userService.UpdateUser(userInfo, cancellationToken);
+        await _userService.UpdateUser(input, cancellationToken);
         _loggerService.LogInformation("User account has been updated.");
 
         return  Unit.Value;

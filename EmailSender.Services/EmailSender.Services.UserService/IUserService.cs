@@ -23,7 +23,7 @@ public interface IUserService
 
     Task<AddUserOutput> AddUser(AddUserInput addUserInput, CancellationToken cancellationToken = default);
 
-    Task UpdateUser(UserInfo userInfo, CancellationToken cancellationToken = default);
+    Task UpdateUser(UpdateUserInput updateUserInput, CancellationToken cancellationToken = default);
 
     Task RemoveUser(Guid userId, bool softDelete = false, CancellationToken cancellationToken = default);
 

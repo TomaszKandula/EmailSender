@@ -198,16 +198,16 @@ public class UserService : IUserService
     /// <summary>
     /// Updates current user basic info.
     /// </summary>
-    /// <param name="userInfo">Input data.</param>
+    /// <param name="updateUserInput">Input data.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when email address already exists or a user does not exist.</exception>
-    public async Task UpdateUser(UserInfo userInfo, CancellationToken cancellationToken = default)
+    public async Task UpdateUser(UpdateUserInput updateUserInput, CancellationToken cancellationToken = default)
     {
-        await VerifyActionAgainstGivenUser(userInfo.UserId, cancellationToken);
+        await VerifyActionAgainstGivenUser(updateUserInput.UserId, cancellationToken);
         
         var doesEmailExist = await _databaseContext.Users
             .AsNoTracking()
-            .Where(users => users.EmailAddress == userInfo.EmailAddress)
+            .Where(users => users.EmailAddress == updateUserInput.EmailAddress)
             .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken) != null;
@@ -216,15 +216,15 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST), ErrorCodes.USER_EMAIL_ALREADY_EXIST);
 
         var currentUser = await _databaseContext.Users
-            .Where(users => users.Id == userInfo.UserId)
+            .Where(users => users.Id == updateUserInput.UserId)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (currentUser == null)
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
-        currentUser.FirstName = userInfo.FirstName;
-        currentUser.LastName = userInfo.LastName;
-        currentUser.EmailAddress = userInfo.EmailAddress;
+        currentUser.FirstName = updateUserInput.FirstName;
+        currentUser.LastName = updateUserInput.LastName;
+        currentUser.EmailAddress = updateUserInput.EmailAddress;
 
         await _databaseContext.SaveChangesAsync(cancellationToken);
     }
