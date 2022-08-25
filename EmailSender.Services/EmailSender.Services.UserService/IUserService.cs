@@ -29,7 +29,7 @@ public interface IUserService
 
     Task UpdateUserDetails(UpdateUserDetailsInput updateUserDetailsInput, CancellationToken cancellationToken = default);
 
-    Task AddUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default);
+    Task AddUserEmail(AddUserEmailInput input, CancellationToken cancellationToken = default);
 
     Task UpdateUserEmail(Guid oldEmailId, Guid newEmailId, CancellationToken cancellationToken = default);
 

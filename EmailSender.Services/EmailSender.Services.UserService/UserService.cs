@@ -315,19 +315,18 @@ public class UserService : IUserService
     /// <summary>
     /// Adds associated email address by ID.
     /// </summary>
-    /// <param name="userId">User ID.</param>
-    /// <param name="emailId">New email address ID.</param>
+    /// <param name="input">User ID and new email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">
     /// Throws an exception when given user does not exist or user email address does not exists.
     /// </exception>
-    public async Task AddUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
+    public async Task AddUserEmail(AddUserEmailInput input, CancellationToken cancellationToken = default)
     {
-        await VerifyActionAgainstGivenUser(userId, cancellationToken);
+        await VerifyActionAgainstGivenUser(input.UserId, cancellationToken);
 
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
-            .Where(users => users.Id == userId)
+            .Where(users => users.Id == input.UserId)
             .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken) != null;
@@ -336,7 +335,7 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
         var doesEmailExist = await _databaseContext.Emails
-            .Where(emails => emails.Id == emailId)
+            .Where(emails => emails.Id == input.EmailId)
             .SingleOrDefaultAsync(cancellationToken) != null;
 
         if (!doesEmailExist)
@@ -344,8 +343,8 @@ public class UserService : IUserService
 
         var newUserEmail = new UserEmails
         {
-            UserId = userId,
-            EmailId = emailId
+            UserId = input.UserId,
+            EmailId = input.EmailId
         };
 
         await _databaseContext.UserEmails.AddAsync(newUserEmail, cancellationToken);
