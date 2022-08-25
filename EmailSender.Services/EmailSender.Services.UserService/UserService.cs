@@ -353,22 +353,21 @@ public class UserService : IUserService
     /// <summary>
     /// Updates associated email address by ID.
     /// </summary>
-    /// <param name="oldEmailId">Current associated user email ID.</param>
-    /// <param name="newEmailId">New associated email address ID.</param>
+    /// <param name="input">Current associated user email ID and New associated email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
-    public async Task UpdateUserEmail(Guid oldEmailId, Guid newEmailId, CancellationToken cancellationToken = default)
+    public async Task UpdateUserEmail(UpdateUserEmailInput input, CancellationToken cancellationToken = default)
     {
-        //await CanExecuteActionAgainstGivenUser(userId, cancellationToken);//TODO: use optional userID
+        await VerifyActionAgainstGivenUser(input.UserId, cancellationToken);
 
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.Id == oldEmailId)
+            .Where(emails => emails.Id == input.OldEmailId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (userEmails == null)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ID), ErrorCodes.INVALID_ID);
 
-        userEmails.EmailId = newEmailId;
+        userEmails.EmailId = input.NewEmailId;
         await _databaseContext.SaveChangesAsync(cancellationToken);
     }
 
