@@ -36,7 +36,7 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Returns private key presented in the request header or empty string.
+    /// Returns private key presented in the request header or an empty string.
     /// </summary>
     /// <returns>String value.</returns>
     public string GetPrivateKeyFromHeader(string headerName = "X-Private-Key")
@@ -66,9 +66,9 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Checks if given private key is registered within the system.
+    /// Checks if a given private key is registered within the system.
     /// </summary>
-    /// <param name="privateKey"></param>
+    /// <param name="privateKey">Private key (alphanumerical).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>True or False.</returns>
     public async Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken = default)
@@ -92,11 +92,11 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Returns user ID registered for given private key within the system.
+    /// Returns user ID registered for a given private key within the system.
     /// </summary>
     /// <param name="privateKey">Private key (alphanumerical).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>User ID (Guid).</returns>
+    /// <returns>User ID.</returns>
     public async Task<Guid> GetUserByPrivateKey(string privateKey, CancellationToken cancellationToken = default)
     {
         return await _databaseContext.Users
@@ -113,7 +113,7 @@ public class UserService : IUserService
     /// </summary>
     /// <param name="privateKey">Private key (alphanumerical).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>User ID (Guid).</returns>
+    /// <returns>User ID.</returns>
     public async Task<UserRole?> GetUserRoleByPrivateKey(string privateKey, CancellationToken cancellationToken = default)
     {
         return await _databaseContext.Users
@@ -153,8 +153,8 @@ public class UserService : IUserService
     /// </summary>
     /// <param name="userData">Input data.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when email address already exists.</exception>
-    /// <returns>Generated API key and user alias.</returns>
+    /// <exception cref="BusinessException">Throws an exception when email address already exist.</exception>
+    /// <returns>Generated API key and basic user information.</returns>
     public async Task<UserCredentials> AddUser(UserData userData, CancellationToken cancellationToken = default)
     {
         var doesEmailExist = await _databaseContext.Users
@@ -200,7 +200,7 @@ public class UserService : IUserService
     /// </summary>
     /// <param name="userInfo">Input data.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when email address already exists or user does not exist.</exception>
+    /// <exception cref="BusinessException">Throws an exception when email address already exists or a user does not exist.</exception>
     public async Task UpdateUser(UserInfo userInfo, CancellationToken cancellationToken = default)
     {
         var doesEmailExist = await _databaseContext.Users
@@ -230,10 +230,10 @@ public class UserService : IUserService
     /// <summary>
     /// Removes given user or hides if soft delete is enabled.
     /// </summary>
-    /// <param name="userId">User ID (Guid).</param>
+    /// <param name="userId">User ID.</param>
     /// <param name="softDelete">Enable/disable soft delete.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user does not exist.</exception>
+    /// <exception cref="BusinessException">Throws an exception when a user does not exist.</exception>
     public async Task RemoveUser(Guid userId, bool softDelete = false, CancellationToken cancellationToken = default)
     {
         var currentUser = await _databaseContext.Users
@@ -257,7 +257,7 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Updates company information assigned to given user ID.
+    /// Updates company information assigned to a given user ID.
     /// </summary>
     /// <param name="userCompanyInfo">User company information, including VAT etc.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -309,10 +309,12 @@ public class UserService : IUserService
     /// <summary>
     /// Adds associated email address by ID.
     /// </summary>
-    /// <param name="userId">User ID (Guid).</param>
-    /// <param name="emailId">Associated email address ID (Guid).</param>
+    /// <param name="userId">User ID.</param>
+    /// <param name="emailId">New email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
+    /// <exception cref="BusinessException">
+    /// Throws an exception when given user does not exist or user email address does not exists.
+    /// </exception>
     public async Task AddUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
     {
         var doesUserExist = await _databaseContext.Users
@@ -345,10 +347,10 @@ public class UserService : IUserService
     /// <summary>
     /// Updates associated email address by ID.
     /// </summary>
-    /// <param name="oldEmailId">Associated user email ID (Guid).</param>
-    /// <param name="newEmailId">New associated email address ID (Guid).</param>
+    /// <param name="oldEmailId">Current associated user email ID.</param>
+    /// <param name="newEmailId">New associated email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
+    /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
     public async Task UpdateUserEmail(Guid oldEmailId, Guid newEmailId, CancellationToken cancellationToken = default)
     {
         var userEmails = await _databaseContext.UserEmails
@@ -365,10 +367,10 @@ public class UserService : IUserService
     /// <summary>
     /// Removes associated email address by ID.
     /// </summary>
-    /// <param name="userId">User ID (Guid).</param>
-    /// <param name="emailId">Associated email address ID (Guid).</param>
+    /// <param name="userId">User ID.</param>
+    /// <param name="emailId">Current associated email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
+    /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
     public async Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
     {
         var userEmails = await _databaseContext.UserEmails
