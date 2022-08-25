@@ -203,6 +203,8 @@ public class UserService : IUserService
     /// <exception cref="BusinessException">Throws an exception when email address already exists or a user does not exist.</exception>
     public async Task UpdateUser(UserInfo userInfo, CancellationToken cancellationToken = default)
     {
+        await VerifyActionAgainstGivenUser(userInfo.UserId, cancellationToken);
+        
         var doesEmailExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.EmailAddress == userInfo.EmailAddress)
@@ -236,6 +238,8 @@ public class UserService : IUserService
     /// <exception cref="BusinessException">Throws an exception when a user does not exist.</exception>
     public async Task RemoveUser(Guid userId, bool softDelete = false, CancellationToken cancellationToken = default)
     {
+        await VerifyActionAgainstGivenUser(userId, cancellationToken);
+
         var currentUser = await _databaseContext.Users
             .Where(users => users.Id == userId)
             .Where(users => !users.IsDeleted)
@@ -264,6 +268,8 @@ public class UserService : IUserService
     /// <exception cref="BusinessException">Throws an exception when user does not exist.</exception>
     public async Task UpdateUserDetails(UserCompanyInfo userCompanyInfo, CancellationToken cancellationToken = default)
     {
+        await VerifyActionAgainstGivenUser(userCompanyInfo.UserId, cancellationToken);
+
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.Id == userCompanyInfo.UserId)
@@ -317,6 +323,8 @@ public class UserService : IUserService
     /// </exception>
     public async Task AddUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
     {
+        await VerifyActionAgainstGivenUser(userId, cancellationToken);
+
         var doesUserExist = await _databaseContext.Users
             .AsNoTracking()
             .Where(users => users.Id == userId)
@@ -353,6 +361,8 @@ public class UserService : IUserService
     /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
     public async Task UpdateUserEmail(Guid oldEmailId, Guid newEmailId, CancellationToken cancellationToken = default)
     {
+        //await CanExecuteActionAgainstGivenUser(userId, cancellationToken);//TODO: use optional userID
+
         var userEmails = await _databaseContext.UserEmails
             .Where(emails => emails.Id == oldEmailId)
             .FirstOrDefaultAsync(cancellationToken);
@@ -373,6 +383,8 @@ public class UserService : IUserService
     /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
     public async Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
     {
+        await VerifyActionAgainstGivenUser(userId, cancellationToken);
+
         var userEmails = await _databaseContext.UserEmails
             .Where(emails => emails.UserId == userId)
             .Where(emails => emails.EmailId == emailId)
