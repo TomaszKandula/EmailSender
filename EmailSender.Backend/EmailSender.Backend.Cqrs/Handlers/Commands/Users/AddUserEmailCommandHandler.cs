@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Services.UserService;
 using Core.Services.LoggerService;
+using Services.UserService.Models;
 using MediatR;
 
 public class AddUserEmailCommandHandler : Cqrs.RequestHandler<AddUserEmailCommand, Unit>
@@ -20,7 +21,13 @@ public class AddUserEmailCommandHandler : Cqrs.RequestHandler<AddUserEmailComman
 
     public override async Task<Unit> Handle(AddUserEmailCommand request, CancellationToken cancellationToken)
     {
-        await _userService.AddUserEmail(request.UserId, request.EmailId, cancellationToken);
+        var input = new AddUserEmailInput
+        {
+            UserId = request.UserId,
+            EmailId = request.EmailId
+        };
+
+        await _userService.AddUserEmail(input, cancellationToken);
         _loggerService.LogInformation($"New user email has been added, user ID: {request.UserId}");
         return Unit.Value;
     }
