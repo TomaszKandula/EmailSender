@@ -338,7 +338,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUser(userData));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST));
     }
     
     [Fact]
@@ -450,7 +450,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(newUserData));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST));
     }
 
     [Fact]
@@ -495,7 +495,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(newUserData));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
     [Fact]
@@ -533,7 +533,7 @@ public class UserServiceTest : TestBase
         // Assert
         var userId = Guid.NewGuid();
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUser(userId));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
     [Fact]
@@ -664,7 +664,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserDetails(userCompanyInfo));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
     [Fact]
@@ -894,7 +894,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(Guid.NewGuid(), email.Id));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
     [Fact]

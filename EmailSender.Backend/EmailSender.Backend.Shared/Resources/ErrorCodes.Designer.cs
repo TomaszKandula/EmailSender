@@ -105,15 +105,15 @@ namespace EmailSender.Backend.Shared.Resources {
             }
         }
         
-        public static string USER_EMAIL_ALREADY_EXISTS {
+        public static string USER_EMAIL_ALREADY_EXIST {
             get {
-                return ResourceManager.GetString("USER_EMAIL_ALREADY_EXISTS", resourceCulture);
+                return ResourceManager.GetString("USER_EMAIL_ALREADY_EXIST", resourceCulture);
             }
         }
         
-        public static string USER_DOES_NOT_EXISTS {
+        public static string USER_DOES_NOT_EXIST {
             get {
-                return ResourceManager.GetString("USER_DOES_NOT_EXISTS", resourceCulture);
+                return ResourceManager.GetString("USER_DOES_NOT_EXIST", resourceCulture);
             }
         }
         

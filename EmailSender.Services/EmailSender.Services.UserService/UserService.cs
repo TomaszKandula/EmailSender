@@ -163,7 +163,7 @@ public class UserService : IUserService
             .FirstOrDefaultAsync(cancellationToken) != null;
 
         if (doesEmailExist)
-            throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS), ErrorCodes.USER_EMAIL_ALREADY_EXISTS);
+            throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST), ErrorCodes.USER_EMAIL_ALREADY_EXIST);
 
         const UserStatus userStatus = UserStatus.PendingActivation;
         var privateKey = Guid.NewGuid().ToString("N");
@@ -211,14 +211,14 @@ public class UserService : IUserService
             .SingleOrDefaultAsync(cancellationToken) != null;
 
         if (doesEmailExist)
-            throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS), ErrorCodes.USER_EMAIL_ALREADY_EXISTS);
+            throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST), ErrorCodes.USER_EMAIL_ALREADY_EXIST);
 
         var currentUser = await _databaseContext.Users
             .Where(users => users.Id == userInfo.UserId)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (currentUser == null)
-            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
+            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
         currentUser.FirstName = userInfo.FirstName;
         currentUser.LastName = userInfo.LastName;
@@ -242,7 +242,7 @@ public class UserService : IUserService
             .FirstOrDefaultAsync(cancellationToken);
 
         if (currentUser == null)
-            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
+            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
         if (softDelete)
         {
@@ -272,7 +272,7 @@ public class UserService : IUserService
             .SingleOrDefaultAsync(cancellationToken) != null;
 
         if (!doesUserExist)
-            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
+            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
         var userDetails = await _databaseContext.UserDetails
             .Where(details => details.UserId == userCompanyInfo.UserId)
@@ -323,7 +323,7 @@ public class UserService : IUserService
             .SingleOrDefaultAsync(cancellationToken) != null;
 
         if (!doesUserExist)
-            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
+            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
         var doesEmailExist = await _databaseContext.Emails
             .Where(emails => emails.Id == emailId)

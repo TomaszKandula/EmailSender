@@ -48,10 +48,10 @@
     <data name="FILE_NOT_FOUND" xml:space="preserve">
         <value>Cannot find file</value>
     </data>
-    <data name="USER_EMAIL_ALREADY_EXISTS" xml:space="preserve">
+    <data name="USER_EMAIL_ALREADY_EXIST" xml:space="preserve">
         <value>Provided email address already exists</value>
     </data>
-    <data name="USER_DOES_NOT_EXISTS" xml:space="preserve">
+    <data name="USER_DOES_NOT_EXIST" xml:space="preserve">
         <value>Provided user ID cannot be found</value>
     </data>
     <data name="USER_ID_OR_EMAIL_ID_INVALID" xml:space="preserve">
