@@ -269,7 +269,7 @@ public class UserServiceTest : TestBase
     public async Task GivenUserData_WhenAddUser_ShouldReturnObject()
     {
         // Arrange
-        var userData = new UserData
+        var input = new AddUserInput
         {
             FirstName = DataUtilityService.GetRandomString(),
             LastName = DataUtilityService.GetRandomString(),
@@ -288,13 +288,13 @@ public class UserServiceTest : TestBase
             mockedDateTimeService.Object);
 
         // Act
-        var result = await service.AddUser(userData);
+        var result = await service.AddUser(input);
 
         // Assert
         result.PrivateKey.Should().NotBeEmpty();
         result.PrivateKey.Should().HaveLength(32);
-        result.EmailAddress.Should().Be(userData.EmailAddress);
-        result.UserAlias.Should().Be($"{userData.FirstName[..2]}{userData.LastName[..3]}");
+        result.EmailAddress.Should().Be(input.EmailAddress);
+        result.UserAlias.Should().Be($"{input.FirstName[..2]}{input.LastName[..3]}");
     }
 
     [Fact]
@@ -314,7 +314,7 @@ public class UserServiceTest : TestBase
             Role = UserRole.OrdinaryUser
         };
 
-        var userData = new UserData
+        var input = new AddUserInput
         {
             FirstName = DataUtilityService.GetRandomString(),
             LastName = DataUtilityService.GetRandomString(),
@@ -337,7 +337,7 @@ public class UserServiceTest : TestBase
 
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUser(userData));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUser(input));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST));
     }
     
@@ -362,7 +362,7 @@ public class UserServiceTest : TestBase
         await databaseContext.AddAsync(user);
         await databaseContext.SaveChangesAsync();
 
-        var newUserData = new UserInfo
+        var input = new UpdateUserInput
         {
             UserId = user.Id,
             FirstName = DataUtilityService.GetRandomString(),
@@ -381,16 +381,16 @@ public class UserServiceTest : TestBase
             mockedDateTimeService.Object);
 
         // Act
-        await service.UpdateUser(newUserData);
+        await service.UpdateUser(input);
         var data = await databaseContext.Users
             .Where(users => users.Id == user.Id)
             .FirstOrDefaultAsync();
 
         // Assert
         data.Should().NotBeNull();
-        data.FirstName.Should().Be(newUserData.FirstName);
-        data.LastName.Should().Be(newUserData.LastName);
-        data.EmailAddress.Should().Be(newUserData.EmailAddress);
+        data.FirstName.Should().Be(input.FirstName);
+        data.LastName.Should().Be(input.LastName);
+        data.EmailAddress.Should().Be(input.EmailAddress);
     }
 
     [Fact]
@@ -429,7 +429,7 @@ public class UserServiceTest : TestBase
         await databaseContext.AddRangeAsync(user);
         await databaseContext.SaveChangesAsync();
 
-        var newUserData = new UserInfo
+        var input = new UpdateUserInput
         {
             UserId = user[0].Id,
             FirstName = DataUtilityService.GetRandomString(),
@@ -449,7 +449,7 @@ public class UserServiceTest : TestBase
 
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(newUserData));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(input));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST));
     }
 
@@ -474,7 +474,7 @@ public class UserServiceTest : TestBase
         await databaseContext.AddRangeAsync(user);
         await databaseContext.SaveChangesAsync();
 
-        var newUserData = new UserInfo
+        var input = new UpdateUserInput
         {
             UserId = Guid.NewGuid(),
             FirstName = DataUtilityService.GetRandomString(),
@@ -494,7 +494,7 @@ public class UserServiceTest : TestBase
 
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(newUserData));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(input));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
