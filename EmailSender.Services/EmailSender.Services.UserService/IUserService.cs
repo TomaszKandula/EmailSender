@@ -25,7 +25,7 @@ public interface IUserService
 
     Task UpdateUser(UpdateUserInput input, CancellationToken cancellationToken = default);
 
-    Task RemoveUser(Guid userId, bool softDelete = false, CancellationToken cancellationToken = default);
+    Task RemoveUser(RemoveUserInput input, CancellationToken cancellationToken = default);
 
     Task UpdateUserDetails(UpdateUserDetailsInput input, CancellationToken cancellationToken = default);
 

@@ -232,23 +232,22 @@ public class UserService : IUserService
     /// <summary>
     /// Removes given user or hides if soft delete is enabled.
     /// </summary>
-    /// <param name="userId">User ID.</param>
-    /// <param name="softDelete">Enable/disable soft delete.</param>
+    /// <param name="input">User ID and flag to Enable/disable soft delete.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <exception cref="BusinessException">Throws an exception when a user does not exist.</exception>
-    public async Task RemoveUser(Guid userId, bool softDelete = false, CancellationToken cancellationToken = default)
+    public async Task RemoveUser(RemoveUserInput input, CancellationToken cancellationToken = default)
     {
-        await VerifyActionAgainstGivenUser(userId, cancellationToken);
+        await VerifyActionAgainstGivenUser(input.UserId, cancellationToken);
 
         var currentUser = await _databaseContext.Users
-            .Where(users => users.Id == userId)
+            .Where(users => users.Id == input.UserId)
             .Where(users => !users.IsDeleted)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (currentUser == null)
             throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
 
-        if (softDelete)
+        if (input.SoftDelete)
         {
             currentUser.IsDeleted = true;
         }
