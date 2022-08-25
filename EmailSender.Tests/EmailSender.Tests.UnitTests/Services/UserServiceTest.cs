@@ -650,7 +650,7 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
-        var userCompanyInfo = new UserCompanyInfo
+        var input = new UpdateUserDetailsInput
         {
             UserId = Guid.NewGuid(),
             CompanyName = DataUtilityService.GetRandomString(),
@@ -663,7 +663,7 @@ public class UserServiceTest : TestBase
 
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserDetails(userCompanyInfo));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserDetails(input));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
@@ -698,7 +698,7 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
-        var userCompanyInfo = new UserCompanyInfo
+        var input = new UpdateUserDetailsInput
         {
             UserId = user.Id,
             CompanyName = DataUtilityService.GetRandomString(),
@@ -710,19 +710,19 @@ public class UserServiceTest : TestBase
         };
 
         // Act
-        await service.UpdateUserDetails(userCompanyInfo);
+        await service.UpdateUserDetails(input);
         var data = await databaseContext.UserDetails
             .Where(details => details.UserId == user.Id)
             .FirstOrDefaultAsync();
 
         // Assert
         data.Should().NotBeNull();
-        data.CompanyName.Should().Be(userCompanyInfo.CompanyName);
-        data.VatNumber.Should().Be(userCompanyInfo.VatNumber); 
-        data.StreetAddress.Should().Be(userCompanyInfo.StreetAddress); 
-        data.PostalCode.Should().Be(userCompanyInfo.PostalCode); 
-        data.Country.Should().Be(userCompanyInfo.Country); 
-        data.City.Should().Be(userCompanyInfo.City); 
+        data.CompanyName.Should().Be(input.CompanyName);
+        data.VatNumber.Should().Be(input.VatNumber); 
+        data.StreetAddress.Should().Be(input.StreetAddress); 
+        data.PostalCode.Should().Be(input.PostalCode); 
+        data.Country.Should().Be(input.Country); 
+        data.City.Should().Be(input.City); 
     }
 
     [Fact]
@@ -768,7 +768,7 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
-        var userCompanyInfo = new UserCompanyInfo()
+        var input = new UpdateUserDetailsInput
         {
             UserId = user.Id,
             CompanyName = DataUtilityService.GetRandomString(),
@@ -780,19 +780,19 @@ public class UserServiceTest : TestBase
         };
 
         // Act
-        await service.UpdateUserDetails(userCompanyInfo);
+        await service.UpdateUserDetails(input);
         var data = await databaseContext.UserDetails
             .Where(details => details.UserId == user.Id)
             .FirstOrDefaultAsync();
 
         // Assert
         data.Should().NotBeNull();
-        data.CompanyName.Should().Be(userCompanyInfo.CompanyName);
-        data.VatNumber.Should().Be(userCompanyInfo.VatNumber); 
-        data.StreetAddress.Should().Be(userCompanyInfo.StreetAddress); 
-        data.PostalCode.Should().Be(userCompanyInfo.PostalCode); 
-        data.Country.Should().Be(userCompanyInfo.Country); 
-        data.City.Should().Be(userCompanyInfo.City); 
+        data.CompanyName.Should().Be(input.CompanyName);
+        data.VatNumber.Should().Be(input.VatNumber); 
+        data.StreetAddress.Should().Be(input.StreetAddress); 
+        data.PostalCode.Should().Be(input.PostalCode); 
+        data.Country.Should().Be(input.Country); 
+        data.City.Should().Be(input.City); 
     }
 
     [Fact]
