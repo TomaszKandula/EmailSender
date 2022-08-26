@@ -167,6 +167,18 @@ public class UserService : IUserService
     }
 
     /// <summary>
+    /// Changes current user account status.
+    /// </summary>
+    /// <param name="input">Optional user ID and new user status.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    public async Task AlterUserStatus(AlterUserStatusInput input, CancellationToken cancellationToken = default)
+    {
+        var user = await GetActiveUser(input.UserId, Tracking.Enabled, cancellationToken);
+        user.Status = input.Status;
+        await _databaseContext.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// Adds new user for given email address, name and surname.
     /// </summary>
     /// <param name="input">Input data.</param>

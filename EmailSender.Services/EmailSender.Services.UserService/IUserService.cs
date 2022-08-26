@@ -23,6 +23,8 @@ public interface IUserService
 
     Task<Guid> RegisterUserApiRequest(string requestName, CancellationToken cancellationToken = default);
 
+    Task AlterUserStatus(AlterUserStatusInput input, CancellationToken cancellationToken = default);
+
     Task<AddUserOutput> AddUser(AddUserInput input, CancellationToken cancellationToken = default);
 
     Task UpdateUser(UpdateUserInput input, CancellationToken cancellationToken = default);
