@@ -389,7 +389,7 @@ public class UserService : IUserService
     private async Task<Users> GetActiveUser(Guid? otherUserId, Tracking tracking = Tracking.Disabled, CancellationToken cancellationToken = default)
     {
         var privateKey = GetPrivateKeyFromHeader();
-        var entity = tracking == Tracking.Disabled ? _databaseContext.Users : _databaseContext.Users.AsNoTracking();
+        var entity = tracking == Tracking.Enabled ? _databaseContext.Users : _databaseContext.Users.AsNoTracking();
         var user = await entity
             .Where(users => users.PrivateKey == privateKey)
             .Where(users => users.Status == UserStatus.Activated)
