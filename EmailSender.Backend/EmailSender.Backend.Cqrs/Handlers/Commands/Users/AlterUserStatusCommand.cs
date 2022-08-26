@@ -1,11 +1,12 @@
 namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 using System;
+using Domain.Enums;
 using MediatR;
 
-public class RemoveUserCommand : IRequest<Unit>
+public class AlterUserStatusCommand : IRequest<Unit>
 {
     public Guid? UserId { get; set; }
 
-    public bool SoftDelete { get; set; }
+    public UserStatus Status { get; set; }
 }

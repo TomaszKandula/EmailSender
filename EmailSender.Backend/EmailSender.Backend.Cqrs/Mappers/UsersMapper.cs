@@ -5,11 +5,22 @@ using Shared.Dto;
 
 public static class UsersMapper
 {
+    public static GeneratePrivateKeyCommand MapToGeneratePrivateKeyCommand(GeneratePrivateKeyDto model) => new()
+    {
+        UserId = model.UserId
+    };
+
     public static AddUserCommand MapToAddUserCommand(AddUserDto model) => new()
     {
         FirstName = model.FirstName,
         LastName = model.LastName,
         EmailAddress = model.EmailAddress
+    };
+
+    public static AlterUserStatusCommand MapToAlterUserStatusCommand(AlterUserStatusDto model) => new()
+    {
+        UserId = model.UserId,
+        Status = model.Status
     };
 
     public static UpdateUserCommand MapToUpdateUserCommand(UpdateUserDto model) => new()
@@ -45,6 +56,7 @@ public static class UsersMapper
 
     public static UpdateUserEmailCommand MapToUpdateUserEmailCommand(UpdateUserEmailDto model) => new()
     {
+        UserId = model.UserId,
         OldEmailId = model.OldEmailId,
         NewEmailId = model.NewEmailId
     };

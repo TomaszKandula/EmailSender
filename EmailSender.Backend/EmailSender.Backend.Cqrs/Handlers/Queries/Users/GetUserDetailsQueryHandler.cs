@@ -40,9 +40,7 @@ public class GetUserDetailsQueryHandler : RequestHandler<GetUserDetailsQuery, Ge
             LastName = user.LastName,
             EmailAddress = user.EmailAddress,
             Registered = user.Registered,
-            Status = user.IsActivated 
-                ? "User account is active" 
-                : "User account is inactive"
+            Status = user.Status.ToString()
         };
     }
 }

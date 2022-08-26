@@ -3,9 +3,7 @@ namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 using System;
 using MediatR;
 
-public class RemoveUserCommand : IRequest<Unit>
+public class GeneratePrivateKeyCommand : IRequest<string>
 {
     public Guid? UserId { get; set; }
-
-    public bool SoftDelete { get; set; }
 }

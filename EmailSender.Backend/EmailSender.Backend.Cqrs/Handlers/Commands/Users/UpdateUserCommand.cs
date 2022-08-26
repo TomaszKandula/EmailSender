@@ -5,7 +5,7 @@ using MediatR;
 
 public class UpdateUserCommand : IRequest<Unit>
 {
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 
     public string FirstName { get; set; }
 

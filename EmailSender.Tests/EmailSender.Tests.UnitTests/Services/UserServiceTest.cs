@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Backend.Domain.Enums;
 using Backend.Domain.Entities;
 using Backend.Core.Exceptions;
 using Backend.Shared.Resources;
@@ -34,8 +35,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
             
         var ips = new UserAllowedIps
@@ -79,8 +81,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
             
         var ips = new UserAllowedIps
@@ -123,8 +126,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = privateKey
+            Status = UserStatus.Activated,
+            PrivateKey = privateKey,
+            Role = UserRole.OrdinaryUser
         };
             
         var databaseContext = GetTestDatabaseContext();
@@ -160,8 +164,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
             
         var databaseContext = GetTestDatabaseContext();
@@ -197,8 +202,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = privateKey
+            Status = UserStatus.Activated,
+            PrivateKey = privateKey,
+            Role = UserRole.OrdinaryUser
         };
             
         var databaseContext = GetTestDatabaseContext();
@@ -234,8 +240,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
             
         var databaseContext = GetTestDatabaseContext();
@@ -262,7 +269,7 @@ public class UserServiceTest : TestBase
     public async Task GivenUserData_WhenAddUser_ShouldReturnObject()
     {
         // Arrange
-        var userData = new UserData
+        var input = new AddUserInput
         {
             FirstName = DataUtilityService.GetRandomString(),
             LastName = DataUtilityService.GetRandomString(),
@@ -281,13 +288,13 @@ public class UserServiceTest : TestBase
             mockedDateTimeService.Object);
 
         // Act
-        var result = await service.AddUser(userData);
+        var result = await service.AddUser(input);
 
         // Assert
         result.PrivateKey.Should().NotBeEmpty();
         result.PrivateKey.Should().HaveLength(32);
-        result.EmailAddress.Should().Be(userData.EmailAddress);
-        result.UserAlias.Should().Be($"{userData.FirstName[..2]}{userData.LastName[..3]}");
+        result.EmailAddress.Should().Be(input.EmailAddress);
+        result.UserAlias.Should().Be($"{input.FirstName[..2]}{input.LastName[..3]}");
     }
 
     [Fact]
@@ -300,13 +307,14 @@ public class UserServiceTest : TestBase
             LastName  = DataUtilityService.GetRandomString(),
             UserAlias  = DataUtilityService.GetRandomString(5),
             EmailAddress  = DataUtilityService.GetRandomEmail(),
-            IsActivated  = true,
+            Status = UserStatus.Activated,
             IsDeleted  = false,
             Registered  = DateTimeService.Now,
             PrivateKey  = Guid.NewGuid().ToString("N"),
+            Role = UserRole.OrdinaryUser
         };
 
-        var userData = new UserData
+        var input = new AddUserInput
         {
             FirstName = DataUtilityService.GetRandomString(),
             LastName = DataUtilityService.GetRandomString(),
@@ -329,8 +337,8 @@ public class UserServiceTest : TestBase
 
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUser(userData));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUser(input));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST));
     }
     
     [Fact]
@@ -345,15 +353,16 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
         await databaseContext.AddAsync(user);
         await databaseContext.SaveChangesAsync();
 
-        var newUserData = new UserInfo
+        var input = new UpdateUserInput
         {
             UserId = user.Id,
             FirstName = DataUtilityService.GetRandomString(),
@@ -365,6 +374,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -372,20 +385,20 @@ public class UserServiceTest : TestBase
             mockedDateTimeService.Object);
 
         // Act
-        await service.UpdateUser(newUserData);
+        await service.UpdateUser(input);
         var data = await databaseContext.Users
             .Where(users => users.Id == user.Id)
             .FirstOrDefaultAsync();
 
         // Assert
         data.Should().NotBeNull();
-        data.FirstName.Should().Be(newUserData.FirstName);
-        data.LastName.Should().Be(newUserData.LastName);
-        data.EmailAddress.Should().Be(newUserData.EmailAddress);
+        data.FirstName.Should().Be(input.FirstName);
+        data.LastName.Should().Be(input.LastName);
+        data.EmailAddress.Should().Be(input.EmailAddress);
     }
 
     [Fact]
-    public async Task GivenNewDataAndExistingDataWithSameEmail_WhenUpdateUser_ShouldThrowError()
+    public async Task GivenNewDataAndExistingDataWithSameEmail_WhenUpdateUser_ShouldThrowError() 
     {
         // Arrange
         var user = new List<Users>
@@ -398,8 +411,9 @@ public class UserServiceTest : TestBase
                 UserAlias = DataUtilityService.GetRandomString(5),
                 EmailAddress = DataUtilityService.GetRandomEmail(),
                 Registered = DateTimeService.Now.AddDays(-120),
-                IsActivated = true,
-                PrivateKey = DataUtilityService.GetRandomString()
+                Status = UserStatus.Activated,
+                PrivateKey = DataUtilityService.GetRandomString(),
+                Role = UserRole.OrdinaryUser
             },
             new()
             {
@@ -409,26 +423,23 @@ public class UserServiceTest : TestBase
                 UserAlias = DataUtilityService.GetRandomString(5),
                 EmailAddress = DataUtilityService.GetRandomEmail(),
                 Registered = DateTimeService.Now.AddDays(-120),
-                IsActivated = true,
-                PrivateKey = DataUtilityService.GetRandomString()
-            },
+                Status = UserStatus.Activated,
+                PrivateKey = DataUtilityService.GetRandomString(),
+                Role = UserRole.OrdinaryUser
+            }
         };
 
         var databaseContext = GetTestDatabaseContext();
         await databaseContext.AddRangeAsync(user);
         await databaseContext.SaveChangesAsync();
 
-        var newUserData = new UserInfo
-        {
-            UserId = user[0].Id,
-            FirstName = DataUtilityService.GetRandomString(),
-            LastName = DataUtilityService.GetRandomString(),
-            EmailAddress = user[1].EmailAddress
-        };
-
         var mockedLoggerService = new Mock<ILoggerService>();
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user[0].PrivateKey);
 
         var service = new UserService(
             databaseContext, 
@@ -436,10 +447,17 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new UpdateUserInput
+        {
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            EmailAddress = user[1].EmailAddress
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(newUserData));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(input));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST));
     }
 
     [Fact]
@@ -454,21 +472,14 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
         await databaseContext.AddRangeAsync(user);
         await databaseContext.SaveChangesAsync();
-
-        var newUserData = new UserInfo
-        {
-            UserId = Guid.NewGuid(),
-            FirstName = DataUtilityService.GetRandomString(),
-            LastName = DataUtilityService.GetRandomString(),
-            EmailAddress = DataUtilityService.GetRandomEmail()
-        };
 
         var mockedLoggerService = new Mock<ILoggerService>();
         var mockedDateTimeService = new Mock<IDateTimeService>();
@@ -480,10 +491,18 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new UpdateUserInput
+        {
+            UserId = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            EmailAddress = DataUtilityService.GetRandomEmail()
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(newUserData));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(input));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_PRIVATE_KEY));
     }
 
     [Fact]
@@ -498,8 +517,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -516,11 +536,13 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var userId = Guid.NewGuid();
+        var input = new RemoveUserInput { UserId = userId };
+
         // Act
         // Assert
-        var userId = Guid.NewGuid();
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUser(userId));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUser(input));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_PRIVATE_KEY));
     }
 
     [Fact]
@@ -535,8 +557,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -547,14 +570,20 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+        
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
-        
+
+        var input = new RemoveUserInput { UserId = user.Id };
+
         // Act
-        await service.RemoveUser(user.Id);
+        await service.RemoveUser(input);
         var data = await databaseContext.Users
             .Where(users => users.Id == user.Id)
             .FirstOrDefaultAsync();
@@ -575,8 +604,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -587,14 +617,20 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
         
+        var input = new RemoveUserInput { UserId = user.Id, SoftDelete = true };
+
         // Act
-        await service.RemoveUser(user.Id, true);
+        await service.RemoveUser(input, CancellationToken.None);
         var data = await databaseContext.Users
             .Where(users => users.Id == user.Id)
             .FirstOrDefaultAsync();
@@ -616,8 +652,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -634,7 +671,7 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
-        var userCompanyInfo = new UserCompanyInfo
+        var input = new UpdateUserDetailsInput
         {
             UserId = Guid.NewGuid(),
             CompanyName = DataUtilityService.GetRandomString(),
@@ -647,8 +684,8 @@ public class UserServiceTest : TestBase
 
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserDetails(userCompanyInfo));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserDetails(input));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_PRIVATE_KEY));
     }
 
     [Fact]
@@ -663,8 +700,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var databaseContext = GetTestDatabaseContext();
@@ -675,13 +713,17 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
-        var userCompanyInfo = new UserCompanyInfo
+        var input = new UpdateUserDetailsInput
         {
             UserId = user.Id,
             CompanyName = DataUtilityService.GetRandomString(),
@@ -693,19 +735,19 @@ public class UserServiceTest : TestBase
         };
 
         // Act
-        await service.UpdateUserDetails(userCompanyInfo);
+        await service.UpdateUserDetails(input);
         var data = await databaseContext.UserDetails
             .Where(details => details.UserId == user.Id)
             .FirstOrDefaultAsync();
 
         // Assert
         data.Should().NotBeNull();
-        data.CompanyName.Should().Be(userCompanyInfo.CompanyName);
-        data.VatNumber.Should().Be(userCompanyInfo.VatNumber); 
-        data.StreetAddress.Should().Be(userCompanyInfo.StreetAddress); 
-        data.PostalCode.Should().Be(userCompanyInfo.PostalCode); 
-        data.Country.Should().Be(userCompanyInfo.Country); 
-        data.City.Should().Be(userCompanyInfo.City); 
+        data.CompanyName.Should().Be(input.CompanyName);
+        data.VatNumber.Should().Be(input.VatNumber); 
+        data.StreetAddress.Should().Be(input.StreetAddress); 
+        data.PostalCode.Should().Be(input.PostalCode); 
+        data.Country.Should().Be(input.Country); 
+        data.City.Should().Be(input.City); 
     }
 
     [Fact]
@@ -720,8 +762,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var userDetails = new UserDetails
@@ -744,13 +787,17 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+        
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
-        var userCompanyInfo = new UserCompanyInfo()
+        var input = new UpdateUserDetailsInput
         {
             UserId = user.Id,
             CompanyName = DataUtilityService.GetRandomString(),
@@ -762,19 +809,19 @@ public class UserServiceTest : TestBase
         };
 
         // Act
-        await service.UpdateUserDetails(userCompanyInfo);
+        await service.UpdateUserDetails(input);
         var data = await databaseContext.UserDetails
             .Where(details => details.UserId == user.Id)
             .FirstOrDefaultAsync();
 
         // Assert
         data.Should().NotBeNull();
-        data.CompanyName.Should().Be(userCompanyInfo.CompanyName);
-        data.VatNumber.Should().Be(userCompanyInfo.VatNumber); 
-        data.StreetAddress.Should().Be(userCompanyInfo.StreetAddress); 
-        data.PostalCode.Should().Be(userCompanyInfo.PostalCode); 
-        data.Country.Should().Be(userCompanyInfo.Country); 
-        data.City.Should().Be(userCompanyInfo.City); 
+        data.CompanyName.Should().Be(input.CompanyName);
+        data.VatNumber.Should().Be(input.VatNumber); 
+        data.StreetAddress.Should().Be(input.StreetAddress); 
+        data.PostalCode.Should().Be(input.PostalCode); 
+        data.Country.Should().Be(input.Country); 
+        data.City.Should().Be(input.City); 
     }
 
     [Fact]
@@ -789,8 +836,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -812,14 +860,24 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
-        
+
+        var input = new AddUserEmailInput
+        {
+            UserId = user.Id,
+            EmailId = email.Id
+        };
+
         // Act
-        await service.AddUserEmail(user.Id, email.Id);
+        await service.AddUserEmail(input);
         var data = await databaseContext.UserEmails
             .Where(emails => emails.UserId == user.Id)
             .FirstOrDefaultAsync();
@@ -842,8 +900,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -865,16 +924,26 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
-        
+
+        var input = new AddUserEmailInput
+        {
+            UserId = Guid.NewGuid(),
+            EmailId = email.Id
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(Guid.NewGuid(), email.Id));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXISTS));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(input));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
     [Fact]
@@ -889,8 +958,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -912,15 +982,25 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new AddUserEmailInput
+        {
+            UserId = user.Id,
+            EmailId = Guid.NewGuid()
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(user.Id, Guid.NewGuid()));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(input, CancellationToken.None));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL));
     }
 
@@ -936,13 +1016,14 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var emails = new List<Emails>
         {
-            new ()
+            new()
             {
                 Id = Guid.NewGuid(),
                 Address = DataUtilityService.GetRandomEmail(),
@@ -952,7 +1033,7 @@ public class UserServiceTest : TestBase
                 ServerPort = DataUtilityService.GetRandomInteger(),
                 ServerSsl = true
             },
-            new ()
+            new()
             {
                 Id = Guid.NewGuid(),
                 Address = DataUtilityService.GetRandomEmail(),
@@ -981,15 +1062,26 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new UpdateUserEmailInput
+        {
+            UserId = user.Id,
+            OldEmailId = Guid.NewGuid(),
+            NewEmailId = emails[1].Id
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserEmail(Guid.NewGuid(),  emails[1].Id));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserEmail(input, CancellationToken.None));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_ID));
     }
 
@@ -1005,8 +1097,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var emails = new List<Emails>
@@ -1050,14 +1143,25 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new UpdateUserEmailInput
+        {
+            UserId = user.Id,
+            OldEmailId = userEmail.Id,
+            NewEmailId = emails[1].Id
+        };
+
         // Act
-        await service.UpdateUserEmail(userEmail.Id, emails[1].Id);
+        await service.UpdateUserEmail(input, CancellationToken.None);
         var data = await databaseContext.UserEmails
             .Where(userEmails => userEmails.Id == userEmail.Id)
             .FirstOrDefaultAsync();
@@ -1079,8 +1183,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -1111,16 +1216,26 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new RemoveUserEmailInput
+        {
+            UserId = Guid.NewGuid(),
+            EmailId = email.Id
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(Guid.NewGuid(), email.Id));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(input, CancellationToken.None));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
     [Fact]
@@ -1135,8 +1250,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -1167,16 +1283,26 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new RemoveUserEmailInput
+        {
+            UserId = user.Id,
+            EmailId = Guid.NewGuid()
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(user.Id, Guid.NewGuid()));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(input, CancellationToken.None));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_EMAIL_ID));
     }
 
     [Fact]
@@ -1191,8 +1317,9 @@ public class UserServiceTest : TestBase
             UserAlias = DataUtilityService.GetRandomString(5),
             EmailAddress = DataUtilityService.GetRandomEmail(),
             Registered = DateTimeService.Now.AddDays(-120),
-            IsActivated = true,
-            PrivateKey = DataUtilityService.GetRandomString()
+            Status = UserStatus.Activated,
+            PrivateKey = DataUtilityService.GetRandomString(),
+            Role = UserRole.OrdinaryUser
         };
 
         var email = new Emails
@@ -1223,14 +1350,24 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new RemoveUserEmailInput
+        {
+            UserId = user.Id,
+            EmailId = email.Id
+        };
+
         // Assert
-        await service.RemoveUserEmail(user.Id, email.Id);
+        await service.RemoveUserEmail(input, CancellationToken.None);
         var data = await databaseContext.UserEmails
             .Where(userEmails => userEmails.UserId == user.Id && userEmails.EmailId == email.Id)
             .FirstOrDefaultAsync();

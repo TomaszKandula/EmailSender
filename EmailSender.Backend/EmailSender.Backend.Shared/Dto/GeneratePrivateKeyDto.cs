@@ -4,9 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
-public class RemoveUserDto
+public class GeneratePrivateKeyDto
 {
     public Guid? UserId { get; set; }
-
-    public bool SoftDelete { get; set; }
 }

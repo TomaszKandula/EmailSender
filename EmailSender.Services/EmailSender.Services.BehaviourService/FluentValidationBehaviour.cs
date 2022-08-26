@@ -7,11 +7,11 @@ using FluentValidation;
 using MediatR;
 
 [ExcludeFromCodeCoverage]
-public class FluentValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class FluentValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly IValidator<TRequest>? _validator;
 
-    public FluentValidationBehavior(IValidator<TRequest>? validator = null) => _validator = validator;
+    public FluentValidationBehaviour(IValidator<TRequest>? validator = null) => _validator = validator;
 
     public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {

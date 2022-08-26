@@ -21,7 +21,7 @@ public class UpdateUserDetailsCommandHandler : Cqrs.RequestHandler<UpdateUserDet
 
     public override async Task<Unit> Handle(UpdateUserDetailsCommand request, CancellationToken cancellationToken)
     {
-        var payload = new UserCompanyInfo
+        var input = new UpdateUserDetailsInput
         {
             UserId = request.UserId,
             CompanyName = request.CompanyName, 
@@ -32,7 +32,7 @@ public class UpdateUserDetailsCommandHandler : Cqrs.RequestHandler<UpdateUserDet
             City= request.City
         };
 
-        await _userService.UpdateUserDetails(payload, cancellationToken);
+        await _userService.UpdateUserDetails(input, cancellationToken);
         _loggerService.LogInformation($"User account has been updated, user ID: {request.UserId}");
 
         return Unit.Value;

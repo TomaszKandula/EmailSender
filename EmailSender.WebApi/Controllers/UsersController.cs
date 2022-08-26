@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Backend.Shared.Dto;
 using Backend.Cqrs.Mappers;
+using Backend.Shared.Attributes;
 using Backend.Cqrs.Handlers.Queries.Users;
 using Backend.Cqrs.Handlers.Commands.Users;
 using MediatR;
@@ -31,10 +32,21 @@ public class UsersController : BaseController
         => await Mediator.Send(new GetUserEmailsQuery());
 
     [HttpPost]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public async Task<string> GeneratePrivateKey([FromBody] GeneratePrivateKeyDto payload, [FromHeader(Name = HeaderName)] string privateKey)
+        => await Mediator.Send(UsersMapper.MapToGeneratePrivateKeyCommand(payload));
+
+    [HttpPost]
     [AllowAnonymous]
     [ProducesResponseType(typeof(AddUserCommandResult), StatusCodes.Status200OK)]
     public async Task<AddUserCommandResult> AddUser([FromBody] AddUserDto payload) 
         => await Mediator.Send(UsersMapper.MapToAddUserCommand(payload));
+
+    [HttpPost]
+    [RequireAdministrator]
+    [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
+    public async Task<Unit> AlterUserStatus([FromBody] AlterUserStatusDto payload, [FromHeader(Name = HeaderName)] string privateKey) 
+        => await Mediator.Send(UsersMapper.MapToAlterUserStatusCommand(payload));
 
     [HttpPost]
     [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]

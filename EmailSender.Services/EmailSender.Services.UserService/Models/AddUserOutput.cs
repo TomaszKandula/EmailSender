@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using Backend.Domain.Enums;
 
 [ExcludeFromCodeCoverage]
-public class UserCredentials
+public class AddUserOutput
 {
     public Guid UserId { get; set; }
 

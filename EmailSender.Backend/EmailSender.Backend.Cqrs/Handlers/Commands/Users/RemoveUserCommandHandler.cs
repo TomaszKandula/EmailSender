@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Services.UserService;
 using Core.Services.LoggerService;
+using Services.UserService.Models;
 using MediatR;
 
 public class RemoveUserCommandHandler : Cqrs.RequestHandler<RemoveUserCommand, Unit>
@@ -20,7 +21,13 @@ public class RemoveUserCommandHandler : Cqrs.RequestHandler<RemoveUserCommand, U
 
     public override async Task<Unit> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
     {
-        await _userService.RemoveUser(request.UserId, request.SoftDelete, cancellationToken);
+        var input = new RemoveUserInput
+        {
+            UserId = request.UserId,
+            SoftDelete = request.SoftDelete
+        };
+
+        await _userService.RemoveUser(input, cancellationToken);
         _loggerService.LogInformation($"User account has been deleted, user ID: {request.UserId}");
         return Unit.Value;
     }

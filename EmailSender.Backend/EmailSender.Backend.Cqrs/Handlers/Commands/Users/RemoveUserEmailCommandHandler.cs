@@ -7,6 +7,7 @@ using Core.Exceptions;
 using Shared.Resources;
 using Services.UserService;
 using Core.Services.LoggerService;
+using Services.UserService.Models;
 using MediatR;
 
 public class RemoveUserEmailCommandHandler : Cqrs.RequestHandler<RemoveUserEmailCommand, Unit>
@@ -23,12 +24,14 @@ public class RemoveUserEmailCommandHandler : Cqrs.RequestHandler<RemoveUserEmail
 
     public override async Task<Unit> Handle(RemoveUserEmailCommand request, CancellationToken cancellationToken)
     {
-        var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
-        if (userId == Guid.Empty)
-            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
+        var input = new RemoveUserEmailInput
+        {
+            UserId = request.UserId,
+            EmailId = request.EmailId
+        };
 
-        await _userService.RemoveUserEmail(request.UserId, request.EmailId, cancellationToken);
-        _loggerService.LogInformation($"User email has been removed, user ID: {userId}");
+        await _userService.RemoveUserEmail(input, cancellationToken);
+        _loggerService.LogInformation($"User email has been removed, user ID: {request.UserId}");
 
         return Unit.Value;
     }

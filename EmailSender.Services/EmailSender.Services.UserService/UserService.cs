@@ -36,7 +36,7 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Returns private key presented in the request header or empty string.
+    /// Returns private key presented in the request header or an empty string.
     /// </summary>
     /// <returns>String value.</returns>
     public string GetPrivateKeyFromHeader(string headerName = "X-Private-Key")
@@ -45,8 +45,26 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Checks if given domain name is registered within the system. It should not contain scheme,
-    /// but it may contain port number.
+    /// Generate private key (alphanumerical API key).
+    /// </summary>
+    /// <param name="userId">Optional user ID. If given, the newly generated key will be automatically saved.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>API key.</returns>
+    public async Task<string> GeneratePrivateKey(Guid? userId, CancellationToken cancellationToken = default)
+    {
+        var privateKey = Guid.NewGuid().ToString("N");
+        if (userId is null) return privateKey;
+
+        var user = await GetActiveUser(userId, Tracking.Enabled, cancellationToken);
+        user.PrivateKey = privateKey;
+
+        await _databaseContext.SaveChangesAsync(cancellationToken);
+        return privateKey;
+    }
+
+    /// <summary>
+    /// Checks if given IP address is registered within the system.
+    /// It should not contain a scheme, but it may contain a port number.
     /// </summary>
     /// <param name="ipAddress">IP Address.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
@@ -66,9 +84,9 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Checks if given private key is registered within the system.
+    /// Checks if a given private key is registered within the system.
     /// </summary>
-    /// <param name="privateKey"></param>
+    /// <param name="privateKey">Private key (alphanumerical).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>True or False.</returns>
     public async Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken = default)
@@ -79,33 +97,49 @@ public class UserService : IUserService
             .Where(users => !users.IsDeleted)
             .SingleOrDefaultAsync(cancellationToken);
 
-        switch (key)
+        if (key is null)
         {
-            case null:
-                _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
-                return false;
-            case { IsActivated: false }:
-                _loggerService.LogWarning($"Key '{privateKey}' is not activated within the system.");
-                return false;
-            default:
-                return true;
+            _loggerService.LogWarning($"Key '{privateKey}' is not registered within the system.");
+            return false;
         }
+
+        if (key.Status == UserStatus.Activated) return true;
+
+        _loggerService.LogWarning($"Key '{privateKey}' is not activated within the system.");
+        return false;
     }
 
     /// <summary>
-    /// Returns user ID registered for given private key within the system.
+    /// Returns user ID registered for a given private key within the system.
     /// </summary>
     /// <param name="privateKey">Private key (alphanumerical).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>User ID (Guid).</returns>
+    /// <returns>User ID.</returns>
     public async Task<Guid> GetUserByPrivateKey(string privateKey, CancellationToken cancellationToken = default)
     {
         return await _databaseContext.Users
             .AsNoTracking()
             .Where(user => user.PrivateKey == privateKey)
-            .Where(users => users.IsActivated)
+            .Where(users => users.Status == UserStatus.Activated)
             .Where(users => !users.IsDeleted)
             .Select(user => user.Id)
+            .SingleOrDefaultAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// Returns assigned user role.
+    /// </summary>
+    /// <param name="privateKey">Private key (alphanumerical).</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>User ID.</returns>
+    public async Task<UserRole?> GetUserRoleByPrivateKey(string privateKey, CancellationToken cancellationToken = default)
+    {
+        return await _databaseContext.Users
+            .AsNoTracking()
+            .Where(users => users.PrivateKey == privateKey)
+            .Where(users => users.Status == UserStatus.Activated)
+            .Where(users => !users.IsDeleted)
+            .Select(user => user.Role)
             .SingleOrDefaultAsync(cancellationToken);
     }
 
@@ -133,76 +167,82 @@ public class UserService : IUserService
     }
 
     /// <summary>
+    /// Changes current user account status.
+    /// </summary>
+    /// <param name="input">Optional user ID and new user status.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    public async Task AlterUserStatus(AlterUserStatusInput input, CancellationToken cancellationToken = default)
+    {
+        var user = await GetActiveUser(input.UserId, Tracking.Enabled, cancellationToken);
+        user.Status = input.Status;
+        await _databaseContext.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// Adds new user for given email address, name and surname.
     /// </summary>
-    /// <param name="userData">Input data.</param>
+    /// <param name="input">Input data.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when email address already exists.</exception>
-    /// <returns>Generated API key and user alias.</returns>
-    public async Task<UserCredentials> AddUser(UserData userData, CancellationToken cancellationToken = default)
+    /// <exception cref="BusinessException">Throws an exception when email address already exist.</exception>
+    /// <returns>Generated API key and basic user information.</returns>
+    public async Task<AddUserOutput> AddUser(AddUserInput input, CancellationToken cancellationToken = default)
     {
         var doesEmailExist = await _databaseContext.Users
             .AsNoTracking()
-            .Where(users => users.EmailAddress == userData.EmailAddress)
+            .Where(users => users.EmailAddress == input.EmailAddress)
             .FirstOrDefaultAsync(cancellationToken) != null;
 
         if (doesEmailExist)
-            throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS), ErrorCodes.USER_EMAIL_ALREADY_EXISTS);
+            throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST), ErrorCodes.USER_EMAIL_ALREADY_EXIST);
 
-        var privateKey = Guid.NewGuid().ToString("N");
-        var userAlias = $"{userData.FirstName[..2]}{userData.LastName[..3]}".ToLower();
+        const UserStatus userStatus = UserStatus.PendingActivation;
+        var privateKey = await GeneratePrivateKey(null, cancellationToken);
+        var userAlias = $"{input.FirstName[..2]}{input.LastName[..3]}".ToLower();
+
         var newUser = new Users
         {
-            FirstName = userData.FirstName,
-            LastName = userData.LastName,
+            FirstName = input.FirstName,
+            LastName = input.LastName,
             UserAlias = userAlias,
-            EmailAddress = userData.EmailAddress,
-            IsActivated = false, //TODO: replace by [UserStatus] enum
+            EmailAddress = input.EmailAddress,
+            Status = userStatus,
             Registered = _dateTimeService.Now,
-            PrivateKey = privateKey
+            PrivateKey = privateKey,
+            IsDeleted = false,
+            Role = UserRole.OrdinaryUser,
         };
 
         await _databaseContext.Users.AddAsync(newUser, cancellationToken);
         await _databaseContext.SaveChangesAsync(cancellationToken);
 
-        return new UserCredentials
+        return new AddUserOutput
         {
             UserId = newUser.Id,
             PrivateKey = privateKey,
             UserAlias = userAlias,
-            EmailAddress = userData.EmailAddress,
-            Status = UserStatus.PendingActivation
+            EmailAddress = input.EmailAddress,
+            Status = userStatus
         };
     }
 
     /// <summary>
     /// Updates current user basic info.
     /// </summary>
-    /// <param name="userInfo">Input data.</param>
+    /// <param name="input">Input data.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when email address already exists or user does not exist.</exception>
-    public async Task UpdateUser(UserInfo userInfo, CancellationToken cancellationToken = default)
+    /// <exception cref="BusinessException">Throws an exception when email address already exists or a user does not exist.</exception>
+    public async Task UpdateUser(UpdateUserInput input, CancellationToken cancellationToken = default)
     {
-        var doesEmailExist = await _databaseContext.Users
-            .AsNoTracking()
-            .Where(users => users.EmailAddress == userInfo.EmailAddress)
-            .Where(users => users.IsActivated)
-            .Where(users => !users.IsDeleted)
-            .SingleOrDefaultAsync(cancellationToken) != null;
+        var user = await GetActiveUser(input.UserId, Tracking.Enabled, cancellationToken);
+        var isEmailPresent = await _databaseContext.Users
+            .SingleOrDefaultAsync(users => users.EmailAddress == input.EmailAddress, cancellationToken) != null;
 
-        if (doesEmailExist)
-            throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXISTS), ErrorCodes.USER_EMAIL_ALREADY_EXISTS);
+        if (isEmailPresent)
+            throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST), ErrorCodes.USER_EMAIL_ALREADY_EXIST);
 
-        var currentUser = await _databaseContext.Users
-            .Where(users => users.Id == userInfo.UserId)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        if (currentUser == null)
-            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
-
-        currentUser.FirstName = userInfo.FirstName;
-        currentUser.LastName = userInfo.LastName;
-        currentUser.EmailAddress = userInfo.EmailAddress;
+        user.FirstName = input.FirstName;
+        user.LastName = input.LastName;
+        user.EmailAddress = input.EmailAddress;
 
         await _databaseContext.SaveChangesAsync(cancellationToken);
     }
@@ -210,77 +250,57 @@ public class UserService : IUserService
     /// <summary>
     /// Removes given user or hides if soft delete is enabled.
     /// </summary>
-    /// <param name="userId">User ID (Guid).</param>
-    /// <param name="softDelete">Enable/disable soft delete.</param>
+    /// <param name="input">User ID and flag to enable/disable soft delete.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user does not exist.</exception>
-    public async Task RemoveUser(Guid userId, bool softDelete = false, CancellationToken cancellationToken = default)
+    public async Task RemoveUser(RemoveUserInput input, CancellationToken cancellationToken = default)
     {
-        var currentUser = await _databaseContext.Users
-            .Where(users => users.Id == userId)
-            .Where(users => !users.IsDeleted)
-            .FirstOrDefaultAsync(cancellationToken);
-
-        if (currentUser == null)
-            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
-
-        if (softDelete)
+        var user = await GetActiveUser(input.UserId, Tracking.Enabled, cancellationToken);
+        if (input.SoftDelete)
         {
-            currentUser.IsDeleted = true;
+            user.IsDeleted = true;
         }
         else
         {
-            _databaseContext.Remove(currentUser);
+            _databaseContext.Remove(user);
         }
 
         await _databaseContext.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>
-    /// Updates company information assigned to given user ID.
+    /// Updates company information assigned to a given user ID.
     /// </summary>
-    /// <param name="userCompanyInfo">User company information, including VAT etc.</param>
+    /// <param name="input">User company information, including VAT etc.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user does not exist.</exception>
-    public async Task UpdateUserDetails(UserCompanyInfo userCompanyInfo, CancellationToken cancellationToken = default)
+    public async Task UpdateUserDetails(UpdateUserDetailsInput input, CancellationToken cancellationToken = default)
     {
-        var doesUserExist = await _databaseContext.Users
-            .AsNoTracking()
-            .Where(users => users.Id == userCompanyInfo.UserId)
-            .Where(users => users.IsActivated)
-            .Where(users => !users.IsDeleted)
-            .SingleOrDefaultAsync(cancellationToken) != null;
+        var user = await GetActiveUser(input.UserId, Tracking.Enabled, cancellationToken);
+        var details = await _databaseContext.UserDetails
+            .SingleOrDefaultAsync(details => details.UserId == user.Id, cancellationToken);
 
-        if (!doesUserExist)
-            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
-
-        var userDetails = await _databaseContext.UserDetails
-            .Where(details => details.UserId == userCompanyInfo.UserId)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        if (userDetails == null)
+        if (details is null)
         {
             var newUserDetails = new UserDetails
             {
-                UserId = userCompanyInfo.UserId,
-                CompanyName = userCompanyInfo.CompanyName,
-                VatNumber = userCompanyInfo.VatNumber,
-                StreetAddress = userCompanyInfo.StreetAddress,
-                PostalCode = userCompanyInfo.PostalCode,
-                Country = userCompanyInfo.Country,
-                City = userCompanyInfo.City
+                UserId = user.Id,
+                CompanyName = input.CompanyName,
+                VatNumber = input.VatNumber,
+                StreetAddress = input.StreetAddress,
+                PostalCode = input.PostalCode,
+                Country = input.Country,
+                City = input.City
             };
         
             await _databaseContext.UserDetails.AddAsync(newUserDetails, cancellationToken);
         }
         else
         {
-            userDetails.CompanyName = userCompanyInfo.CompanyName;
-            userDetails.VatNumber = userCompanyInfo.VatNumber;
-            userDetails.StreetAddress = userCompanyInfo.StreetAddress;
-            userDetails.PostalCode = userCompanyInfo.PostalCode;
-            userDetails.Country = userCompanyInfo.Country;
-            userDetails.City = userCompanyInfo.City;
+            details.CompanyName = input.CompanyName;
+            details.VatNumber = input.VatNumber;
+            details.StreetAddress = input.StreetAddress;
+            details.PostalCode = input.PostalCode;
+            details.Country = input.Country;
+            details.City = input.City;
         }
 
         await _databaseContext.SaveChangesAsync(cancellationToken);
@@ -289,33 +309,21 @@ public class UserService : IUserService
     /// <summary>
     /// Adds associated email address by ID.
     /// </summary>
-    /// <param name="userId">User ID (Guid).</param>
-    /// <param name="emailId">Associated email address ID (Guid).</param>
+    /// <param name="input">User ID and new email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
-    public async Task AddUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
+    public async Task AddUserEmail(AddUserEmailInput input, CancellationToken cancellationToken = default)
     {
-        var doesUserExist = await _databaseContext.Users
-            .AsNoTracking()
-            .Where(users => users.Id == userId)
-            .Where(users => users.IsActivated)
-            .Where(users => !users.IsDeleted)
-            .SingleOrDefaultAsync(cancellationToken) != null;
+        var user = await GetActiveUser(input.UserId, Tracking.Enabled, cancellationToken);
+        var isEmailPresent = await _databaseContext.Emails
+            .SingleOrDefaultAsync(emails => emails.Id == input.EmailId, cancellationToken) != null;
 
-        if (!doesUserExist)
-            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXISTS), ErrorCodes.USER_DOES_NOT_EXISTS);
-
-        var doesEmailExist = await _databaseContext.Emails
-            .Where(emails => emails.Id == emailId)
-            .SingleOrDefaultAsync(cancellationToken) != null;
-
-        if (!doesEmailExist)
+        if (!isEmailPresent)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL), ErrorCodes.INVALID_ASSOCIATED_EMAIL);
 
         var newUserEmail = new UserEmails
         {
-            UserId = userId,
-            EmailId = emailId
+            UserId = user.Id,
+            EmailId = input.EmailId
         };
 
         await _databaseContext.UserEmails.AddAsync(newUserEmail, cancellationToken);
@@ -325,41 +333,86 @@ public class UserService : IUserService
     /// <summary>
     /// Updates associated email address by ID.
     /// </summary>
-    /// <param name="oldEmailId">Associated user email ID (Guid).</param>
-    /// <param name="newEmailId">New associated email address ID (Guid).</param>
+    /// <param name="input">Current associated user email ID and new associated email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
-    public async Task UpdateUserEmail(Guid oldEmailId, Guid newEmailId, CancellationToken cancellationToken = default)
+    /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
+    public async Task UpdateUserEmail(UpdateUserEmailInput input, CancellationToken cancellationToken = default)
     {
+        var user = await GetActiveUser(input.UserId, Tracking.Enabled, cancellationToken);
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.Id == oldEmailId)
-            .FirstOrDefaultAsync(cancellationToken);
+            .Where(emails => emails.Id == input.OldEmailId)
+            .Where(emails => emails.UserId == user.Id)
+            .SingleOrDefaultAsync(cancellationToken);
 
-        if (userEmails == null)
+        if (userEmails is null)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ID), ErrorCodes.INVALID_ID);
 
-        userEmails.EmailId = newEmailId;
+        userEmails.EmailId = input.NewEmailId;
         await _databaseContext.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>
     /// Removes associated email address by ID.
     /// </summary>
-    /// <param name="userId">User ID (Guid).</param>
-    /// <param name="emailId">Associated email address ID (Guid).</param>
+    /// <param name="input">User ID and current associated email address ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <exception cref="BusinessException">Throws an exception when user/associated email does not exist.</exception>
-    public async Task RemoveUserEmail(Guid userId, Guid emailId, CancellationToken cancellationToken = default)
+    /// <exception cref="BusinessException">Throws an exception when associated user email does not exist.</exception>
+    public async Task RemoveUserEmail(RemoveUserEmailInput input, CancellationToken cancellationToken = default)
     {
+        var user = await GetActiveUser(input.UserId, Tracking.Enabled, cancellationToken);
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.UserId == userId)
-            .Where(emails => emails.EmailId == emailId)
-            .FirstOrDefaultAsync(cancellationToken);
+            .Where(emails => emails.EmailId == input.EmailId)
+            .Where(emails => emails.UserId == user.Id)
+            .SingleOrDefaultAsync(cancellationToken);
 
-        if (userEmails == null)
-            throw new BusinessException(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID), ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID);
+        if (userEmails is null)
+            throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_ID), ErrorCodes.INVALID_EMAIL_ID);
 
         _databaseContext.Remove(userEmails);
         await _databaseContext.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// Returns user ID and assigned user role.
+    /// </summary>
+    /// <remarks>
+    /// It accepts user ID that belongs to other user. This require Administrator role. 
+    /// </remarks>
+    /// <param name="otherUserId">Optional user ID.</param>
+    /// <param name="tracking"></param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <exception cref="AccessException">
+    /// Throws an exception whenever a user tries to modify another user while having
+    /// no administrator privileges.
+    /// </exception>
+    /// <returns>User ID and user role.</returns>
+    private async Task<Users> GetActiveUser(Guid? otherUserId, Tracking tracking = Tracking.Disabled, CancellationToken cancellationToken = default)
+    {
+        var privateKey = GetPrivateKeyFromHeader();
+        var entity = tracking == Tracking.Enabled ? _databaseContext.Users : _databaseContext.Users.AsNoTracking();
+        var user = await entity
+            .Where(users => users.PrivateKey == privateKey)
+            .Where(users => users.Status == UserStatus.Activated)
+            .Where(users => !users.IsDeleted)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (user is null)
+            throw new BusinessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
+
+        if (otherUserId is null) return user;
+
+        var otherUser = await entity
+            .Where(users => users.Id == otherUserId)
+            .Where(users => users.Status == UserStatus.Activated)
+            .Where(users => !users.IsDeleted)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        if (otherUser is null)
+            throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
+
+        if (user.Role == UserRole.OrdinaryUser && user.Id != otherUserId)
+            throw new AccessException(nameof(ErrorCodes.INSUFFICIENT_PRIVILEGES), ErrorCodes.INSUFFICIENT_PRIVILEGES);
+
+        return otherUser;
     }
 }
