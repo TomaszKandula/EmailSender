@@ -382,7 +382,6 @@ public class UserService : IUserService
         await VerifyActionAgainstGivenUser(input.UserId, cancellationToken);
 
         var userEmails = await _databaseContext.UserEmails
-            .Where(emails => emails.UserId == input.UserId)
             .Where(emails => emails.EmailId == input.EmailId)
             .FirstOrDefaultAsync(cancellationToken);
 
