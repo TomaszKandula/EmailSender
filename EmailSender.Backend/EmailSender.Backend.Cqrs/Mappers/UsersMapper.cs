@@ -5,6 +5,11 @@ using Shared.Dto;
 
 public static class UsersMapper
 {
+    public static GeneratePrivateKeyCommand MapToGeneratePrivateKeyCommand(GeneratePrivateKeyDto model) => new()
+    {
+        UserId = model.UserId
+    };
+
     public static AddUserCommand MapToAddUserCommand(AddUserDto model) => new()
     {
         FirstName = model.FirstName,

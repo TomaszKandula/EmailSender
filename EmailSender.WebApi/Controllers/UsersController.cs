@@ -31,6 +31,11 @@ public class UsersController : BaseController
         => await Mediator.Send(new GetUserEmailsQuery());
 
     [HttpPost]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public async Task<string> GeneratePrivateKey([FromBody] GeneratePrivateKeyDto payload, [FromHeader(Name = HeaderName)] string privateKey)
+        => await Mediator.Send(UsersMapper.MapToGeneratePrivateKeyCommand(payload));
+
+    [HttpPost]
     [AllowAnonymous]
     [ProducesResponseType(typeof(AddUserCommandResult), StatusCodes.Status200OK)]
     public async Task<AddUserCommandResult> AddUser([FromBody] AddUserDto payload) 
