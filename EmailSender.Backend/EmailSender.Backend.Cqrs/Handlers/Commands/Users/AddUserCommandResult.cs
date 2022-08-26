@@ -5,6 +5,8 @@ using Domain.Enums;
 
 public class AddUserCommandResult
 {
+    public Guid UserId { get; set; }
+
     public string PrivateKey { get; set; }
 
     public string UserAlias { get; set; }

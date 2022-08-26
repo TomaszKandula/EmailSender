@@ -33,6 +33,7 @@ public class AddUserCommandHandler : RequestHandler<AddUserCommand, AddUserComma
 
         return new AddUserCommandResult
         {
+            UserId = result.UserId,
             PrivateKey = result.PrivateKey,
             UserAlias = result.UserAlias,
             EmailAddress = result.EmailAddress,
