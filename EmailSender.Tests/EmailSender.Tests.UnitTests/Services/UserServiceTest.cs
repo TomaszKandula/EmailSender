@@ -529,10 +529,12 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var userId = Guid.NewGuid();
+        var input = new RemoveUserInput { UserId = userId };
+
         // Act
         // Assert
-        var userId = Guid.NewGuid();
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUser(userId));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUser(input));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
@@ -566,9 +568,11 @@ public class UserServiceTest : TestBase
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
-        
+
+        var input = new RemoveUserInput { UserId = user.Id };
+
         // Act
-        await service.RemoveUser(user.Id);
+        await service.RemoveUser(input);
         var data = await databaseContext.Users
             .Where(users => users.Id == user.Id)
             .FirstOrDefaultAsync();
@@ -608,8 +612,10 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
         
+        var input = new RemoveUserInput { UserId = user.Id };
+
         // Act
-        await service.RemoveUser(user.Id, true);
+        await service.RemoveUser(input, CancellationToken.None);
         var data = await databaseContext.Users
             .Where(users => users.Id == user.Id)
             .FirstOrDefaultAsync();
@@ -836,9 +842,15 @@ public class UserServiceTest : TestBase
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
-        
+
+        var input = new AddUserEmailInput
+        {
+            UserId = user.Id,
+            EmailId = email.Id
+        };
+
         // Act
-        await service.AddUserEmail(user.Id, email.Id);
+        await service.AddUserEmail(input);
         var data = await databaseContext.UserEmails
             .Where(emails => emails.UserId == user.Id)
             .FirstOrDefaultAsync();
@@ -890,10 +902,16 @@ public class UserServiceTest : TestBase
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
-        
+
+        var input = new AddUserEmailInput
+        {
+            UserId = Guid.NewGuid(),
+            EmailId = email.Id
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(Guid.NewGuid(), email.Id));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(input));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
@@ -939,9 +957,15 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new AddUserEmailInput
+        {
+            UserId = user.Id,
+            EmailId = Guid.NewGuid()
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(user.Id, Guid.NewGuid()));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.AddUserEmail(input, CancellationToken.None));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_ASSOCIATED_EMAIL));
     }
 
@@ -964,7 +988,7 @@ public class UserServiceTest : TestBase
 
         var emails = new List<Emails>
         {
-            new ()
+            new()
             {
                 Id = Guid.NewGuid(),
                 Address = DataUtilityService.GetRandomEmail(),
@@ -974,7 +998,7 @@ public class UserServiceTest : TestBase
                 ServerPort = DataUtilityService.GetRandomInteger(),
                 ServerSsl = true
             },
-            new ()
+            new()
             {
                 Id = Guid.NewGuid(),
                 Address = DataUtilityService.GetRandomEmail(),
@@ -1009,9 +1033,16 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new UpdateUserEmailInput
+        {
+            UserId = user.Id,
+            OldEmailId = Guid.NewGuid(),
+            NewEmailId = emails[1].Id
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserEmail(Guid.NewGuid(),  emails[1].Id));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserEmail(input, CancellationToken.None));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_ID));
     }
 
@@ -1079,8 +1110,15 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new UpdateUserEmailInput
+        {
+            UserId = user.Id,
+            OldEmailId = userEmail.Id,
+            NewEmailId = emails[1].Id
+        };
+
         // Act
-        await service.UpdateUserEmail(userEmail.Id, emails[1].Id);
+        await service.UpdateUserEmail(input, CancellationToken.None);
         var data = await databaseContext.UserEmails
             .Where(userEmails => userEmails.Id == userEmail.Id)
             .FirstOrDefaultAsync();
@@ -1141,9 +1179,15 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new RemoveUserEmailInput
+        {
+            UserId = Guid.NewGuid(),
+            EmailId = email.Id
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(Guid.NewGuid(), email.Id));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(input, CancellationToken.None));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID));
     }
 
@@ -1198,9 +1242,15 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new RemoveUserEmailInput
+        {
+            UserId = user.Id,
+            EmailId = Guid.NewGuid()
+        };
+
         // Act
         // Assert
-        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(user.Id, Guid.NewGuid()));
+        var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(input, CancellationToken.None));
         result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID));
     }
 
@@ -1255,8 +1305,14 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new RemoveUserEmailInput
+        {
+            UserId = user.Id,
+            EmailId = email.Id
+        };
+
         // Assert
-        await service.RemoveUserEmail(user.Id, email.Id);
+        await service.RemoveUserEmail(input, CancellationToken.None);
         var data = await databaseContext.UserEmails
             .Where(userEmails => userEmails.UserId == user.Id && userEmails.EmailId == email.Id)
             .FirstOrDefaultAsync();
