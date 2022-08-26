@@ -24,19 +24,15 @@ public class UpdateUserEmailCommandHandler : Cqrs.RequestHandler<UpdateUserEmail
 
     public override async Task<Unit> Handle(UpdateUserEmailCommand request, CancellationToken cancellationToken)
     {
-        var userId = await _userService.GetUserByPrivateKey(_userService.GetPrivateKeyFromHeader(), cancellationToken);
-        if (userId == Guid.Empty)
-            throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
-
         var input = new UpdateUserEmailInput
         {
-            UserId = userId,
+            UserId = request.UserId,
             NewEmailId = request.NewEmailId,
             OldEmailId = request.OldEmailId
         };
 
         await _userService.UpdateUserEmail(input, cancellationToken);
-        _loggerService.LogInformation($"User email has been replaced, user ID: {userId}");
+        _loggerService.LogInformation($"User email has been replaced, user ID: {request.UserId}");
 
         return Unit.Value;
     }
