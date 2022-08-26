@@ -362,7 +362,7 @@ public class UserService : IUserService
 
         var userEmails = await _databaseContext.UserEmails
             .Where(emails => emails.Id == input.OldEmailId)
-            .FirstOrDefaultAsync(cancellationToken);
+            .SingleOrDefaultAsync(cancellationToken);
 
         if (userEmails is null)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ID), ErrorCodes.INVALID_ID);
@@ -383,7 +383,7 @@ public class UserService : IUserService
 
         var userEmails = await _databaseContext.UserEmails
             .Where(emails => emails.EmailId == input.EmailId)
-            .FirstOrDefaultAsync(cancellationToken);
+            .SingleOrDefaultAsync(cancellationToken);
 
         if (userEmails is null)
             throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_ID), ErrorCodes.INVALID_EMAIL_ID);
