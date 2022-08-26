@@ -364,7 +364,7 @@ public class UserService : IUserService
             .Where(emails => emails.Id == input.OldEmailId)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (userEmails == null)
+        if (userEmails is null)
             throw new BusinessException(nameof(ErrorCodes.INVALID_ID), ErrorCodes.INVALID_ID);
 
         userEmails.EmailId = input.NewEmailId;
@@ -385,8 +385,8 @@ public class UserService : IUserService
             .Where(emails => emails.EmailId == input.EmailId)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (userEmails == null)
-            throw new BusinessException(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID), ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID);
+        if (userEmails is null)
+            throw new BusinessException(nameof(ErrorCodes.INVALID_EMAIL_ID), ErrorCodes.INVALID_EMAIL_ID);
 
         _databaseContext.Remove(userEmails);
         await _databaseContext.SaveChangesAsync(cancellationToken);
