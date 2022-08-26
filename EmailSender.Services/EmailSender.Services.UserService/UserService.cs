@@ -402,7 +402,12 @@ public class UserService : IUserService
     /// </exception>
     private async Task VerifyActionAgainstGivenUser(Guid? otherUserId, CancellationToken cancellationToken = default)
     {
-        if (otherUserId is null) return;
+        if (otherUserId is not null)
+        {
+            var otherUser = await _databaseContext.Users.FindAsync(new object[] { otherUserId }, cancellationToken);
+            if (otherUser is null)
+                throw new BusinessException(nameof(ErrorCodes.USER_DOES_NOT_EXIST), ErrorCodes.USER_DOES_NOT_EXIST);
+        }
 
         var key = GetPrivateKeyFromHeader();
         var (userId, userRole) = await GetActiveUserInfo(key, cancellationToken);
