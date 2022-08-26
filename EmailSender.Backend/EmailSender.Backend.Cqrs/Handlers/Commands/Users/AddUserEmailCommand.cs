@@ -5,7 +5,7 @@ using System;
 
 public class AddUserEmailCommand : IRequest<Unit>
 {
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 
     public Guid EmailId { get; set; }
 }

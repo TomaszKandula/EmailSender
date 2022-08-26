@@ -45,6 +45,7 @@ public static class UsersMapper
 
     public static UpdateUserEmailCommand MapToUpdateUserEmailCommand(UpdateUserEmailDto model) => new()
     {
+        UserId = model.UserId,
         OldEmailId = model.OldEmailId,
         NewEmailId = model.NewEmailId
     };

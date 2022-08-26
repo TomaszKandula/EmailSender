@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 public class RemoveUserDto
 {
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 
     public bool SoftDelete { get; set; }
 }
