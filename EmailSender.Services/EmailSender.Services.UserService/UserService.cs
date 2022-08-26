@@ -45,6 +45,17 @@ public class UserService : IUserService
     }
 
     /// <summary>
+    /// Generate private key (alphanumerical API key).
+    /// </summary>
+    /// <returns>API key.</returns>
+    public string GeneratePrivateKey()
+    {
+        var privateKey = Guid.NewGuid().ToString("N");
+        _loggerService.LogInformation($"New private key has been generated [{privateKey}]");
+        return privateKey;
+    }
+
+    /// <summary>
     /// Checks if given IP address is registered within the system.
     /// It should not contain a scheme, but it may contain a port number.
     /// </summary>
@@ -166,7 +177,7 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST), ErrorCodes.USER_EMAIL_ALREADY_EXIST);
 
         const UserStatus userStatus = UserStatus.PendingActivation;
-        var privateKey = Guid.NewGuid().ToString("N");
+        var privateKey = GeneratePrivateKey();
         var userAlias = $"{input.FirstName[..2]}{input.LastName[..3]}".ToLower();
 
         var newUser = new Users

@@ -11,6 +11,8 @@ public interface IUserService
 {
     string GetPrivateKeyFromHeader(string headerName = "X-Private-Key");
 
+    string GeneratePrivateKey();
+
     Task<bool> IsIpAddressAllowed(IPAddress domainName, CancellationToken cancellationToken = default);
 
     Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken = default);
