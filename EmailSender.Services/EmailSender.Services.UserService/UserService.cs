@@ -434,6 +434,9 @@ public class UserService : IUserService
             })
             .SingleOrDefaultAsync(cancellationToken);
 
+        if (data is null)
+            throw new BusinessException(nameof(ErrorCodes.INVALID_PRIVATE_KEY), ErrorCodes.INVALID_PRIVATE_KEY);
+
         return new Tuple<Guid, UserRole>(data.Id, data.Role);
     }
 }
