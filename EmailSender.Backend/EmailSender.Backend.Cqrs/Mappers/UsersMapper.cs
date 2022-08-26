@@ -17,6 +17,12 @@ public static class UsersMapper
         EmailAddress = model.EmailAddress
     };
 
+    public static AlterUserStatusCommand MapToAlterUserStatusCommand(AlterUserStatusDto model) => new()
+    {
+        UserId = model.UserId,
+        Status = model.Status
+    };
+
     public static UpdateUserCommand MapToUpdateUserCommand(UpdateUserDto model) => new()
     {
         UserId = model.UserId,
