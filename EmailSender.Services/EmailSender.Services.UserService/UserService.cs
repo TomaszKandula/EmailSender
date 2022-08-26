@@ -47,11 +47,22 @@ public class UserService : IUserService
     /// <summary>
     /// Generate private key (alphanumerical API key).
     /// </summary>
+    /// <param name="userId">Optional user ID. If given, the newly generated key will be automatically saved.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>API key.</returns>
-    public string GeneratePrivateKey()
+    public async Task<string> GeneratePrivateKey(Guid? userId, CancellationToken cancellationToken = default)
     {
         var privateKey = Guid.NewGuid().ToString("N");
         _loggerService.LogInformation($"New private key has been generated [{privateKey}]");
+
+        if (userId is null) return privateKey;
+
+        var user = await GetActiveUser(userId, true, cancellationToken);
+        user.PrivateKey = privateKey;
+
+        await _databaseContext.SaveChangesAsync(cancellationToken);
+        _loggerService.LogInformation($"Newly generated private key has been saved, user ID: {user.Id}");
+
         return privateKey;
     }
 
@@ -177,7 +188,7 @@ public class UserService : IUserService
             throw new BusinessException(nameof(ErrorCodes.USER_EMAIL_ALREADY_EXIST), ErrorCodes.USER_EMAIL_ALREADY_EXIST);
 
         const UserStatus userStatus = UserStatus.PendingActivation;
-        var privateKey = GeneratePrivateKey();
+        var privateKey = await GeneratePrivateKey(null, cancellationToken);
         var userAlias = $"{input.FirstName[..2]}{input.LastName[..3]}".ToLower();
 
         var newUser = new Users
