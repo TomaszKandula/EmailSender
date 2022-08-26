@@ -374,6 +374,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -429,6 +433,20 @@ public class UserServiceTest : TestBase
         await databaseContext.AddRangeAsync(user);
         await databaseContext.SaveChangesAsync();
 
+        var mockedLoggerService = new Mock<ILoggerService>();
+        var mockedDateTimeService = new Mock<IDateTimeService>();
+        var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user[0].PrivateKey);
+
+        var service = new UserService(
+            databaseContext, 
+            mockedLoggerService.Object, 
+            mockedHttpContext.Object, 
+            mockedDateTimeService.Object);
+
         var input = new UpdateUserInput
         {
             UserId = user[0].Id,
@@ -436,16 +454,6 @@ public class UserServiceTest : TestBase
             LastName = DataUtilityService.GetRandomString(),
             EmailAddress = user[1].EmailAddress
         };
-
-        var mockedLoggerService = new Mock<ILoggerService>();
-        var mockedDateTimeService = new Mock<IDateTimeService>();
-        var mockedHttpContext = new Mock<IHttpContextAccessor>();
-
-        var service = new UserService(
-            databaseContext, 
-            mockedLoggerService.Object, 
-            mockedHttpContext.Object, 
-            mockedDateTimeService.Object);
 
         // Act
         // Assert
@@ -563,6 +571,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+        
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -606,13 +618,17 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
         
-        var input = new RemoveUserInput { UserId = user.Id };
+        var input = new RemoveUserInput { UserId = user.Id, SoftDelete = true };
 
         // Act
         await service.RemoveUser(input, CancellationToken.None);
@@ -698,6 +714,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -768,6 +788,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+        
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -837,6 +861,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -897,6 +925,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -950,6 +982,10 @@ public class UserServiceTest : TestBase
         var mockedLoggerService = new Mock<ILoggerService>();
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
 
         var service = new UserService(
             databaseContext, 
@@ -1026,6 +1062,10 @@ public class UserServiceTest : TestBase
         var mockedLoggerService = new Mock<ILoggerService>();
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
 
         var service = new UserService(
             databaseContext, 
@@ -1104,6 +1144,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -1173,6 +1217,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -1188,7 +1236,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(input, CancellationToken.None));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
     }
 
     [Fact]
@@ -1236,6 +1284,10 @@ public class UserServiceTest : TestBase
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
 
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
+
         var service = new UserService(
             databaseContext, 
             mockedLoggerService.Object, 
@@ -1251,7 +1303,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUserEmail(input, CancellationToken.None));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_ID_OR_EMAIL_ID_INVALID));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_EMAIL_ID));
     }
 
     [Fact]
@@ -1298,6 +1350,10 @@ public class UserServiceTest : TestBase
         var mockedLoggerService = new Mock<ILoggerService>();
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
+
+        mockedHttpContext
+            .Setup(accessor => accessor.HttpContext!.Request.Headers["X-Private-Key"])
+            .Returns(user.PrivateKey);
 
         var service = new UserService(
             databaseContext, 
