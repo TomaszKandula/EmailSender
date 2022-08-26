@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 public class UpdateUserEmailInput
 {
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 
     public Guid OldEmailId { get; set; }
     

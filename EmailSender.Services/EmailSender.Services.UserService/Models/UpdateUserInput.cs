@@ -6,5 +6,5 @@ using System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 public class UpdateUserInput : AddUserInput
 {
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 }
