@@ -30,4 +30,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\EmailSender.Backend.Domain\EmailSender.Backend.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
