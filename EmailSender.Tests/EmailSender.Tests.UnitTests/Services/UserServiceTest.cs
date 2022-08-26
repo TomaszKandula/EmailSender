@@ -398,7 +398,7 @@ public class UserServiceTest : TestBase
     }
 
     [Fact]
-    public async Task GivenNewDataAndExistingDataWithSameEmail_WhenUpdateUser_ShouldThrowError()
+    public async Task GivenNewDataAndExistingDataWithSameEmail_WhenUpdateUser_ShouldThrowError() 
     {
         // Arrange
         var user = new List<Users>
@@ -449,7 +449,6 @@ public class UserServiceTest : TestBase
 
         var input = new UpdateUserInput
         {
-            UserId = user[0].Id,
             FirstName = DataUtilityService.GetRandomString(),
             LastName = DataUtilityService.GetRandomString(),
             EmailAddress = user[1].EmailAddress
@@ -482,14 +481,6 @@ public class UserServiceTest : TestBase
         await databaseContext.AddRangeAsync(user);
         await databaseContext.SaveChangesAsync();
 
-        var input = new UpdateUserInput
-        {
-            UserId = Guid.NewGuid(),
-            FirstName = DataUtilityService.GetRandomString(),
-            LastName = DataUtilityService.GetRandomString(),
-            EmailAddress = DataUtilityService.GetRandomEmail()
-        };
-
         var mockedLoggerService = new Mock<ILoggerService>();
         var mockedDateTimeService = new Mock<IDateTimeService>();
         var mockedHttpContext = new Mock<IHttpContextAccessor>();
@@ -500,10 +491,18 @@ public class UserServiceTest : TestBase
             mockedHttpContext.Object, 
             mockedDateTimeService.Object);
 
+        var input = new UpdateUserInput
+        {
+            UserId = Guid.NewGuid(),
+            FirstName = DataUtilityService.GetRandomString(),
+            LastName = DataUtilityService.GetRandomString(),
+            EmailAddress = DataUtilityService.GetRandomEmail()
+        };
+
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUser(input));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_PRIVATE_KEY));
     }
 
     [Fact]
@@ -543,7 +542,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.RemoveUser(input));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_PRIVATE_KEY));
     }
 
     [Fact]
@@ -686,7 +685,7 @@ public class UserServiceTest : TestBase
         // Act
         // Assert
         var result = await Assert.ThrowsAsync<BusinessException>(() => service.UpdateUserDetails(input));
-        result.ErrorCode.Should().Be(nameof(ErrorCodes.USER_DOES_NOT_EXIST));
+        result.ErrorCode.Should().Be(nameof(ErrorCodes.INVALID_PRIVATE_KEY));
     }
 
     [Fact]
