@@ -53,16 +53,12 @@ public class UserService : IUserService
     public async Task<string> GeneratePrivateKey(Guid? userId, CancellationToken cancellationToken = default)
     {
         var privateKey = Guid.NewGuid().ToString("N");
-        _loggerService.LogInformation($"New private key has been generated [{privateKey}]");
-
         if (userId is null) return privateKey;
 
         var user = await GetActiveUser(userId, true, cancellationToken);
         user.PrivateKey = privateKey;
 
         await _databaseContext.SaveChangesAsync(cancellationToken);
-        _loggerService.LogInformation($"Newly generated private key has been saved, user ID: {user.Id}");
-
         return privateKey;
     }
 
