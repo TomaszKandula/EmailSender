@@ -72,12 +72,12 @@ public class UserService : IUserService
     public async Task<bool> IsIpAddressAllowed(IPAddress ipAddress, CancellationToken cancellationToken = default)
     {
         var address = ipAddress.ToString();
-        var allowedIp = await GetIpAddress(address, cancellationToken);
+        var doesIpAddressExist = await DoesIpAddressExist(address, cancellationToken);
 
-        if (allowedIp is null) 
+        if (!doesIpAddressExist) 
             _loggerService.LogWarning($"IP address '{address}' is not registered within the system.");
 
-        return allowedIp is not null;
+        return doesIpAddressExist;
     }
 
     /// <summary>
@@ -89,20 +89,12 @@ public class UserService : IUserService
     /// <returns>True or False.</returns>
     public async Task<bool> IsIpAddressAllowed(string ipAddress, CancellationToken cancellationToken = default)
     {
-        var allowedIp = await GetIpAddress(ipAddress, cancellationToken);
+        var doesIpAddressExist = await DoesIpAddressExist(ipAddress, cancellationToken);
 
-        if (allowedIp is null) 
+        if (!doesIpAddressExist) 
             _loggerService.LogWarning($"IP address '{ipAddress}' is not registered within the system.");
 
-        return allowedIp is not null;
-    }
-
-    private async Task<UserAllowedIps> GetIpAddress(string address, CancellationToken cancellationToken)
-    {
-        return await _databaseContext.UserAllowedIps
-            .AsNoTracking()
-            .Where(ips => ips.IpAddress == address)
-            .SingleOrDefaultAsync(cancellationToken);
+        return doesIpAddressExist;
     }
 
     /// <summary>
@@ -436,5 +428,19 @@ public class UserService : IUserService
             throw new AccessException(nameof(ErrorCodes.INSUFFICIENT_PRIVILEGES), ErrorCodes.INSUFFICIENT_PRIVILEGES);
 
         return otherUser;
+    }
+
+    /// <summary>
+    /// It checks whether an IP address exists or does not exist.
+    /// </summary>
+    /// <param name="address">IP address.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>True if it is listed; otherwise false.</returns>
+    private async Task<bool> DoesIpAddressExist(string address, CancellationToken cancellationToken)
+    {
+        return (await _databaseContext.UserAllowedIps
+            .AsNoTracking()
+            .Where(ips => ips.IpAddress == address)
+            .ToListAsync(cancellationToken)).Any();
     }
 }
