@@ -1,24 +1,24 @@
-﻿namespace EmailSender.WebApi.Configuration;
-
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Backend.Database;
-using Services.SmtpService;
-using Services.UserService;
-using Services.SenderService;
-using Services.BehaviourService;
-using Backend.Database.Initializer;
-using Backend.Core.Services.LoggerService;
-using Backend.Core.Services.DateTimeService;
 using MediatR;
 using DnsClient;
+using EmailSender.Backend.Core.Services.DateTimeService;
+using EmailSender.Backend.Core.Services.LoggerService;
+using EmailSender.Persistence.Database;
+using EmailSender.Persistence.Database.Initializer;
+using EmailSender.Services.BehaviourService;
+using EmailSender.Services.SenderService;
+using EmailSender.Services.SmtpService;
+using EmailSender.Services.UserService;
 using MailKit.Net.Smtp;
 using FluentValidation;
+
+namespace EmailSender.WebApi.Configuration;
 
 [ExcludeFromCodeCoverage]
 public static class Dependencies

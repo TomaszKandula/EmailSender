@@ -1,11 +1,9 @@
-using EmailSender.Backend.Domain.Entities;
-
-namespace EmailSender.Persistence.Database.Mappings;
-
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Domain.Entities;
+using EmailSender.Backend.Domain.Entities;
+
+namespace EmailSender.Persistence.Database.Mappings;
 
 [ExcludeFromCodeCoverage]
 public class UserDetailsConfiguration : IEntityTypeConfiguration<UserDetails>

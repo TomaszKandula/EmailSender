@@ -1,11 +1,9 @@
-﻿using EmailSender.Backend.Domain.Entities;
-
-namespace EmailSender.Persistence.Database;
-
-using System.Reflection;
+﻿using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Domain.Entities;
+using EmailSender.Backend.Domain.Entities;
+
+namespace EmailSender.Persistence.Database;
 
 [ExcludeFromCodeCoverage]
 public class DatabaseContext : DbContext
