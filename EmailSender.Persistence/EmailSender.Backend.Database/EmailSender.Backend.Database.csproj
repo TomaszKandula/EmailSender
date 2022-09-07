@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EmailSender.Backend.Domain\EmailSender.Backend.Domain.csproj" />
+      <ProjectReference Include="..\..\EmailSender.Backend\EmailSender.Backend.Domain\EmailSender.Backend.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
