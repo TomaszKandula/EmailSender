@@ -4,7 +4,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Database;
+using Persistence.Database;
 using Core.Exceptions;
 using Domain.Entities;
 using Shared.Resources;

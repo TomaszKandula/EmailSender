@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{9D92
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.Domain", "EmailSender.Backend\EmailSender.Backend.Domain\EmailSender.Backend.Domain.csproj", "{77E91901-D956-4B29-AFAA-FED0CC86832A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.Database", "EmailSender.Persistence\EmailSender.Backend.Database\EmailSender.Backend.Database.csproj", "{5E005153-349C-4653-B1F6-D6EBEFEFFB3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Persistence.Database", "EmailSender.Persistence\EmailSender.Persistence.Database\EmailSender.Persistence.Database.csproj", "{5E005153-349C-4653-B1F6-D6EBEFEFFB3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Tests.IntegrationTests", "EmailSender.Tests\EmailSender.Tests.IntegrationTests\EmailSender.Tests.IntegrationTests.csproj", "{4AABF118-F0EF-4490-83D7-F91E7959D5A1}"
 EndProject

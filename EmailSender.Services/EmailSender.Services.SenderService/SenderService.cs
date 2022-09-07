@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using SmtpService;
-using Backend.Database;
+using Persistence.Database;
 using SmtpService.Models;
 using Backend.Core.Exceptions;
 
