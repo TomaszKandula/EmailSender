@@ -81,12 +81,6 @@ namespace EmailSender.Backend.Shared.Resources {
             }
         }
         
-        public static string MISSING_PRICING {
-            get {
-                return ResourceManager.GetString("MISSING_PRICING", resourceCulture);
-            }
-        }
-        
         public static string MISSING_SERVER_DATA {
             get {
                 return ResourceManager.GetString("MISSING_SERVER_DATA", resourceCulture);
@@ -105,15 +99,39 @@ namespace EmailSender.Backend.Shared.Resources {
             }
         }
         
-        public static string INVALID_API_VERSION {
-            get {
-                return ResourceManager.GetString("INVALID_API_VERSION", resourceCulture);
-            }
-        }
-        
         public static string FILE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("FILE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        public static string USER_EMAIL_ALREADY_EXIST {
+            get {
+                return ResourceManager.GetString("USER_EMAIL_ALREADY_EXIST", resourceCulture);
+            }
+        }
+        
+        public static string USER_DOES_NOT_EXIST {
+            get {
+                return ResourceManager.GetString("USER_DOES_NOT_EXIST", resourceCulture);
+            }
+        }
+        
+        public static string INVALID_EMAIL_ID {
+            get {
+                return ResourceManager.GetString("INVALID_EMAIL_ID", resourceCulture);
+            }
+        }
+        
+        public static string INVALID_ID {
+            get {
+                return ResourceManager.GetString("INVALID_ID", resourceCulture);
+            }
+        }
+        
+        public static string INSUFFICIENT_PRIVILEGES {
+            get {
+                return ResourceManager.GetString("INSUFFICIENT_PRIVILEGES", resourceCulture);
             }
         }
     }

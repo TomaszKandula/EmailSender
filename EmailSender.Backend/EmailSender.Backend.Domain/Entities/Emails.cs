@@ -28,5 +28,5 @@ public class Emails : Entity<Guid>
         
     public ICollection<UserEmails> UserEmails { get; set; } = new HashSet<UserEmails>();
 
-    public ICollection<EmailsHistory> EmailsHistory { get; set; } = new HashSet<EmailsHistory>();
+    public ICollection<SentHistory> SentHistory { get; set; } = new HashSet<SentHistory>();
 }

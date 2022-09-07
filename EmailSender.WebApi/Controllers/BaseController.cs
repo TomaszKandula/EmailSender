@@ -2,12 +2,10 @@ namespace EmailSender.WebApi.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization;
 using Backend.Core.Models;
 using MediatR;
 
 [ApiController]
-[AllowAnonymous]
 [Route("api/v{version:apiVersion}/[controller]/[action]")]
 [ProducesResponseType(typeof(ApplicationError), StatusCodes.Status400BadRequest)]
 [ProducesResponseType(typeof(ApplicationError), StatusCodes.Status401Unauthorized)]
