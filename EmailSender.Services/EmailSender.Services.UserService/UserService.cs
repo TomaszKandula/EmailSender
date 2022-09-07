@@ -74,7 +74,7 @@ public class UserService : IUserService
         var address = ipAddress.ToString();
         var doesIpAddressExist = await DoesIpAddressExist(address, cancellationToken);
 
-        if (doesIpAddressExist) 
+        if (!doesIpAddressExist) 
             _loggerService.LogWarning($"IP address '{address}' is not registered within the system.");
 
         return doesIpAddressExist;
@@ -91,7 +91,7 @@ public class UserService : IUserService
     {
         var doesIpAddressExist = await DoesIpAddressExist(ipAddress, cancellationToken);
 
-        if (doesIpAddressExist) 
+        if (!doesIpAddressExist) 
             _loggerService.LogWarning($"IP address '{ipAddress}' is not registered within the system.");
 
         return doesIpAddressExist;
@@ -435,7 +435,7 @@ public class UserService : IUserService
     /// </summary>
     /// <param name="address">IP address.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>True if it is listed.</returns>
+    /// <returns>True if it is listed; otherwise false.</returns>
     private async Task<bool> DoesIpAddressExist(string address, CancellationToken cancellationToken)
     {
         return (await _databaseContext.UserAllowedIps
