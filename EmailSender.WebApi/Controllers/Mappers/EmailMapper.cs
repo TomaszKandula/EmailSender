@@ -1,8 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Mappers;
-
-using Shared.Dto;
 using System.Diagnostics.CodeAnalysis;
-using Handlers.Commands.Emails;
+using EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
+using EmailSender.WebApi.Dto;
+
+namespace EmailSender.WebApi.Controllers.Mappers;
 
 [ExcludeFromCodeCoverage]
 public static class EmailMapper

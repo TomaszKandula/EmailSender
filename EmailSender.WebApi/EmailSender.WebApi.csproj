@@ -27,6 +27,7 @@
       <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.SenderService\EmailSender.Services.SenderService.csproj" />
       <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.SmtpService\EmailSender.Services.SmtpService.csproj" />
       <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.UserService\EmailSender.Services.UserService.csproj" />
+      <ProjectReference Include="..\EmailSender.WebApi.Dto\EmailSender.WebApi.Dto.csproj" />
     </ItemGroup>
 
 </Project>

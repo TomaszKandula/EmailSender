@@ -1,8 +1,7 @@
-namespace EmailSender.Backend.Shared.Dto;
-
-using System;
 using System.Diagnostics.CodeAnalysis;
-using Domain.Enums;
+using EmailSender.Backend.Domain.Enums;
+
+namespace EmailSender.WebApi.Dto;
 
 [ExcludeFromCodeCoverage]
 public class AlterUserStatusDto

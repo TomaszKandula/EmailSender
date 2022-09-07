@@ -1,8 +1,10 @@
-namespace EmailSender.Backend.Cqrs.Mappers;
+using System.Diagnostics.CodeAnalysis;
+using EmailSender.Backend.Cqrs.Handlers.Commands.Users;
+using EmailSender.WebApi.Dto;
 
-using Handlers.Commands.Users;
-using Shared.Dto;
+namespace EmailSender.WebApi.Controllers.Mappers;
 
+[ExcludeFromCodeCoverage]
 public static class UsersMapper
 {
     public static GeneratePrivateKeyCommand MapToGeneratePrivateKeyCommand(GeneratePrivateKeyDto model) => new()

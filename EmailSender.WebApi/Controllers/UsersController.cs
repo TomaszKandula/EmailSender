@@ -1,15 +1,15 @@
-namespace EmailSender.WebApi.Controllers;
-
 using System.Threading.Tasks;
+using EmailSender.Backend.Cqrs.Handlers.Commands.Users;
+using EmailSender.Backend.Cqrs.Handlers.Queries.Users;
+using EmailSender.Backend.Shared.Attributes;
+using EmailSender.WebApi.Controllers.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
-using Backend.Shared.Dto;
-using Backend.Cqrs.Mappers;
-using Backend.Shared.Attributes;
-using Backend.Cqrs.Handlers.Queries.Users;
-using Backend.Cqrs.Handlers.Commands.Users;
 using MediatR;
+using EmailSender.WebApi.Dto;
+
+namespace EmailSender.WebApi.Controllers;
 
 [ApiVersion("1.0")]
 public class UsersController : BaseController
