@@ -1,3 +1,11 @@
+## [1.10.2](https://github.com/TomaszKandula/EmailSender/compare/v1.10.1...v1.10.2) (2022-09-07)
+
+
+### Bug Fixes
+
+* add missing negation ([0d92a60](https://github.com/TomaszKandula/EmailSender/commit/0d92a60b5da6c735e33af145638df1562c092f73))
+* change LINQ query ([1809d7c](https://github.com/TomaszKandula/EmailSender/commit/1809d7ccf88c6cc7dd01da3649310fe4a38aa40b))
+
 ## [1.10.1](https://github.com/TomaszKandula/EmailSender/compare/v1.10.0...v1.10.1) (2022-09-07)
 
 
