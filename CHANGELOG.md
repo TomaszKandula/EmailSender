@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/TomaszKandula/EmailSender/compare/v1.10.0...v1.10.1) (2022-09-07)
+
+
+### Bug Fixes
+
+* get forwarded ip address ([2c5fecf](https://github.com/TomaszKandula/EmailSender/commit/2c5fecfb73b43d411c34b35297b6d0265bae36fc))
+
 # [1.10.0](https://github.com/TomaszKandula/EmailSender/compare/v1.9.0...v1.10.0) (2022-09-07)
 
 
