@@ -72,15 +72,37 @@ public class UserService : IUserService
     public async Task<bool> IsIpAddressAllowed(IPAddress ipAddress, CancellationToken cancellationToken = default)
     {
         var address = ipAddress.ToString();
-        var allowedIp = await _databaseContext.UserAllowedIps
-            .AsNoTracking()
-            .Where(ips => ips.IpAddress == address)
-            .SingleOrDefaultAsync(cancellationToken);
+        var allowedIp = await GetIpAddress(address, cancellationToken);
 
         if (allowedIp is null) 
             _loggerService.LogWarning($"IP address '{address}' is not registered within the system.");
 
         return allowedIp is not null;
+    }
+
+    /// <summary>
+    /// Checks if given IP address is registered within the system.
+    /// It should not contain a scheme, but it may contain a port number.
+    /// </summary>
+    /// <param name="ipAddress">IP Address.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>True or False.</returns>
+    public async Task<bool> IsIpAddressAllowed(string ipAddress, CancellationToken cancellationToken = default)
+    {
+        var allowedIp = await GetIpAddress(ipAddress, cancellationToken);
+
+        if (allowedIp is null) 
+            _loggerService.LogWarning($"IP address '{ipAddress}' is not registered within the system.");
+
+        return allowedIp is not null;
+    }
+
+    private async Task<UserAllowedIps> GetIpAddress(string address, CancellationToken cancellationToken)
+    {
+        return await _databaseContext.UserAllowedIps
+            .AsNoTracking()
+            .Where(ips => ips.IpAddress == address)
+            .SingleOrDefaultAsync(cancellationToken);
     }
 
     /// <summary>
