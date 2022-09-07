@@ -10,7 +10,7 @@ public class RequestsHistory : Entity<Guid>
     public Guid UserId { get; set; }
 
     [Required]
-    public DateTime Requested { get; set; }
+    public DateTime RequestedAt { get; set; }
         
     [Required]
     [MaxLength(255)]

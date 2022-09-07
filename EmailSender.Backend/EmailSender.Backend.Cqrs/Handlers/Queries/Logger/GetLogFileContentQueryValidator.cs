@@ -12,7 +12,7 @@ public class GetLogFileContentQueryValidator : AbstractValidator<GetLogFileConte
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED)
             .MaximumLength(255)
-            .WithErrorCode(nameof(ValidationCodes.NAME_TOO_LONG))
-            .WithMessage(ValidationCodes.NAME_TOO_LONG);
+            .WithErrorCode(nameof(ValidationCodes.VALUE_TOO_LONG))
+            .WithMessage(ValidationCodes.VALUE_TOO_LONG);
     }
 }

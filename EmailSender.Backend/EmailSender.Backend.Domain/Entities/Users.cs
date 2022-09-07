@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel.DataAnnotations;
+using Enums;
 
 [ExcludeFromCodeCoverage]
 public class Users : Entity<Guid>
@@ -24,7 +25,9 @@ public class Users : Entity<Guid>
     [MaxLength(255)]
     public string EmailAddress { get; set; }
 
-    public bool IsActivated { get; set; }
+    public UserStatus Status { get; set; }
+
+    public bool IsDeleted { get; set; }
 
     public DateTime Registered { get; set; }
         
@@ -32,11 +35,13 @@ public class Users : Entity<Guid>
     [MaxLength(100)]
     public string PrivateKey { get; set; }
 
+    public UserRole Role { get; set; }
+
     public ICollection<UserEmails> UserEmails { get; set; } = new HashSet<UserEmails>();
 
-    public ICollection<EmailsHistory> EmailsHistory { get; set; } = new HashSet<EmailsHistory>();
+    public ICollection<SentHistory> SentHistory { get; set; } = new HashSet<SentHistory>();
 
-    public ICollection<UserDomains> UserDomains { get; set; } = new HashSet<UserDomains>();
+    public ICollection<UserAllowedIps> UserAllowedIps { get; set; } = new HashSet<UserAllowedIps>();
 
     public ICollection<RequestsHistory> RequestsHistory { get; set; } = new HashSet<RequestsHistory>();
 

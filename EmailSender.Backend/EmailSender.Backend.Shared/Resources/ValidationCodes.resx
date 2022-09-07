@@ -24,7 +24,7 @@
     <data name="INVALID_EMAIL_ADDRESS" xml:space="preserve">
         <value>Invalid email address</value>
     </data>
-    <data name="NAME_TOO_LONG" xml:space="preserve">
-        <value>The name is too long</value>
+    <data name="VALUE_TOO_LONG" xml:space="preserve">
+        <value>The value is too long</value>
     </data>
 </root>
