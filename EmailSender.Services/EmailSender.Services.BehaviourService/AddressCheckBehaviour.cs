@@ -14,6 +14,10 @@ using MediatR;
 [ExcludeFromCodeCoverage]
 public class AddressCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
+    private const string Localhost = "127.0.0.1";
+
+    private const string XForwardedFor = "X-Forwarded-For";
+
     private readonly ILoggerService _logger;
 
     private readonly IUserService _userService;
@@ -34,7 +38,7 @@ public class AddressCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TReq
         if (allowAnonymous)
             return await next();
 
-        var ipAddress = _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.MapToIPv4();
+        var ipAddress = GetRequestIpAddress();
         var isIpAddressAllowed = await _userService.IsIpAddressAllowed(ipAddress, CancellationToken.None);
 
         if (isIpAddressAllowed) 
@@ -42,5 +46,15 @@ public class AddressCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TReq
 
         _logger.LogWarning($"Access forbidden for: {ipAddress}");
         throw new Backend.Core.Exceptions.AccessException(nameof(ErrorCodes.ACCESS_FORBIDDEN), ErrorCodes.ACCESS_FORBIDDEN);
+    }
+
+    private string GetRequestIpAddress() 
+    {
+        var remoteIpAddress = _httpContextAccessor.HttpContext?
+            .Request.Headers[XForwardedFor].ToString();
+
+        return string.IsNullOrEmpty(remoteIpAddress) 
+            ? Localhost 
+            : remoteIpAddress.Split(':')[0];
     }
 }

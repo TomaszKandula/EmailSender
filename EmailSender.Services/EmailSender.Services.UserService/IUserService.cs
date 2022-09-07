@@ -13,7 +13,9 @@ public interface IUserService
 
     Task<string> GeneratePrivateKey(Guid? userId, CancellationToken cancellationToken = default);
 
-    Task<bool> IsIpAddressAllowed(IPAddress domainName, CancellationToken cancellationToken = default);
+    Task<bool> IsIpAddressAllowed(IPAddress ipAddress, CancellationToken cancellationToken = default);
+
+    Task<bool> IsIpAddressAllowed(string ipAddress, CancellationToken cancellationToken = default);
 
     Task<bool> IsPrivateKeyValid(string privateKey, CancellationToken cancellationToken = default);
 
