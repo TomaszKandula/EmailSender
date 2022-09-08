@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Diagnostics.CodeAnalysis;
 
-namespace EmailSender.Backend.Core.Services.DataUtilityService;
+namespace EmailSender.Backend.Core.Utilities.DataUtilityService;
 
 [ExcludeFromCodeCoverage]
 public sealed class DataUtilityService : IDataUtilityService

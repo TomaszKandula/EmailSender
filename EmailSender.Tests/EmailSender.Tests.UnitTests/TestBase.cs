@@ -1,5 +1,5 @@
-﻿using EmailSender.Backend.Core.Services.DataUtilityService;
-using EmailSender.Backend.Core.Services.DateTimeService;
+﻿using EmailSender.Backend.Core.Utilities.DataUtilityService;
+using EmailSender.Backend.Core.Utilities.DateTimeService;
 using EmailSender.Persistence.Database;
 using Microsoft.Extensions.DependencyInjection;
 

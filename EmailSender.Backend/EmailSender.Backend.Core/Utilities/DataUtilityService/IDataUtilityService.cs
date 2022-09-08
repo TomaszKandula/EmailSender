@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 
-namespace EmailSender.Backend.Core.Services.DataUtilityService;
+namespace EmailSender.Backend.Core.Utilities.DataUtilityService;
 
 public interface IDataUtilityService
 {

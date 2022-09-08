@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using EmailSender.Backend.Core.Services.LoggerService;
+using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Services.UserService;
 
 namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;

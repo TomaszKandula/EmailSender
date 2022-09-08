@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using EmailSender.Backend.Core.Services.LoggerService;
+using EmailSender.Backend.Core.Utilities.LoggerService;
 using MediatR;
 
 namespace EmailSender.Services.BehaviourService;

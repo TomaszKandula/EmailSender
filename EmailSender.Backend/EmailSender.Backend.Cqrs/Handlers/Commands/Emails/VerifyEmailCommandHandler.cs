@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSender.Backend.Core.Exceptions;
-using EmailSender.Backend.Core.Services.LoggerService;
+using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Backend.Shared.Resources;
 using EmailSender.Services.SenderService;
 using EmailSender.Services.UserService;

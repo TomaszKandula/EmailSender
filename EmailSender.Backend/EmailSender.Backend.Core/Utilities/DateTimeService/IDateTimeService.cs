@@ -1,6 +1,6 @@
 using System;
 
-namespace EmailSender.Backend.Core.Services.DateTimeService;
+namespace EmailSender.Backend.Core.Utilities.DateTimeService;
 
 public interface IDateTimeService
 {
