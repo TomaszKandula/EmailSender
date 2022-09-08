@@ -1,9 +1,9 @@
-﻿namespace EmailSender.Backend.Core.Models;
-
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation.Results;
+
+namespace EmailSender.Backend.Core.Errors;
 
 [ExcludeFromCodeCoverage]
 public sealed class ApplicationError

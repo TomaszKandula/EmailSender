@@ -1,7 +1,7 @@
-﻿namespace EmailSender.Backend.Core.Models;
-
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using FluentValidation.Results;
+
+namespace EmailSender.Backend.Core.Errors;
 
 [ExcludeFromCodeCoverage]
 public sealed class ValidationError
