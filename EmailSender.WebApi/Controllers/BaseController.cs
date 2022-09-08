@@ -1,9 +1,9 @@
-namespace EmailSender.WebApi.Controllers;
-
+using EmailSender.Backend.Core.Errors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Backend.Core.Models;
 using MediatR;
+
+namespace EmailSender.WebApi.Controllers;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]/[action]")]

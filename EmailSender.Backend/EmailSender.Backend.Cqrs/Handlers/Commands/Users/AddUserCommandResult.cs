@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-
 using System;
-using Domain.Enums;
+using EmailSender.Backend.Domain.Enums;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 public class AddUserCommandResult
 {

@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
-
 using MediatR;
 using System.Collections.Generic;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
 
 public class VerifyEmailCommand : IRequest<VerifyEmailCommandResult>
 {

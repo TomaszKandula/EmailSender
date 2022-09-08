@@ -1,9 +1,9 @@
-﻿namespace EmailSender.Backend.Core.Exceptions;
-
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation.Results;
+
+namespace EmailSender.Backend.Core.Exceptions;
 
 [ExcludeFromCodeCoverage]
 [Serializable]

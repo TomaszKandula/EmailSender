@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Shared.Models;
-
 using System;
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Backend.Shared.Models;
 
 [ExcludeFromCodeCoverage]
 public class RequestHistoryEntry

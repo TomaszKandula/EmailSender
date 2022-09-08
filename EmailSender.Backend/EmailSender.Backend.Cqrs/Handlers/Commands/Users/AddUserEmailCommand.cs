@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-
 using MediatR;
 using System;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 public class AddUserEmailCommand : IRequest<Unit>
 {

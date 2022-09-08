@@ -1,19 +1,19 @@
-﻿namespace EmailSender.Services.SmtpService;
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Models;
 using MimeKit;
 using DnsClient;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Shared.Resources;
+using EmailSender.Services.SmtpService.Models;
 using MimeKit.Text;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using Backend.Core.Exceptions;
-using Backend.Shared.Resources;
+
+namespace EmailSender.Services.SmtpService;
 
 public sealed class SmtpClientService : ISmtpClientService
 {

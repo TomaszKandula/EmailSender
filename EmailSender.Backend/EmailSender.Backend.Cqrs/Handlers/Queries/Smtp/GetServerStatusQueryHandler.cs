@@ -1,14 +1,14 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Smtp;
-
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Exceptions;
-using Shared.Resources;
-using Services.UserService;
-using Services.SenderService;
-using Core.Services.LoggerService;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Core.Utilities.LoggerService;
+using EmailSender.Backend.Shared.Resources;
+using EmailSender.Services.SenderService;
+using EmailSender.Services.UserService;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Smtp;
 
 public class GetServerStatusQueryHandler : Cqrs.RequestHandler<GetServerStatusQuery, Unit>
 {

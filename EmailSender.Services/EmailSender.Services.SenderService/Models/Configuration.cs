@@ -1,7 +1,7 @@
-namespace EmailSender.Services.SenderService.Models;
-
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Services.SenderService.Models;
 
 [ExcludeFromCodeCoverage]
 public class Configuration

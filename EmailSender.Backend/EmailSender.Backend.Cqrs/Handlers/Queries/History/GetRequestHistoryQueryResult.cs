@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.History;
-
 using System.Collections.Generic;
-using Shared.Models;
+using EmailSender.Backend.Shared.Models;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.History;
 
 public class GetRequestHistoryQueryResult
 {
