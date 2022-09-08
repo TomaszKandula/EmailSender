@@ -1,9 +1,9 @@
-﻿namespace EmailSender.Services.SmtpService;
-
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Models;
+using EmailSender.Services.SmtpService.Models;
+
+namespace EmailSender.Services.SmtpService;
 
 public interface ISmtpClientService
 {

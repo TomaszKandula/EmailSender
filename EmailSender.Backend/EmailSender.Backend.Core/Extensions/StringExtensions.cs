@@ -1,9 +1,9 @@
-namespace EmailSender.Backend.Core.Extensions;
-
 using System;
 using System.Text;
 using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Backend.Core.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class StringExtensions

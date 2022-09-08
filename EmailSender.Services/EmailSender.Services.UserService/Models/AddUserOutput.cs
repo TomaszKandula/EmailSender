@@ -1,8 +1,8 @@
-namespace EmailSender.Services.UserService.Models;
-
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Backend.Domain.Enums;
+using EmailSender.Backend.Domain.Enums;
+
+namespace EmailSender.Services.UserService.Models;
 
 [ExcludeFromCodeCoverage]
 public class AddUserOutput

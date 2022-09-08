@@ -1,9 +1,9 @@
-﻿namespace EmailSender.Backend.Core.Extensions;
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Backend.Core.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class QueryableExtensions

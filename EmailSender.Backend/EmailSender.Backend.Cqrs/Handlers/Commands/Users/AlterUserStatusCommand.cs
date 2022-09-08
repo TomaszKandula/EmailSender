@@ -1,8 +1,8 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-
 using System;
-using Domain.Enums;
+using EmailSender.Backend.Domain.Enums;
 using MediatR;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 public class AlterUserStatusCommand : IRequest<Unit>
 {

@@ -1,6 +1,6 @@
-namespace EmailSender.Services.SmtpService.Models;
-
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Services.SmtpService.Models;
 
 [ExcludeFromCodeCoverage]
 public class VerifyEmail

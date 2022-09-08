@@ -1,11 +1,11 @@
-namespace EmailSender.WebApi.Controllers;
-
 using System.Threading.Tasks;
+using EmailSender.Backend.Cqrs.Handlers.Queries.Logger;
+using EmailSender.Backend.Shared.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Backend.Shared.Attributes;
-using Backend.Cqrs.Handlers.Queries.Logger;
 using MediatR;
+
+namespace EmailSender.WebApi.Controllers;
 
 [ApiVersion("1.0")]
 public class LoggerController : BaseController

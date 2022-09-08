@@ -1,20 +1,20 @@
-namespace EmailSender.Services.UserService;
-
 using System;
-using System.Net;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Core.Utilities.DateTimeService;
+using EmailSender.Backend.Core.Utilities.LoggerService;
+using EmailSender.Backend.Domain.Entities;
+using EmailSender.Backend.Domain.Enums;
+using EmailSender.Backend.Shared.Resources;
+using EmailSender.Persistence.Database;
+using EmailSender.Services.UserService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Models;
-using Backend.Database;
-using Backend.Domain.Enums;
-using Backend.Domain.Entities;
-using Backend.Core.Exceptions;
-using Backend.Shared.Resources;
-using Backend.Core.Services.LoggerService;
-using Backend.Core.Services.DateTimeService;
+
+namespace EmailSender.Services.UserService;
 
 public class UserService : IUserService
 {

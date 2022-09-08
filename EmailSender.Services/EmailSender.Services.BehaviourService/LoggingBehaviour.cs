@@ -1,10 +1,8 @@
-﻿namespace EmailSender.Services.BehaviourService;
-
-using System.Threading;
-using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
-using EmailSender.Backend.Core.Services.LoggerService;
+﻿using System.Diagnostics.CodeAnalysis;
+using EmailSender.Backend.Core.Utilities.LoggerService;
 using MediatR;
+
+namespace EmailSender.Services.BehaviourService;
 
 [ExcludeFromCodeCoverage]
 public class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>

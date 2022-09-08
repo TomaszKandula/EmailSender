@@ -1,13 +1,13 @@
-namespace EmailSender.WebApi.Controllers;
-
 using System.Threading.Tasks;
+using EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
+using EmailSender.Backend.Shared.Attributes;
+using EmailSender.WebApi.Controllers.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Backend.Shared.Dto;
-using Backend.Cqrs.Mappers;
-using Backend.Shared.Attributes;
-using Backend.Cqrs.Handlers.Commands.Emails;
 using MediatR;
+using EmailSender.WebApi.Dto;
+
+namespace EmailSender.WebApi.Controllers;
 
 [ApiVersion("1.0")]
 public class EmailsController : BaseController

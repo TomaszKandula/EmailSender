@@ -1,5 +1,3 @@
-namespace EmailSender.WebApi.Configuration;
-
 using System;
 using System.Net;
 using System.Net.Http;
@@ -7,6 +5,8 @@ using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 using Polly.Extensions.Http;
 using Polly;
+
+namespace EmailSender.WebApi.Configuration;
 
 [ExcludeFromCodeCoverage]
 public static class PollyPolicyHandler

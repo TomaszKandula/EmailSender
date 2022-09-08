@@ -1,14 +1,11 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Exceptions;
-using Shared.Resources;
-using Services.UserService;
-using Core.Services.LoggerService;
-using Services.UserService.Models;
+using EmailSender.Backend.Core.Utilities.LoggerService;
+using EmailSender.Services.UserService;
+using EmailSender.Services.UserService.Models;
 using MediatR;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 public class UpdateUserEmailCommandHandler : Cqrs.RequestHandler<UpdateUserEmailCommand, Unit>
 {

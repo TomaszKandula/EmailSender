@@ -1,12 +1,12 @@
-﻿namespace EmailSender.Backend.Core.Converters;
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
+
+namespace EmailSender.Backend.Core.Converters;
 
 /// <summary>
 /// Dynamic String to Enum converter for unknown types. Converter sets Unknown member for unsupported types.

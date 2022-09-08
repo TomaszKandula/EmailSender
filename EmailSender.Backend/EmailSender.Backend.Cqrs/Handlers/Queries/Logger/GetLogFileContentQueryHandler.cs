@@ -1,12 +1,12 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Logger;
-
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Shared.Resources;
 using Microsoft.AspNetCore.Mvc;
-using Core.Exceptions;
-using Shared.Resources;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Logger;
 
 public class GetLogFileContentQueryHandler : RequestHandler<GetLogFileContentQuery, FileContentResult>
 {

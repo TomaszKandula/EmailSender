@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
-
 using System.Collections.Generic;
 using MediatR;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
 
 public class SendEmailCommand : IRequest<Unit>
 {
