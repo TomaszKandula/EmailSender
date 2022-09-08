@@ -1,9 +1,9 @@
-namespace EmailSender.Tests.UnitTests.Validators;
-
-using Xunit;
+using EmailSender.Backend.Cqrs.Handlers.Queries.Smtp;
+using EmailSender.Backend.Shared.Resources;
 using FluentAssertions;
-using Backend.Shared.Resources;
-using Backend.Cqrs.Handlers.Queries.Smtp;
+using Xunit;
+
+namespace EmailSender.Tests.UnitTests.Validators;
 
 public class GetServerStatusQueryValidatorTest : TestBase
 {

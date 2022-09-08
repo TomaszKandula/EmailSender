@@ -1,9 +1,9 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-
 using System.Threading;
 using System.Threading.Tasks;
-using Services.UserService;
-using Core.Services.LoggerService;
+using EmailSender.Backend.Core.Utilities.LoggerService;
+using EmailSender.Services.UserService;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 public class GeneratePrivateKeyCommandHandler : RequestHandler<GeneratePrivateKeyCommand, string>
 {

@@ -1,5 +1,3 @@
-namespace EmailSender.Tests.UnitTests.Services;
-
 using Moq;
 using Xunit;
 using FluentAssertions;
@@ -12,13 +10,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Backend.Domain.Enums;
-using Backend.Domain.Entities;
-using Backend.Core.Exceptions;
-using Backend.Shared.Resources;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Domain.Entities;
+using EmailSender.Backend.Domain.Enums;
+using EmailSender.Backend.Shared.Resources;
 using EmailSender.Services.SmtpService;
 using EmailSender.Services.SenderService;
 using EmailSender.Services.SenderService.Models;
+
+namespace EmailSender.Tests.UnitTests.Services;
     
 public class SenderServiceTest : TestBase
 {

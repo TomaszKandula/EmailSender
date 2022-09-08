@@ -1,10 +1,10 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-
 using System.Threading;
 using System.Threading.Tasks;
-using Services.UserService;
-using Services.UserService.Models;
-using Core.Services.LoggerService;
+using EmailSender.Backend.Core.Utilities.LoggerService;
+using EmailSender.Services.UserService;
+using EmailSender.Services.UserService.Models;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 public class AddUserCommandHandler : RequestHandler<AddUserCommand, AddUserCommandResult>
 {

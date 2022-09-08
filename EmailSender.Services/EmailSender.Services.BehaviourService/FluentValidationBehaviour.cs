@@ -1,10 +1,8 @@
-﻿namespace EmailSender.Services.BehaviourService;
-
-using System.Threading;
-using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using MediatR;
+
+namespace EmailSender.Services.BehaviourService;
 
 [ExcludeFromCodeCoverage]
 public class FluentValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>

@@ -1,9 +1,9 @@
-﻿namespace EmailSender.Tests.UnitTests;
-
+﻿using EmailSender.Backend.Core.Utilities.DataUtilityService;
+using EmailSender.Backend.Core.Utilities.DateTimeService;
+using EmailSender.Persistence.Database;
 using Microsoft.Extensions.DependencyInjection;
-using Backend.Database;
-using Backend.Core.Services.DateTimeService;
-using Backend.Core.Services.DataUtilityService;
+
+namespace EmailSender.Tests.UnitTests;
 
 public class TestBase
 {

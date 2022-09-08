@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Domain.Entities;
-
 using System;
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Backend.Domain.Entities;
 
 [ExcludeFromCodeCoverage]
 public class UserEmails : Entity<Guid>

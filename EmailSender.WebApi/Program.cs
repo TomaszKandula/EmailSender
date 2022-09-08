@@ -1,15 +1,15 @@
-namespace EmailSender.WebApi;
-
 using System;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
+using EmailSender.Persistence.Database.Initializer;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Backend.Database.Initializer;
 using Serilog.Events;
 using Serilog;
+
+namespace EmailSender.WebApi;
 
 [ExcludeFromCodeCoverage]
 public static class Program

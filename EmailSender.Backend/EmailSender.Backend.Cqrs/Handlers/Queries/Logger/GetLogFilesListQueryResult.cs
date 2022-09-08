@@ -1,6 +1,6 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Logger;
-
 using System.Collections.Generic;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Logger;
 
 public class GetLogFilesListQueryResult
 {

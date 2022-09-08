@@ -1,16 +1,16 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.History;
-
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Core.Utilities.LoggerService;
+using EmailSender.Backend.Shared.Models;
+using EmailSender.Backend.Shared.Resources;
+using EmailSender.Persistence.Database;
+using EmailSender.Services.UserService;
 using Microsoft.EntityFrameworkCore;
-using Database;
-using Shared.Models;
-using Core.Exceptions;
-using Shared.Resources;
-using Services.UserService;
-using Core.Services.LoggerService;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.History;
 
 public class GetSentHistoryQueryHandler : RequestHandler<GetSentHistoryQuery, GetSentHistoryQueryResult>
 {

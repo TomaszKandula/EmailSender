@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-
 using System;
 using MediatR;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 public class UpdateUserEmailCommand : IRequest<Unit>
 {

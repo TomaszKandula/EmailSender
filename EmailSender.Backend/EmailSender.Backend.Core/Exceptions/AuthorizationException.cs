@@ -1,8 +1,8 @@
-namespace EmailSender.Backend.Core.Exceptions;
-
 using System;
 using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Backend.Core.Exceptions;
 
 [ExcludeFromCodeCoverage]
 [Serializable]

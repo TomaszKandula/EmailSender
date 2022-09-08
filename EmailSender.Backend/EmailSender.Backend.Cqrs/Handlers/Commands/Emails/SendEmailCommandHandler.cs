@@ -1,18 +1,18 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
-
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Database;
-using Core.Exceptions;
-using Domain.Entities;
-using Shared.Resources;
-using Services.UserService;
-using Services.SenderService;
-using Core.Services.LoggerService;
-using Services.SenderService.Models;
-using Core.Services.DateTimeService;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Core.Utilities.DateTimeService;
+using EmailSender.Backend.Core.Utilities.LoggerService;
+using EmailSender.Backend.Domain.Entities;
+using EmailSender.Backend.Shared.Resources;
+using EmailSender.Persistence.Database;
+using EmailSender.Services.SenderService;
+using EmailSender.Services.SenderService.Models;
+using EmailSender.Services.UserService;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
 
 public class SendEmailCommandHandler : Cqrs.RequestHandler<SendEmailCommand, Unit>
 {
