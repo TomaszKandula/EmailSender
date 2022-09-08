@@ -1,11 +1,11 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-
 using System.Threading;
 using System.Threading.Tasks;
-using Services.UserService;
-using Core.Services.LoggerService;
-using Services.UserService.Models;
+using EmailSender.Backend.Core.Services.LoggerService;
+using EmailSender.Services.UserService;
+using EmailSender.Services.UserService.Models;
 using MediatR;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Commands.Users;
 
 public class RemoveUserCommandHandler : Cqrs.RequestHandler<RemoveUserCommand, Unit>
 {

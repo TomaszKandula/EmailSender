@@ -1,17 +1,17 @@
-#nullable enable
-namespace EmailSender.Services.SenderService;
-
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Persistence.Database;
+using EmailSender.Services.SenderService.Models;
+using EmailSender.Services.SmtpService;
+using EmailSender.Services.SmtpService.Models;
 using Microsoft.EntityFrameworkCore;
-using Models;
-using SmtpService;
-using Persistence.Database;
-using SmtpService.Models;
-using Backend.Core.Exceptions;
+
+#nullable enable
+namespace EmailSender.Services.SenderService;
 
 public class SenderService : ISenderService
 {

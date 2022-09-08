@@ -1,7 +1,7 @@
-namespace EmailSender.Persistence.Database.Initializer;
-
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+
+namespace EmailSender.Persistence.Database.Initializer;
 
 [ExcludeFromCodeCoverage]
 public class DbInitializer : IDbInitializer

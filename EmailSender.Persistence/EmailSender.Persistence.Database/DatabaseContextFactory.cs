@@ -1,10 +1,10 @@
-﻿namespace EmailSender.Persistence.Database;
-
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Design;
+
+namespace EmailSender.Persistence.Database;
 
 /// <summary>
 /// A factory for creating derived DbContext instances when performing

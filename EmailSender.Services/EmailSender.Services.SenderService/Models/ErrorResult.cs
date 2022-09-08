@@ -1,6 +1,6 @@
-namespace EmailSender.Services.SenderService.Models;
-
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Services.SenderService.Models;
 
 [ExcludeFromCodeCoverage]
 public class ErrorResult

@@ -1,6 +1,6 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
-
 using System;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
 
 public class GetUserDetailsQueryResult
 {

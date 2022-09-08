@@ -1,14 +1,14 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
-
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Shared.Resources;
+using EmailSender.Persistence.Database;
+using EmailSender.Services.UserService;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Database;
-using Core.Exceptions;
-using Shared.Resources;
-using Services.UserService;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Users;
 
 public class GetUserDetailsQueryHandler : RequestHandler<GetUserDetailsQuery, GetUserDetailsQueryResult>
 {

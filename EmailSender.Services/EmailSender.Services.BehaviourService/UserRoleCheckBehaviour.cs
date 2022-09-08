@@ -1,17 +1,15 @@
-namespace EmailSender.Services.BehaviourService;
-
-using System.Threading;
-using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Core.Services.LoggerService;
+using EmailSender.Backend.Domain.Enums;
+using EmailSender.Backend.Shared.Attributes;
+using EmailSender.Backend.Shared.Resources;
+using EmailSender.Services.UserService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using UserService;
-using Backend.Domain.Enums;
-using Backend.Core.Exceptions;
-using Backend.Shared.Resources;
-using Backend.Shared.Attributes;
-using Backend.Core.Services.LoggerService;
 using MediatR;
+
+namespace EmailSender.Services.BehaviourService;
 
 [ExcludeFromCodeCoverage]
 public class UserRoleCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>

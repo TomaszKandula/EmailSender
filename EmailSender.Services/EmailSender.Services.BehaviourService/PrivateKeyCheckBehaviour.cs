@@ -1,16 +1,14 @@
-namespace EmailSender.Services.BehaviourService;
-
-using System.Threading;
-using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.Backend.Core.Services.LoggerService;
+using EmailSender.Backend.Shared.Resources;
+using EmailSender.Services.UserService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
-using UserService;
-using Backend.Core.Exceptions;
-using Backend.Shared.Resources;
-using Backend.Core.Services.LoggerService;
 using MediatR;
+
+namespace EmailSender.Services.BehaviourService;
 
 [ExcludeFromCodeCoverage]
 public class PrivateKeyCheckBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>

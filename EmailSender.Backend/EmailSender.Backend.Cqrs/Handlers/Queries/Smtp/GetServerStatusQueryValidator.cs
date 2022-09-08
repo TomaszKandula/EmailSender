@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Smtp;
-
+using EmailSender.Backend.Shared.Resources;
 using FluentValidation;
-using Shared.Resources;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Smtp;
 
 public class GetServerStatusQueryValidator : AbstractValidator<GetServerStatusQuery>
 {

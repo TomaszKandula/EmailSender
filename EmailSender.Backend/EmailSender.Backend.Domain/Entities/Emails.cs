@@ -1,9 +1,9 @@
-namespace EmailSender.Backend.Domain.Entities;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel.DataAnnotations;
+
+namespace EmailSender.Backend.Domain.Entities;
 
 [ExcludeFromCodeCoverage]
 public class Emails : Entity<Guid>

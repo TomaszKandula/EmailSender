@@ -1,9 +1,9 @@
-namespace EmailSender.WebApi.Middleware;
-
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
+
+namespace EmailSender.WebApi.Middleware;
 
 [ExcludeFromCodeCoverage]
 public class CacheControl

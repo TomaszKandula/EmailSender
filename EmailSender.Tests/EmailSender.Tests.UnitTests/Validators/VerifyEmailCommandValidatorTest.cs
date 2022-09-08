@@ -1,10 +1,10 @@
-namespace EmailSender.Tests.UnitTests.Validators;
-
 using Xunit;
-using FluentAssertions;
 using System.Collections.Generic;
-using Backend.Shared.Resources;
-using Backend.Cqrs.Handlers.Commands.Emails;
+using EmailSender.Backend.Cqrs.Handlers.Commands.Emails;
+using EmailSender.Backend.Shared.Resources;
+using FluentAssertions;
+
+namespace EmailSender.Tests.UnitTests.Validators;
 
 public class VerifyEmailCommandValidatorTest : TestBase
 {

@@ -1,6 +1,6 @@
-namespace EmailSender.WebApi.Dto;
-
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.WebApi.Dto;
 
 [ExcludeFromCodeCoverage]
 public class AddUserDto

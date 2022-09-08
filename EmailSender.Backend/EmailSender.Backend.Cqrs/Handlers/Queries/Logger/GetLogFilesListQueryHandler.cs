@@ -1,10 +1,10 @@
-namespace EmailSender.Backend.Cqrs.Handlers.Queries.Logger;
-
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+
+namespace EmailSender.Backend.Cqrs.Handlers.Queries.Logger;
 
 public class GetLogFilesListQueryHandler : RequestHandler<GetLogFilesListQuery, GetLogFilesListQueryResult>
 {

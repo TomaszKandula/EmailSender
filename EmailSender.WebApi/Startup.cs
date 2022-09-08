@@ -1,6 +1,7 @@
-namespace EmailSender.WebApi;
-
 using System.Diagnostics.CodeAnalysis;
+using EmailSender.Backend.Core.Exceptions;
+using EmailSender.WebApi.Configuration;
+using EmailSender.WebApi.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
@@ -8,11 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.ResponseCompression;
 using Serilog;
-using Middleware;
-using Configuration;
-using Backend.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Converters;
+
+namespace EmailSender.WebApi;
 
 [ExcludeFromCodeCoverage]
 public class Startup

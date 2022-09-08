@@ -1,10 +1,10 @@
-namespace EmailSender.Backend.Core.Exceptions;
-
 using System.Diagnostics.CodeAnalysis;
+using EmailSender.Backend.Core.Errors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using Models;
+
+namespace EmailSender.Backend.Core.Exceptions;
 
 [ExcludeFromCodeCoverage]
 public class ApiVersionException : IErrorResponseProvider

@@ -1,10 +1,10 @@
-namespace EmailSender.WebApi.Configuration;
-
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+
+namespace EmailSender.WebApi.Configuration;
 
 [ExcludeFromCodeCoverage]
 public static class SwaggerSupport

@@ -1,8 +1,8 @@
-﻿namespace EmailSender.Backend.Core.Services.LoggerService;
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Serilog;
+
+namespace EmailSender.Backend.Core.Services.LoggerService;
 
 /// <summary>
 /// Logger service that allows to store messages from application.

@@ -1,11 +1,11 @@
-namespace EmailSender.Services.UserService;
-
 using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Enums;
-using Models;
+using EmailSender.Backend.Domain.Enums;
+using EmailSender.Services.UserService.Models;
+
+namespace EmailSender.Services.UserService;
 
 public interface IUserService
 {

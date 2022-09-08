@@ -1,8 +1,8 @@
-namespace EmailSender.Backend.Core.Services.DataUtilityService;
-
 using System;
 using System.IO;
 using System.Net;
+
+namespace EmailSender.Backend.Core.Services.DataUtilityService;
 
 public interface IDataUtilityService
 {

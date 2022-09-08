@@ -1,14 +1,12 @@
-namespace EmailSender.Services.BehaviourService;
-
-using System.Threading;
-using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
+using EmailSender.Backend.Core.Services.LoggerService;
+using EmailSender.Backend.Shared.Attributes;
+using EmailSender.Services.UserService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using UserService;
-using Backend.Shared.Attributes;
-using Backend.Core.Services.LoggerService;
 using MediatR;
+
+namespace EmailSender.Services.BehaviourService;
 
 [ExcludeFromCodeCoverage]
 public class ApiRequestBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>

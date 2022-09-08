@@ -1,7 +1,7 @@
-namespace EmailSender.Backend.Core.Services.DateTimeService;
-
 using System;
 using System.Diagnostics.CodeAnalysis;
+
+namespace EmailSender.Backend.Core.Services.DateTimeService;
 
 [ExcludeFromCodeCoverage]
 public sealed class DateTimeService : IDateTimeService
