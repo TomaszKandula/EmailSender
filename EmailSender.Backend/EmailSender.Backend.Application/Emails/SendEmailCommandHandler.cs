@@ -12,7 +12,7 @@ using EmailSender.Services.SenderService;
 using EmailSender.Services.SenderService.Models;
 using EmailSender.Services.UserService;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Emails;
+namespace EmailSender.Backend.Application.Emails;
 
 public class SendEmailCommandHandler : RequestHandler<SendEmailCommand, Unit>
 {

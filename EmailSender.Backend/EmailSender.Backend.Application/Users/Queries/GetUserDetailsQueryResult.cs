@@ -1,6 +1,6 @@
 using System;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.Users;
+namespace EmailSender.Backend.Application.Users.Queries;
 
 public class GetUserDetailsQueryResult
 {

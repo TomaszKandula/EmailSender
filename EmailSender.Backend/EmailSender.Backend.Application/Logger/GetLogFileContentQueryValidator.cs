@@ -1,7 +1,7 @@
 using EmailSender.Backend.Shared.Resources;
 using FluentValidation;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.Logger;
+namespace EmailSender.Backend.Application.Logger;
 
 public class GetLogFileContentQueryValidator : AbstractValidator<GetLogFileContentQuery>
 {

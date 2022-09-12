@@ -8,7 +8,7 @@ using EmailSender.Backend.Shared.Resources;
 using EmailSender.Services.SenderService;
 using EmailSender.Services.UserService;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.Smtp;
+namespace EmailSender.Backend.Application.Smtp;
 
 public class GetServerStatusQueryHandler : RequestHandler<GetServerStatusQuery, Unit>
 {

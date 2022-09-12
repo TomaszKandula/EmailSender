@@ -4,7 +4,7 @@ using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Services.UserService;
 using EmailSender.Services.UserService.Models;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Users;
+namespace EmailSender.Backend.Application.Users.Commands;
 
 public class AddUserCommandHandler : RequestHandler<AddUserCommand, AddUserCommandResult>
 {

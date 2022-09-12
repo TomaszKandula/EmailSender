@@ -8,7 +8,7 @@ using EmailSender.Backend.Shared.Resources;
 using EmailSender.Services.SenderService;
 using EmailSender.Services.UserService;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Emails;
+namespace EmailSender.Backend.Application.Emails;
 
 public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommand, VerifyEmailCommandResult>
 {

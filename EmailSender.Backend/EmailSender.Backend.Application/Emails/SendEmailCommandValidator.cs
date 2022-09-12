@@ -1,13 +1,13 @@
 using EmailSender.Backend.Shared.Resources;
 using FluentValidation;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Emails;
+namespace EmailSender.Backend.Application.Emails;
 
 public class SendEmailCommandValidator : AbstractValidator<SendEmailCommand>
 {
     public SendEmailCommandValidator()
     {
-        RuleFor(request => request.From)
+        RuleFor(command => command.From)
             .NotEmpty()
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED)
@@ -15,17 +15,17 @@ public class SendEmailCommandValidator : AbstractValidator<SendEmailCommand>
             .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
             .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
 
-        RuleFor(request => request.Subject)
+        RuleFor(command => command.Subject)
             .NotEmpty()
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED);
 
-        RuleFor(request => request.To)
+        RuleFor(command => command.To)
             .NotEmpty()
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED);
 
-        RuleForEach(request => request.To)
+        RuleForEach(command => command.To)
             .NotEmpty()
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED)
@@ -33,14 +33,14 @@ public class SendEmailCommandValidator : AbstractValidator<SendEmailCommand>
             .WithErrorCode(nameof(ValidationCodes.INVALID_EMAIL_ADDRESS))
             .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
 
-        When(request => request.Cc != null, () =>
+        When(command => command.Cc != null, () =>
         {
-            RuleFor(request => request.Cc)
+            RuleFor(command => command.Cc)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED);
 
-            RuleForEach(request => request.Cc)
+            RuleForEach(command => command.Cc)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED)
@@ -49,14 +49,14 @@ public class SendEmailCommandValidator : AbstractValidator<SendEmailCommand>
                 .WithMessage(ValidationCodes.INVALID_EMAIL_ADDRESS);
         });
 
-        When(request => request.Bcc != null, () =>
+        When(command => command.Bcc != null, () =>
         {
-            RuleFor(request => request.Bcc)
+            RuleFor(command => command.Bcc)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED);
 
-            RuleForEach(request => request.Bcc)
+            RuleForEach(command => command.Bcc)
                 .NotEmpty()
                 .WithErrorCode(nameof(ValidationCodes.REQUIRED))
                 .WithMessage(ValidationCodes.REQUIRED)

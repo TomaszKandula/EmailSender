@@ -1,5 +1,5 @@
 using MediatR;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.Users;
+namespace EmailSender.Backend.Application.Users.Queries;
 
 public class GetUserEmailsQuery : IRequest<GetUserEmailsQueryResult> { }

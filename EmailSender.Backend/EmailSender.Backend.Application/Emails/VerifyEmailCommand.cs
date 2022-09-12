@@ -1,7 +1,7 @@
 using MediatR;
 using System.Collections.Generic;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Emails;
+namespace EmailSender.Backend.Application.Emails;
 
 public class VerifyEmailCommand : IRequest<VerifyEmailCommandResult>
 {

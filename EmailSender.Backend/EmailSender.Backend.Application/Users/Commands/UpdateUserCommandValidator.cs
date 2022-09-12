@@ -2,29 +2,29 @@ using System;
 using EmailSender.Backend.Shared.Resources;
 using FluentValidation;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Users;
+namespace EmailSender.Backend.Application.Users.Commands;
 
 public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {
     public UpdateUserCommandValidator()
     {
-        RuleFor(request => request.UserId)
+        RuleFor(command => command.UserId)
             .NotEmpty()
             .NotEqual(Guid.Empty)
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED);
 
-        RuleFor(request => request.FirstName)
+        RuleFor(command => command.FirstName)
             .NotEmpty()
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED);
 
-        RuleFor(request => request.LastName)
+        RuleFor(command => command.LastName)
             .NotEmpty()
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED);
 
-        RuleFor(request => request.EmailAddress)
+        RuleFor(command => command.EmailAddress)
             .NotEmpty()
             .WithErrorCode(nameof(ValidationCodes.REQUIRED))
             .WithMessage(ValidationCodes.REQUIRED)

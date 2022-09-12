@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using EmailSender.Services.SmtpService.Models;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Emails;
+namespace EmailSender.Backend.Application.Emails;
 
 public class VerifyEmailCommandResult
 {

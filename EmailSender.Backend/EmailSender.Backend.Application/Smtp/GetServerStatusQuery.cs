@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.Smtp;
+namespace EmailSender.Backend.Application.Smtp;
 
 public class GetServerStatusQuery : IRequest<Unit>
 {

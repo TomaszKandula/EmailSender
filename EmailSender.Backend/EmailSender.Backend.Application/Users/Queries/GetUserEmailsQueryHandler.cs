@@ -9,7 +9,7 @@ using EmailSender.Persistence.Database;
 using EmailSender.Services.UserService;
 using Microsoft.EntityFrameworkCore;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.Users;
+namespace EmailSender.Backend.Application.Users.Queries;
 
 public class GetUserEmailsQueryHandler : RequestHandler<GetUserEmailsQuery, GetUserEmailsQueryResult>
 {

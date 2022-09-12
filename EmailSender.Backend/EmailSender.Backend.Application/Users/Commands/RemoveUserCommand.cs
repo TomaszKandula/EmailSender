@@ -1,7 +1,7 @@
 using System;
 using MediatR;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Users;
+namespace EmailSender.Backend.Application.Users.Commands;
 
 public class RemoveUserCommand : IRequest<Unit>
 {

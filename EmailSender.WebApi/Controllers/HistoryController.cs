@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using EmailSender.Backend.Application.Handlers.Queries.History;
+using EmailSender.Backend.Application.History;
 using EmailSender.Backend.Shared.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;

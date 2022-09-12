@@ -10,7 +10,7 @@ using EmailSender.Persistence.Database;
 using EmailSender.Services.UserService;
 using Microsoft.EntityFrameworkCore;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.History;
+namespace EmailSender.Backend.Application.History;
 
 public class GetRequestHistoryQueryHandler : RequestHandler<GetRequestHistoryQuery, GetRequestHistoryQueryResult>
 {

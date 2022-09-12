@@ -1,6 +1,6 @@
 using Xunit;
 using System.Collections.Generic;
-using EmailSender.Backend.Application.Handlers.Commands.Emails;
+using EmailSender.Backend.Application.Emails;
 using EmailSender.Backend.Shared.Resources;
 using FluentAssertions;
 

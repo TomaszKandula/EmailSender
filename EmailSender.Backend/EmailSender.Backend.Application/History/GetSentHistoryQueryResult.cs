@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using EmailSender.Backend.Shared.Models;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.History;
+namespace EmailSender.Backend.Application.History;
 
 public class GetSentHistoryQueryResult
 {

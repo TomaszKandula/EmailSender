@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using EmailSender.Backend.Application.Handlers.Commands.Emails;
+using EmailSender.Backend.Application.Emails;
 using EmailSender.WebApi.Dto;
 
 namespace EmailSender.WebApi.Controllers.Mappers;

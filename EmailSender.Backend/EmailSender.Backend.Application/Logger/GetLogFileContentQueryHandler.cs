@@ -6,7 +6,7 @@ using EmailSender.Backend.Core.Exceptions;
 using EmailSender.Backend.Shared.Resources;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmailSender.Backend.Application.Handlers.Queries.Logger;
+namespace EmailSender.Backend.Application.Logger;
 
 public class GetLogFileContentQueryHandler : RequestHandler<GetLogFileContentQuery, FileContentResult>
 {

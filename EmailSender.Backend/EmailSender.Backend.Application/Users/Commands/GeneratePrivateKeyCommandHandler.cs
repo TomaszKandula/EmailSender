@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Services.UserService;
 
-namespace EmailSender.Backend.Application.Handlers.Commands.Users;
+namespace EmailSender.Backend.Application.Users.Commands;
 
 public class GeneratePrivateKeyCommandHandler : RequestHandler<GeneratePrivateKeyCommand, string>
 {
