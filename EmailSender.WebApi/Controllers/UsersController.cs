@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using EmailSender.Backend.Cqrs.Handlers.Commands.Users;
-using EmailSender.Backend.Cqrs.Handlers.Queries.Users;
+using EmailSender.Backend.Application.Users.Commands;
+using EmailSender.Backend.Application.Users.Queries;
 using EmailSender.Backend.Shared.Attributes;
 using EmailSender.WebApi.Controllers.Mappers;
 using Microsoft.AspNetCore.Mvc;

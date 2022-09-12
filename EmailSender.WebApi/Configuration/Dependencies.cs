@@ -68,12 +68,12 @@ public static class Dependencies
     }
 
     private static void SetupValidators(IServiceCollection services)
-        => services.AddValidatorsFromAssemblyContaining<Backend.Cqrs.RequestHandler<IRequest, Unit>>();
+        => services.AddValidatorsFromAssemblyContaining<Backend.Application.RequestHandler<IRequest, Unit>>();
 
     private static void SetupMediatR(IServiceCollection services) 
     {
         services.AddMediatR(options => options.AsScoped(), 
-            typeof(Backend.Cqrs.RequestHandler<IRequest, Unit>).GetTypeInfo().Assembly);
+            typeof(Backend.Application.RequestHandler<IRequest, Unit>).GetTypeInfo().Assembly);
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(AddressCheckBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PrivateKeyCheckBehaviour<,>));
