@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\EmailSender.Backend\EmailSender.Backend.Cqrs\EmailSender.Backend.Cqrs.csproj" />
+      <ProjectReference Include="..\..\EmailSender.Backend\EmailSender.Backend.Application\EmailSender.Backend.Application.csproj" />
       <ProjectReference Include="..\..\EmailSender.Backend\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj" />
       <ProjectReference Include="..\..\EmailSender.Services\EmailSender.Services.SenderService\EmailSender.Services.SenderService.csproj" />
       <ProjectReference Include="..\..\EmailSender.Services\EmailSender.Services.UserService\EmailSender.Services.UserService.csproj" />

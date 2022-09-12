@@ -1,4 +1,4 @@
-using EmailSender.Backend.Cqrs.Handlers.Queries.Smtp;
+using EmailSender.Backend.Application.Handlers.Queries.Smtp;
 using EmailSender.Backend.Shared.Resources;
 using FluentAssertions;
 using Xunit;
