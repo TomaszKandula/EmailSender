@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using EmailSender.Backend.Cqrs.Handlers.Queries.Smtp;
+using EmailSender.Backend.Application.Smtp;
 using EmailSender.Backend.Shared.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
