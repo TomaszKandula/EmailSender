@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
 
@@ -8,7 +7,7 @@ namespace EmailSender.Backend.Core.Exceptions;
 [Serializable]
 public class AuthorizationException : Exception
 {
-    public string ErrorCode { get; }
+    public string ErrorCode { get; } = "";
 
     protected AuthorizationException(SerializationInfo serializationInfo, 
         StreamingContext streamingContext) : base(serializationInfo, streamingContext) { }

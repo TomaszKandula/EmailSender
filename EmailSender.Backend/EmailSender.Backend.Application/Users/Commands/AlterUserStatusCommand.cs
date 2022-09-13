@@ -1,4 +1,3 @@
-using System;
 using EmailSender.Backend.Domain.Enums;
 using MediatR;
 

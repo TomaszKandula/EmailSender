@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using EmailSender.Backend.Core.Exceptions;
 using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Backend.Shared.Resources;
@@ -32,7 +28,7 @@ public class VerifyEmailCommandHandler : RequestHandler<VerifyEmailCommand, Veri
             throw new BusinessException(nameof(ErrorCodes.INVALID_ASSOCIATED_USER), ErrorCodes.INVALID_ASSOCIATED_USER);
 
         var result = await _senderService.VerifyEmailAddress(request.Emails, cancellationToken);
-        _loggerService.LogInformation($"Emails verified. Count: {request.Emails.Count()}");
+        _loggerService.LogInformation($"Emails verified. Count: {request.Emails.Count}");
 
         return new VerifyEmailCommandResult
         {

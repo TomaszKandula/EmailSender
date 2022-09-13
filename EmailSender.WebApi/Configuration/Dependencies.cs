@@ -1,10 +1,6 @@
-﻿using System;
-using System.Net.Http;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using DnsClient;
 using EmailSender.Backend.Core.Utilities.DateTimeService;

@@ -1,8 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 using EmailSender.Backend.Core.Exceptions;
 using EmailSender.Persistence.Database;
 using EmailSender.Services.SenderService.Models;
@@ -10,7 +5,6 @@ using EmailSender.Services.SmtpService;
 using EmailSender.Services.SmtpService.Models;
 using Microsoft.EntityFrameworkCore;
 
-#nullable enable
 namespace EmailSender.Services.SenderService;
 
 public class SenderService : ISenderService
@@ -52,7 +46,7 @@ public class SenderService : ISenderService
     /// <param name="emailAddress">List of email addresses.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>List of verified emails.</returns>
-    public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken)
+    public async Task<List<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken)
     {
         return await _smtpClientService.VerifyEmailAddress(emailAddress, cancellationToken);
     }

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using FluentValidation.Results;
 
 namespace EmailSender.Backend.Core.Errors;
@@ -13,8 +11,8 @@ public sealed class ApplicationError
     public string ErrorMessage { get; set; }
 
     public string ErrorInnerMessage { get; set; }
-        
-    public IEnumerable<ValidationError> ValidationErrors { get; set; }
+
+    public IEnumerable<ValidationError>? ValidationErrors { get; }
 
     public ApplicationError(string errorCode, string errorMessage, string errorInnerMessage = "")
     {

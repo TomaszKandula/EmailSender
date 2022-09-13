@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-
 namespace EmailSender.Backend.Application.Users.Queries;
 
 public class GetUserAllowedIpsQueryResult
 {
-    public IEnumerable<string> IpList { get; set; }
+    public List<string> IpList { get; set; } = new();
 }
