@@ -15,20 +15,17 @@ public class TestBase
         
     protected TestBase()
     {
-        DataUtilityService = new DataUtilityService();
-        DateTimeService = new DateTimeService();
-
         var services = new ServiceCollection();
         services.AddSingleton<DatabaseContextFactory>();
-        services.AddScoped(context =>
-        {
-            var factory = context.GetService<DatabaseContextFactory>();
-            return factory?.CreateDatabaseContext();
-        });
+        services.AddScoped<IDataUtilityService, DataUtilityService>();
+        services.AddScoped<IDateTimeService, DateTimeService>();
 
-        var serviceScope = services.BuildServiceProvider(true).CreateScope();
+        using var serviceScope = services.BuildServiceProvider(true).CreateScope();
         var serviceProvider = serviceScope.ServiceProvider;
+
         _databaseContextFactory = serviceProvider.GetService<DatabaseContextFactory>();
+        DataUtilityService = serviceProvider.GetRequiredService<IDataUtilityService>();
+        DateTimeService = serviceProvider.GetRequiredService<IDateTimeService>();
     }
 
     protected DatabaseContext GetTestDatabaseContext() =>  _databaseContextFactory.CreateDatabaseContext();
