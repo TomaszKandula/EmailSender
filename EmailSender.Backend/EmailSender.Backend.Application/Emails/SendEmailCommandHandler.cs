@@ -48,8 +48,8 @@ public class SendEmailCommandHandler : RequestHandler<SendEmailCommand, Unit>
             From = request.From,
             Subject = request.Subject,
             To = request.To,
-            Cc = request.Cc,
-            Bcc = request.Bcc,
+            Cc = request.Cc ?? new List<string>(),
+            Bcc = request.Bcc ?? new List<string>(),
             Body = request.Body,
             IsHtml = request.IsHtml
         };

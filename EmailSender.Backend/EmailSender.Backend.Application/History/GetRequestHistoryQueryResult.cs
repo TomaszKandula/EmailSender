@@ -4,7 +4,7 @@ namespace EmailSender.Backend.Application.History;
 
 public class GetRequestHistoryQueryResult
 {
-    public string AssociatedUser { get; set; }
+    public string AssociatedUser { get; set; } = "";
 
-    public IEnumerable<RequestHistoryEntry> HistoryEntries { get; set; }
+    public List<RequestHistoryEntry> HistoryEntries { get; set; } = new();
 }

@@ -4,5 +4,5 @@ namespace EmailSender.Backend.Application.Emails;
 
 public class VerifyEmailCommandResult
 {
-    public IEnumerable<VerifyEmail> CheckResult { get; set; }
+    public List<VerifyEmail> CheckResult { get; set; } = new();
 }

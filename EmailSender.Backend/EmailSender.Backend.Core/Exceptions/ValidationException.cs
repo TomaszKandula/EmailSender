@@ -8,7 +8,7 @@ namespace EmailSender.Backend.Core.Exceptions;
 [Serializable]
 public class ValidationException : BusinessException
 {
-    public ValidationResult ValidationResult { get; }
+    public ValidationResult ValidationResult { get; } = new();
 
     protected ValidationException(SerializationInfo serializationInfo, 
         StreamingContext streamingContext) : base(serializationInfo, streamingContext) { }

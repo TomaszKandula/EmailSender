@@ -7,7 +7,7 @@ namespace EmailSender.Backend.Core.Exceptions;
 [Serializable]
 public class BusinessException : Exception
 {
-    public string ErrorCode { get; }
+    public string ErrorCode { get; } = "";
 
     protected BusinessException(SerializationInfo serializationInfo, 
         StreamingContext streamingContext) : base(serializationInfo, streamingContext) { }
