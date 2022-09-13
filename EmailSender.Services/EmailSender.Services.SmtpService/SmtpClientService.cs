@@ -16,9 +16,9 @@ public sealed class SmtpClientService : ISmtpClientService
 
     private readonly ILookupClient _lookupClient;
 
-    public EmailData EmailData { get; set; }
+    public EmailData EmailData { get; set; } = new();
 
-    public ServerData ServerData { get; set; }
+    public ServerData ServerData { get; set; } = new();
 
     public SecureSocketOptions SslOnConnect => ServerData.IsSSL
         ? SecureSocketOptions.SslOnConnect
@@ -77,10 +77,10 @@ public sealed class SmtpClientService : ISmtpClientService
         foreach (var item in EmailData.To) 
             newMail.To.Add(MailboxAddress.Parse(item));
 
-        if (EmailData.Cc != null && !EmailData.Cc.Any())
+        if (!EmailData.Cc.Any())
             foreach (var item in EmailData.Cc) newMail.Cc.Add(MailboxAddress.Parse(item));
 
-        if (EmailData.Bcc != null && !EmailData.Bcc.Any())
+        if (!EmailData.Bcc.Any())
             foreach (var item in EmailData.Bcc) newMail.Bcc.Add(MailboxAddress.Parse(item));
 
         if (!string.IsNullOrEmpty(EmailData.PlainText)) 
