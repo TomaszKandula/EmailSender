@@ -1,3 +1,10 @@
+## [1.10.3](https://github.com/TomaszKandula/EmailSender/compare/v1.10.2...v1.10.3) (2022-09-13)
+
+
+### Bug Fixes
+
+* resolve incorrect values ([369f57c](https://github.com/TomaszKandula/EmailSender/commit/369f57c5d153825d911b4654ca59d3403b6877a9))
+
 ## [1.10.2](https://github.com/TomaszKandula/EmailSender/compare/v1.10.1...v1.10.2) (2022-09-07)
 
 
