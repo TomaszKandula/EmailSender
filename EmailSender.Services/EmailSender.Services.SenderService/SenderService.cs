@@ -46,7 +46,7 @@ public class SenderService : ISenderService
     /// <param name="emailAddress">List of email addresses.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>List of verified emails.</returns>
-    public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken)
+    public async Task<List<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken)
     {
         return await _smtpClientService.VerifyEmailAddress(emailAddress, cancellationToken);
     }

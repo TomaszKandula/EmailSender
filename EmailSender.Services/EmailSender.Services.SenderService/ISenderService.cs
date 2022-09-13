@@ -7,7 +7,7 @@ public interface ISenderService
 {
     Task<Guid> VerifyEmailFrom(string emailFrom, Guid? userId, CancellationToken cancellationToken);
 
-    Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken);
+    Task<List<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emailAddress, CancellationToken cancellationToken);
 
     Task VerifyConnection(Guid emailId, CancellationToken cancellationToken);
 

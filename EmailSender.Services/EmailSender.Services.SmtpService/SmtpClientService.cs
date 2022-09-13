@@ -30,7 +30,7 @@ public sealed class SmtpClientService : ISmtpClientService
         _lookupClient = lookupClient;
     }
 
-    public async Task<IEnumerable<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
+    public async Task<List<VerifyEmail>> VerifyEmailAddress(IEnumerable<string> emails, CancellationToken cancellationToken = default)
     {
         var results = new List<VerifyEmail>();
         foreach (var email in emails)
