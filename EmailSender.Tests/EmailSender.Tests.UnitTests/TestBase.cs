@@ -23,7 +23,7 @@ public class TestBase
         using var serviceScope = services.BuildServiceProvider(true).CreateScope();
         var serviceProvider = serviceScope.ServiceProvider;
 
-        _databaseContextFactory = serviceProvider.GetService<DatabaseContextFactory>();
+        _databaseContextFactory = serviceProvider.GetService<DatabaseContextFactory>()!;
         DataUtilityService = serviceProvider.GetRequiredService<IDataUtilityService>();
         DateTimeService = serviceProvider.GetRequiredService<IDateTimeService>();
     }
