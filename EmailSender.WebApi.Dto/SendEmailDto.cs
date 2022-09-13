@@ -9,9 +9,9 @@ public class SendEmailDto
 
     public List<string> To { get; set; } = new();
         
-    public List<string> Cc { get; set; } = new();
+    public List<string>? Cc { get; set; }
         
-    public List<string> Bcc { get; set; } = new();
+    public List<string>? Bcc { get; set; }
 
     public string Subject { get; set; } = "";
         
