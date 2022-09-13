@@ -1,8 +1,4 @@
-using System;
-using System.Linq;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 using EmailSender.Backend.Core.Exceptions;
 using EmailSender.Backend.Core.Utilities.DateTimeService;
 using EmailSender.Backend.Core.Utilities.LoggerService;
@@ -41,7 +37,9 @@ public class UserService : IUserService
     /// <returns>String value.</returns>
     public string GetPrivateKeyFromHeader(string headerName = "X-Private-Key")
     {
-        return _httpContextAccessor.HttpContext?.Request.Headers[headerName].ToString();
+        return _httpContextAccessor.HttpContext is null 
+            ? string.Empty 
+            : _httpContextAccessor.HttpContext.Request.Headers[headerName].ToString();
     }
 
     /// <summary>

@@ -1,11 +1,6 @@
-using System;
-using System.IO;
 using System.Diagnostics.CodeAnalysis;
 using EmailSender.Persistence.Database.Initializer;
 using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
 using Serilog;
 
@@ -14,7 +9,7 @@ namespace EmailSender.WebApi;
 [ExcludeFromCodeCoverage]
 public static class Program
 {
-    private static readonly string EnvironmentValue 
+    private static readonly string? EnvironmentValue 
         = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
     private static readonly bool IsDevelopment 
@@ -80,8 +75,7 @@ public static class Program
 
     private static IWebHost MigrateDatabase(this IWebHost webHost)
     {
-        var serviceScopeFactory = (IServiceScopeFactory) webHost.Services.GetService(typeof(IServiceScopeFactory));
-        if (serviceScopeFactory == null) 
+        if (webHost.Services.GetService(typeof(IServiceScopeFactory)) is not IServiceScopeFactory serviceScopeFactory) 
             return webHost;
             
         using var scope = serviceScopeFactory.CreateScope();
