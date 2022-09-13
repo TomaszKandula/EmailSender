@@ -1,4 +1,3 @@
-using System;
 using MediatR;
 
 namespace EmailSender.Backend.Application.Users.Commands;

@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using EmailSender.Backend.Core.Exceptions;
 using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Backend.Shared.Resources;

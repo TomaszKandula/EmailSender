@@ -1,8 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 using EmailSender.Backend.Core.Exceptions;
 using EmailSender.Persistence.Database;
 using EmailSender.Services.SenderService.Models;
@@ -10,7 +5,6 @@ using EmailSender.Services.SmtpService;
 using EmailSender.Services.SmtpService.Models;
 using Microsoft.EntityFrameworkCore;
 
-#nullable enable
 namespace EmailSender.Services.SenderService;
 
 public class SenderService : ISenderService

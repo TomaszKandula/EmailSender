@@ -1,5 +1,3 @@
-using System;
-
 namespace EmailSender.Backend.Application.Users.Queries;
 
 public class GetUserDetailsQueryResult

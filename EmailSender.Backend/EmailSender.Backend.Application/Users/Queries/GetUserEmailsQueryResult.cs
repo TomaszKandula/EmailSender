@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace EmailSender.Backend.Application.Users.Queries;
 
 public class GetUserEmailsQueryResult

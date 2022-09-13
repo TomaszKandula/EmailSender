@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.Mail;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Net.Mail;
 using MimeKit;
 using DnsClient;
 using EmailSender.Backend.Core.Exceptions;

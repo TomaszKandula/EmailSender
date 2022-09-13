@@ -1,8 +1,4 @@
-using System;
-using System.Linq;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 using EmailSender.Backend.Core.Exceptions;
 using EmailSender.Backend.Core.Utilities.DateTimeService;
 using EmailSender.Backend.Core.Utilities.LoggerService;

@@ -1,11 +1,8 @@
-using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 using EmailSender.Backend.Core.Errors;
 using EmailSender.Backend.Core.Exceptions;
 using EmailSender.Backend.Shared.Resources;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace EmailSender.WebApi.Middleware;

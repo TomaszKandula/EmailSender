@@ -1,11 +1,6 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using EmailSender.Services.SenderService.Models;
 using EmailSender.Services.SmtpService.Models;
 
-#nullable enable
 namespace EmailSender.Services.SenderService;
 
 public interface ISenderService

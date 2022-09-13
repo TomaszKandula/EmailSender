@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace EmailSender.Backend.Core.Utilities.DateTimeService;

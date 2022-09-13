@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Services.UserService;
 using EmailSender.Services.UserService.Models;

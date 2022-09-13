@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace EmailSender.Backend.Application.Logger;
 
 public class GetLogFilesListQueryResult
