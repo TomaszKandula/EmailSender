@@ -1,7 +1,4 @@
-using System;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 using EmailSender.Backend.Domain.Enums;
 using EmailSender.Services.UserService.Models;
 

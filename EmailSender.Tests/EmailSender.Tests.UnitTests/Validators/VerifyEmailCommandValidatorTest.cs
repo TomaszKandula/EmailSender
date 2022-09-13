@@ -1,5 +1,4 @@
 using Xunit;
-using System.Collections.Generic;
 using EmailSender.Backend.Application.Emails;
 using EmailSender.Backend.Shared.Resources;
 using FluentAssertions;
@@ -35,7 +34,7 @@ public class VerifyEmailCommandValidatorTest : TestBase
         // Arrange
         var request = new VerifyEmailCommand
         {
-            Emails = null
+            Emails = new List<string>()
         };
 
         // Act

@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace EmailSender.Backend.Shared.Models;
@@ -6,7 +5,7 @@ namespace EmailSender.Backend.Shared.Models;
 [ExcludeFromCodeCoverage]
 public class SentHistoryEntry
 {
-    public string EmailFrom { get; set; }
+    public string EmailFrom { get; set; } = "";
 
     public DateTime SentAt { get; set; }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using EmailSender.Backend.Core.Extensions.Models;
 using FluentValidation;

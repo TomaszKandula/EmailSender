@@ -5,5 +5,5 @@ namespace EmailSender.Backend.Application.Logger;
 
 public class GetLogFileContentQuery : IRequest<FileContentResult>
 {
-    public string LogFileName { get; set; }
+    public string LogFileName { get; set; } = "";
 }

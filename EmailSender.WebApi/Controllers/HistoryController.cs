@@ -1,8 +1,6 @@
-using System.Threading.Tasks;
 using EmailSender.Backend.Application.History;
 using EmailSender.Backend.Shared.Attributes;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using MediatR;
 
 namespace EmailSender.WebApi.Controllers;

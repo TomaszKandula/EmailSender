@@ -1,5 +1,3 @@
-using System;
-
 namespace EmailSender.Backend.Shared.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]

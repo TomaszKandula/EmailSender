@@ -1,7 +1,5 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Builder;
 
 namespace EmailSender.WebApi.Configuration;
 

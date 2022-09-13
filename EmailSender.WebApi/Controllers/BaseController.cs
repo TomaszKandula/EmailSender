@@ -1,6 +1,5 @@
 using EmailSender.Backend.Core.Errors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using MediatR;
 
 namespace EmailSender.WebApi.Controllers;

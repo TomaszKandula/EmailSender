@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
 
 namespace EmailSender.Backend.Core.Exceptions;
@@ -8,7 +7,7 @@ namespace EmailSender.Backend.Core.Exceptions;
 [Serializable]
 public class BusinessException : Exception
 {
-    public string ErrorCode { get; }
+    public string ErrorCode { get; } = "";
 
     protected BusinessException(SerializationInfo serializationInfo, 
         StreamingContext streamingContext) : base(serializationInfo, streamingContext) { }

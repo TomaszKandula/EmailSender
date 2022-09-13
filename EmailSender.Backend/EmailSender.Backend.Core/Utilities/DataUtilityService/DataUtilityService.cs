@@ -1,7 +1,4 @@
-using System;
-using System.IO;
 using System.Net;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Diagnostics.CodeAnalysis;
 
@@ -46,8 +43,9 @@ public sealed class DataUtilityService : IDataUtilityService
     /// <returns>New randomized enumeration.</returns>
     public T GetRandomEnum<T>()
     {
-        var values = Enum.GetValues(typeof(T)); 
-        return (T)values.GetValue(RandomNext(values.Length));
+        var values = Enum.GetValues(typeof(T));
+        var random = RandomNext(values.Length);
+        return (T)values.GetValue(random)!;
     }
 
     /// <summary>
