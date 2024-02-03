@@ -41,10 +41,11 @@ public static class Dependencies
     {
         const int maxRetryCount = 10;
         var maxRetryDelay = TimeSpan.FromSeconds(5);
-            
+
         services.AddDbContext<DatabaseContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("DbConnect"), addOptions 
+            var connectionString = configuration.GetValue<string>("DbConnect");
+            options.UseSqlServer(connectionString, addOptions 
                 => addOptions.EnableRetryOnFailure(maxRetryCount, maxRetryDelay, null));
         });
     }
