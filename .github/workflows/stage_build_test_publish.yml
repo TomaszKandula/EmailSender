@@ -13,18 +13,19 @@ jobs:
     steps:
 
     - name: Checkout repository
-      uses: actions/checkout@v2.2.0
+      uses: actions/checkout@v4
     
     - name: Variable substitution appsettings file for Staging (NET Core)
-      uses: microsoft/variable-substitution@v1
+      uses: TomaszKandula/variable-substitution@v1.0.1
       with:
-        files: ${{ github.workspace }}/EmailSender.WebApi/appsettings.Staging.json
+        files: ${{ github.workspace }}/EmailSender.Configuration/appsettings.Staging.json
       env:
-        ConnectionStrings.DbConnect: "${{ secrets.CONNECTIONSTRINGS__DBCONNECT_STAGE }}"
-        ConnectionStrings.DbConnectTest: "${{ secrets.CONNECTIONSTRINGS__DBCONNECT_TEST }}"
+        DbConnect: "${{ secrets.DBCONNECT_STAGE }}"
+        AZ_Storage_ContainerName: "${{ secrets.STORAGE_CONTAINER_NAME_STAGE }}"
+        AZ_Storage_ConnectionString: "${{ secrets.STORAGE_CONNECTION_STRING }}"
 
     - name: Staging | Build Docker (prepare)
-      uses: azure/docker-login@v1
+      uses: azure/docker-login@v1.0.1
       with:
         login-server: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}
         username: ${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}
@@ -34,7 +35,7 @@ jobs:
       run: docker build . -t ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-staging-${{ github.sha }}
 
     - name: Staging | Push Docker image (prepare)
-      uses: azure/docker-login@v1
+      uses: azure/docker-login@v1.0.1
       with:
         login-server: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}
         username: ${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}
@@ -46,9 +47,9 @@ jobs:
     # Note: due to a budget constraints, we use separate Azure App Service for staging as the separate slots 
     # are unavailable for B1, B2 and B3 pricing tiers
     - name: Staging | Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
+      uses: azure/webapps-deploy@v3
       with:
-        app-name: emailsender-stage
+        app-name: emailsender-west-staging
         slot-name: production
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_BACKEND_STAGE }}
         images: ${{ secrets.DOCKER_REGISTRY_SERVER_URL }}/${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }}:backend-staging-${{ github.sha }}
