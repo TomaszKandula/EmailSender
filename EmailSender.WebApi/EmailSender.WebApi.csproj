@@ -30,4 +30,19 @@
       <ProjectReference Include="..\EmailSender.WebApi.Dto\EmailSender.WebApi.Dto.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="..\EmailSender.Configuration\appsettings.Development.json">
+            <Link>appsettings.Development.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\EmailSender.Configuration\appsettings.Staging.json">
+            <Link>appsettings.Staging.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\EmailSender.Configuration\appsettings.Production.json">
+            <Link>appsettings.Production.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    
 </Project>
