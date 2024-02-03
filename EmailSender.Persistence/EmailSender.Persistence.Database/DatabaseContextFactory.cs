@@ -29,8 +29,7 @@ public class DatabaseContextFactory : IDesignTimeDbContextFactory<DatabaseContex
             .AddEnvironmentVariables()
             .Build();
 
-        var connectionString = builder.GetConnectionString("DbConnect");
-
+        var connectionString = builder.GetValue<string>("DbConnect");
         var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
         optionsBuilder.UseSqlServer(connectionString);
             
