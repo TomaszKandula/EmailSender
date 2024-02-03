@@ -1,22 +1,43 @@
-﻿# 1 - Build .NET Core WebAPI
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+﻿# ======================================================================================================================
+# 1 - BUILD PROJECTS AND RUN TESTS
+# ======================================================================================================================
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS PROJECTS
+
 WORKDIR /app
-
-# Copy csproj and restore as distinct layers
 COPY . ./
-RUN dotnet restore
 
-# Build and run all tests
-RUN dotnet build -c Release --no-restore
+# RESTORE & BUILD
+RUN dotnet restore --disable-parallel
+RUN dotnet build -c Release --force
 RUN dotnet test -c Release --no-build --no-restore
 
-# Publish build
-RUN dotnet publish -c Release -o out
+# ======================================================================================================================
+# 2 - BUILD DOCKER IMAGE
+# ======================================================================================================================
 
-# 2 - Build runtime image
 FROM mcr.microsoft.com/dotnet/sdk:6.0
+WORKDIR /app
+
+# BACKEND
+COPY --from=PROJECTS "/app/EmailSender.Backend/EmailSender.Backend.Application/bin/Release/net6.0" .
+COPY --from=PROJECTS "/app/EmailSender.Backend/EmailSender.Backend.Core/bin/Release/net6.0" .
+COPY --from=PROJECTS "/app/EmailSender.Backend/EmailSender.Backend.Domain/bin/Release/net6.0" .
+COPY --from=PROJECTS "/app/EmailSender.Backend/EmailSender.Backend.Shared/bin/Release/net6.0" .
+
+# PERSISTENCE
+COPY --from=PROJECTS "/app/EmailSender.Persistence/EmailSender.Persistence.Database/bin/Release/net6.0" .
+
+# SERVICES
+COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.BehaviourService/bin/Release/net6.0" .
+COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.SenderService/bin/Release/net6.0" .
+COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.SmtpService/bin/Release/net6.0" .
+COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.UserService/bin/Release/net6.0" .
+
+# WEBAPI
+COPY --from=PROJECTS "/app/EmailSender.WebApi/bin/Release/net6.0" .
+COPY --from=PROJECTS "/app/EmailSender.WebApi.Dto/bin/Release/net6.0" .
+
 ENV ASPNETCORE_URLS=http://+:80  
 EXPOSE 80
-WORKDIR /app
-COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "EmailSender.WebApi.dll"]
