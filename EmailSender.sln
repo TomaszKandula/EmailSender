@@ -37,12 +37,31 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Persistence", "6. Persistence", "{14D3E1FE-C526-4670-BED4-5DED8546EA83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Documentation", "1. Documentation", "{FF7552A2-F719-47E0-BF43-EEAAE9CBEE97}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+		CHANGELOG.md = CHANGELOG.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Configuration", "2. Configuration", "{0E9CD642-F93A-4041-87AC-314AD14B1613}"
+	ProjectSection(SolutionItems) = preProject
+		EmailSender.Configuration\appsettings.Development.json = EmailSender.Configuration\appsettings.Development.json
+		EmailSender.Configuration\appsettings.Production.json = EmailSender.Configuration\appsettings.Production.json
+		EmailSender.Configuration\appsettings.Staging.json = EmailSender.Configuration\appsettings.Staging.json
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Deployment", "3. Deployment", "{0EA1A8DF-D9A5-47EA-8482-AFBE52A3ADEE}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dev_build_test.yml = .github\workflows\dev_build_test.yml
+		.github\workflows\stage_build_test_publish.yml = .github\workflows\stage_build_test_publish.yml
+		.github\workflows\master_build_test_publish.yml = .github\workflows\master_build_test_publish.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Docker", "4. Docker", "{5080551A-648C-4C60-AC89-9DD75FA32AC4}"
+	ProjectSection(SolutionItems) = preProject
+		__testrun.sh = __testrun.sh
+		dockerfile = dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
