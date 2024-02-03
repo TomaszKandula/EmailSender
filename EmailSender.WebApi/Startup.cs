@@ -42,14 +42,11 @@ public class Startup
     public void Configure(IApplicationBuilder builder)
     {
         builder.UseSerilogRequestLogging();
-
         builder.UseHttpsRedirection();
         builder.UseForwardedHeaders();
         builder.ApplyCorsPolicy();
-
         builder.UseMiddleware<Exceptions>();
         builder.UseMiddleware<CacheControl>();
-
         builder.UseResponseCompression();
         builder.UseRouting();
         builder.UseEndpoints(endpoints =>
