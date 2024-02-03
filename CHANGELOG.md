@@ -1,3 +1,18 @@
+# [1.11.0](https://github.com/TomaszKandula/EmailSender/compare/v1.10.3...v1.11.0) (2024-02-03)
+
+
+### Features
+
+* change settings' properties ([753e0c1](https://github.com/TomaszKandula/EmailSender/commit/753e0c1e330b7ca920d131c305f9cbb36d04145e))
+* dump logs to azure storage ([a7ec41c](https://github.com/TomaszKandula/EmailSender/commit/a7ec41cbeff0a3aeb50c09d4dd1457ae2e2a0caa))
+* get connection string from config prop ([ac1c879](https://github.com/TomaszKandula/EmailSender/commit/ac1c879f3875446c7b2a0f4d6f675a49add2193b))
+* relocate settings ([f8237df](https://github.com/TomaszKandula/EmailSender/commit/f8237dfe6cfe8486e3f3509ddaf23659c602eac5))
+* remove unused launch settings ([e9aac57](https://github.com/TomaszKandula/EmailSender/commit/e9aac57f5759abf33785845458f508685d84e9c6))
+* rename solution folders ([048a1e6](https://github.com/TomaszKandula/EmailSender/commit/048a1e63f2c5ad92651140046b673503e687f9d0))
+* update solution folders ([14abcab](https://github.com/TomaszKandula/EmailSender/commit/14abcab559e6b69c34cfc18d214e279efd731d09))
+* upgrade deployment scripts ([8d6e295](https://github.com/TomaszKandula/EmailSender/commit/8d6e295f074ccab2a3fef0985546dd0725239c5b))
+* upgrade dockerfile ([51ec5be](https://github.com/TomaszKandula/EmailSender/commit/51ec5be2c835ec1c211cfec15cc6d33adf01daeb))
+
 ## [1.10.3](https://github.com/TomaszKandula/EmailSender/compare/v1.10.2...v1.10.3) (2022-09-13)
 
 
