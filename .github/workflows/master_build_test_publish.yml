@@ -53,7 +53,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Variable substitution appsettings file for Production (NET Core)
-      uses: microsoft/variable-substitution@v1
+      uses: TomaszKandula/variable-substitution@v1.0.1
       with:
         files: ${{ github.workspace }}/EmailSender.Configuration/appsettings.Production.json
       env:
