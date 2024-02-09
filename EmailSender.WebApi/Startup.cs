@@ -54,6 +54,8 @@ public class Startup
             endpoints.MapControllers();
             endpoints.MapGet("/", context 
                 => context.Response.WriteAsync("Email Sender API"));
+            endpoints.MapGet("/hc/ready", context 
+                => context.Response.WriteAsync("{\"status\": \"live\"}"));
         });
 
         builder.SetupSwaggerUi(_environment);
