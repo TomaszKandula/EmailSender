@@ -42,8 +42,8 @@ public class Startup
         services.SetupDockerInternalNetwork();
         services
             .AddHealthChecks()
-            .AddSqlServer(_configuration.GetValue<string>("DbConnect"), "SQLServer")
-            .AddAzureBlobStorage(_configuration.GetValue<string>("AZ_Storage_ConnectionString"), "AzureStorage");
+            .AddSqlServer(_configuration.GetValue<string>("DbConnect"), name: "SQLServer")
+            .AddAzureBlobStorage(_configuration.GetValue<string>("AZ_Storage_ConnectionString"), name: "AzureStorage");
     }
 
     public void Configure(IApplicationBuilder builder)
