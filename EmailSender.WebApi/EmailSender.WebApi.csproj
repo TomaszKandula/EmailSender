@@ -18,6 +18,9 @@
         <PackageReference Include="Serilog.Sinks.AzureBlobStorage" Version="3.2.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.3" />
+        <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.0" />
+        <PackageReference Include="AspNetCore.HealthChecks.AzureStorage" Version="7.0.0" />
+        <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
