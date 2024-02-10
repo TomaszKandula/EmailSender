@@ -2,9 +2,12 @@ using System.Diagnostics.CodeAnalysis;
 using EmailSender.Backend.Core.Exceptions;
 using EmailSender.WebApi.Configuration;
 using EmailSender.WebApi.Middleware;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.ResponseCompression;
 using Serilog;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace EmailSender.WebApi;
@@ -37,6 +40,10 @@ public class Startup
         services.RegisterDependencies(_configuration);
         services.SetupSwaggerOptions(_environment);
         services.SetupDockerInternalNetwork();
+        services
+            .AddHealthChecks()
+            .AddSqlServer(_configuration.GetValue<string>("DbConnect"), name: "SQLServer")
+            .AddAzureBlobStorage(_configuration.GetValue<string>("AZ_Storage_ConnectionString"), name: "AzureStorage");
     }
 
     public void Configure(IApplicationBuilder builder)
@@ -49,13 +56,30 @@ public class Startup
         builder.UseMiddleware<CacheControl>();
         builder.UseResponseCompression();
         builder.UseRouting();
+        builder.SetupSwaggerUi(_environment);
         builder.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
             endpoints.MapGet("/", context 
                 => context.Response.WriteAsync("Email Sender API"));
         });
-
-        builder.SetupSwaggerUi(_environment);
+        builder.UseHealthChecks("/hc", new HealthCheckOptions
+        {
+            ResponseWriter = async (context, report) =>
+            {
+                var result = new
+                {
+                    status = report.Status.ToString(),
+                    errors = report.Entries.Select(pair 
+                        => new
+                        {
+                            key = pair.Key, 
+                            value = Enum.GetName(typeof(HealthStatus), pair.Value.Status)
+                        })
+                };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
+            }
+        });
     }
 }
