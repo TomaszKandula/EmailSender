@@ -23,7 +23,7 @@ jobs:
         fetch-depth: 0
 
     - name: Variable substitution appsettings file for Development (NET Core)
-      uses: TomaszKandula/variable-substitution@v1.0.1
+      uses: TomaszKandula/variable-substitution@v1.0.2
       with:
         files: ${{ github.workspace }}/EmailSender.Configuration/appsettings.Development.json
       env:
