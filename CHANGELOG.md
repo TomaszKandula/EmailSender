@@ -1,3 +1,17 @@
+# [1.12.0](https://github.com/TomaszKandula/EmailSender/compare/v1.11.0...v1.12.0) (2024-02-10)
+
+
+### Bug Fixes
+
+* add name prop ([051af07](https://github.com/TomaszKandula/EmailSender/commit/051af07977ed743db3ef44c6ae4533b445c91ec7))
+
+
+### Features
+
+* add HC ready ([87dcdd9](https://github.com/TomaszKandula/EmailSender/commit/87dcdd9acef7c21f1950acda14f8ecab2cd2ad08))
+* add HC, check storage and sql server ([2223d8b](https://github.com/TomaszKandula/EmailSender/commit/2223d8b9e187c36d5bfea6692f4968447e563482))
+* do not use 'set-output' ([a8b9a87](https://github.com/TomaszKandula/EmailSender/commit/a8b9a87c85ad78ae6826f68641655997005ae7bf))
+
 # [1.11.0](https://github.com/TomaszKandula/EmailSender/compare/v1.10.3...v1.11.0) (2024-02-03)
 
 
