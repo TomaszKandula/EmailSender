@@ -39,6 +39,10 @@ COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.UserService
 COPY --from=PROJECTS "/app/EmailSender.WebApi/bin/Release/net6.0" .
 COPY --from=PROJECTS "/app/EmailSender.WebApi.Dto/bin/Release/net6.0" .
 
+# CONFIGURATION
+ARG ENV_VALUE
+ENV ASPNETCORE_ENVIRONMENT=${ENV_VALUE}
 ENV ASPNETCORE_URLS=http://+:80  
+
 EXPOSE 80
 ENTRYPOINT ["dotnet", "EmailSender.WebApi.dll"]
