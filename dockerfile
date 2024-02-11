@@ -30,6 +30,7 @@ COPY --from=PROJECTS "/app/EmailSender.Persistence/EmailSender.Persistence.Datab
 
 # SERVICES
 COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.BehaviourService/bin/Release/net6.0" .
+COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.HttpClientService/bin/Release/net6.0" .
 COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.SenderService/bin/Release/net6.0" .
 COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.SmtpService/bin/Release/net6.0" .
 COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.UserService/bin/Release/net6.0" .
