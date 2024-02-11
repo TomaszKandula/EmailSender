@@ -63,6 +63,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Docker", "4. Docker", "{
 		dockerfile = dockerfile
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Services.HttpClientService", "EmailSender.Services\EmailSender.Services.HttpClientService\EmailSender.Services.HttpClientService.csproj", "{4C4140B2-25EF-4E97-A767-46CAE4638853}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{FE78528E-BAF5-4544-8CF9-F8C9C6B05F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE78528E-BAF5-4544-8CF9-F8C9C6B05F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE78528E-BAF5-4544-8CF9-F8C9C6B05F92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C4140B2-25EF-4E97-A767-46CAE4638853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C4140B2-25EF-4E97-A767-46CAE4638853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C4140B2-25EF-4E97-A767-46CAE4638853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C4140B2-25EF-4E97-A767-46CAE4638853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3891C8E1-909A-4D60-874B-1A149D8A3605} = {C2719A80-86A0-4E87-A498-3EEDD5C9179E}
@@ -136,5 +142,6 @@ Global
 		{ED5DD42A-5B36-4815-B817-9FAF068AEA54} = {21288831-4321-4486-94E9-F845B0686DEA}
 		{FE78528E-BAF5-4544-8CF9-F8C9C6B05F92} = {C2719A80-86A0-4E87-A498-3EEDD5C9179E}
 		{5E005153-349C-4653-B1F6-D6EBEFEFFB3A} = {14D3E1FE-C526-4670-BED4-5DED8546EA83}
+		{4C4140B2-25EF-4E97-A767-46CAE4638853} = {21288831-4321-4486-94E9-F845B0686DEA}
 	EndGlobalSection
 EndGlobal

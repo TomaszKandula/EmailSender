@@ -63,4 +63,13 @@
     <data name="INSUFFICIENT_PRIVILEGES" xml:space="preserve">
         <value>Cannot execute action. Insufficient privileges</value>
     </data>
+    <data name="HTTP_REQUEST_FAILED" xml:space="preserve">
+        <value>HTTP request has failed</value>
+    </data>
+    <data name="CANNOT_PARSE" xml:space="preserve">
+        <value>Cannot parse given string</value>
+    </data>
+    <data name="ARGUMENT_EMPTY_OR_NULL" xml:space="preserve">
+        <value>Argument cannot be null or empty</value>
+    </data>
 </root>
