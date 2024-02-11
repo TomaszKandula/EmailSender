@@ -1,5 +1,6 @@
 using EmailSender.Backend.Application.Mailcow;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmailSender.WebApi.Controllers;
@@ -10,6 +11,7 @@ public class MailcowController : BaseController
     public MailcowController(IMediator mediator) : base(mediator) { }
 
     [HttpGet]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(GetMailcowStatusQueryResult), StatusCodes.Status200OK)]
     public async Task<GetMailcowStatusQueryResult> GetStatus()
         => await Mediator.Send(new GetMailcowStatusQuery());
