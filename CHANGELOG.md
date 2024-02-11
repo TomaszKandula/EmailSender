@@ -1,3 +1,31 @@
+# [1.13.0](https://github.com/TomaszKandula/EmailSender/compare/v1.12.0...v1.13.0) (2024-02-11)
+
+
+### Bug Fixes
+
+* add missing service ([f7beef4](https://github.com/TomaszKandula/EmailSender/commit/f7beef4e2b480ef6a5ed8cac98a59e0dc65ac444))
+* check if equal ([618ad68](https://github.com/TomaszKandula/EmailSender/commit/618ad68989d1f162c1f5b402def2d802c697c539))
+
+
+### Features
+
+* add controller for mailcow ([2ec7697](https://github.com/TomaszKandula/EmailSender/commit/2ec7697e2e6ddddcaf5bbc75bf31c2c735c69424))
+* add env to docker build ([36ea20c](https://github.com/TomaszKandula/EmailSender/commit/36ea20cc8ceb67498fe77a3e1c45d948c5062244))
+* add http client service ([5a2a257](https://github.com/TomaszKandula/EmailSender/commit/5a2a257d645f649f7f17f0cd6e86a4b1af424f7b))
+* add mailcow api key to settings ([73bdb8b](https://github.com/TomaszKandula/EmailSender/commit/73bdb8b9cd69964f48571f0908c49f8a8a57cf18))
+* add model ([6b4e5ed](https://github.com/TomaszKandula/EmailSender/commit/6b4e5ed1ff58c626d6765b724de58a91243c3f1f))
+* add models ([6374b7d](https://github.com/TomaszKandula/EmailSender/commit/6374b7d2ab69a5e086ba05c3b36262f698b019a2))
+* add new error codes ([d206bb7](https://github.com/TomaszKandula/EmailSender/commit/d206bb7a08b6b36c64ced3a5981b673a06d42d7d))
+* add query for getting mailcow status ([8aa5f63](https://github.com/TomaszKandula/EmailSender/commit/8aa5f635ce9ad14e9ce8211846b977de65dd5cc4))
+* add status url ([745128b](https://github.com/TomaszKandula/EmailSender/commit/745128b56d36e0d80d26380a1e6d2a798f642794))
+* implement health check for mailcow ([5c76c75](https://github.com/TomaszKandula/EmailSender/commit/5c76c75191ff188f6d6c051395a2510ad5c78b52))
+* make endpoint publicly available ([a97cecf](https://github.com/TomaszKandula/EmailSender/commit/a97cecfa62751e30a1040ff76d573e881048fe94))
+* register http client service ([fa6a66a](https://github.com/TomaszKandula/EmailSender/commit/fa6a66a8c006ee265f6c9458a9d5edc71f846670))
+* remove unused code ([797037a](https://github.com/TomaszKandula/EmailSender/commit/797037a791e26eec4b0f95e84fd52cbbf6cf5d92))
+* update docker file ([366ad12](https://github.com/TomaszKandula/EmailSender/commit/366ad1264ee677c4fda91a54f0239938a7cbc5cd))
+* update models ([d751bd2](https://github.com/TomaszKandula/EmailSender/commit/d751bd2c6f06ff64da04856bcde11388c4fe973c))
+* update test file ([1c1bc8c](https://github.com/TomaszKandula/EmailSender/commit/1c1bc8c0cfde0a931b832a461b023a0d186e5b83))
+
 # [1.12.0](https://github.com/TomaszKandula/EmailSender/compare/v1.11.0...v1.12.0) (2024-02-10)
 
 
