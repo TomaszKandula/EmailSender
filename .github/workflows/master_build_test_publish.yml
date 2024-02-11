@@ -61,6 +61,7 @@ jobs:
         AZ_Storage_ContainerName: "${{ secrets.STORAGE_CONTAINER_NAME_PROD }}"
         AZ_Storage_ConnectionString: "${{ secrets.STORAGE_CONNECTION_STRING }}"
         Mailcow_API_Key: "${{ secrets.MAILCOW_API_KEY }}"
+        Mailcow_Status_Url: "${{ secrets.MAILCOW_STATUS_URL }}"
 
     - name: Production | Build Docker (prepare)
       uses: azure/docker-login@v1.0.1
