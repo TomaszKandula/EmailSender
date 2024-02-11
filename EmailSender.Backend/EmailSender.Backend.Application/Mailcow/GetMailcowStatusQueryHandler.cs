@@ -57,7 +57,7 @@ public class GetMailcowStatusQueryHandler : RequestHandler<GetMailcowStatusQuery
             var statusItem = item as StatusItem;
             data.Add(statusItem!);
 
-            if (statusItem?.State != "running")
+            if (statusItem?.State == "running")
             {
                 healthyCount += 1;
             }
