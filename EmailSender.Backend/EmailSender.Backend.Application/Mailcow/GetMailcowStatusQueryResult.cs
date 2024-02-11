@@ -4,7 +4,7 @@ namespace EmailSender.Backend.Application.Mailcow;
 
 public class GetMailcowStatusQueryResult
 {
-    public bool IsRunning { get; set; }
+    public StatusTypes Status { get; set; }
 
-    public IList<Status>? Results { get; set; }
+    public IList<StatusItem>? Results { get; set; }
 }
