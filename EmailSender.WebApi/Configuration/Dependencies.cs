@@ -8,6 +8,8 @@ using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Persistence.Database;
 using EmailSender.Persistence.Database.Initializer;
 using EmailSender.Services.BehaviourService;
+using EmailSender.Services.HttpClientService;
+using EmailSender.Services.HttpClientService.Abstractions;
 using EmailSender.Services.SenderService;
 using EmailSender.Services.SmtpService;
 using EmailSender.Services.UserService;
@@ -53,8 +55,8 @@ public static class Dependencies
     private static void SetupServices(IServiceCollection services) 
     {
         services.AddHttpContextAccessor();
+        services.AddSingleton<IHttpClientServiceFactory>(_ => new HttpClientServiceFactory());
 
-        services.AddScoped<HttpClient>();
         services.AddScoped<ISmtpClient, SmtpClient>();
         services.AddScoped<ILookupClient, LookupClient>();
         services.AddScoped<IDateTimeService, DateTimeService>();
