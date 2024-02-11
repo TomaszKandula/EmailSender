@@ -1,63 +1,63 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace EmailSender.Backend.Application.Mailcow.Models;
 
 public class MailcowStatus
 {
-    [JsonPropertyName("ipv6nat-mailcow")]
+    [JsonProperty("ipv6nat-mailcow")]
     public StatusItem? Ipv6Nat { get; set; } 
 
-    [JsonPropertyName("watchdog-mailcow")]
+    [JsonProperty("watchdog-mailcow")]
     public StatusItem? Watchdog { get; set; } 
 
-    [JsonPropertyName("acme-mailcow")]
+    [JsonProperty("acme-mailcow")]
     public StatusItem? Acme { get; set; } 
 
-    [JsonPropertyName("ofelia-mailcow")]
+    [JsonProperty("ofelia-mailcow")]
     public StatusItem? Ofelia { get; set; } 
 
-    [JsonPropertyName("rspamd-mailcow")]
+    [JsonProperty("rspamd-mailcow")]
     public StatusItem? Rspamd { get; set; } 
 
-    [JsonPropertyName("nginx-mailcow")]
+    [JsonProperty("nginx-mailcow")]
     public StatusItem? Nginx { get; set; } 
 
-    [JsonPropertyName("postfix-mailcow")]
+    [JsonProperty("postfix-mailcow")]
     public StatusItem? Postfix { get; set; } 
 
-    [JsonPropertyName("dovecot-mailcow")]
+    [JsonProperty("dovecot-mailcow")]
     public StatusItem? DoveCot { get; set; } 
 
-    [JsonPropertyName("php-fpm-mailcow")]
+    [JsonProperty("php-fpm-mailcow")]
     public StatusItem? PhpFpm { get; set; } 
 
-    [JsonPropertyName("mysql-mailcow")]
+    [JsonProperty("mysql-mailcow")]
     public StatusItem? MySql { get; set; } 
 
-    [JsonPropertyName("redis-mailcow")]
+    [JsonProperty("redis-mailcow")]
     public StatusItem? Redis { get; set; } 
 
-    [JsonPropertyName("solr-mailcow")]
+    [JsonProperty("solr-mailcow")]
     public StatusItem? Solr { get; set; } 
 
-    [JsonPropertyName("clamd-mailcow")]
+    [JsonProperty("clamd-mailcow")]
     public StatusItem? Clamd { get; set; } 
 
-    [JsonPropertyName("dockerapi-mailcow")]
+    [JsonProperty("dockerapi-mailcow")]
     public StatusItem? DockerApi { get; set; } 
 
-    [JsonPropertyName("memcached-mailcow")]
+    [JsonProperty("memcached-mailcow")]
     public StatusItem? MemCached { get; set; } 
     
-    [JsonPropertyName("sogo-mailcow")]
+    [JsonProperty("sogo-mailcow")]
     public StatusItem? SoGo { get; set; } 
 
-    [JsonPropertyName("unbound-mailcow")]
+    [JsonProperty("unbound-mailcow")]
     public StatusItem? Unbound { get; set; } 
 
-    [JsonPropertyName("netfilter-mailcow")]
+    [JsonProperty("netfilter-mailcow")]
     public StatusItem? NetFilter { get; set; } 
 
-    [JsonPropertyName("olefy-mailcow")]
+    [JsonProperty("olefy-mailcow")]
     public StatusItem? Olefy { get; set; } 
 }

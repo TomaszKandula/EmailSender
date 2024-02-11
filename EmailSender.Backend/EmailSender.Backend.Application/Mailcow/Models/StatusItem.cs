@@ -1,21 +1,21 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace EmailSender.Backend.Application.Mailcow.Models;
 
 public class StatusItem
 {
-    [JsonPropertyName("type")]
+    [JsonProperty("type")]
     public string? Type { get; set; }
 
-    [JsonPropertyName("container")]
+    [JsonProperty("container")]
     public string? Container { get; set; }
 
-    [JsonPropertyName("state")]
+    [JsonProperty("state")]
     public string? State { get; set; }
 
-    [JsonPropertyName("started_at")]
+    [JsonProperty("started_at")]
     public DateTime? StartedAt { get; set; }
 
-    [JsonPropertyName("image")]
+    [JsonProperty("image")]
     public string? Image { get; set; }
 }
