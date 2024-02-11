@@ -23,6 +23,7 @@ jobs:
         DbConnect: "${{ secrets.DBCONNECT_STAGE }}"
         AZ_Storage_ContainerName: "${{ secrets.STORAGE_CONTAINER_NAME_STAGE }}"
         AZ_Storage_ConnectionString: "${{ secrets.STORAGE_CONNECTION_STRING }}"
+        Mailcow_API_Key: "${{ secrets.MAILCOW_API_KEY }}"
 
     - name: Staging | Build Docker (prepare)
       uses: azure/docker-login@v1.0.1
