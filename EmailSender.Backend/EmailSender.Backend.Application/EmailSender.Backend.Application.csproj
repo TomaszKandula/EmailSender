@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\EmailSender.Persistence\EmailSender.Persistence.Database\EmailSender.Persistence.Database.csproj" />
+      <ProjectReference Include="..\..\EmailSender.Services\EmailSender.Services.HttpClientService\EmailSender.Services.HttpClientService.csproj" />
       <ProjectReference Include="..\EmailSender.Backend.Domain\EmailSender.Backend.Domain.csproj" />
       <ProjectReference Include="..\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj" />
       <ProjectReference Include="..\..\EmailSender.Services\EmailSender.Services.SenderService\EmailSender.Services.SenderService.csproj" />

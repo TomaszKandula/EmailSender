@@ -134,5 +134,23 @@ namespace EmailSender.Backend.Shared.Resources {
                 return ResourceManager.GetString("INSUFFICIENT_PRIVILEGES", resourceCulture);
             }
         }
+        
+        public static string HTTP_REQUEST_FAILED {
+            get {
+                return ResourceManager.GetString("HTTP_REQUEST_FAILED", resourceCulture);
+            }
+        }
+        
+        public static string CANNOT_PARSE {
+            get {
+                return ResourceManager.GetString("CANNOT_PARSE", resourceCulture);
+            }
+        }
+        
+        public static string ARGUMENT_EMPTY_OR_NULL {
+            get {
+                return ResourceManager.GetString("ARGUMENT_EMPTY_OR_NULL", resourceCulture);
+            }
+        }
     }
 }

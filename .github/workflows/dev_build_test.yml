@@ -30,6 +30,8 @@ jobs:
         DbConnect: "${{ secrets.DBCONNECT_TEST }}"
         AZ_Storage_ContainerName: "${{ secrets.STORAGE_CONTAINER_NAME_TEST }}"
         AZ_Storage_ConnectionString: "${{ secrets.STORAGE_CONNECTION_STRING }}"
+        Mailcow_API_Key: "${{ secrets.MAILCOW_API_KEY }}"
+        Mailcow_Status_Url: "${{ secrets.MAILCOW_STATUS_URL }}"
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
