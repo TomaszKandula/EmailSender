@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  emailsender-api:
+    build:
+      context: .
+      args:
+        - ENV_VALUE=Production
+        - PFX_PASSWORD=${PFX_PASSWORD}
+      dockerfile: dockerfile
+    hostname: emailsender
+    ports:
+      - "5010:443"
+    volumes:
+      - /opt/configs/emailsender-apis-prod.json:/app/appsettings.Production.json:ro
+      - /opt/certs/wildcard-emailsender.dev.pfx:/app/certs/wildcard-emailsender.dev.pfx:ro
