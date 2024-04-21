@@ -47,20 +47,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Configuration", "2. Conf
 	ProjectSection(SolutionItems) = preProject
 		EmailSender.Configuration\appsettings.Development.json = EmailSender.Configuration\appsettings.Development.json
 		EmailSender.Configuration\appsettings.Production.json = EmailSender.Configuration\appsettings.Production.json
-		EmailSender.Configuration\appsettings.Staging.json = EmailSender.Configuration\appsettings.Staging.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Deployment", "3. Deployment", "{0EA1A8DF-D9A5-47EA-8482-AFBE52A3ADEE}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dev_build_test.yml = .github\workflows\dev_build_test.yml
-		.github\workflows\stage_build_test_publish.yml = .github\workflows\stage_build_test_publish.yml
-		.github\workflows\master_build_test_publish.yml = .github\workflows\master_build_test_publish.yml
+		.github\workflows\dev_build.yml = .github\workflows\dev_build.yml
+		.github\workflows\master_build.yml = .github\workflows\master_build.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Docker", "4. Docker", "{5080551A-648C-4C60-AC89-9DD75FA32AC4}"
 	ProjectSection(SolutionItems) = preProject
-		__testrun.sh = __testrun.sh
 		dockerfile = dockerfile
+		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Services.HttpClientService", "EmailSender.Services\EmailSender.Services.HttpClientService\EmailSender.Services.HttpClientService.csproj", "{4C4140B2-25EF-4E97-A767-46CAE4638853}"
