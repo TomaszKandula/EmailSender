@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/TomaszKandula/EmailSender/compare/v1.14.1...v1.14.2) (2024-04-21)
+
+
+### Bug Fixes
+
+* ca certs ([9e72b87](https://github.com/TomaszKandula/EmailSender/commit/9e72b870c8ec6a2772bbe1ca572d6be7b35657d7))
+
 ## [1.14.1](https://github.com/TomaszKandula/EmailSender/compare/v1.14.0...v1.14.1) (2024-04-21)
 
 
