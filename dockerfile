@@ -45,7 +45,9 @@ ARG ENV_VALUE
 ARG PFX_PASSWORD
 ENV ASPNETCORE_ENVIRONMENT=${ENV_VALUE}
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password=${PFX_PASSWORD}
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certs/wildcard-emailsender.dev.pfx
-ENV ASPNETCORE_URLS=https://+:443
-EXPOSE 443
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/wildcard-emailsender.dev.pfx
+ENV ASPNETCORE_HTTPS_PORT=8081
+ENV ASPNETCORE_URLS=https://+:8081;http://+:8080
+EXPOSE 8080
+EXPOSE 8081
 ENTRYPOINT ["dotnet", "EmailSender.WebApi.dll"]
