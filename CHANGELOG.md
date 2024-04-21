@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/TomaszKandula/EmailSender/compare/v1.14.0...v1.14.1) (2024-04-21)
+
+
+### Bug Fixes
+
+* change ports and paths ([a73fe7d](https://github.com/TomaszKandula/EmailSender/commit/a73fe7d09490432924148298f4acc1219f7f6dec))
+
 # [1.14.0](https://github.com/TomaszKandula/EmailSender/compare/v1.13.0...v1.14.0) (2024-04-21)
 
 
