@@ -48,6 +48,10 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Password=${PFX_PASSWORD}
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/wildcard-emailsender.dev.pfx
 ENV ASPNETCORE_HTTPS_PORT=8081
 ENV ASPNETCORE_URLS=https://+:8081;http://+:8080
+
+RUN update-ca-certificates
+
 EXPOSE 8080
 EXPOSE 8081
+
 ENTRYPOINT ["dotnet", "EmailSender.WebApi.dll"]
