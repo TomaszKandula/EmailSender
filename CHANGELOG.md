@@ -1,3 +1,14 @@
+# [1.14.0](https://github.com/TomaszKandula/EmailSender/compare/v1.13.0...v1.14.0) (2024-04-21)
+
+
+### Features
+
+* remove azure docker from build ([8071662](https://github.com/TomaszKandula/EmailSender/commit/80716620965ad0419fbd2a4576a8a7ca836466b1))
+* remove unused files ([10e44a8](https://github.com/TomaszKandula/EmailSender/commit/10e44a894b648799fdc058e0b46d82eb4d40b5fa))
+* remove unused stage config ([0145eb1](https://github.com/TomaszKandula/EmailSender/commit/0145eb18e924420b0b2d81c6891c04fc2f387977))
+* rename workflows ([a20d2a4](https://github.com/TomaszKandula/EmailSender/commit/a20d2a41da97314e61dc1ee19ae495659581be17))
+* use docker compose ([9001e9c](https://github.com/TomaszKandula/EmailSender/commit/9001e9c56070014be66dbeae340e47741b348c88))
+
 # [1.13.0](https://github.com/TomaszKandula/EmailSender/compare/v1.12.0...v1.13.0) (2024-02-11)
 
 
