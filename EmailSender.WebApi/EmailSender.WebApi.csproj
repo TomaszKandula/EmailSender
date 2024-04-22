@@ -6,7 +6,29 @@
         <LangVersion>10</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Publish>true</Publish>
+        <IsPackable>true</IsPackable>
+        <IsPublishable>true</IsPublishable>
+        <InvariantGlobalization>false</InvariantGlobalization>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\EmailSender.Configuration\appsettings.Development.json">
+            <Link>appsettings.Development.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="..\EmailSender.Configuration\appsettings.Production.json">
+            <Link>appsettings.Production.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Application\EmailSender.Backend.Application.csproj" />
+        <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.BehaviourService\EmailSender.Services.BehaviourService.csproj" />
+        <ProjectReference Include="..\EmailSender.WebApi.Dto\EmailSender.WebApi.Dto.csproj" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
@@ -23,27 +45,4 @@
         <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="8.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Core\EmailSender.Backend.Core.csproj" />
-        <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Application\EmailSender.Backend.Application.csproj" />
-        <ProjectReference Include="..\EmailSender.Backend\EmailSender.Backend.Shared\EmailSender.Backend.Shared.csproj" />
-        <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.BehaviourService\EmailSender.Services.BehaviourService.csproj" />
-        <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.HttpClientService\EmailSender.Services.HttpClientService.csproj" />
-        <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.SenderService\EmailSender.Services.SenderService.csproj" />
-        <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.SmtpService\EmailSender.Services.SmtpService.csproj" />
-        <ProjectReference Include="..\EmailSender.Services\EmailSender.Services.UserService\EmailSender.Services.UserService.csproj" />
-        <ProjectReference Include="..\EmailSender.WebApi.Dto\EmailSender.WebApi.Dto.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="..\EmailSender.Configuration\appsettings.Development.json">
-            <Link>appsettings.Development.json</Link>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Include="..\EmailSender.Configuration\appsettings.Production.json">
-            <Link>appsettings.Production.json</Link>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-    
 </Project>
