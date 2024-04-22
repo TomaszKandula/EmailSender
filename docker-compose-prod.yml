@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  backend-api:
+    build:
+      context: .
+      args:
+        - ENV_VALUE=Production
+      dockerfile: backend.dockerfile
+    hostname: backend
+    networks:
+      - xnet
+    ports:
+      - "6000:80"
+    volumes:
+      - /opt/configs/emailsender-apis-prod.json:/app/appsettings.Production.json:ro
+
+  frontend-app:
+    build:
+      context: EmailSender.ClientApp
+      args:
+        - ENV_VALUE=Production
+      dockerfile: clientapp.dockerfile
+    hostname: frontend
+    networks:
+      - xnet
+    ports:
+      - "443:443"
+    volumes:
+      - ./EmailSender.ClientApp/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /opt/certs/wildcard-emailsender.dev.chain:/etc/nginx/wildcard-emailsender.dev.chain:ro
+      - /opt/certs/wildcard-emailsender.dev.key:/etc/nginx/wildcard-emailsender.dev.key:ro
+      - /opt/certs/wildcard-emailsender.dev.ca:/etc/nginx/wildcard-emailsender.dev.ca:ro
+      - /opt/certs/ffdhe2048.txt:/etc/nginx/ffdhe2048.txt:ro
+
+networks:
+  xnet:
+    driver: bridge
