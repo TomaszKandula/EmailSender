@@ -1,3 +1,20 @@
+# [1.15.0](https://github.com/TomaszKandula/EmailSender/compare/v1.14.2...v1.15.0) (2024-04-22)
+
+
+### Bug Fixes
+
+* remove unnecessary files ([6932bfe](https://github.com/TomaszKandula/EmailSender/commit/6932bfe8e27cbfe6bee6429ce984e08ad2d8a387))
+
+
+### Features
+
+* add gitignore ([1580671](https://github.com/TomaszKandula/EmailSender/commit/1580671d74e9e1b6636fea845abc932056132299))
+* add nginx configs ([654daa8](https://github.com/TomaszKandula/EmailSender/commit/654daa843926c09d130280a8e41fddafe01fb795))
+* add/update docker config for the solution ([f99daa4](https://github.com/TomaszKandula/EmailSender/commit/f99daa429e353a19ced209b3d609d129c9668abd))
+* change port for development ([bc514ef](https://github.com/TomaszKandula/EmailSender/commit/bc514efb2c46ae030272a7e549bd2a8c03202a2d))
+* update project ([2be0819](https://github.com/TomaszKandula/EmailSender/commit/2be08196e8ddc058edefc5dd81fd6672d53414af))
+* use SQLitePCLRaw for testing w/SQLite ([89311c0](https://github.com/TomaszKandula/EmailSender/commit/89311c0976952d22f9b87a7d0af9f8b823026937))
+
 ## [1.14.2](https://github.com/TomaszKandula/EmailSender/compare/v1.14.1...v1.14.2) (2024-04-21)
 
 
