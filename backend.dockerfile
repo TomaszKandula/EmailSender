@@ -20,38 +20,15 @@ WORKDIR /app
 RUN apk add icu-libs --no-cache
 RUN apk add icu-data-full --no-cache
 
-# BACKEND
+# ASSEMBLIES
 COPY --from=PROJECTS "/app/EmailSender.Backend/EmailSender.Backend.Application/bin/Release/net6.0" .
-COPY --from=PROJECTS "/app/EmailSender.Backend/EmailSender.Backend.Core/bin/Release/net6.0" .
-COPY --from=PROJECTS "/app/EmailSender.Backend/EmailSender.Backend.Domain/bin/Release/net6.0" .
-COPY --from=PROJECTS "/app/EmailSender.Backend/EmailSender.Backend.Shared/bin/Release/net6.0" .
-
-# PERSISTENCE
-COPY --from=PROJECTS "/app/EmailSender.Persistence/EmailSender.Persistence.Database/bin/Release/net6.0" .
-
-# SERVICES
 COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.BehaviourService/bin/Release/net6.0" .
-COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.HttpClientService/bin/Release/net6.0" .
-COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.SenderService/bin/Release/net6.0" .
-COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.SmtpService/bin/Release/net6.0" .
-COPY --from=PROJECTS "/app/EmailSender.Services/EmailSender.Services.UserService/bin/Release/net6.0" .
-
-# WEBAPI
 COPY --from=PROJECTS "/app/EmailSender.WebApi/bin/Release/net6.0" .
 COPY --from=PROJECTS "/app/EmailSender.WebApi.Dto/bin/Release/net6.0" .
 
 # CONFIGURATION
 ARG ENV_VALUE
-ARG PFX_PASSWORD
 ENV ASPNETCORE_ENVIRONMENT=${ENV_VALUE}
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password=${PFX_PASSWORD}
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/wildcard-emailsender.dev.pfx
-ENV ASPNETCORE_HTTPS_PORT=8081
-ENV ASPNETCORE_URLS=https://+:8081;http://+:8080
-
-RUN update-ca-certificates
-
-EXPOSE 8080
-EXPOSE 8081
-
+ENV ASPNETCORE_URLS=http://+:80
+EXPOSE 80
 ENTRYPOINT ["dotnet", "EmailSender.WebApi.dll"]
