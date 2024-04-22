@@ -28,6 +28,7 @@ services:
       - "443:443"
     volumes:
       - ./EmailSender.ClientApp/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./EmailSender.ClientApp/nginx/nginx-proxy.conf:/etc/nginx/nginx-proxy.conf:ro
       - /opt/certs/wildcard-emailsender.dev.chain:/etc/nginx/wildcard-emailsender.dev.chain:ro
       - /opt/certs/wildcard-emailsender.dev.key:/etc/nginx/wildcard-emailsender.dev.key:ro
       - /opt/certs/wildcard-emailsender.dev.ca:/etc/nginx/wildcard-emailsender.dev.ca:ro
