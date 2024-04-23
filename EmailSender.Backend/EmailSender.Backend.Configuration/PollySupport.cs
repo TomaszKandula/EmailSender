@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EmailSender.Backend.Configuration;
 
+[ExcludeFromCodeCoverage]
 public static class PollySupport
 {
     public static void SetupRetryPolicyWithPolly(IServiceCollection services)
