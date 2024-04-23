@@ -1,7 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Net.Http.Headers;
 
-namespace EmailSender.WebApi.Configuration;
+namespace EmailSender.Backend.Configuration;
 
 [ExcludeFromCodeCoverage]
 public static class CorsPolicy

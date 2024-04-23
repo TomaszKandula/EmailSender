@@ -13,5 +13,5 @@ public class ServerData
 
     public int Port { get; set; }
 
-    public bool IsSSL { get; set; }
+    public bool IsSsl { get; set; }
 }

@@ -7,11 +7,18 @@ using Newtonsoft.Json;
 
 namespace EmailSender.WebApi.Middleware;
 
+/// <summary>
+/// Exceptions middleware.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public class Exceptions
 {
     private readonly RequestDelegate _requestDelegate;
 
+    /// <summary>
+    /// Exceptions middleware.
+    /// </summary>
+    /// <param name="requestDelegate">Delegate instance.</param>
     public Exceptions(RequestDelegate requestDelegate) => _requestDelegate = requestDelegate;
 
     /// <summary>

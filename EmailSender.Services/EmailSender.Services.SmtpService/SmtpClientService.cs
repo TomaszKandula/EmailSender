@@ -20,7 +20,7 @@ public sealed class SmtpClientService : ISmtpClientService
 
     public ServerData ServerData { get; set; } = new();
 
-    public SecureSocketOptions SslOnConnect => ServerData.IsSSL
+    public SecureSocketOptions SslOnConnect => ServerData.IsSsl
         ? SecureSocketOptions.SslOnConnect
         : SecureSocketOptions.None;
 
@@ -122,9 +122,8 @@ public sealed class SmtpClientService : ISmtpClientService
     {
         try
         {
-            // ReSharper disable once UnusedVariable
             var address = new MailAddress(emailAddress);
-            return true;
+            return !string.IsNullOrWhiteSpace(address.Address);
         }
         catch (FormatException)
         {

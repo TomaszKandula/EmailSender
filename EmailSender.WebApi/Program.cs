@@ -1,21 +1,23 @@
 using System.Diagnostics.CodeAnalysis;
-using EmailSender.Persistence.Database.Initializer;
-using Microsoft.AspNetCore;
-using Logger = EmailSender.WebApi.Configuration.Logger;
+using Logger = EmailSender.Backend.Configuration.Logger;
 using Serilog;
 
 namespace EmailSender.WebApi;
 
+/// <summary>
+/// Program.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public static class Program
 {
     private static readonly string? EnvironmentValue 
         = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-    private static readonly bool IsDevelopment 
-        = EnvironmentValue == Environments.Development;
-
-    public static int Main(string[] args)
+    /// <summary>
+    /// Main entry point.
+    /// </summary>
+    /// <returns></returns>
+    public static int Main()
     {
         try
         {
@@ -24,9 +26,11 @@ public static class Program
             Log.Logger = Logger.Configuration.GetLogger(configuration, fileName);
             Log.Information("Starting WebHost...");
             Log.Information("Environment: {Environment}", EnvironmentValue);
-            CreateWebHostBuilder(configuration)
+            CreateHostBuilder(configuration)
+                .ConfigureWebHostDefaults(builder => builder
+                    .ConfigureKestrel(options => options.AddServerHeader = false)
+                    .UseStartup<Startup>())
                 .Build()
-                .MigrateDatabase()
                 .Run();
 
             return 0;
@@ -52,30 +56,10 @@ public static class Program
             .Build();
     }
 
-    private static IWebHostBuilder CreateWebHostBuilder(IConfigurationRoot configurationRoot)
+    private static IHostBuilder CreateHostBuilder(IConfigurationRoot configurationRoot)
     {
-        return WebHost.CreateDefaultBuilder()
+        return Host.CreateDefaultBuilder()
             .ConfigureAppConfiguration(builder => builder.AddConfiguration(configurationRoot))
-            .ConfigureKestrel(options => options.AddServerHeader = false)
-            .UseStartup<Startup>()
             .UseSerilog();
-    }
-
-    private static IWebHost MigrateDatabase(this IWebHost webHost)
-    {
-        if (webHost.Services.GetService(typeof(IServiceScopeFactory)) is not IServiceScopeFactory serviceScopeFactory) 
-            return webHost;
-            
-        using var scope = serviceScopeFactory.CreateScope();
-        var services = scope.ServiceProvider;
-        var dbInitializer = services.GetRequiredService<IDbInitializer>();
-
-        if (!IsDevelopment) 
-            return webHost;
-
-        dbInitializer.StartMigration();
-        dbInitializer.SeedData();
-
-        return webHost;
     }
 }
