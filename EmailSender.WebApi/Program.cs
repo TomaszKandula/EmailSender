@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using EmailSender.Persistence.Database.Initializer;
 using Microsoft.AspNetCore;
-using Logger = EmailSender.WebApi.Configuration.Logger;
+using Logger = EmailSender.Backend.Configuration.Logger;
 using Serilog;
 
 namespace EmailSender.WebApi;

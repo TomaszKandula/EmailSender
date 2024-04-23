@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using DnsClient;
+using EmailSender.Backend.Configuration;
 using EmailSender.Backend.Core.Utilities.DateTimeService;
 using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Persistence.Database;
@@ -16,7 +17,7 @@ using EmailSender.Services.UserService;
 using MailKit.Net.Smtp;
 using FluentValidation;
 
-namespace EmailSender.WebApi.Configuration;
+namespace EmailSender.WebApi;
 
 [ExcludeFromCodeCoverage]
 public static class Dependencies

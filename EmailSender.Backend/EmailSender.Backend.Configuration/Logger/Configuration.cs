@@ -1,8 +1,9 @@
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 using ILogger = Serilog.ILogger;
 
-namespace EmailSender.WebApi.Configuration.Logger;
+namespace EmailSender.Backend.Configuration.Logger;
 
 public static class Configuration
 {

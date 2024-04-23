@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
+using EmailSender.Backend.Configuration;
 using EmailSender.Backend.Core.Exceptions;
-using EmailSender.WebApi.Configuration;
 using EmailSender.WebApi.Middleware;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.ResponseCompression;

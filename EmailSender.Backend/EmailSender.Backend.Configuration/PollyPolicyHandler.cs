@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Polly.Extensions.Http;
 using Polly;
 
-namespace EmailSender.WebApi.Configuration;
+namespace EmailSender.Backend.Configuration;
 
 [ExcludeFromCodeCoverage]
 public static class PollyPolicyHandler
