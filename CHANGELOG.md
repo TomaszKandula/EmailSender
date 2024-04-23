@@ -1,3 +1,10 @@
+## [1.16.1](https://github.com/TomaszKandula/EmailSender/compare/v1.16.0...v1.16.1) (2024-04-23)
+
+
+### Bug Fixes
+
+* include missing proxy ([445a3b6](https://github.com/TomaszKandula/EmailSender/commit/445a3b6dd5f259c209cab76e95a8dee19c78a31d))
+
 # [1.16.0](https://github.com/TomaszKandula/EmailSender/compare/v1.15.0...v1.16.0) (2024-04-23)
 
 
