@@ -6,6 +6,9 @@ using Serilog;
 
 namespace EmailSender.WebApi;
 
+/// <summary>
+/// Program.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public static class Program
 {
@@ -15,7 +18,11 @@ public static class Program
     private static readonly bool IsDevelopment 
         = EnvironmentValue == Environments.Development;
 
-    public static int Main(string[] args)
+    /// <summary>
+    /// Main entry point.
+    /// </summary>
+    /// <returns></returns>
+    public static int Main()
     {
         try
         {
