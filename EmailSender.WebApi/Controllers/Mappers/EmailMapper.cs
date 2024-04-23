@@ -4,9 +4,17 @@ using EmailSender.WebApi.Dto;
 
 namespace EmailSender.WebApi.Controllers.Mappers;
 
+/// <summary>
+/// Email controller mapper.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public static class EmailMapper
 {
+    /// <summary>
+    /// Maps request DTO to given command.
+    /// </summary>
+    /// <param name="model">Payload object.</param>
+    /// <returns>Command object.</returns>
     public static SendEmailCommand MapToSendEmailRequest(SendEmailDto model) => new ()
     {
         From = model.From,
@@ -18,6 +26,11 @@ public static class EmailMapper
         IsHtml = model.IsHtml
     };
 
+    /// <summary>
+    /// Maps request DTO to given command.
+    /// </summary>
+    /// <param name="model">Payload object.</param>
+    /// <returns>Command object.</returns>
     public static VerifyEmailCommand MapToVerifyEmailRequest(VerifyEmailDto model) => new()
     {
         Emails = model.Emails
