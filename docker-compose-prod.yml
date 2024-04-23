@@ -10,8 +10,8 @@ services:
     hostname: backend
     networks:
       - xnet
-    ports:
-      - "6000:80"
+    expose:
+      - "80"
     volumes:
       - /opt/configs/emailsender-apis-prod.json:/app/appsettings.Production.json:ro
 

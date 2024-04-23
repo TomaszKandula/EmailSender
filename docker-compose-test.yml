@@ -10,8 +10,8 @@ services:
     hostname: backend
     networks:
       - xnet
-    ports:
-      - "6001:80"
+    expose:
+      - "80"
     volumes:
       - /Users/tomkandula/.microsoft/usersecrets/424d541b-1da1-451a-ac5c-2431bf0d536c/secrets.json:/app/appsettings.Testing.json:ro
 
