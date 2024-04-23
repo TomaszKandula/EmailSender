@@ -20,29 +20,28 @@ using FluentValidation;
 namespace EmailSender.WebApi;
 
 /// <summary>
-/// 
+/// Register application dependencies.
 /// </summary>
 [ExcludeFromCodeCoverage]
 public static class Dependencies
 {
     /// <summary>
-    /// 
+    /// Register all services.
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configuration"></param>
+    /// <param name="services">Service collections.</param>
+    /// <param name="configuration">Provided configuration.</param>
     public static void RegisterDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.CommonServices(configuration);
+        services.CommonServices();
         SetupDatabase(services, configuration);
-        SetupRetryPolicyWithPolly(services);
+        PollySupport.SetupRetryPolicyWithPolly(services);
     }
 
     /// <summary>
-    /// 
+    /// Register common services.
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configuration"></param>
-    public static void CommonServices(this IServiceCollection services, IConfiguration configuration)
+    /// <param name="services">Service collections.</param>
+    public static void CommonServices(this IServiceCollection services)
     {
         SetupLogger(services);
         SetupServices(services);
@@ -94,15 +93,5 @@ public static class Dependencies
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ApiRequestBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehaviour<,>));
-    }
-
-    private static void SetupRetryPolicyWithPolly(IServiceCollection services)
-    {
-        services.AddHttpClient("RetryHttpClient", options =>
-        {
-            options.DefaultRequestHeaders.Add("Accept", "application/json");
-            options.Timeout = TimeSpan.FromMinutes(5);
-            options.DefaultRequestHeaders.ConnectionClose = true;
-        }).AddPolicyHandler(PollyPolicyHandler.SetupRetry());
     }
 }
