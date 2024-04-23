@@ -7,7 +7,6 @@ using EmailSender.Backend.Configuration;
 using EmailSender.Backend.Core.Utilities.DateTimeService;
 using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Persistence.Database;
-using EmailSender.Persistence.Database.Initializer;
 using EmailSender.Services.BehaviourService;
 using EmailSender.Services.HttpClientService;
 using EmailSender.Services.HttpClientService.Abstractions;
@@ -76,7 +75,6 @@ public static class Dependencies
         services.AddScoped<ISenderService, SenderService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISmtpClientService, SmtpClientService>();
-        services.AddScoped<IDbInitializer, DbInitializer>();
     }
 
     private static void SetupValidators(IServiceCollection services)
