@@ -1,3 +1,28 @@
+# [1.16.0](https://github.com/TomaszKandula/EmailSender/compare/v1.15.0...v1.16.0) (2024-04-23)
+
+
+### Bug Fixes
+
+* add file to project tree ([d54d297](https://github.com/TomaszKandula/EmailSender/commit/d54d297efb6cd5973210a07ba2bf696d98861b48))
+* add missing proxy config to other locations ([7655081](https://github.com/TomaszKandula/EmailSender/commit/765508167e83190420f2c7567853e05328a2db7c))
+* add missing XML comments ([691fca0](https://github.com/TomaszKandula/EmailSender/commit/691fca01f1bc55880b9ab9be47e4dad8a03669b9))
+* do not left variable unused ([eced07d](https://github.com/TomaszKandula/EmailSender/commit/eced07dfa9129767c03a7d11e4ce9872931a68e6))
+* fallback to default empty string ([a13645e](https://github.com/TomaszKandula/EmailSender/commit/a13645e44e0e91ea91216cc354cf771e6171de65))
+* test must have assertions ([3545669](https://github.com/TomaszKandula/EmailSender/commit/35456695af8b7b841030c2870ac97dd3fc324122))
+
+
+### Features
+
+* exclude from code coverage ([74a1426](https://github.com/TomaszKandula/EmailSender/commit/74a142642b8249a9b9b3a50d0489af9e2cf33802))
+* relocate configuration to a separate project ([ff0766e](https://github.com/TomaszKandula/EmailSender/commit/ff0766e802c3363a7cd875c1ddcea79dbbfdf8d9))
+* relocate HC ([242f75e](https://github.com/TomaszKandula/EmailSender/commit/242f75e994b9d9252454bd8e76b004deb45b881c))
+* remove unnecessary code ([d89e5c3](https://github.com/TomaszKandula/EmailSender/commit/d89e5c3e7d792c6a0dd08c1fa9634cee3030f5be))
+* rename, relocate and add required XML comments ([5de66d4](https://github.com/TomaszKandula/EmailSender/commit/5de66d4ab7151a6cbda10a225f107b0ba9571126))
+* simplify, remove unnecessary code ([79e46ee](https://github.com/TomaszKandula/EmailSender/commit/79e46ee6e2e370fb8155bd63d99bb02471b5e968))
+* update docker file ([fcc7bec](https://github.com/TomaszKandula/EmailSender/commit/fcc7bec55c63a639d87eddfad8dbf87385f68a9c))
+* update nginx ([70086d6](https://github.com/TomaszKandula/EmailSender/commit/70086d697f6cc8855b9662bb0c98b151c9c80279))
+* update XML comments, relocate Polly setup ([765aaae](https://github.com/TomaszKandula/EmailSender/commit/765aaaeae35e9aee3b888aa586535ba07b6c6d3c))
+
 # [1.15.0](https://github.com/TomaszKandula/EmailSender/compare/v1.14.2...v1.15.0) (2024-04-22)
 
 
