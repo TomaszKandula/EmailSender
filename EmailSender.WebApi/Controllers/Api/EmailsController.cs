@@ -8,22 +8,19 @@ using EmailSender.WebApi.Dto;
 namespace EmailSender.WebApi.Controllers.Api;
 
 /// <summary>
-/// 
+/// Endpoints for email capabilities.
 /// </summary>
 [ApiVersion("1.0")]
 public class EmailsController : ApiBaseController
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="mediator"></param>
+    ///<inheritdoc />
     public EmailsController(IMediator mediator) : base(mediator) { }
 
     /// <summary>
-    /// 
+    /// Allows to send an email.
     /// </summary>
-    /// <param name="payLoad"></param>
-    /// <param name="privateKey"></param>
+    /// <param name="payLoad">Payload with message details.</param>
+    /// <param name="privateKey">Required private key.</param>
     /// <returns></returns>
     [HttpPost]
     [BillableEndpoint]
@@ -32,10 +29,10 @@ public class EmailsController : ApiBaseController
         => await Mediator.Send(EmailMapper.MapToSendEmailRequest(payLoad));
 
     /// <summary>
-    /// 
+    /// Allows to verify email address.
     /// </summary>
-    /// <param name="payLoad"></param>
-    /// <param name="privateKey"></param>
+    /// <param name="payLoad">Payload with email details.</param>
+    /// <param name="privateKey">Required private key.</param>
     /// <returns></returns>
     [HttpPost]
     [BillableEndpoint]

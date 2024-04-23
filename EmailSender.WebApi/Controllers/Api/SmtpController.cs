@@ -6,22 +6,19 @@ using MediatR;
 namespace EmailSender.WebApi.Controllers.Api;
 
 /// <summary>
-/// 
+/// Endpoints for under-laying SMTP server. 
 /// </summary>
 [ApiVersion("1.0")]
 public class SmtpController : ApiBaseController
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="mediator"></param>
+    ///<inheritdoc />
     public SmtpController(IMediator mediator) : base(mediator) { }
 
     /// <summary>
-    /// 
+    /// Returns information whether SMTP can send emails from given email address.
     /// </summary>
-    /// <param name="emailAddress"></param>
-    /// <param name="privateKey"></param>
+    /// <param name="emailAddress">Email address to be checked.</param>
+    /// <param name="privateKey">Required private key.</param>
     /// <returns></returns>
     [HttpGet]
     [BillableEndpoint]
