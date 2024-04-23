@@ -29,6 +29,8 @@ services:
     volumes:
       - ./EmailSender.ClientApp/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./EmailSender.ClientApp/nginx/nginx-proxy.conf:/etc/nginx/nginx-proxy.conf:ro
+      - ./EmailSender.ClientApp/nginx/nginx-ssl.conf:/etc/nginx/nginx-ssl.conf:ro
+      - ./EmailSender.ClientApp/nginx/nginx-gzip.conf:/etc/nginx/nginx-gzip.conf:ro
 
 networks:
   xnet:
