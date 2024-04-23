@@ -122,9 +122,8 @@ public sealed class SmtpClientService : ISmtpClientService
     {
         try
         {
-            // ReSharper disable once UnusedVariable
             var address = new MailAddress(emailAddress);
-            return true;
+            return !string.IsNullOrWhiteSpace(address.Address);
         }
         catch (FormatException)
         {

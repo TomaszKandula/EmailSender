@@ -12,6 +12,7 @@ using EmailSender.Backend.Shared.Resources;
 using EmailSender.Services.SmtpService;
 using EmailSender.Services.SenderService;
 using EmailSender.Services.SenderService.Models;
+using MailKit;
 
 namespace EmailSender.Tests.UnitTests.Services;
     
@@ -487,8 +488,34 @@ public class SenderServiceTest : TestBase
         };
 
         // Act
-        // Assert
         await service.Send(configuration, CancellationToken.None);
+
+        // Assert
+        mockedSmtpClient.Verify(x => x.ConnectAsync(
+            It.IsAny<string>(), 
+            It.IsAny<int>(), 
+            It.IsAny<SecureSocketOptions>(), 
+            It.IsAny<CancellationToken>()), 
+            Times.Once);
+
+        mockedSmtpClient.Verify(x => x.AuthenticateAsync(
+                It.IsAny<string>(), 
+                It.IsAny<string>(), 
+                It.IsAny<CancellationToken>()), 
+            Times.Once);
+
+        mockedSmtpClient.Verify(x => x.SendAsync(
+                It.IsAny<MimeMessage>(), 
+                It.IsAny<CancellationToken>(),
+                It.IsAny<ITransferProgress>()
+                ), 
+            Times.Once);
+
+        mockedSmtpClient.Verify(x => x.DisconnectAsync(
+                It.IsAny<bool>(), 
+                It.IsAny<CancellationToken>()
+            ), 
+            Times.Once);
     }
 
     [Fact]
