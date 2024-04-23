@@ -1,9 +1,11 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace EmailSender.WebApi.Configuration;
+namespace EmailSender.Backend.Configuration;
 
 [ExcludeFromCodeCoverage]
 public static class DockerSupport

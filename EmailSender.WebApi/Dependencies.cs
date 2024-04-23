@@ -3,10 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using DnsClient;
+using EmailSender.Backend.Configuration;
 using EmailSender.Backend.Core.Utilities.DateTimeService;
 using EmailSender.Backend.Core.Utilities.LoggerService;
 using EmailSender.Persistence.Database;
-using EmailSender.Persistence.Database.Initializer;
 using EmailSender.Services.BehaviourService;
 using EmailSender.Services.HttpClientService;
 using EmailSender.Services.HttpClientService.Abstractions;
@@ -16,19 +16,31 @@ using EmailSender.Services.UserService;
 using MailKit.Net.Smtp;
 using FluentValidation;
 
-namespace EmailSender.WebApi.Configuration;
+namespace EmailSender.WebApi;
 
+/// <summary>
+/// Register application dependencies.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public static class Dependencies
 {
+    /// <summary>
+    /// Register all services.
+    /// </summary>
+    /// <param name="services">Service collections.</param>
+    /// <param name="configuration">Provided configuration.</param>
     public static void RegisterDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.CommonServices(configuration);
+        services.CommonServices();
         SetupDatabase(services, configuration);
-        SetupRetryPolicyWithPolly(services);
+        PollySupport.SetupRetryPolicyWithPolly(services);
     }
 
-    public static void CommonServices(this IServiceCollection services, IConfiguration configuration)
+    /// <summary>
+    /// Register common services.
+    /// </summary>
+    /// <param name="services">Service collections.</param>
+    public static void CommonServices(this IServiceCollection services)
     {
         SetupLogger(services);
         SetupServices(services);
@@ -63,7 +75,6 @@ public static class Dependencies
         services.AddScoped<ISenderService, SenderService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISmtpClientService, SmtpClientService>();
-        services.AddScoped<IDbInitializer, DbInitializer>();
     }
 
     private static void SetupValidators(IServiceCollection services)
@@ -80,15 +91,5 @@ public static class Dependencies
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ApiRequestBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehaviour<,>));
-    }
-
-    private static void SetupRetryPolicyWithPolly(IServiceCollection services)
-    {
-        services.AddHttpClient("RetryHttpClient", options =>
-        {
-            options.DefaultRequestHeaders.Add("Accept", "application/json");
-            options.Timeout = TimeSpan.FromMinutes(5);
-            options.DefaultRequestHeaders.ConnectionClose = true;
-        }).AddPolicyHandler(PollyPolicyHandler.SetupRetry());
     }
 }

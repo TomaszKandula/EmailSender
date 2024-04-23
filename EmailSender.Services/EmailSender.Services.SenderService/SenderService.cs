@@ -114,7 +114,7 @@ public class SenderService : ISenderService
             Server = email.ServerName,
             Key = email.ServerKey,
             Port = email.ServerPort,
-            IsSSL = email.ServerSsl
+            IsSsl = email.ServerSsl
         };
     }
 
@@ -140,7 +140,7 @@ public class SenderService : ISenderService
             Server = email.ServerName,
             Key = email.ServerKey,
             Port = email.ServerPort,
-            IsSSL = email.ServerSsl
+            IsSsl = email.ServerSsl
         };
     }
 }

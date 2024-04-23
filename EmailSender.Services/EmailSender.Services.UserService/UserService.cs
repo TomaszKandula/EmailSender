@@ -39,7 +39,8 @@ public class UserService : IUserService
     {
         return _httpContextAccessor.HttpContext is null 
             ? string.Empty 
-            : _httpContextAccessor.HttpContext.Request.Headers[headerName].ToString();
+            : _httpContextAccessor.HttpContext.Request.Headers[headerName].ToString() 
+              ?? string.Empty;
     }
 
     /// <summary>
