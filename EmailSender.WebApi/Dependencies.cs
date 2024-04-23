@@ -19,9 +19,17 @@ using FluentValidation;
 
 namespace EmailSender.WebApi;
 
+/// <summary>
+/// 
+/// </summary>
 [ExcludeFromCodeCoverage]
 public static class Dependencies
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
     public static void RegisterDependencies(this IServiceCollection services, IConfiguration configuration)
     {
         services.CommonServices(configuration);
@@ -29,6 +37,11 @@ public static class Dependencies
         SetupRetryPolicyWithPolly(services);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
     public static void CommonServices(this IServiceCollection services, IConfiguration configuration)
     {
         SetupLogger(services);

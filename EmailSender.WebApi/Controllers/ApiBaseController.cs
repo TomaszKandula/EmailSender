@@ -11,11 +11,11 @@ namespace EmailSender.WebApi.Controllers;
 [ProducesResponseType(typeof(ApplicationError), StatusCodes.Status403Forbidden)]
 [ProducesResponseType(typeof(ApplicationError), StatusCodes.Status422UnprocessableEntity)]
 [ProducesResponseType(typeof(ApplicationError), StatusCodes.Status500InternalServerError)]
-public class BaseController : ControllerBase
+public class ApiBaseController : ControllerBase
 {
     protected readonly IMediator Mediator;
 
     protected const string HeaderName = "X-Private-Key";
 
-    public BaseController(IMediator mediator) => Mediator = mediator;
+    public ApiBaseController(IMediator mediator) => Mediator = mediator;
 }
