@@ -1,3 +1,13 @@
+# [1.17.0](https://github.com/TomaszKandula/EmailSender/compare/v1.16.1...v1.17.0) (2024-04-24)
+
+
+### Features
+
+* do not expose API service ([1539fc5](https://github.com/TomaszKandula/EmailSender/commit/1539fc56596f26e6682ed7ac13e6cf0e98bf2066))
+* remove unnecessary code ([15286b0](https://github.com/TomaszKandula/EmailSender/commit/15286b0af0b3af0dd05e4a8a2e564f8e02cfca0a))
+* removed unused code ([7ca04c7](https://github.com/TomaszKandula/EmailSender/commit/7ca04c749ba41e134f692e7e1bbf7e99a8c434c9))
+* update nginx configuration, use include files ([aa5b54a](https://github.com/TomaszKandula/EmailSender/commit/aa5b54ac6d4f1f69ad4d5c2ae1810c726cd3a15a))
+
 ## [1.16.1](https://github.com/TomaszKandula/EmailSender/compare/v1.16.0...v1.16.1) (2024-04-23)
 
 
