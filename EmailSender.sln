@@ -72,6 +72,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Nginx", "5. Nginx", "{AF
 		EmailSender.ClientApp\nginx\nginx-https.conf = EmailSender.ClientApp\nginx\nginx-https.conf
 		EmailSender.ClientApp\nginx\nginx-http.conf = EmailSender.ClientApp\nginx\nginx-http.conf
 		EmailSender.ClientApp\nginx\nginx-proxy.conf = EmailSender.ClientApp\nginx\nginx-proxy.conf
+		EmailSender.ClientApp\nginx\nginx-ssl.conf = EmailSender.ClientApp\nginx\nginx-ssl.conf
+		EmailSender.ClientApp\nginx\nginx-gzip.conf = EmailSender.ClientApp\nginx\nginx-gzip.conf
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender.Backend.Configuration", "EmailSender.Backend\EmailSender.Backend.Configuration\EmailSender.Backend.Configuration.csproj", "{629B3449-C69C-4975-BE7A-3A5AAB2CED00}"
