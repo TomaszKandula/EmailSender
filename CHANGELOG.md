@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/TomaszKandula/EmailSender/compare/v1.17.0...v1.18.0) (2024-11-25)
+
+
+### Features
+
+* add restart option ([76cdb83](https://github.com/TomaszKandula/EmailSender/commit/76cdb83fdcdea29689f0a44beb3b19e61dcde51d))
+
 # [1.17.0](https://github.com/TomaszKandula/EmailSender/compare/v1.16.1...v1.17.0) (2024-04-24)
 
 
