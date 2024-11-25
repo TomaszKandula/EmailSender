@@ -8,6 +8,7 @@ services:
         - ENV_VALUE=Production
       dockerfile: backend.dockerfile
     hostname: backend
+    restart: on-failure
     networks:
       - xnet
     expose:
@@ -22,6 +23,7 @@ services:
         - ENV_VALUE=Production
       dockerfile: clientapp.dockerfile
     hostname: frontend
+    restart: on-failure
     networks:
       - xnet
     ports:
